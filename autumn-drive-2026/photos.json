@@ -1,0 +1,482 @@
+{
+ "shima": [
+  {
+   "f": "img/shima-1-4196b43e1a.jpg",
+   "c": "四万川ダム・奥四万湖",
+   "a": "Photographed by Qurren (talk), with IXY Digital 10 compact digital camera.",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Shimagawa_Dam.jpg"
+  },
+  {
+   "f": "img/shima-2-945dce079d.jpg",
+   "c": "四万温泉",
+   "a": "Kentaro Ohno from Tokyo, Japan",
+   "l": "CC BY 2.0",
+   "p": "https://commons.wikimedia.org/wiki/File:%E5%9B%9B%E4%B8%87%E6%B8%A9%E6%B3%89_%E4%B8%AD%E4%B9%8B%E6%9D%A1_2013_(9993444756).jpg"
+  }
+ ],
+ "minakami": [
+  {
+   "f": "img/minakami-1-e145c9029c.jpg",
+   "c": "谷川岳",
+   "a": "New Japan",
+   "l": "CC BY 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Tanigawadake.jpg"
+  },
+  {
+   "f": "img/minakami-2-c6d8ca6b3f.png",
+   "c": "宝川温泉",
+   "a": "Soren Bradley",
+   "l": "CC BY 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Japan_Kanto_north_topographic_map.png"
+  }
+ ],
+ "kiyotsu": [
+  {
+   "f": "img/kiyotsu-1-32df4ccb25.jpg",
+   "c": "清津峡",
+   "a": "清兵衛 at Japanese Wikipedia",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Kiyotsukyo_Summer.jpg"
+  },
+  {
+   "f": "img/kiyotsu-2-38a72f43c2.jpg",
+   "c": "松之山温泉",
+   "a": "Siriusplot",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Matsunoyama_Onsen_20080302.jpg"
+  }
+ ],
+ "fukuroda": [
+  {
+   "f": "img/fukuroda-1-da0245a7c5.jpg",
+   "c": "袋田の滝",
+   "a": "Σ64",
+   "l": "CC BY 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Fukuroda_Falls_38.jpg"
+  },
+  {
+   "f": "img/fukuroda-2-ae95e7c82b.jpg",
+   "c": "竜神大吊橋",
+   "a": "Kanohara (talk)",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Ryujin_Dam_Reservoir.jpg"
+  }
+ ],
+ "bessho": [
+  {
+   "f": "img/bessho-1-f0f4e7bfc0.jpg",
+   "c": "安楽寺 八角三重塔（国宝）",
+   "a": "Rsa",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Anrakuji_Hakkakusanjyuunotou_BessyoOnsen.jpg"
+  },
+  {
+   "f": "img/bessho-2-7b745d1e83.jpg",
+   "c": "海野宿",
+   "a": "photo: Qurren (talk) Taken with Canon PowerShot G9 X",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Unno-juku_2019-05_1.jpg"
+  }
+ ],
+ "nagano": [
+  {
+   "f": "img/nagano-1-e12b74db48.jpg",
+   "c": "善光寺",
+   "a": "快速踊り子",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Zenkoji_Temple_Hondo.jpg"
+  },
+  {
+   "f": "img/nagano-2-0c72b2a879.jpg",
+   "c": "小布施",
+   "a": "キャンター",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Hokusai_Museum.jpg"
+  }
+ ],
+ "ena": [
+  {
+   "f": "img/ena-1-a9a2fb69b8.jpg",
+   "c": "恵那峡",
+   "a": "Qurren",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Enakyo.jpg"
+  },
+  {
+   "f": "img/ena-2-beff912de9.jpg",
+   "c": "苗木城跡",
+   "a": "Alpsdake",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Naegi_Castle_and_Mount_Ena.jpg"
+  }
+ ],
+ "magome": [
+  {
+   "f": "img/magome-1-78edbf472f.jpg",
+   "c": "妻籠宿",
+   "a": "Utagawa Hiroshige",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Kisokaido42_Tsumago.jpg"
+  },
+  {
+   "f": "img/magome-2-7fd7f972c2.jpg",
+   "c": "馬籠宿",
+   "a": "Utagawa Hiroshige",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Kisokaido43_Magome.jpg"
+  }
+ ],
+ "shibu": [
+  {
+   "f": "img/shibu-1-d200427191.jpg",
+   "c": "渋温泉",
+   "a": "663highland",
+   "l": "CC BY 2.5",
+   "p": "https://commons.wikimedia.org/wiki/File:Shibu-onsen02s3200.jpg"
+  },
+  {
+   "f": "img/shibu-2-8c32cacd59.jpg",
+   "c": "地獄谷野猿公苑",
+   "a": "Yosemite",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Jigokudani_hotspring_in_Nagano_Japan_001.jpg"
+  }
+ ],
+ "gamagori": [
+  {
+   "f": "img/gamagori-1-4af6720ccc.jpg",
+   "c": "竹島",
+   "a": "Alpsdake",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Take_Island_from_Mount_Togami.jpg"
+  },
+  {
+   "f": "img/gamagori-2-ef2c241d92.jpg",
+   "c": "蒲郡・三河湾",
+   "a": "Bariston",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Gamagori_Classic_Hotel%EF%BC%91.jpg"
+  }
+ ],
+ "hirugami": [
+  {
+   "f": "img/hirugami-1-992c690d05.jpg",
+   "c": "昼神温泉",
+   "a": "Soren Bradley with Topographic - NASA Shuttle Radar Topography Mission (SRTM3) Admin ,Hill",
+   "l": "CC BY 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Japan_Chubu_mountains_relief_location_map.webp"
+  },
+  {
+   "f": "img/hirugami-2-34fcf7812f.jpg",
+   "c": "天龍峡",
+   "a": "Lincun",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Japan_Map_Lincun.svg"
+  }
+ ],
+ "okuhida": [
+  {
+   "f": "img/okuhida-1-6f0ea83854.jpg",
+   "c": "新穂高ロープウェイ",
+   "a": "奥飛観光開発",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Shinhotaka_Ropeway_logo.svg"
+  },
+  {
+   "f": "img/okuhida-2-82a70912cb.jpg",
+   "c": "平湯大滝",
+   "a": "photo: Qurren (talk) Taken with Canon IXY 10S (Digital IXUS 210)",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Hirayu_Falls_1.jpg"
+  }
+ ],
+ "norikura": [
+  {
+   "f": "img/norikura-1-f86e3feb35.jpg",
+   "c": "乗鞍岳と畳平",
+   "a": "As6022014",
+   "l": "CC BY 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Norikura-air.jpg"
+  },
+  {
+   "f": "img/norikura-2-659c7bd054.jpg",
+   "c": "白骨温泉",
+   "a": "Soica2001 (talk)",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Sirahone_spa_kyoudou-noten-buro_2008.jpg"
+  }
+ ],
+ "kamikochi": [
+  {
+   "f": "img/kamikochi-1-7a05219d31.jpg",
+   "c": "上高地",
+   "a": "Hiroaki Kaneko",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:%E7%A7%8B%E3%81%AE%E4%B8%8A%E9%AB%98%E5%9C%B0_(Kamikochi_in_autumn)_24_Oct,_2011_-_panoramio.jpg"
+  },
+  {
+   "f": "img/kamikochi-2-88af5b7192.jpg",
+   "c": "河童橋",
+   "a": "663highland",
+   "l": "CC BY 2.5",
+   "p": "https://commons.wikimedia.org/wiki/File:150920_Kappa-bashi_Kamikochi_Japan01n.jpg"
+  }
+ ],
+ "kurobe": [
+  {
+   "f": "img/kurobe-1-78cbde1492.jpg",
+   "c": "黒部ダムの観光放水",
+   "a": "photo: Qurren (talk), with IXY 10S compact digital camera.",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Kurobe_Dam_survey_2.jpg"
+  },
+  {
+   "f": "img/kurobe-2-2abc19a119.jpg",
+   "c": "大王わさび農場",
+   "a": "663highland",
+   "l": "CC BY 2.5",
+   "p": "https://commons.wikimedia.org/wiki/File:Daio_wasabi_farm10bs1980.jpg"
+  }
+ ],
+ "hakuba": [
+  {
+   "f": "img/hakuba-1-051e3a4ffd.jpg",
+   "c": "八方池と白馬三山",
+   "a": "くろふね",
+   "l": "CC BY 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:%E5%85%AB%E6%96%B9%E6%B1%A0_-_panoramio_(7).jpg"
+  },
+  {
+   "f": "img/hakuba-2-f391a958b7.jpg",
+   "c": "白馬村",
+   "a": "MaedaAkihiko",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Nagano_Matsukawa.jpg"
+  }
+ ],
+ "aizu": [
+  {
+   "f": "img/aizu-1-e65aebd922.jpg",
+   "c": "鶴ヶ城（若松城）",
+   "a": "くろふね",
+   "l": "CC BY 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:%E8%8B%A5%E6%9D%BE%E5%9F%8E%EF%BC%88%E9%B6%B4%E3%83%B6%E5%9F%8E%EF%BC%8920220917-P1003471.jpg"
+  },
+  {
+   "f": "img/aizu-2-61f4a242eb.jpg",
+   "c": "大内宿",
+   "a": "ja:User:Fluffy nns. Uploaded by 百楽兎",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Ja-fukushima-ohuchijuku-4.jpg"
+  }
+ ],
+ "urabandai": [
+  {
+   "f": "img/urabandai-1-6265a7f576.jpg",
+   "c": "磐梯山",
+   "a": "Qwert1234",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Mt._Bandaisan_0811.JPG"
+  },
+  {
+   "f": "img/urabandai-2-480640dcca.jpg",
+   "c": "猪苗代湖",
+   "a": "Stingfield",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Lake_Inawashiro_view_from_Mt.Bandai.jpg"
+  }
+ ],
+ "nozawa": [
+  {
+   "f": "img/nozawa-1-1db4457538.jpg",
+   "c": "野沢温泉",
+   "a": "Hideyuki KAMON",
+   "l": "CC BY-SA 2.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Nozawa_Onsen_01.jpg"
+  },
+  {
+   "f": "img/nozawa-1-1db4457538.jpg",
+   "c": "野沢温泉村",
+   "a": "Hideyuki KAMON",
+   "l": "CC BY-SA 2.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Nozawa_Onsen_01.jpg"
+  }
+ ],
+ "gero": [
+  {
+   "f": "img/gero-1-1bc7174be0.jpg",
+   "c": "下呂温泉",
+   "a": "663highland",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:260125_Gero_Onsen_Gero_Gifu_pref_Japan01s3.jpg"
+  },
+  {
+   "f": "img/gero-2-413f8667cc.jpg",
+   "c": "郡上八幡城",
+   "a": "Kitimi",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:2017%E5%B9%B4%E7%A7%8B%E5%AD%A3%E3%81%AE%E9%83%A1%E4%B8%8A%E5%85%AB%E5%B9%A1%E5%9F%8E.jpg"
+  }
+ ],
+ "senjojiki": [
+  {
+   "f": "img/senjojiki-1-24886e28aa.jpg",
+   "c": "千畳敷カール",
+   "a": "Ans",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Senjo-jiki2.JPG"
+  },
+  {
+   "f": "img/senjojiki-2-93693bf9ee.jpg",
+   "c": "光前寺",
+   "a": "photo: Qurren (talk) Taken with Canon IXY 10S (Digital IXUS 210)",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Kozenji_(Komagane)_Hondo_2012-08.jpg"
+  }
+ ],
+ "shiojiri": [
+  {
+   "f": "img/shiojiri-1-1a2b47907a.jpg",
+   "c": "奈良井宿",
+   "a": "Keisai Eisen",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Kisokaido34_Narai.jpg"
+  },
+  {
+   "f": "img/shiojiri-2-c65ba08764.jpg",
+   "c": "桔梗ヶ原",
+   "a": "Keeezawa",
+   "l": "CC0",
+   "p": "https://commons.wikimedia.org/wiki/File:Kikyogahara01.jpg"
+  }
+ ],
+ "tomi": [
+  {
+   "f": "img/bessho-2-7b745d1e83.jpg",
+   "c": "海野宿",
+   "a": "photo: Qurren (talk) Taken with Canon PowerShot G9 X",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Unno-juku_2019-05_1.jpg"
+  },
+  {
+   "f": "img/tomi-2-acffb16671.jpg",
+   "c": "小諸城・懐古園",
+   "a": "663highland",
+   "l": "CC BY 2.5",
+   "p": "https://commons.wikimedia.org/wiki/File:Komoro_castle00s3872.jpg"
+  }
+ ],
+ "hamamatsu": [
+  {
+   "f": "img/hamamatsu-1-d2c83c177b.jpg",
+   "c": "浜松市楽器博物館",
+   "a": "Ichitaro",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:ActCityHamamatsu.jpg"
+  },
+  {
+   "f": "img/hamamatsu-2-727e97131b.jpg",
+   "c": "航空自衛隊浜松基地",
+   "a": "ブルーノ・プラス",
+   "l": "CC BY 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Hamamatsu_Air_Base_Main_Gate_of_the_Japan_Air_Self-Defense_Force.jpg"
+  }
+ ],
+ "tateshina": [
+  {
+   "f": "img/tateshina-1-ce6e9a65ed.jpg",
+   "c": "御射鹿池",
+   "a": "TAKAO_Tsushima",
+   "l": "CC BY 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Mishaka_pond.jpg"
+  },
+  {
+   "f": "img/tateshina-2-ff3210485e.jpg",
+   "c": "白樺湖",
+   "a": "ごしたい人",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Lake_Shirakaba_and_Mt_Tateshina.JPG"
+  }
+ ],
+ "kinugawa": [
+  {
+   "f": "img/kinugawa-1-b03583d0d6.jpg",
+   "c": "東武ワールドスクウェア",
+   "a": "Jiang Dong-Qin",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:The_entrance_monument_of_Tobu_World_Square.jpg"
+  },
+  {
+   "f": "img/kinugawa-2-e449f2f9fb.jpg",
+   "c": "龍王峡",
+   "a": "663highland",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:250725_Ryuokyo_Nikko_Tochigi_pref_Japan15s3.jpg"
+  }
+ ],
+ "oigawa": [
+  {
+   "f": "img/oigawa-1-62f6f906d0.jpg",
+   "c": "奥大井湖上駅",
+   "a": "Cassiopeia sweet",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Okuoi-Kozyo-Sta.jpg"
+  },
+  {
+   "f": "img/oigawa-2-44c639fa3b.jpg",
+   "c": "夢の吊橋・寸又峡",
+   "a": "Batholith",
+   "l": "Public domain",
+   "p": "https://commons.wikimedia.org/wiki/File:Shizuoka_Prefecture_3D_2012.jpg"
+  }
+ ],
+ "nagoya": [
+  {
+   "f": "img/nagoya-1-77ae46248d.jpg",
+   "c": "リニア・鉄道館",
+   "a": "Bariston",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:SCMaglev_and_Railway_Park_in_Aichi_Prefecture.jpg"
+  },
+  {
+   "f": "img/nagoya-2-b319e9cbb4.jpg",
+   "c": "トヨタ産業技術記念館",
+   "a": "Bariston",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Toyota_tecno_museum.jpg"
+  }
+ ],
+ "inuyama": [
+  {
+   "f": "img/inuyama-1-4d23661c36.jpg",
+   "c": "国宝 犬山城",
+   "a": "Tomio344456",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Inuyama_Castle_(1),_Kitakoken_Inuyama_Inuyama_City_2023.jpg"
+  },
+  {
+   "f": "img/inuyama-2-4320932501.jpg",
+   "c": "博物館明治村",
+   "a": "Bariston",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Meijimura1.jpg"
+  }
+ ],
+ "iwaki": [
+  {
+   "f": "img/iwaki-1-d48f15f9f2.jpg",
+   "c": "アクアマリンふくしま",
+   "a": "DAJF",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Aquamarine_Fukushima_20100124.JPG"
+  },
+  {
+   "f": "img/iwaki-2-988013d1d9.jpg",
+   "c": "塩屋埼灯台",
+   "a": "NEXT-EXIT",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Shioya-zaki_lighthouse_01.jpg"
+  }
+ ]
+}

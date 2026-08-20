@@ -127,6 +127,16 @@ ol.tl .t{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.78
 .hmap{display:inline-block;font-size:.72rem;margin:7px 0 0;border:1px solid var(--rule);
   padding:3px 8px;text-decoration:none;background:var(--paper)}
 
+
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 0}
+@media (max-width:520px){.gal{grid-template-columns:1fr}}
+.gal figure{margin:0;background:var(--panel);border:1px solid var(--rule);overflow:hidden}
+.gal img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--sunk)}
+.gal figcaption{font-size:.68rem;color:var(--ink2);padding:6px 8px;border-top:1px solid var(--rule);line-height:1.5}
+.gal figcaption b{display:block;font-size:.76rem;color:var(--ink);font-weight:600;font-family:var(--mincho)}
+.gal figcaption span{display:block;font-family:var(--mono);font-size:.58rem;margin-top:3px;word-break:break-word}
+.links{display:flex;flex-wrap:wrap;gap:6px}
+.links a{font-size:.74rem;border:1px solid var(--rule);padding:4px 9px;background:var(--panel);text-decoration:none}
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule)}
 table{border-collapse:collapse;font-size:.76rem;min-width:620px;width:100%}
 th,td{padding:7px 9px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
@@ -162,7 +172,7 @@ td b{font-weight:600}
 <header class="masthead">
   <p class="eyebrow">FUJISAWA → 2 NIGHTS 3 DAYS / SEP 2026</p>
   <h1>2泊3日ドライブ計画帳<br>——片道3〜5時間、30案</h1>
-  <p class="sub">藤沢起点。<b>近場（箱根・伊豆・富士五湖・房総・三浦）は除外</b>、行ったことのある甲府と那須も除外しています。左の数字は<b>片道の所要目安（渋滞なし）</b>で近い順。各案に<b>往路と復路の寄り道／3日分の時間割／宿の候補と実勢価格／駐車事情</b>を入れました。宿の予算は<b>2名1泊 1万〜2万円</b>で仕分けています。<b>温泉旅館だけに偏らないよう、ビジホ・ペンション・リゾート・宿場の旅籠・標高2612mの山上ホテルまで「宿タイプ」で絞り込めます</b>（→ しぼる「温泉以外がメイン」）。</p>
+  <p class="sub">藤沢起点。<b>近場（箱根・伊豆・富士五湖・房総・三浦）は除外</b>、行ったことのある甲府と那須も除外しています。左の数字は<b>片道の所要目安（渋滞なし）</b>で近い順。各案に<b>往路と復路の寄り道／3日分の時間割／宿の候補と実勢価格／駐車事情</b>を入れました。宿の予算は<b>2名1泊 1万〜2万円</b>で仕分けています。<b>温泉旅館だけに偏らないよう、ビジホ・ペンション・リゾート・宿場の旅籠・標高2612mの山上ホテルまで「宿タイプ」で絞り込めます</b>（→ しぼる「温泉以外がメイン」）。各案に<b>写真2枚・寄り道候補・参考リンク</b>を付けました。写真の出典は「9月メモ → 参考リンクと写真の出典」にまとめてあります。</p>
 </header>
 
 <div class="side">
@@ -1612,6 +1622,103 @@ const NOTES = {
   ]
 };
 
+const PHOTOS = {
+ "shima":[{"f": "img/shima-1-4196b43e1a.jpg", "c": "四万川ダム・奥四万湖", "a": "Photographed by Qurren (talk), with IXY Digital 10 compact digital camera.", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Shimagawa_Dam.jpg"}, {"f": "img/shima-2-945dce079d.jpg", "c": "四万温泉", "a": "Kentaro Ohno from Tokyo, Japan", "l": "CC BY 2.0", "p": "https://commons.wikimedia.org/wiki/File:%E5%9B%9B%E4%B8%87%E6%B8%A9%E6%B3%89_%E4%B8%AD%E4%B9%8B%E6%9D%A1_2013_(9993444756).jpg"}],
+ "minakami":[{"f": "img/minakami-1-e145c9029c.jpg", "c": "谷川岳", "a": "New Japan", "l": "CC BY 3.0", "p": "https://commons.wikimedia.org/wiki/File:Tanigawadake.jpg"}, {"f": "img/minakami-2-c6d8ca6b3f.png", "c": "宝川温泉", "a": "Soren Bradley", "l": "CC BY 4.0", "p": "https://commons.wikimedia.org/wiki/File:Japan_Kanto_north_topographic_map.png"}],
+ "kiyotsu":[{"f": "img/kiyotsu-1-32df4ccb25.jpg", "c": "清津峡", "a": "清兵衛 at Japanese Wikipedia", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Kiyotsukyo_Summer.jpg"}, {"f": "img/kiyotsu-2-38a72f43c2.jpg", "c": "松之山温泉", "a": "Siriusplot", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Matsunoyama_Onsen_20080302.jpg"}],
+ "fukuroda":[{"f": "img/fukuroda-1-da0245a7c5.jpg", "c": "袋田の滝", "a": "Σ64", "l": "CC BY 3.0", "p": "https://commons.wikimedia.org/wiki/File:Fukuroda_Falls_38.jpg"}, {"f": "img/fukuroda-2-ae95e7c82b.jpg", "c": "竜神大吊橋", "a": "Kanohara (talk)", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Ryujin_Dam_Reservoir.jpg"}],
+ "bessho":[{"f": "img/bessho-1-f0f4e7bfc0.jpg", "c": "安楽寺 八角三重塔（国宝）", "a": "Rsa", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Anrakuji_Hakkakusanjyuunotou_BessyoOnsen.jpg"}, {"f": "img/bessho-2-7b745d1e83.jpg", "c": "海野宿", "a": "photo: Qurren (talk) Taken with Canon PowerShot G9 X", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Unno-juku_2019-05_1.jpg"}],
+ "nagano":[{"f": "img/nagano-1-e12b74db48.jpg", "c": "善光寺", "a": "快速踊り子", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Zenkoji_Temple_Hondo.jpg"}, {"f": "img/nagano-2-0c72b2a879.jpg", "c": "小布施", "a": "キャンター", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Hokusai_Museum.jpg"}],
+ "ena":[{"f": "img/ena-1-a9a2fb69b8.jpg", "c": "恵那峡", "a": "Qurren", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Enakyo.jpg"}, {"f": "img/ena-2-beff912de9.jpg", "c": "苗木城跡", "a": "Alpsdake", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Naegi_Castle_and_Mount_Ena.jpg"}],
+ "magome":[{"f": "img/magome-1-78edbf472f.jpg", "c": "妻籠宿", "a": "Utagawa Hiroshige", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Kisokaido42_Tsumago.jpg"}, {"f": "img/magome-2-7fd7f972c2.jpg", "c": "馬籠宿", "a": "Utagawa Hiroshige", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Kisokaido43_Magome.jpg"}],
+ "shibu":[{"f": "img/shibu-1-d200427191.jpg", "c": "渋温泉", "a": "663highland", "l": "CC BY 2.5", "p": "https://commons.wikimedia.org/wiki/File:Shibu-onsen02s3200.jpg"}, {"f": "img/shibu-2-8c32cacd59.jpg", "c": "地獄谷野猿公苑", "a": "Yosemite", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Jigokudani_hotspring_in_Nagano_Japan_001.jpg"}],
+ "gamagori":[{"f": "img/gamagori-1-4af6720ccc.jpg", "c": "竹島", "a": "Alpsdake", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Take_Island_from_Mount_Togami.jpg"}, {"f": "img/gamagori-2-ef2c241d92.jpg", "c": "蒲郡・三河湾", "a": "Bariston", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Gamagori_Classic_Hotel%EF%BC%91.jpg"}],
+ "hirugami":[{"f": "img/hirugami-1-992c690d05.jpg", "c": "昼神温泉", "a": "Soren Bradley with Topographic - NASA Shuttle Radar Topography Mission (SRTM3) Admin ,Hill", "l": "CC BY 4.0", "p": "https://commons.wikimedia.org/wiki/File:Japan_Chubu_mountains_relief_location_map.webp"}, {"f": "img/hirugami-2-34fcf7812f.jpg", "c": "天龍峡", "a": "Lincun", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Japan_Map_Lincun.svg"}],
+ "okuhida":[{"f": "img/okuhida-1-6f0ea83854.jpg", "c": "新穂高ロープウェイ", "a": "奥飛観光開発", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Shinhotaka_Ropeway_logo.svg"}, {"f": "img/okuhida-2-82a70912cb.jpg", "c": "平湯大滝", "a": "photo: Qurren (talk) Taken with Canon IXY 10S (Digital IXUS 210)", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Hirayu_Falls_1.jpg"}],
+ "norikura":[{"f": "img/norikura-1-f86e3feb35.jpg", "c": "乗鞍岳と畳平", "a": "As6022014", "l": "CC BY 3.0", "p": "https://commons.wikimedia.org/wiki/File:Norikura-air.jpg"}, {"f": "img/norikura-2-659c7bd054.jpg", "c": "白骨温泉", "a": "Soica2001 (talk)", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Sirahone_spa_kyoudou-noten-buro_2008.jpg"}],
+ "kamikochi":[{"f": "img/kamikochi-1-7a05219d31.jpg", "c": "上高地", "a": "Hiroaki Kaneko", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:%E7%A7%8B%E3%81%AE%E4%B8%8A%E9%AB%98%E5%9C%B0_(Kamikochi_in_autumn)_24_Oct,_2011_-_panoramio.jpg"}, {"f": "img/kamikochi-2-88af5b7192.jpg", "c": "河童橋", "a": "663highland", "l": "CC BY 2.5", "p": "https://commons.wikimedia.org/wiki/File:150920_Kappa-bashi_Kamikochi_Japan01n.jpg"}],
+ "kurobe":[{"f": "img/kurobe-1-78cbde1492.jpg", "c": "黒部ダムの観光放水", "a": "photo: Qurren (talk), with IXY 10S compact digital camera.", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Kurobe_Dam_survey_2.jpg"}, {"f": "img/kurobe-2-2abc19a119.jpg", "c": "大王わさび農場", "a": "663highland", "l": "CC BY 2.5", "p": "https://commons.wikimedia.org/wiki/File:Daio_wasabi_farm10bs1980.jpg"}],
+ "hakuba":[{"f": "img/hakuba-1-051e3a4ffd.jpg", "c": "八方池と白馬三山", "a": "くろふね", "l": "CC BY 3.0", "p": "https://commons.wikimedia.org/wiki/File:%E5%85%AB%E6%96%B9%E6%B1%A0_-_panoramio_(7).jpg"}, {"f": "img/hakuba-2-f391a958b7.jpg", "c": "白馬村", "a": "MaedaAkihiko", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Nagano_Matsukawa.jpg"}],
+ "aizu":[{"f": "img/aizu-1-e65aebd922.jpg", "c": "鶴ヶ城（若松城）", "a": "くろふね", "l": "CC BY 4.0", "p": "https://commons.wikimedia.org/wiki/File:%E8%8B%A5%E6%9D%BE%E5%9F%8E%EF%BC%88%E9%B6%B4%E3%83%B6%E5%9F%8E%EF%BC%8920220917-P1003471.jpg"}, {"f": "img/aizu-2-61f4a242eb.jpg", "c": "大内宿", "a": "ja:User:Fluffy nns. Uploaded by 百楽兎", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Ja-fukushima-ohuchijuku-4.jpg"}],
+ "urabandai":[{"f": "img/urabandai-1-6265a7f576.jpg", "c": "磐梯山", "a": "Qwert1234", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Mt._Bandaisan_0811.JPG"}, {"f": "img/urabandai-2-480640dcca.jpg", "c": "猪苗代湖", "a": "Stingfield", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Lake_Inawashiro_view_from_Mt.Bandai.jpg"}],
+ "nozawa":[{"f": "img/nozawa-1-1db4457538.jpg", "c": "野沢温泉", "a": "Hideyuki KAMON", "l": "CC BY-SA 2.0", "p": "https://commons.wikimedia.org/wiki/File:Nozawa_Onsen_01.jpg"}, {"f": "img/nozawa-1-1db4457538.jpg", "c": "野沢温泉村", "a": "Hideyuki KAMON", "l": "CC BY-SA 2.0", "p": "https://commons.wikimedia.org/wiki/File:Nozawa_Onsen_01.jpg"}],
+ "gero":[{"f": "img/gero-1-1bc7174be0.jpg", "c": "下呂温泉", "a": "663highland", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:260125_Gero_Onsen_Gero_Gifu_pref_Japan01s3.jpg"}, {"f": "img/gero-2-413f8667cc.jpg", "c": "郡上八幡城", "a": "Kitimi", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:2017%E5%B9%B4%E7%A7%8B%E5%AD%A3%E3%81%AE%E9%83%A1%E4%B8%8A%E5%85%AB%E5%B9%A1%E5%9F%8E.jpg"}],
+ "senjojiki":[{"f": "img/senjojiki-1-24886e28aa.jpg", "c": "千畳敷カール", "a": "Ans", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Senjo-jiki2.JPG"}, {"f": "img/senjojiki-2-93693bf9ee.jpg", "c": "光前寺", "a": "photo: Qurren (talk) Taken with Canon IXY 10S (Digital IXUS 210)", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Kozenji_(Komagane)_Hondo_2012-08.jpg"}],
+ "shiojiri":[{"f": "img/shiojiri-1-1a2b47907a.jpg", "c": "奈良井宿", "a": "Keisai Eisen", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Kisokaido34_Narai.jpg"}, {"f": "img/shiojiri-2-c65ba08764.jpg", "c": "桔梗ヶ原", "a": "Keeezawa", "l": "CC0", "p": "https://commons.wikimedia.org/wiki/File:Kikyogahara01.jpg"}],
+ "tomi":[{"f": "img/bessho-2-7b745d1e83.jpg", "c": "海野宿", "a": "photo: Qurren (talk) Taken with Canon PowerShot G9 X", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Unno-juku_2019-05_1.jpg"}, {"f": "img/tomi-2-acffb16671.jpg", "c": "小諸城・懐古園", "a": "663highland", "l": "CC BY 2.5", "p": "https://commons.wikimedia.org/wiki/File:Komoro_castle00s3872.jpg"}],
+ "hamamatsu":[{"f": "img/hamamatsu-1-d2c83c177b.jpg", "c": "浜松市楽器博物館", "a": "Ichitaro", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:ActCityHamamatsu.jpg"}, {"f": "img/hamamatsu-2-727e97131b.jpg", "c": "航空自衛隊浜松基地", "a": "ブルーノ・プラス", "l": "CC BY 4.0", "p": "https://commons.wikimedia.org/wiki/File:Hamamatsu_Air_Base_Main_Gate_of_the_Japan_Air_Self-Defense_Force.jpg"}],
+ "tateshina":[{"f": "img/tateshina-1-ce6e9a65ed.jpg", "c": "御射鹿池", "a": "TAKAO_Tsushima", "l": "CC BY 4.0", "p": "https://commons.wikimedia.org/wiki/File:Mishaka_pond.jpg"}, {"f": "img/tateshina-2-ff3210485e.jpg", "c": "白樺湖", "a": "ごしたい人", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Lake_Shirakaba_and_Mt_Tateshina.JPG"}],
+ "kinugawa":[{"f": "img/kinugawa-1-b03583d0d6.jpg", "c": "東武ワールドスクウェア", "a": "Jiang Dong-Qin", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:The_entrance_monument_of_Tobu_World_Square.jpg"}, {"f": "img/kinugawa-2-e449f2f9fb.jpg", "c": "龍王峡", "a": "663highland", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:250725_Ryuokyo_Nikko_Tochigi_pref_Japan15s3.jpg"}],
+ "oigawa":[{"f": "img/oigawa-1-62f6f906d0.jpg", "c": "奥大井湖上駅", "a": "Cassiopeia sweet", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Okuoi-Kozyo-Sta.jpg"}, {"f": "img/oigawa-2-44c639fa3b.jpg", "c": "夢の吊橋・寸又峡", "a": "Batholith", "l": "Public domain", "p": "https://commons.wikimedia.org/wiki/File:Shizuoka_Prefecture_3D_2012.jpg"}],
+ "nagoya":[{"f": "img/nagoya-1-77ae46248d.jpg", "c": "リニア・鉄道館", "a": "Bariston", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:SCMaglev_and_Railway_Park_in_Aichi_Prefecture.jpg"}, {"f": "img/nagoya-2-b319e9cbb4.jpg", "c": "トヨタ産業技術記念館", "a": "Bariston", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Toyota_tecno_museum.jpg"}],
+ "inuyama":[{"f": "img/inuyama-1-4d23661c36.jpg", "c": "国宝 犬山城", "a": "Tomio344456", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Inuyama_Castle_(1),_Kitakoken_Inuyama_Inuyama_City_2023.jpg"}, {"f": "img/inuyama-2-4320932501.jpg", "c": "博物館明治村", "a": "Bariston", "l": "CC BY-SA 4.0", "p": "https://commons.wikimedia.org/wiki/File:Meijimura1.jpg"}],
+ "iwaki":[{"f": "img/iwaki-1-d48f15f9f2.jpg", "c": "アクアマリンふくしま", "a": "DAJF", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Aquamarine_Fukushima_20100124.JPG"}, {"f": "img/iwaki-2-988013d1d9.jpg", "c": "塩屋埼灯台", "a": "NEXT-EXIT", "l": "CC BY-SA 3.0", "p": "https://commons.wikimedia.org/wiki/File:Shioya-zaki_lighthouse_01.jpg"}]
+};
+const LINKS = {
+ "shima":[["四万温泉", "https://ja.wikipedia.org/wiki/四万温泉"], ["四万川ダム", "https://ja.wikipedia.org/wiki/四万川ダム"], ["四万温泉 積善館 公式", "https://www.sekizenkan.co.jp/"]],
+ "minakami":[["谷川岳", "https://ja.wikipedia.org/wiki/谷川岳"], ["宝川温泉", "https://ja.wikipedia.org/wiki/宝川温泉"], ["土合駅", "https://ja.wikipedia.org/wiki/土合駅"], ["水上温泉郷 1泊2食1万円以下（JTB）", "https://www.jtb.co.jp/kokunai-hotel/list/100601/feature/RyokanHalfBoard/"]],
+ "kiyotsu":[["清津峡", "https://ja.wikipedia.org/wiki/清津峡"], ["松之山温泉", "https://ja.wikipedia.org/wiki/松之山温泉"]],
+ "fukuroda":[["袋田の滝", "https://ja.wikipedia.org/wiki/袋田の滝"], ["竜神大吊橋", "https://ja.wikipedia.org/wiki/竜神大吊橋"], ["袋田温泉 思い出浪漫館 公式", "https://www.roman-kan.jp/"]],
+ "bessho":[["安楽寺 八角三重塔", "https://ja.wikipedia.org/wiki/安楽寺_(上田市)"], ["海野宿", "https://ja.wikipedia.org/wiki/海野宿"], ["上田城", "https://ja.wikipedia.org/wiki/上田城"], ["別所温泉旅館組合 公式", "https://www.bessho-onsen.com/"]],
+ "nagano":[["善光寺", "https://ja.wikipedia.org/wiki/善光寺"], ["戸隠神社", "https://ja.wikipedia.org/wiki/戸隠神社"], ["小布施町", "https://ja.wikipedia.org/wiki/小布施町"]],
+ "ena":[["恵那峡", "https://ja.wikipedia.org/wiki/恵那峡"], ["苗木城", "https://ja.wikipedia.org/wiki/苗木城"]],
+ "magome":[["妻籠宿", "https://ja.wikipedia.org/wiki/妻籠宿"], ["馬籠宿", "https://ja.wikipedia.org/wiki/馬籠宿"], ["寝覚の床", "https://ja.wikipedia.org/wiki/寝覚の床"], ["妻籠宿 公式", "https://tsumago.jp/stay/"], ["馬籠 宿泊施設一覧", "https://experience-travel-magome.jp/pages/static/accommodation"]],
+ "shibu":[["渋温泉", "https://ja.wikipedia.org/wiki/渋温泉"], ["地獄谷野猿公苑", "https://ja.wikipedia.org/wiki/地獄谷野猿公苑"], ["湯田中渋温泉郷 1泊2食1万円以下（BIGLOBE）", "https://travel.biglobe.ne.jp/onsen/stay/price10000/shibu.html"]],
+ "gamagori":[["竹島", "https://ja.wikipedia.org/wiki/竹島_(愛知県)"], ["豊川稲荷", "https://ja.wikipedia.org/wiki/豊川稲荷"], ["蒲郡市観光協会 がまごおり、ナビ", "https://www.gamagori.jp/"]],
+ "hirugami":[["昼神温泉", "https://ja.wikipedia.org/wiki/昼神温泉"], ["天竜峡", "https://ja.wikipedia.org/wiki/天竜峡"], ["元善光寺", "https://ja.wikipedia.org/wiki/元善光寺"], ["南信州 昼神温泉 公式", "https://hirugamionsen.jp/stay/"]],
+ "okuhida":[["新穂高ロープウェイ", "https://ja.wikipedia.org/wiki/新穂高ロープウェイ"], ["平湯大滝", "https://ja.wikipedia.org/wiki/平湯大滝"], ["平湯温泉 ひらゆの森 公式", "https://www.hirayunomori.co.jp/stay/"]],
+ "norikura":[["乗鞍岳", "https://ja.wikipedia.org/wiki/乗鞍岳"], ["白骨温泉", "https://ja.wikipedia.org/wiki/白骨温泉"], ["休暇村 乗鞍高原（JTB）", "https://www.jtb.co.jp/kokunai-hotel/htl/5201421/plan/"]],
+ "kamikochi":[["上高地", "https://ja.wikipedia.org/wiki/上高地"], ["河童橋", "https://ja.wikipedia.org/wiki/河童橋"], ["大正池", "https://ja.wikipedia.org/wiki/大正池"], ["平湯温泉 ひらゆの森 公式", "https://www.hirayunomori.co.jp/stay/"]],
+ "kurobe":[["黒部ダム", "https://ja.wikipedia.org/wiki/黒部ダム"], ["大王わさび農場", "https://ja.wikipedia.org/wiki/大王わさび農場"]],
+ "hakuba":[["八方池", "https://ja.wikipedia.org/wiki/八方池"], ["木崎湖", "https://ja.wikipedia.org/wiki/木崎湖"], ["白馬のペンション 料金比較（価格.com）", "https://travel.kakaku.com/%E5%9B%BD%E5%86%85%E5%AE%BF%E6%B3%8A%E4%BA%88%E7%B4%84/%E9%95%B7%E9%87%8E%E7%9C%8C-%E7%99%BD%E9%A6%AC%E3%83%9B%E3%83%86%E3%83%AB-dir03-prf20-00087/?hoteltype=%E3%83%9A%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3"]],
+ "aizu":[["若松城（鶴ヶ城）", "https://ja.wikipedia.org/wiki/若松城"], ["大内宿", "https://ja.wikipedia.org/wiki/大内宿"], ["塔のへつり", "https://ja.wikipedia.org/wiki/塔のへつり"], ["会津若松・東山・芦ノ牧 1泊2食1万円以下（JTB）", "https://www.jtb.co.jp/kokunai-hotel/list/070501/feature/RyokanHalfBoard/"]],
+ "urabandai":[["五色沼（北塩原村）", "https://ja.wikipedia.org/wiki/五色沼_(北塩原村)"], ["磐梯山", "https://ja.wikipedia.org/wiki/磐梯山"], ["裏磐梯観光協会", "https://www.urabandai-inf.com/?tag=pension"]],
+ "nozawa":[["野沢温泉", "https://ja.wikipedia.org/wiki/野沢温泉"], ["野沢温泉村", "https://ja.wikipedia.org/wiki/野沢温泉村"], ["野沢温泉 宿泊ガイド 公式", "https://nozawakanko.jp/genre/stay/"]],
+ "gero":[["下呂温泉", "https://ja.wikipedia.org/wiki/下呂温泉"], ["郡上八幡城", "https://ja.wikipedia.org/wiki/郡上八幡城"], ["下呂温泉 小川屋 公式", "https://www.gero-ogawaya.net/"]],
+ "senjojiki":[["千畳敷カール", "https://ja.wikipedia.org/wiki/千畳敷カール"], ["駒ヶ岳ロープウェイ", "https://ja.wikipedia.org/wiki/駒ヶ岳ロープウェイ"], ["光前寺", "https://ja.wikipedia.org/wiki/光前寺"], ["駒ヶ岳ロープウェイ 運賃・駐車料金", "https://www.chuo-alps.com/fare/"], ["駒ヶ根観光協会 民宿・ペンション", "https://www.kankou-komagane.com/kankou-arc/stay/pension/"]],
+ "shiojiri":[["奈良井宿", "https://ja.wikipedia.org/wiki/奈良井宿"], ["桔梗ヶ原", "https://ja.wikipedia.org/wiki/桔梗ヶ原"], ["塩尻市観光協会 ワイナリーマップ", "https://tokimeguri.jp/guide-map/winery/"], ["五一わいん 売店・農場見学", "https://www.goichiwine.co.jp/pages/store-visit"]],
+ "tomi":[["上信越高原国立公園", "https://ja.wikipedia.org/wiki/上信越高原国立公園"], ["小諸城", "https://ja.wikipedia.org/wiki/小諸城"], ["海野宿", "https://ja.wikipedia.org/wiki/海野宿"], ["ヴィラデスト 公式", "https://www.villadest.com/"], ["千曲川ワインバレー", "https://chikumagawa-winevalley.com/archives/winery_vineyard/1318"]],
+ "hamamatsu":[["浜松市楽器博物館", "https://ja.wikipedia.org/wiki/浜松市楽器博物館"], ["浜名湖", "https://ja.wikipedia.org/wiki/浜名湖"], ["航空自衛隊浜松広報館 エアーパーク 公式", "https://www.mod.go.jp/asdf/airpark/"], ["浜松市楽器博物館 概要と歴史", "https://www.gakkihaku.jp/about/outline/"]],
+ "tateshina":[["御射鹿池", "https://ja.wikipedia.org/wiki/御射鹿池"], ["白樺湖", "https://ja.wikipedia.org/wiki/白樺湖"], ["縄文のビーナス", "https://ja.wikipedia.org/wiki/縄文のビーナス"], ["白樺リゾート 池の平ホテル（楽天トラベル）", "https://hotel.travel.rakuten.co.jp/hotelinfo/plan/29350"]],
+ "kinugawa":[["東武ワールドスクウェア", "https://ja.wikipedia.org/wiki/東武ワールドスクウェア"], ["龍王峡", "https://ja.wikipedia.org/wiki/龍王峡"], ["伊東園ホテルズ 公式", "https://www.itoenhotel.com/"]],
+ "oigawa":[["奥大井湖上駅", "https://ja.wikipedia.org/wiki/奥大井湖上駅"], ["寸又峡", "https://ja.wikipedia.org/wiki/寸又峡"], ["大井川鉄道", "https://ja.wikipedia.org/wiki/大井川鉄道"], ["大井川鐵道 よくある質問（駐車場ほか）", "https://daitetsu.jp/faq"]],
+ "nagoya":[["リニア・鉄道館", "https://ja.wikipedia.org/wiki/リニア・鉄道館"], ["トヨタ産業技術記念館", "https://ja.wikipedia.org/wiki/トヨタ産業技術記念館"], ["名古屋城", "https://ja.wikipedia.org/wiki/名古屋城"]],
+ "inuyama":[["犬山城", "https://ja.wikipedia.org/wiki/犬山城"], ["博物館明治村", "https://ja.wikipedia.org/wiki/博物館明治村"], ["如庵", "https://ja.wikipedia.org/wiki/如庵"], ["犬山観光ナビ 公式", "https://inuyama.gr.jp/"], ["ホテルインディゴ犬山有楽苑（JTB）", "https://www.jtb.co.jp/kokunai-hotel/htl/5449011/plan/"]],
+ "iwaki":[["アクアマリンふくしま", "https://ja.wikipedia.org/wiki/アクアマリンふくしま"], ["塩屋埼灯台", "https://ja.wikipedia.org/wiki/塩屋埼灯台"], ["白水阿弥陀堂", "https://ja.wikipedia.org/wiki/白水阿弥陀堂"], ["スパリゾートハワイアンズ 宿泊料金", "https://www.hawaiians.co.jp/tomaru/group/price/"]]
+};
+const ALT = {
+ "shima":["<b>沢渡温泉</b>（＋20分）── 四万よりさらに鄙びた湯治場。宿代も一段安い", "<b>榛名湖・榛名神社</b>（＋50分）── 岩壁に食い込むように建つ社殿。伊香保と繋げられる", "<b>吹割の滝</b>（＋60分）── 片品川が岩盤を割って流れ落ちる、幅30mの「東洋のナイアガラ」"],
+ "minakami":["<b>土合駅</b>（＋10分）── 地下70m・462段の階段を下るJR最深の「モグラ駅」。降りるだけで異様", "<b>吹割の滝</b>（＋40分）── 沼田方面へ。復路に組み込みやすい", "<b>ならまた湖・洞元湖</b>（＋30分）── 奥利根のダム湖。人がほぼいない"],
+ "kiyotsu":["<b>美人林</b>（＋25分）── 樹齢100年ほどのブナが一斉に立つ平坦な林。歩く負担ゼロ", "<b>星峠の棚田</b>（＋40分）── 雲海が出ると別世界。早朝限定", "<b>まつだい農舞台</b>（＋20分）── 棚田そのものを使った大地の芸術祭の常設作品群"],
+ "fukuroda":["<b>月待の滝</b>（＋10分）── 裏側に入れる小さな滝。そば店併設でここが穴場", "<b>花貫渓谷</b>（＋40分）── 汐見滝吊橋。紅葉の名所だが9月は無人", "<b>五浦海岸・六角堂</b>（＋50分）── 岡倉天心が太平洋に突き出して建てた朱塗りの堂"],
+ "bessho":["<b>前山寺</b>（＋10分）── 「未完成の完成塔」と呼ばれる三重塔。くるみおはぎが名物", "<b>生島足島神社</b>（＋20分）── 土そのものを御神体とする古社", "<b>東御のワイナリー</b>（＋40分）── 23番の千曲川ワインバレーと繋げられる", "<b>松代</b>（＋50分）── 城下町と象山地下壕"],
+ "nagano":["<b>松代</b>（＋30分）── 松代城・真田邸・文武学校・象山地下壕がまとまっている", "<b>須坂の蔵の町</b>（＋25分）── 製糸で栄えた土蔵の街並み", "<b>大室古墳群</b>（＋30分）── 500基超の積石塚が谷を埋める、日本では珍しい形式"],
+ "ena":["<b>馬籠宿</b>（＋20分）── 08番の木曽路と繋げられる。中津川ICから近い", "<b>付知峡</b>（＋50分）── 「不動滝」まわりの水の青さが尋常でない", "<b>岩村醸造</b>（＋25分）── 女城主の里の酒蔵。町並みとセットで"],
+ "magome":["<b>奈良井宿</b>（＋60分）── 22番。中山道でもう一つの宿場。妻籠より人が少ない", "<b>赤沢自然休養林</b>（＋60分）── 日本三大美林の木曽ヒノキ。森林鉄道が走る", "<b>柿其渓谷</b>（＋25分）── 「牛ヶ滝」の水の青。地元しか知らない渓谷", "<b>桃介橋</b>（＋10分）── 大正期の巨大な木造吊橋（重要文化財）"],
+ "shibu":["<b>志賀高原の一沼・丸池</b>（＋30分）── 高標高の峠道に入らずに池だけ見る短縮ルート", "<b>小布施</b>（＋40分）── 06番と繋げられる。新栗の季節", "<b>米子大瀑布</b>（＋70分）── 二本の巨大な滝が並ぶ。ただし道が細い"],
+ "gamagori":["<b>伊良湖岬・恋路ヶ浜</b>（＋60分）── 渥美半島の先端まで走って太平洋", "<b>豊川稲荷</b>（＋25分）── 千体の狐が並ぶ霊狐塚", "<b>岡崎城</b>（＋40分）── 家康生誕の城。復路に挟める"],
+ "hirugami":["<b>下栗の里</b>（＋70分）── 標高1000mの急斜面に張りつく集落。「日本のチロル」", "<b>妻籠・馬籠</b>（＋60分）── 08番と繋げられる", "<b>大平街道</b>（＋40分）── 飯田と木曽をつなぐ旧道。廃村の宿場がある"],
+ "okuhida":["<b>高山の古い町並み</b>（＋40分）── 三町の町並みと宮川朝市。飛騨牛", "<b>上高地</b>（＋40分＋シャトル）── 14番。平湯から直接バスが出る", "<b>白川郷</b>（＋90分）── かなり足を伸ばすが、高山経由で繋げられる"],
+ "norikura":["<b>上高地</b>（＋30分）── 14番。同じ平湯／沢渡が起点なので実質セットにできる", "<b>番所大滝</b>（＋10分）── 乗鞍高原の三滝のうち最大", "<b>安曇野</b>（＋60分）── 大王わさび農場。復路に組める"],
+ "kamikochi":["<b>乗鞍畳平</b>（＋30分＋シャトル）── 13番。標高2702m。同じ拠点から行ける", "<b>白骨温泉</b>（＋30分）── 乳白色の湯を日帰りで", "<b>松本市美術館</b>（＋50分）── 草間彌生のコレクション。雨の日の逃げ場"],
+ "kurobe":["<b>立山・室堂へ抜ける</b>── トロリー等を乗り継げば富山側へ抜けられるが、<b>車は扇沢に置いたままなので戻る必要がある</b>点に注意", "<b>仁科三湖</b>（＋20分）── 青木湖の水の色は別格", "<b>大町山岳博物館</b>（＋10分）── 北アルプスの成り立ちが一望できる", "<b>白馬・八方</b>（＋30分）── 16番と繋げられる"],
+ "hakuba":["<b>黒部ダム</b>（＋50分）── 15番。扇沢まで下れば観光放水が見られる", "<b>奥裾花自然園</b>（＋60分）── 鬼無里の奥。ブナの原生林", "<b>姫川源流</b>（＋20分）── 湧水がそのまま川になる場所。平坦な遊歩道"],
+ "aizu":["<b>塔のへつり</b>（＋15分）── 大内宿とセットで回れる奇岩の渓谷", "<b>喜多方</b>（＋40分）── ラーメンと蔵の街。朝ラー文化がある", "<b>裏磐梯・五色沼</b>（＋60分）── 18番と繋げられる", "<b>猪苗代湖・野口英世記念館</b>（＋40分）"],
+ "urabandai":["<b>大内宿</b>（＋90分）── 17番。少し遠いが復路に入れられる", "<b>中津川渓谷</b>（＋20分）── ゴールドライン沿い。渓流に降りられる", "<b>喜多方</b>（＋40分）── 蔵とラーメン"],
+ "nozawa":["<b>松川渓谷・雷滝</b>（＋60分）── 滝の裏側を歩いて通れる「裏見の滝」", "<b>斑尾高原</b>（＋30分）── 沼の原湿原の木道", "<b>飯山の寺の町</b>（＋25分）── 20以上の寺が並ぶ町。仏壇と和紙の産地"],
+ "gero":["<b>高山の古い町並み</b>（＋50分）── 下呂から北へ。12番とも繋がる", "<b>郡上八幡</b>（＋60分）── 用水が街中を流れる水の城下町。山上に八幡城", "<b>付知峡</b>（＋60分）── 中津川側に戻る途中の渓谷"],
+ "senjojiki":["<b>かんてんぱぱガーデン</b>（＋25分）── 伊那食品工業の広い庭園とカフェ。無料", "<b>高遠城址公園</b>（＋50分）── 桜で有名だが、9月の無人の城址も静かでいい", "<b>養命酒 駒ヶ根工場</b>（＋10分）── 森の中の工場見学とカフェ"],
+ "shiojiri":["<b>贄川関所</b>（＋15分）── 復元された中山道の関所。奈良井とセットで", "<b>松本城</b>（＋25分）── 国宝の天守。塩尻から近い", "<b>木曽福島</b>（＋40分）── 木曽路の中心。崖に張り出す家並み", "<b>妻籠・馬籠</b>（＋90分）── 08番。中山道を南まで繋げるなら"],
+ "tomi":["<b>布引観音</b>（＋20分）── 断崖に張りつく観音堂。「牛に引かれて善光寺参り」の舞台", "<b>別所温泉</b>（＋40分）── 05番。国宝の八角三重塔", "<b>軽井沢</b>（＋40分）── 復路に自然に挟める", "<b>湯の丸高原</b>（＋30分）── 池の平とセットで"],
+ "hamamatsu":["<b>竜ヶ岩洞</b>（＋30分）── 東海地方最大の鍾乳洞。年間を通して18℃", "<b>天竜二俣駅</b>（＋40分）── 現役の転車台と扇形車庫（国の登録有形文化財）。鉄道好きなら外せない", "<b>掛川花鳥園</b>（＋40分）── 全天候型。雨の日の保険", "<b>中田島砂丘</b>（＋15分）── 遠州灘の風紋"],
+ "tateshina":["<b>諏訪大社 四社めぐり</b>（＋40分）── 上社本宮・前宮・下社秋宮・春宮を車で回る", "<b>霧ヶ峰・ビーナスライン</b>（＋40分）── 草原の高原道路。走るだけで気持ちいい", "<b>蓼科大滝</b>（＋15分）── 苔の森を抜けて滝へ。短い", "<b>女神湖</b>（＋15分）── 白樺湖より静か"],
+ "kinugawa":["<b>湯西川温泉</b>（＋40分）── 平家の隠れ里と伝わる集落。かなり奥まで入る", "<b>日光の二社一寺</b>（＋40分）── いろは坂に上がらなければ渋滞しない", "<b>大谷資料館</b>（＋60分）── 地下30mの巨大採石場跡。往路にも復路にも挟める"],
+ "oigawa":["<b>蓬莱橋</b>（＋40分）── 全長897m、世界一長い木造歩道橋（ギネス認定）。島田側", "<b>接岨峡</b>（＋20分）── 奥大井湖上駅のさらに奥。吊橋が連続する", "<b>島田の茶畑</b>（＋40分）── 牧之原台地。日本の茶の原風景"],
+ "nagoya":["<b>有松</b>（＋25分）── 有松絞りの町並み。東海道の宿場の面影", "<b>熱田神宮</b>（＋15分）── 三種の神器のひとつを祀る。境内は森", "<b>ノリタケの森</b>（＋10分）── 陶磁器の工場跡を庭園にした場所。市街のすぐ北", "<b>博物館明治村</b>（＋40分）── 29番と繋げられる"],
+ "inuyama":["<b>リトルワールド</b>（＋20分）── 世界の民家を移築した野外博物館。明治村の姉妹施設", "<b>岐阜城・金華山</b>（＋40分）── ロープウェイで山頂の城へ", "<b>美濃 うだつの町並み</b>（＋50分）── 和紙で栄えた町。重要伝統的建造物群", "<b>日本モンキーパーク</b>（＋10分）── 犬山城のすぐ隣"],
+ "iwaki":["<b>五浦海岸・六角堂</b>（＋40分）── 岡倉天心。往路に組み込める", "<b>いわき市石炭・化石館ほるる</b>（＋15分）── フタバスズキリュウの産地。全館屋内", "<b>夏井川渓谷</b>（＋40分）── 磐越東線と並走する渓谷", "<b>勿来の関</b>（＋25分）── 奥州三関のひとつ"]
+};
+
 const PKL={easy:"駐車ラク",mid:"駐車ふつう",hard:"駐車むずかしい"};
 const CORL={chuo:"中央道",joshin:"上信越",shin:"新東名",kanetsu:"関越",tohoku:"東北・常磐"};
 const FITL={in:"予算内",edge:"ぎりぎり／要確認",over:"予算オーバー"};
@@ -1702,7 +1809,10 @@ function drawList(){
       <span><span class="nm">9月の日程えらび</span><span class="hook">準5連休を避ける・台風・平日の効果</span></span></button>
       <button class="row" data-id="ngear" aria-current="${current==="ngear"}">
       <span class="tcell"><b>P</b><span>GEAR</span></span>
-      <span><span class="nm">持ち物</span><span class="hook">9月の標高別・外湯めぐり用</span></span></button>`;
+      <span><span class="nm">持ち物</span><span class="hook">9月の標高別・外湯めぐり用</span></span></button>
+      <button class="row" data-id="nrefs" aria-current="${current==="nrefs"}">
+      <span class="tcell"><b>©</b><span>REFS</span></span>
+      <span><span class="nm">参考リンクと写真の出典</span><span class="hook">全リンク一覧・60枚の撮影者とライセンス</span></span></button>`;
   } else {
     const v=visible();
     L.innerHTML = v.length ? v.map(p=>`
@@ -1730,6 +1840,16 @@ function drawList(){
 }
 const draw=()=>{drawFilters();drawList();};
 
+
+function gallery(pid){
+  const a=PHOTOS[pid]||[];
+  if(!a.length) return "";
+  return `<div class="gal">`+a.map(p=>`<figure>
+    <img src="${p.f}" alt="${p.c}" loading="lazy" decoding="async">
+    <figcaption><b>${p.c}</b><span>${p.a} ／ ${p.l} ／ <a href="${p.p}" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption>
+  </figure>`).join("")+`</div>`;
+}
+
 function hotelCard(h,area){
   return `<div class="hcard">
     <div class="hhead"><span class="hname">${h.n}</span><span class="fit ${h.f}">${FITL[h.f]}</span></div>
@@ -1746,6 +1866,7 @@ function showPlan(p){
     <p class="dwhere">${p.area}　／　片道 約${fmt(p.hours)}・約${p.km}km　／　${p.cor}　／　運転の疲れ ${stars(p.ez)}　／　${PKL[p.pkLevel]}<br>宿タイプ：${p.ytype.join("・")}</p>
     <h2 class="dtitle">${p.name}</h2>
     <div class="tags">${p.badges.map(b=>`<span class="tag">${b}</span>`).join("")}</div>
+    ${gallery(p.id)}
     <button class="wantbtn ${on?"on":""}" id="want">${on?"★ 行きたいに入れた":"☆ 行きたいに入れる"}</button>
 
     <div class="sec"><div class="lab">ルート</div><p>${p.route}</p></div>
@@ -1768,6 +1889,11 @@ function showPlan(p){
     <div class="sec"><div class="lab">9月のポイント</div><p>${p.sep}</p></div>
     <div class="sec"><div class="lab">駐車場</div><p>${p.park}</p></div>
     <div class="sec"><div class="lab">注意・事前確認</div><ul class="cau">${p.warn.map(w=>`<li>${w}</li>`).join("")}</ul></div>
+    <div class="sec"><div class="lab">もう一足のばすなら（寄り道候補）</div>
+      <ul>${(ALT[p.id]||[]).map(a=>`<li>${a}</li>`).join("")}</ul>
+      <p class="fine">かっこ内は<strong>この案の拠点からの片道の追加時間の目安</strong>です。番号は別プランへの繋ぎ。</p>
+    </div>
+    <div class="sec"><div class="lab">参考リンク</div><div class="links">${(LINKS[p.id]||[]).map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${l[0]} ↗</a>`).join("")}</div></div>
     <p class="fine">所要時間・距離は渋滞なしの概算です。営業時間・運行状況・入場料は変わっている可能性があります。</p>`;
   $("want").onclick=()=>{fav.has(p.id)?fav.delete(p.id):fav.add(p.id);saveFav();showPlan(p);draw();};
 }
@@ -1841,6 +1967,33 @@ function showNote(kind){
     <p class="fine">作成 2026年8月。祝日は法令上の規定（敬老の日＝9月第3月曜）にもとづきます。</p>`;
 }
 
+function showRefs(){
+  $("who").textContent="参考リンクと写真の出典";
+  const byplan=PLANS.map(p=>{
+    const l=(LINKS[p.id]||[]);
+    if(!l.length) return "";
+    return `<p><strong>${p.no} ${p.name}</strong><br><span class="links">${l.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]} ↗</a>`).join("")}</span></p>`;
+  }).join("");
+  const credits=PLANS.map(p=>{
+    const a=PHOTOS[p.id]||[];
+    if(!a.length) return "";
+    return a.map(x=>`<tr><td>${p.no}</td><td>${x.c}</td><td>${x.a}</td><td>${x.l}</td><td><a href="${x.p}" target="_blank" rel="noopener">ファイル ↗</a></td></tr>`).join("");
+  }).join("");
+  const nph=PLANS.reduce((n,p)=>n+((PHOTOS[p.id]||[]).length),0);
+  $("dwrap").innerHTML=`
+    <p class="dwhere">全プランのリンク・価格の出典・写真のクレジット</p>
+    <h2 class="dtitle">参考リンクと写真の出典</h2>
+    <div class="warnbox"><b>写真について。</b>このページの写真は<b>ウィキメディア・コモンズの自由ライセンス画像（CC BY / CC BY-SA / CC0 / パブリックドメイン）だけ</b>を使い、撮影者名とライセンスを各写真の下と下表に記載しています。表示幅に合わせて縮小しているほかは加工していません。<b>実際の景色は季節・天候・時刻でまったく違って見えます</b>ので、雰囲気の参考としてご覧ください。</div>
+    <div class="sec"><div class="lab">プランごとの参考リンク</div>${byplan}</div>
+    <div class="sec"><div class="lab">宿の価格を確認した情報源</div><div class="srcs">
+      ${MONEY.srcs.map(x=>`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]} ↗</a>`).join("")}
+    </div></div>
+    <div class="sec"><div class="lab">写真クレジット（${nph}枚）</div><div class="scroll"><table>
+      <thead><tr><th>案</th><th>被写体</th><th>撮影者</th><th>ライセンス</th><th>出典</th></tr></thead>
+      <tbody>${credits}</tbody></table></div></div>
+    <p class="fine">リンク先の内容・料金・営業情報は変わっている可能性があります。宿の価格は調査時点（2026年8月）の掲載価格にもとづく目安です。</p>`;
+}
+
 function show(id){
   current=id;
   const p=PLANS.find(x=>x.id===id);
@@ -1849,6 +2002,7 @@ function show(id){
   else if(id==="driveadvice") showDriveAdvice();
   else if(id==="moneymain") showMoneyMain();
   else if(id==="moneytable") showMoneyTable();
+  else if(id==="nrefs") showRefs();
   else showNote(id);
   $("detail").classList.add("open");
   $("detail").scrollTop=0; drawList();
