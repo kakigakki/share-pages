@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EV版・ビーナスライン走破と美ヶ原 2泊3日（藤沢発）</title>
+<style>
+:root{
+  --paper:#eceeea; --panel:#f8f9f7; --sunk:#e3e7e2;
+  --ink:#15201f; --ink2:#5b6764; --rule:#d2d8d2;
+  --ai:#234e6b; --sun:#bd5a2e; --moss:#4f6b3a; --volt:#3a6b5f;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP",serif;
+  --gothic:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --paper:#101518; --panel:#181f23; --sunk:#131a1e;
+    --ink:#e7eae7; --ink2:#9aa5a1; --rule:#2a3238;
+    --ai:#8fc0d8; --sun:#e7996b; --moss:#9ab873; --volt:#6fc0a8; }
+}
+:root[data-theme="dark"]{ --paper:#101518; --panel:#181f23; --sunk:#131a1e;
+  --ink:#e7eae7; --ink2:#9aa5a1; --rule:#2a3238; --ai:#8fc0d8; --sun:#e7996b; --moss:#9ab873; --volt:#6fc0a8; }
+:root[data-theme="light"]{ --paper:#eceeea; --panel:#f8f9f7; --sunk:#e3e7e2;
+  --ink:#15201f; --ink2:#5b6764; --rule:#d2d8d2; --ai:#234e6b; --sun:#bd5a2e; --moss:#4f6b3a; --volt:#3a6b5f; }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+.wrap{max-width:78ch;margin:0 auto;padding:0 16px 70px}
+
+/* header */
+.masthead{padding:18px 16px 14px;border-bottom:1px solid var(--rule);background:var(--panel)}
+.masthead .inner{max-width:78ch;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.2em;color:var(--volt);margin:0 0 6px}
+.masthead h1{font-family:var(--mincho);font-weight:600;font-size:1.5rem;line-height:1.35;margin:0;letter-spacing:.02em;text-wrap:balance}
+.masthead .sub{margin:9px 0 0;font-size:.8rem;color:var(--ink2);line-height:1.75}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-decoration:none;display:inline-block;margin-bottom:8px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:30;background:var(--panel);border-bottom:1px solid var(--rule);
+  overflow-x:auto;-webkit-overflow-scrolling:touch}
+nav ul{display:flex;gap:0;list-style:none;margin:0;padding:0 8px;max-width:78ch;margin:0 auto}
+nav a{display:block;padding:10px 11px;font-size:.76rem;white-space:nowrap;text-decoration:none;color:var(--ink2);
+  border-bottom:2px solid transparent}
+nav a:hover{color:var(--ink)}
+
+h2{font-family:var(--mincho);font-size:1.3rem;font-weight:600;line-height:1.4;margin:36px 0 4px;
+  padding-top:10px;border-top:2px solid var(--ink);letter-spacing:.01em}
+h2 .n{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;color:var(--sun);display:block;margin-bottom:5px;font-weight:400}
+h3{font-family:var(--mincho);font-size:1.05rem;font-weight:600;margin:26px 0 8px;
+  padding-bottom:5px;border-bottom:1px solid var(--rule)}
+p{margin:0 0 12px}
+ul,ol{padding-left:1.15em;margin:0 0 12px}
+li{margin-bottom:6px}
+
+/* callouts */
+.box{border:1px solid var(--rule);background:var(--panel);padding:12px 14px;margin:14px 0;font-size:.86rem;line-height:1.75}
+.box.warn{border-color:var(--sun)}
+.box.warn b{color:var(--sun)}
+.box.volt{border-color:var(--volt)}
+.box.volt b{color:var(--volt)}
+.box .h{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;display:block;margin-bottom:6px}
+.box.warn .h{color:var(--sun)}
+.box.volt .h{color:var(--volt)}
+
+/* KPI */
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.kpi div{border:1px solid var(--rule);background:var(--panel);padding:10px}
+.kpi b{display:block;font-family:var(--mono);font-size:1.15rem;font-weight:600;letter-spacing:-.02em}
+.kpi span{display:block;font-size:.64rem;color:var(--ink2);letter-spacing:.06em;margin-top:2px}
+
+/* timeline */
+.step{display:grid;grid-template-columns:56px 1fr;gap:11px;padding:11px 0;border-bottom:1px dotted var(--rule)}
+.step:last-child{border-bottom:0}
+.step .t{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.82rem;color:var(--ai);font-weight:600;padding-top:2px}
+.step .b{min-width:0}
+.step .ttl{font-weight:600;font-family:var(--mincho);font-size:1.02rem;line-height:1.45}
+.step .d{font-size:.86rem;color:var(--ink);margin-top:3px;line-height:1.75}
+.step .m{font-family:var(--mono);font-size:.66rem;color:var(--ink2);margin-top:5px;line-height:1.6}
+.step.drive .ttl{font-family:var(--gothic);font-size:.92rem;font-weight:600;color:var(--ink2)}
+.step.chg{background:var(--sunk)}
+.step.chg .ttl{color:var(--volt)}
+.mapl{font-family:var(--mono);font-size:.64rem;text-decoration:none;border:1px solid var(--rule);
+  padding:1px 6px;background:var(--paper);white-space:nowrap;display:inline-block;margin-top:5px}
+
+/* tables */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);margin:12px 0}
+table{border-collapse:collapse;font-size:.76rem;min-width:600px;width:100%}
+th,td{padding:7px 9px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+th{font-family:var(--mono);font-size:.62rem;letter-spacing:.04em;color:var(--ink2);white-space:nowrap;background:var(--sunk)}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ok{color:var(--moss);font-weight:700}
+.ng{color:var(--sun);font-weight:700}
+.vt{color:var(--volt);font-weight:700}
+
+/* photos */
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+@media (max-width:520px){.gal{grid-template-columns:1fr}}
+.gal figure{margin:0;background:var(--panel);border:1px solid var(--rule);overflow:hidden}
+.gal img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--sunk)}
+.gal figcaption{font-size:.68rem;color:var(--ink2);padding:6px 8px;border-top:1px solid var(--rule);line-height:1.5}
+.gal figcaption b{display:block;font-size:.76rem;color:var(--ink);font-family:var(--mincho)}
+.gal figcaption span{display:block;font-family:var(--mono);font-size:.56rem;margin-top:3px;word-break:break-word}
+
+/* cards */
+.card{border:1px solid var(--rule);background:var(--panel);padding:12px 14px;margin:0 0 11px}
+.card .hd{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.card .nm{font-family:var(--mincho);font-size:1.05rem;font-weight:600;flex:1;min-width:11em;line-height:1.4}
+.tagl{font-family:var(--mono);font-size:.6rem;padding:3px 7px;border:1px solid;white-space:nowrap;margin-top:3px}
+.tagl.best{color:var(--volt);border-color:var(--volt)}
+.tagl.good{color:var(--moss);border-color:var(--moss)}
+.tagl.mid{color:var(--ink2);border-color:var(--rule)}
+.tagl.no{color:var(--sun);border-color:var(--sun)}
+.card .meta{font-family:var(--mono);font-size:.68rem;color:var(--ink2);margin:5px 0 0;line-height:1.7}
+.card p{font-size:.86rem;margin:6px 0 0;line-height:1.75}
+
+/* checklist */
+.chk{list-style:none;padding:0}
+.chk li{display:grid;grid-template-columns:20px 1fr;gap:9px;font-size:.88rem;margin-bottom:9px;align-items:start}
+.chk li::before{content:"☐";font-family:var(--mono);color:var(--sun);font-size:1rem;line-height:1.5}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.links a{font-size:.74rem;border:1px solid var(--rule);padding:4px 9px;background:var(--panel);text-decoration:none}
+.fine{font-size:.72rem;color:var(--ink2);line-height:1.7;margin:14px 0 0}
+.src{font-family:var(--mono);font-size:.58rem;color:var(--ink2);letter-spacing:.02em}
+</style>
+</head>
+<body>
+
+<header class="masthead"><div class="inner">
+  <a class="back" href="../">← share-pages</a>
+  <p class="eyebrow">FUJISAWA → VENUS LINE / EV / 2 NIGHTS 3 DAYS</p>
+  <h1>EV版・ビーナスライン走破と美ヶ原<br>2泊3日 完全版</h1>
+  <p class="sub">藤沢発・2026年9月・<b>電気自動車（EV）前提</b>。1泊目は<b>白樺リゾート 池の平ホテル</b>で確定。<b>高速道路の充電器は使わない</b>方針で充電計画を組んでいます。走行 約695km／充電 2〜4回／ビーナスライン全長76.5kmを走破。<br>「30案の下見帳」の <b>25 蓼科・白樺湖</b> を、EV・A案（松本泊）として詳細化したものです。</p>
+</div></header>
+
+<nav><ul>
+  <li><a href="#top">全体像</a></li>
+  <li><a href="#d1">DAY 1</a></li>
+  <li><a href="#d2">DAY 2</a></li>
+  <li><a href="#d3">DAY 3</a></li>
+  <li><a href="#charge">充電計画</a></li>
+  <li><a href="#hotel">松本の宿</a></li>
+  <li><a href="#check">出発前</a></li>
+  <li><a href="#todo">未確認</a></li>
+  <li><a href="#refs">出典</a></li>
+</ul></nav>
+
+<div class="wrap">
+
+<h2 id="top"><span class="n">OVERVIEW</span>全体像</h2>
+
+<div class="box warn">
+<span class="h">最初に：ルートの重要な訂正</span>
+<b>美ヶ原の台上は一般車が通れません。</b>ビーナスライン側（上田市・美ヶ原高原美術館）と美ヶ原スカイライン側（松本市・美ヶ原自然保護センター／王ヶ頭）の間は<b>徒歩のみで片道約2時間</b>。さらに<b>武石観光センター↔武石峠は災害で通行止め</b>（2025年4月1日時点）。松本市の公式案内も「松本から美ヶ原高原美術館へ向かう場合はビーナスラインを利用してください」としています。<br>
+→ したがって<b>「美ヶ原から尾根を越えて松本へ降りる」ことはできません。</b>この行程は<b>美ヶ原まで行って和田峠へ引き返し、国道142号で下諏訪へ降りてから松本へ入る</b>構成にしてあります。
+</div>
+
+<div class="kpi">
+  <div><b>695<span style="font-size:.7rem">km</span></b><span>総走行（概算）</span></div>
+  <div><b>76.5<span style="font-size:.7rem">km</span></b><span>ビーナスライン全長</span></div>
+  <div><b>2〜4<span style="font-size:.7rem">回</span></b><span>充電回数（車次第）</span></div>
+</div>
+
+<div class="scroll"><table>
+<thead><tr><th>日</th><th>行程</th><th>走行</th><th>運転時間</th><th>泊</th><th>充電</th></tr></thead>
+<tbody>
+<tr><td class="num">D1</td><td>藤沢 → 諏訪IC → バラクラ英国庭園 → 白樺湖（夕方 御射鹿池）</td><td class="num">約290km</td><td class="num">約4時間30分</td><td>池の平ホテル</td><td class="vt">諏訪で1回</td></tr>
+<tr><td class="num">D2</td><td>車山リフト → 八島ヶ原湿原 → 美ヶ原 →〔折返し〕和田峠 → 下諏訪 → 松本</td><td class="num">約115km</td><td class="num">約3時間30分</td><td>松本市内</td><td class="vt">松本で1回</td></tr>
+<tr><td class="num">D3</td><td>松本城・中町通り → 長野道・中央道 → 藤沢</td><td class="num">約290km</td><td class="num">約4時間</td><td>—</td><td class="vt">帰路で0〜1回</td></tr>
+</tbody></table></div>
+
+<p class="fine"><span class="src">◎</span>＝調べて確認できた数値（媒体掲載・実測）　<span class="src">△</span>＝既知区間から推算した目安。以下の表でも同じ記号を使っています。距離・時間は渋滞なしの概算です。</p>
+
+<div class="gal">
+<figure><img src="img/venus-1-61c9313e6e.jpg" alt="ビーナスライン（和田・長和町）" loading="lazy" decoding="async">
+<figcaption><b>ビーナスライン（和田・長和町）</b><span>Tomio344456 ／ CC BY-SA 4.0 ／ <a href="https://commons.wikimedia.org/wiki/File:Venusline,_Wada_Nagawa-machi_2011.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+<figure><img src="img/utsukushi-1-84d84b2581.jpg" alt="美ヶ原・牛伏山の展望台" loading="lazy" decoding="async">
+<figcaption><b>美ヶ原・牛伏山の展望台</b><span>KBJUN ／ CC BY-SA 3.0 ／ <a href="https://commons.wikimedia.org/wiki/File:Ushibuseyama_observatory.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+</div>
+
+
+<h2 id="d1"><span class="n">DAY 1 ／ 約290km・運転 約4時間30分</span>移動して、庭園と池</h2>
+
+<h3>この日の狙い</h3>
+<p>高速で一気に諏訪まで入り、<b>降りた直後に充電</b>してから山に上がります。バラクラ英国庭園をゆっくり見て、チェックイン後に<b>夕方の無風を狙って御射鹿池へ往復</b>（片道18分）。御射鹿池のリフレクションは風がある時間帯には出ないので、朝夕どちらかに賭ける必要があります。</p>
+
+<div class="step drive">
+  <div class="t">08:00</div><div class="b">
+  <div class="ttl">藤沢 → 中央道 諏訪IC</div>
+  <div class="d">圏央道（寒川南 or 茅ヶ崎）→ 八王子JCT → 中央道。<b>約250km・3時間15分</b> <span class="src">◎</span></div>
+  <div class="m">休憩は談合坂SA・諏訪湖SA。ただし<b>SA/PAの充電器は使わない</b>（高速は一般道より30〜40%高い）。</div>
+</div></div>
+
+<div class="step chg">
+  <div class="t">11:15</div><div class="b">
+  <div class="ttl">⚡ 充電①　エニタイムフィットネス諏訪店</div>
+  <div class="d"><b>90kW ×6口（3基は2台同時可）・24時間</b> <span class="src">◎</span>。諏訪ICを降りてすぐの一般道。ここで<b>できるだけ満充電に近づける</b>——この先の山の上に急速充電は無いという前提で動きます。</div>
+  <div class="m">運営はエネチェンジ。単価は<b>アプリの充電スポット詳細画面で確認</b>（平均出力で単価が決まる方式）。<br>予備：ニトリ諏訪インター店（6kW相当・<b>15分90円</b> <span class="src">◎</span>・10:00〜19:00）／茅野市役所（6kW・24時間年中無休 <span class="src">◎</span>）</div>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E3%82%A8%E3%83%8B%E3%82%BF%E3%82%A4%E3%83%A0%E3%83%95%E3%82%A3%E3%83%83%E3%83%88%E3%83%8D%E3%82%B9%E8%AB%8F%E8%A8%AA%E5%BA%97" target="_blank" rel="noopener">地図 ↗</a>
+</div></div>
+
+<div class="step">
+  <div class="t">12:00</div><div class="b">
+  <div class="ttl">諏訪 or 茅野で昼食</div>
+  <div class="d">充電の40分をそのまま昼食にあてると時間を捨てずに済みます。</div>
+</div></div>
+
+<div class="step drive">
+  <div class="t">12:50</div><div class="b">
+  <div class="ttl">諏訪IC周辺 → バラクラ イングリッシュ ガーデン</div>
+  <div class="d"><b>国道152号 →（御座石神社交差点を左折）→ 県道192号</b>。ここから先が<b>ビーナスラインの始まり</b>です。約30分 <span class="src">△</span></div>
+  <div class="m">県道192号＝茅野停車場八子ヶ峰公園線。茅野市街から蓼科高原を抜けて白樺湖まで続く区間。</div>
+</div></div>
+
+<div class="step">
+  <div class="t">13:20</div><div class="b">
+  <div class="ttl">バラクラ イングリッシュ ガーデン</div>
+  <div class="d"><b>日本で最初の本格的な英国式庭園</b>。園内は平坦で歩きやすく、ティールームもあります。2時間ほど取っておくとちょうどいい。</div>
+  <div class="m"><b>駐車場 無料・200台</b> <span class="src">◎</span>／入園料 <b>大人400〜1,400円（季節・イベントで変動）・中学生以下無料</b> <span class="src">◎</span>／年中無休<br><b>⚠️ 閉園時刻が媒体で食い違う</b>（「4〜9月は18:00」と「9〜10月は17:00」の両方の記載）。<b>0266-77-2019 で当日の閉園時刻と入園料を確認してください。</b></div>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E8%93%BC%E7%A7%91%E9%AB%98%E5%8E%9F%E3%83%90%E3%83%A9%E3%82%AF%E3%83%A9%E3%82%A4%E3%83%B3%E3%82%B0%E3%83%AA%E3%83%83%E3%82%B7%E3%83%A5%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3" target="_blank" rel="noopener">地図 ↗</a>
+</div></div>
+
+<div class="step drive">
+  <div class="t">15:30</div><div class="b">
+  <div class="ttl">バラクラ → 白樺湖 池の平ホテル</div>
+  <div class="d">県道192号をそのまま北上。約25分 <span class="src">△</span></div>
+</div></div>
+
+<div class="step">
+  <div class="t">16:00</div><div class="b">
+  <div class="ttl">池の平ホテル チェックイン</div>
+  <div class="d">100畳の大露天風呂と、12の個店が並ぶビュッフェ「Food Hall」。</div>
+  <div class="m"><b>⚠️ EV充電器なし</b>（検索結果ベース <span class="src">◎</span>／<b>0266-68-2100 で必ず確認</b>）。1泊2食ビュッフェ 2名 22,000円〜 <span class="src">◎</span></div>
+</div></div>
+
+<div class="step">
+  <div class="t">17:00</div><div class="b">
+  <div class="ttl">御射鹿池へ往復（夕方の無風を狙う）</div>
+  <div class="d">東山魁夷「緑響く」のモチーフになった池。<b>水鏡は無風の早朝か夕刻にしか出ません</b>。滞在10〜30分、じっくりなら1時間 <span class="src">◎</span>。</div>
+  <div class="m">往路：県道192号 → <b>国道299号（メルヘン街道）</b> → <b>県道191号（湯みち街道・標高1500m付近）</b>。<b>11.3km・18分</b> <span class="src">◎</span><br><b>市営駐車場は普通車 約31台のみ</b> <span class="src">◎</span>。夕方なら空いている可能性が高い。<br>メルヘン街道は標高2,127mの麦草峠を越える<b>日本で2番目に高い峠を越える国道</b>（11月中旬〜4月下旬 通行止め・9月は問題なし）。</div>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E5%BE%A1%E5%B0%84%E9%B9%BF%E6%B1%A0" target="_blank" rel="noopener">地図 ↗</a>
+</div></div>
+
+<div class="step">
+  <div class="t">18:30</div><div class="b">
+  <div class="ttl">ホテルに戻って夕食</div>
+  <div class="d">白樺湖の標高は1400m前後。9月下旬は夜10℃を切ります。</div>
+</div></div>
+
+<div class="gal">
+<figure><img src="img/mishaka-1-ce6e9a65ed.jpg" alt="御射鹿池" loading="lazy" decoding="async">
+<figcaption><b>御射鹿池</b><span>TAKAO_Tsushima ／ CC BY 4.0 ／ <a href="https://commons.wikimedia.org/wiki/File:Mishaka_pond.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+<figure><img src="img/shirakaba-1-ff3210485e.jpg" alt="白樺湖と蓼科山" loading="lazy" decoding="async">
+<figcaption><b>白樺湖と蓼科山</b><span>ごしたい人 ／ CC BY-SA 3.0 ／ <a href="https://commons.wikimedia.org/wiki/File:Lake_Shirakaba_and_Mt_Tateshina.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+</div>
+
+
+<h2 id="d2"><span class="n">DAY 2 ／ 約115km・運転 約3時間30分</span>ビーナスライン走破の日</h2>
+
+<h3>この日の狙い</h3>
+<p>この旅の本番。<b>白樺湖 → 車山 → 霧ヶ峰 → 和田峠 → 美ヶ原</b>と、ビーナスラインの後半40.4kmを走り切ります。<b>山の上に急速充電は無い前提</b>なので、朝の残量だけで115kmを走る計画です。ただし<b>標高は1400m→1900m→760m→600mと下り基調</b>なので、回生が効いて消費は思ったほど伸びません（後述）。</p>
+
+<div class="step">
+  <div class="t">08:30</div><div class="b">
+  <div class="ttl">車山高原 展望リフト → 車山山頂 1925m</div>
+  <div class="d">ホテルから<b>県道40号（諏訪白樺湖小諸線）</b>で約4km・10分 <span class="src">△</span>。<b>2本のリフトを乗り継いで約25分</b>で山頂へ。晴れれば富士山・八ヶ岳・北アルプスの360度。<b>歩く距離はほぼゼロ</b>。</div>
+  <div class="m"><b>展望リフト往復 大人2,500円</b> <span class="src">◎</span>／スカイライナー 8:30〜16:10（<b>山頂行き最終16:00</b>・下り最終16:40）、スカイパノラマ 8:30〜16:00 <span class="src">◎</span>／強風・悪天候で運休あり</div>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E8%BB%8A%E5%B1%B1%E9%AB%98%E5%8E%9FSKYPARK+RESORT" target="_blank" rel="noopener">地図 ↗</a>
+</div></div>
+
+<div class="step drive">
+  <div class="t">10:30</div><div class="b">
+  <div class="ttl">車山高原 → 八島ヶ原湿原</div>
+  <div class="d"><b>県道40号 → 県道194号（霧ヶ峰東餅屋線）</b>。約10km・20分 <span class="src">△</span></div>
+</div></div>
+
+<div class="step">
+  <div class="t">10:50</div><div class="b">
+  <div class="ttl">八島ヶ原湿原（霧ヶ峰）</div>
+  <div class="d">一周<b>約3.7km・約1時間30分</b>（3分の2が木道）。<b>小さく一周なら約30分</b>で切り上げられます <span class="src">◎</span>。9〜10月は<b>草紅葉</b>。</div>
+  <div class="m"><b>駐車場 約100〜120台・無料</b>（一部媒体に有料の記載あり・要現地確認）<span class="src">◎</span></div>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E5%85%AB%E5%B3%B6%E3%83%B6%E5%8E%9F%E6%B9%BF%E5%8E%9F" target="_blank" rel="noopener">地図 ↗</a>
+</div></div>
+
+<div class="step">
+  <div class="t">12:30</div><div class="b">
+  <div class="ttl">霧ヶ峰〜和田峠あたりで昼食</div>
+  <div class="d">この先、美ヶ原まで食事の選択肢は少なくなります。ここで済ませておくのが安全。</div>
+</div></div>
+
+<div class="step drive">
+  <div class="t">13:30</div><div class="b">
+  <div class="ttl">八島ヶ原湿原 → 和田峠 → 美ヶ原高原</div>
+  <div class="d"><b>県道194号 → 和田峠（国道142号と交差）→ 県道460号（美ヶ原公園東餅屋線）</b>。<b>約35分</b> <span class="src">◎</span></div>
+  <div class="m"><b>ここがビーナスラインで唯一「峠道」らしい区間。</b>和田峠・扉峠は急勾配のヘアピンカーブが連続します。さらに<b>八島湿原から美ヶ原までは標高差360mを登るのでカーブが増える</b> <span class="src">◎</span>。同乗者が酔いやすいなら、朝のうちに酔い止めを。</div>
+</div></div>
+
+<div class="step">
+  <div class="t">14:05</div><div class="b">
+  <div class="ttl">美ヶ原高原（標高2000mの台地）</div>
+  <div class="d"><b>ビーナスラインの終点</b>。<b>山本小屋の大駐車場が自走の終点</b>で、そこから奥は一般車進入禁止 <span class="src">◎</span>。</div>
+  <div class="d">歩き方の選択肢：<br>
+  ・<b>美しの塔まで</b>：山本小屋から平坦な砂利道を20〜30分 <span class="src">◎</span><br>
+  ・<b>王ヶ頭まで</b>：山本小屋から<b>3,257m・約52分・標高差97m</b>（＝ほぼ平坦な台上歩き）<span class="src">◎</span><br>
+  ・<b>美ヶ原高原美術館</b>：標高2000mの<b>野外彫刻美術館</b>。9:00〜17:00（入場16:30まで）、<b>大人1,000円</b>、開館期間中無休（4月下旬〜11月中旬）<span class="src">◎</span></div>
+  <div class="m">駐車場はシーズンの週末・連休に混雑（GW・お盆・7月中旬のニッコウキスゲ期は早朝でも満車）。<b>9月の平日なら余裕がある見込み</b> <span class="src">◎</span>。標高2000m、風が吹くと体感が一気に落ちるので上着必須。</div>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E3%83%B6%E5%8E%9F%E9%AB%98%E5%8E%9F%E7%BE%8E%E8%A1%93%E9%A4%A8" target="_blank" rel="noopener">地図 ↗</a>
+</div></div>
+
+<div class="step drive">
+  <div class="t">16:30</div><div class="b">
+  <div class="ttl">美ヶ原 →〔折返し〕和田峠 → 下諏訪 → 松本</div>
+  <div class="d"><b>台上は越えられないので、県道460号を和田峠まで引き返します</b>（約20km・40分 <span class="src">△</span>）→ <b>国道142号</b>で下諏訪へ下る（約15km・30分 <span class="src">△</span>）→ <b>国道20号／塩尻経由</b>で松本へ（約40km・50分 <span class="src">△</span>）。合計 約75km・約2時間 <span class="src">△</span></div>
+  <div class="m">別ルート：美ヶ原高原美術館から<b>上田市武石側へ下って国道254号・三才山トンネル経由で松本</b>という選択肢もあり、NAVITIMEでは松本城⇄美ヶ原高原美術館が<b>62.9km・1時間24分</b> <span class="src">◎</span>。ただし<b>武石観光センター↔武石峠は災害通行止め</b>の情報があるため、<b>当日の松本市の通行規制ページで確認してから選んでください</b>。確実なのは和田峠経由です。</div>
+</div></div>
+
+<div class="step chg">
+  <div class="t">18:30</div><div class="b">
+  <div class="ttl">⚡ 充電②　松本着。ここが一番選択肢が多い</div>
+  <div class="d">松本には<b>無料・50kW・90kW・Tesla</b>と4系統そろっています。詳細は<a href="#charge">充電計画</a>へ。宿にEV充電がある宿を選べば、<b>寝ている間に満充電</b>にできます（6kW×19時間＝実質フル）。</div>
+</div></div>
+
+<div class="gal">
+<figure><img src="img/kurumayama-1-8cbcd11925.jpg" alt="車山（車山高原）" loading="lazy" decoding="async">
+<figcaption><b>車山（車山高原）</b><span>Mass Ave 975 ／ CC BY-SA 3.0 ／ <a href="https://commons.wikimedia.org/wiki/File:Kurumayama02.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+<figure><img src="img/yashima-1-c9b0d68782.jpg" alt="八島ヶ原湿原" loading="lazy" decoding="async">
+<figcaption><b>八島ヶ原湿原</b><span>Mass Ave 975 ／ CC BY-SA 3.0 ／ <a href="https://commons.wikimedia.org/wiki/File:Yashima04.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+</div>
+
+
+<h2 id="d3"><span class="n">DAY 3 ／ 約290km・運転 約4時間</span>松本の街から帰る</h2>
+
+<div class="step">
+  <div class="t">09:00</div><div class="b">
+  <div class="ttl">国宝 松本城</div>
+  <div class="d">現存12天守のひとつ。<b>天守内は急な木の階段</b>なので、無理なら本丸庭園と堀の外側からの眺めで十分きれいです。</div>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E6%9C%AC%E5%9F%8E" target="_blank" rel="noopener">地図 ↗</a>
+</div></div>
+
+<div class="step">
+  <div class="t">10:30</div><div class="b">
+  <div class="ttl">中町通り・縄手通り</div>
+  <div class="d">白壁と黒い格子の蔵が並ぶ通り。雑貨と喫茶。<b>珈琲まるも</b>は中町通りの角。</div>
+</div></div>
+
+<div class="step">
+  <div class="t">12:00</div><div class="b">
+  <div class="ttl">昼食</div>
+  <div class="d">そば、山賊焼き。松本は駅前でも街中でも選択肢が多い。</div>
+</div></div>
+
+<div class="step drive">
+  <div class="t">13:30</div><div class="b">
+  <div class="ttl">松本 → 藤沢</div>
+  <div class="d"><b>長野道（松本IC）→ 岡谷JCT → 中央道 → 八王子JCT → 圏央道</b>。約290km・3時間45分〜4時間 <span class="src">△</span></div>
+</div></div>
+
+<div class="step chg">
+  <div class="t">15:30</div><div class="b">
+  <div class="ttl">⚡ 充電③（必要なら）イオンモール甲府昭和</div>
+  <div class="d">甲府昭和IC近くの一般道。<b>急速充電器5台（ウェルカムガーデン入口付近）</b>と<b>普通充電13台（屋上）</b>。</div>
+  <div class="m"><b>急速：1回30分制限・300円（税込）／WAONカード払いのみ</b> <span class="src">◎</span><br><b>普通：1時間118円・2時間237円・3時間356円</b> <span class="src">◎</span><br>支払いはWAON／eMPカード／クレジット／EneKey／ENEOS充電カード／ENEOS Charge Plusアプリ <span class="src">◎</span>（<b>急速はWAONのみ</b>）<br>高速を降りる分の追加料金と、SA/PA充電の割高分を比べて判断。</div>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%A2%E3%83%BC%E3%83%AB%E7%94%B2%E5%BA%9C%E6%98%AD%E5%92%8C" target="_blank" rel="noopener">地図 ↗</a>
+</div></div>
+
+<div class="step">
+  <div class="t">17:30</div><div class="b">
+  <div class="ttl">藤沢 着</div>
+</div></div>
+
+<div class="gal">
+<figure><img src="img/matsumoto-1-4cfa6a4a70.jpg" alt="国宝 松本城" loading="lazy" decoding="async">
+<figcaption><b>国宝 松本城</b><span>柑橘類 (talk) ／ CC BY-SA 3.0 ／ <a href="https://commons.wikimedia.org/wiki/File:Matsumoto_Castle_1-1.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+<figure><img src="img/matsumoto-2-ddd6fbeca7.jpg" alt="松本の街" loading="lazy" decoding="async">
+<figcaption><b>松本の街</b><span>水だらけのプール ／ CC BY-SA 4.0 ／ <a href="https://commons.wikimedia.org/wiki/File:Matsumoto_Montage.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption></figure>
+</div>
+
+
+<h2 id="charge"><span class="n">CHARGING</span>充電計画</h2>
+
+<div class="box volt">
+<span class="h">この行程のEV上の急所（2つ）</span>
+<b>① 池の平ホテルに充電器がない。</b>1泊目は補電できません（要電話確認：0266-68-2100）。<br>
+<b>② ビーナスライン沿線に急速充電が見つからない。</b>白樺湖に「中速」の記載があるだけで、<b>車山高原・霧ヶ峰・美ヶ原の急速充電は確認できませんでした</b>。「霧ヶ峰・美ヶ原方面に入るとガソリンスタンドすら少なくなる」という記述もあります。<br>
+→ <b>山の上は「無補給区間」として設計</b>し、<b>諏訪で満充電にして入り、松本で回復する</b>のが基本方針です。
+</div>
+
+<h3>一般道の充電器と料金</h3>
+<div class="scroll"><table>
+<thead><tr><th>いつ</th><th>場所</th><th>出力</th><th>料金</th><th>営業</th></tr></thead>
+<tbody>
+<tr><td class="vt">D1 本命</td><td><b>エニタイムフィットネス諏訪店</b>（エネチェンジ）</td><td class="num">90kW ×6口<br>(3基は2台同時)</td><td>アプリで単価確認<br><span class="src">エネチェンジは平均出力で単価決定</span></td><td class="num">24時間 ◎</td></tr>
+<tr><td>D1 予備</td><td>ニトリ 諏訪インター店</td><td class="num">6kW相当</td><td class="ok">15分 90円<br><span class="src">3kW相当なら15分45円</span></td><td class="num">10:00〜19:00 ◎</td></tr>
+<tr><td>D1 予備</td><td>茅野市役所</td><td class="num">6kW</td><td>要確認</td><td class="num">24時間 年中無休 ◎</td></tr>
+<tr><td>白樺湖の保険</td><td>蓼科東急ホテル</td><td class="num">6kW ×2<br>(200V/30A)</td><td>充電有料・<b>駐車無料</b>・連絡不要 ◎</td><td class="num">24時間 ◎</td></tr>
+<tr><td>白樺湖の保険</td><td>蓼科東急タウンセンター</td><td class="num">6kW ×2</td><td><b>TerraChargeアプリ必要</b> ◎</td><td class="num">24時間 ◎</td></tr>
+<tr><td class="vt">D2 本命A</td><td><b>松本市役所 東庁舎北側駐車場</b></td><td class="num">CHAdeMO 20kW</td><td class="ok">充電 無料 ◎<br><span class="src">駐車は条件付無料／夜間は有料の情報</span></td><td class="num">24時間 ◎</td></tr>
+<tr><td class="vt">D2 本命B</td><td><b>イオンモール松本（晴庭 地下P）</b></td><td class="num">50kW 急速<br>＋普通10台</td><td class="ok">WAON認証 60分 120円 ◎<br><span class="src">普通充電は平日最初5h/土日祝3h無料</span></td><td class="num">10:00〜21:00 無休 ◎</td></tr>
+<tr><td>D2 最速</td><td>松本日産自動車 松本店（国道19号沿）</td><td class="num">90kW ×2基<br>(1基2台同時)</td><td>ビジター価格 要確認</td><td class="num">24時間 ◎</td></tr>
+<tr><td>Teslaなら</td><td>Tesla 松本スーパーチャージャー</td><td class="num">—</td><td>アプリで確認</td><td>松本市村井町南3-1-8<br><span class="src">ファミリーマート松本村井店 ◎</span></td></tr>
+<tr><td class="vt">D3 帰路</td><td><b>イオンモール甲府昭和</b></td><td class="num">急速5台<br>普通13台</td><td class="ok">急速 30分 300円（WAONのみ）◎<br>普通 1h118円／2h237円／3h356円 ◎</td><td class="num">モール営業時間</td></tr>
+</tbody></table></div>
+<p class="fine">※ <b>諏訪にTesla Superchargerはありません</b>（最寄りは松本と長野市）<span class="src">◎</span>。</p>
+
+<h3>参考：なぜ高速の充電器を使わないのか</h3>
+<p>e-Mobility Power のビジター料金（2026年4月1日施行）<span class="src">◎</span>：</p>
+<div class="scroll"><table>
+<thead><tr><th>方式</th><th>一般道</th><th>高速 SA/PA</th><th>差</th></tr></thead>
+<tbody>
+<tr><td>kWh課金（全国96か所のみ）</td><td class="num ok">110 円/kWh</td><td class="num ng">143 円/kWh</td><td class="num">+30%</td></tr>
+<tr><td>時間課金 50kW以下</td><td class="num ok">55 円/分</td><td class="num ng">77 円/分</td><td class="num">+40%</td></tr>
+<tr><td>時間課金 50〜100kW</td><td class="num ok">77 円/分</td><td class="num ng">99 円/分</td><td class="num">+29%</td></tr>
+<tr><td>時間課金 100kW超</td><td class="num ok">99 円/分</td><td class="num ng">121 円/分</td><td class="num">+22%</td></tr>
+</tbody></table></div>
+<p>30kWh 補給した場合、kWh課金なら <b>一般道 3,300円 / 高速 4,290円</b> で約1,000円の差。<br>
+なお <b>eMP会員価格は 27.5円/分</b> で、<b>ビジター価格は会員の2〜4倍</b>。<b>「一般道か高速か」より「会員カードを持っているか」の方が金額に効きます。</b>参考に ENEOS Charge Plus は<b>シンプルプラン 月0円・46.2円/分</b>／<b>プレミアムプラン 月2,200円・22.0円/分</b> <span class="src">◎</span> ——この旅で3〜4回充電するなら、月会費を払う方が安くなる可能性があります。</p>
+
+<h3>何回充電が必要か（車の航続距離別）</h3>
+<div class="box">
+<b>前提が2つ未確定です</b>（車種・バッテリー容量／充電カードの有無）。ここは2パターンで置いておきます。出発時は満充電、山岳走行で電費が2〜3割悪化する想定。
+</div>
+<div class="scroll"><table>
+<thead><tr><th>実用航続</th><th>D1（290km）</th><th>D2（115km）</th><th>D3（290km）</th><th>計</th></tr></thead>
+<tbody>
+<tr><td>約200km級<br><span class="src">40kWh前後</span></td><td>中央道の途中で1回＋諏訪で1回</td><td>山上は無充電、松本着で1回</td><td>甲府昭和で1回</td><td class="num">4回</td></tr>
+<tr><td>350km以上<br><span class="src">60kWh超</span></td><td class="ok">諏訪で1回</td><td class="ok">松本着で1回</td><td>甲府昭和で0〜1回</td><td class="num">2〜3回</td></tr>
+</tbody></table></div>
+
+<div class="box volt">
+<span class="h">D2の電費について、安心してよい理由</span>
+標高は <b>白樺湖 1400m → 美ヶ原 1900m → 下諏訪 760m → 松本 600m</b>。<b>登りは500mだけで、下りは1300m</b>あります。つまり<b>この日は全体として下り基調</b>で、回生ブレーキがかなり戻してくれます。115kmの山岳走行でも、消費は平地並みに収まる見込みです。<br>
+ただし<b>八島湿原→美ヶ原の登り（標高差360m）では一時的に残量がガクッと落ちます</b>。そこで焦らないこと——その後の下りで戻ってきます。
+</div>
+
+
+<h2 id="hotel"><span class="n">HOTEL / NIGHT 2</span>松本の宿（第2晩）</h2>
+
+<p>EVで来る場合、<b>「宿で充電できるか」が他の条件より効きます</b>。6kW の普通充電でも 15:00〜翌10:00 の19時間で約100kWh相当の時間があり、実質満充電になるからです。予算は2名1泊 1〜2万円で見ています。</p>
+
+<div class="card">
+  <div class="hd"><span class="nm">ホテルルートインコート松本インター</span><span class="tagl best">EV最優先ならここ</span></div>
+  <p class="meta">EV充電：<b>普通6kW・宿泊者限定の予約制（宿泊日15:00〜翌10:00）</b> ◎／価格：目安 2名 1.2〜1.8万円（要確認）／松本IC近く</p>
+  <p><b>寝ている間に満充電にできるのが決定的。</b>ルートインは大浴場と朝食が標準で付くタイプ。<b>充電は予約制なので、宿の予約時に一緒に押さえてください。</b>松本IC至近なのでD3の帰路スタートも早い。市街の夕食に出るには少し距離があります。</p>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E3%83%9B%E3%83%86%E3%83%AB%E3%83%AB%E3%83%BC%E3%83%88%E3%82%A4%E3%83%B3%E3%82%B3%E3%83%BC%E3%83%88%E6%9D%BE%E6%9C%AC%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC" target="_blank" rel="noopener">地図 ↗</a>
+</div>
+
+<div class="card">
+  <div class="hd"><span class="nm">松本城・三の丸 松本丸の内ホテル</span><span class="tagl good">立地＋充電のバランス</span></div>
+  <p class="meta">EV充電：<b>設置あり（14:00〜翌12:00）</b> ◎／価格：<b>素泊まり 2名 16,380円〜</b> ◎（1名あたり8,100〜32,600円の帯）</p>
+  <p><b>松本城まで徒歩3分</b>。D3の朝がそのまま松本城になるので、時間の使い方が一番よくなります。素泊まりなので夕食は街で。予算の上限に近いですが、充電と立地の両方が取れます。</p>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E6%9C%AC%E4%B8%B8%E3%81%AE%E5%86%85%E3%83%9B%E3%83%86%E3%83%AB" target="_blank" rel="noopener">地図 ↗</a>
+</div>
+
+<div class="card">
+  <div class="hd"><span class="nm">松本駅前のビジネスホテル（スーパーホテル松本駅前・松本ツーリストホテル ほか）</span><span class="tagl good">最安・夕食の選択肢が最多</span></div>
+  <p class="meta">EV充電：基本なし（→ 松本市役所の<b>無料</b>桩 or イオンモール松本で充電）／価格：<b>2名 10,600〜23,600円</b> ◎／<b>駐車場 1,000〜1,200円/泊</b> ◎／大浴場付きの選択肢あり ◎</p>
+  <p>宿代を最も抑えられる選択。<b>駐車料金が別途かかる点を予算に足して</b>計算してください。充電は夕食前にイオンモール松本（50kW・60分120円）で済ませるか、松本市役所（無料・24時間）を使う流れになります。</p>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E6%9C%AC%E9%A7%85%E5%89%8D+%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E3%83%9B%E3%83%86%E3%83%AB" target="_blank" rel="noopener">地図 ↗</a>
+</div>
+
+<div class="card">
+  <div class="hd"><span class="nm">美ヶ原温泉 ホテル翔峰</span><span class="tagl mid">温泉に振るなら</span></div>
+  <p class="meta">EV充電：設置あり（EVsmart掲載）／価格：要確認（予算を上回る可能性）</p>
+  <p>松本市街の東、美ヶ原の麓側にある温泉ホテル。<b>2泊目も温泉にしたい</b>場合の選択肢。ただし1泊目の池の平ホテルも大浴場が売りなので、温泉が2晩続くことになります。</p>
+  <a class="mapl" href="https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E3%83%B6%E5%8E%9F%E6%B8%A9%E6%B3%89+%E3%83%9B%E3%83%86%E3%83%AB%E7%BF%94%E5%B3%B0" target="_blank" rel="noopener">地図 ↗</a>
+</div>
+
+<div class="box">
+<b>おすすめ：ルートインコート松本インター。</b>一晩で満充電になれば、D3の290kmが「途中で充電するかどうか」を考えなくてよくなります。<b>街で夕食を楽しむことを優先するなら駅前ビジホ＋イオンモール松本で充電</b>、という組み合わせも十分現実的です。
+</div>
+
+
+<h2 id="check"><span class="n">BEFORE YOU GO</span>出発前チェックリスト</h2>
+
+<h3>電話・予約で確認するもの</h3>
+<ul class="chk">
+<li><b>池の平ホテル（0266-68-2100）</b>にEV充電器の有無を確認。「無い」前提で組んでいますが、あれば計画がだいぶ楽になります。</li>
+<li><b>松本の宿にEV充電の予約</b>を入れる（ルートインは<b>予約制</b>）。宿泊予約と同時に。</li>
+<li><b>バラクラ（0266-77-2019）</b>に9月の<b>閉園時刻</b>と<b>入園料</b>を確認（媒体で17:00/18:00の食い違い、料金は400〜1,400円で変動）。</li>
+<li><b>車山高原の展望リフト</b>の運行状況（強風で止まる）。<b>山頂行き最終16:00</b>。</li>
+<li><b>美ヶ原の通行規制</b>を松本市のページで確認（武石方面に通行止め区間あり）。</li>
+</ul>
+
+<h3>アプリ・カード（EV）</h3>
+<ul class="chk">
+<li><b>e-Mobility Power</b>（全国のローミング網）</li>
+<li><b>エネチェンジ</b>（諏訪の90kWがこれ。単価はアプリの充電スポット詳細で確認）</li>
+<li><b>TerraCharge</b>（蓼科東急タウンセンターで必要）</li>
+<li><b>WAONカード</b>（<b>イオンモールの急速充電はWAON払いのみ</b>——これが無いと甲府昭和の300円が使えません）</li>
+<li>充電カードの契約を見直す。<b>3〜4回充電するなら月会費ありのプランの方が安くなる可能性</b>（例：ENEOS Charge Plus プレミアム 月2,200円で22.0円/分 vs シンプル 月0円で46.2円/分）</li>
+</ul>
+
+<h3>日程</h3>
+<ul class="chk">
+<li><b>2026年9月19日（土）〜23日（水）は避ける</b>——敬老の日9/21＋秋分の日9/23の準5連休。美ヶ原の駐車場が朝から埋まり、宿代も跳ねます。</li>
+<li>平日を1日でも含められると、宿の価格と駐車の余裕が大きく変わります。</li>
+<li>9月は台風シーズン。<b>ビーナスラインと国道142号の通行状況</b>を前日に確認。</li>
+</ul>
+
+<h3>持ち物</h3>
+<ul class="chk">
+<li><b>薄手のダウンかフリース</b>——美ヶ原は標高2000m、車山山頂は1925m。9月下旬の朝は一桁まで下がります。</li>
+<li>歩きやすい靴（美ヶ原の台上は砂利道、八島ヶ原は木道）。</li>
+<li>酔い止め——<b>和田峠・扉峠のヘアピンと、八島湿原→美ヶ原の登り</b>が効きます。</li>
+<li>飲み物と軽食を麓で。山の上は補給が少ないです。</li>
+</ul>
+
+
+<h2 id="todo"><span class="n">UNVERIFIED</span>裏が取れていないこと</h2>
+
+<div class="box warn">
+<span class="h">現地・電話で確認してほしい項目</span>
+<ul style="margin-bottom:0">
+<li><b>池の平ホテルのEV充電器なし</b>——検索結果ベースの判断です。電話確認を。</li>
+<li><b>イオンモール松本「50kW・60分120円」</b>——安すぎるので、旧料金か駐車料金との混同の可能性。現地で確認してください。</li>
+<li><b>エニタイムフィットネス諏訪店（90kW）の実際の単価</b>——エネチェンジはアプリの充電スポット詳細画面で確認する方式。</li>
+<li><b>松本日産のビジター価格</b>、<b>Tesla松本SCの料金</b>——未確認。</li>
+<li><b>道の駅 風穴の里の充電情報</b>——NAVITIMEに急速・24時間の記載がありましたが、料金・設置状況の裏が取れませんでした。</li>
+<li><b>武石経由（上田方向）の下り</b>——災害通行止め区間の情報があります。和田峠経由を既定にしてあります。</li>
+<li><b>バラクラの閉園時刻</b>——媒体で17:00と18:00の食い違い。</li>
+<li><b>八島ヶ原湿原の駐車場</b>——無料と有料の両方の記載があります。</li>
+<li><b>距離のうち △ の数値</b>——既知区間からの推算です。ナビの実測とはずれます。</li>
+<li><b>白樺湖→美ヶ原の「40.4km・約2時間」</b>——平均時速20km/hで、停車時間を含んだ値と思われます。ノンストップなら1時間〜1時間20分程度と見ています。この行程表は余裕を持たせた側で組んであります。</li>
+</ul>
+</div>
+
+
+<h2 id="refs"><span class="n">SOURCES</span>参考リンクと出典</h2>
+
+<h3>道路・観光</h3>
+<div class="links">
+<a href="https://ja.wikipedia.org/wiki/%E3%83%93%E3%83%BC%E3%83%8A%E3%82%B9%E3%83%A9%E3%82%A4%E3%83%B3" target="_blank" rel="noopener">ビーナスライン（Wikipedia）↗</a>
+<a href="https://www.venus-line.net/" target="_blank" rel="noopener">ビーナスライン 公式 ↗</a>
+<a href="https://www.city.matsumoto.nagano.jp/soshiki/76/146139.html" target="_blank" rel="noopener">美ケ原の通行規制情報（松本市）↗</a>
+<a href="http://www.utsukushigaharakogen.jp/" target="_blank" rel="noopener">美ヶ原高原 公式 ↗</a>
+<a href="https://www.utsukushi-oam.jp/" target="_blank" rel="noopener">美ヶ原高原美術館 ↗</a>
+<a href="https://summer.kurumayama-skypark.com/lift-2" target="_blank" rel="noopener">車山高原 展望リフト ↗</a>
+<a href="https://www.venus-line.net/trekking/course04/" target="_blank" rel="noopener">八島湿原 トレッキングコース ↗</a>
+<a href="https://barakura.co.jp/" target="_blank" rel="noopener">バラクラ イングリッシュ ガーデン ↗</a>
+<a href="https://www.furusatokan.jp/access/" target="_blank" rel="noopener">山本小屋ふる里館 交通案内 ↗</a>
+<a href="https://ja.wikipedia.org/wiki/%E5%9B%BD%E9%81%93299%E5%8F%B7" target="_blank" rel="noopener">国道299号 メルヘン街道 ↗</a>
+<a href="https://visitmatsumoto.com/spot/detail_1034.html" target="_blank" rel="noopener">美ケ原高原（松本市観光）↗</a>
+</div>
+
+<h3>EV充電</h3>
+<div class="links">
+<a href="https://www.e-mobipower.co.jp/news/6284/" target="_blank" rel="noopener">eMP ビジター料金 改定のお知らせ ↗</a>
+<a href="https://faq.e-mobipower.co.jp/category/show/80?site_domain=default" target="_blank" rel="noopener">eMP 料金プラン FAQ ↗</a>
+<a href="https://www.eneos.co.jp/chargeplus/price/" target="_blank" rel="noopener">ENEOS Charge Plus 料金 ↗</a>
+<a href="https://ev-charge-enechange.jp/service/" target="_blank" rel="noopener">EV充電エネチェンジ 料金 ↗</a>
+<a href="https://evsmart.net/spot/nagano/l202029/" target="_blank" rel="noopener">EVsmart 松本市の充電スポット ↗</a>
+<a href="https://evsmart.net/spot/nagano/l202061/" target="_blank" rel="noopener">EVsmart 諏訪市の充電スポット ↗</a>
+<a href="https://evsmart.net/spot/nagano/l202142/" target="_blank" rel="noopener">EVsmart 茅野市の充電スポット ↗</a>
+<a href="https://ev.gogo.gs/detail/14759" target="_blank" rel="noopener">松本市役所 東庁舎北側駐車場（GoGoEV）↗</a>
+<a href="https://kofushowa-aeonmall.com/news/information/323" target="_blank" rel="noopener">イオンモール甲府昭和 EV充電案内 ↗</a>
+<a href="https://www.route-inn.co.jp/hotel_list/index_e-station.html" target="_blank" rel="noopener">ルートイン EV充電器 設置ホテル一覧 ↗</a>
+<a href="https://www.tesla.com/ja_jp/findus/list/superchargers/Japan" target="_blank" rel="noopener">Tesla スーパーチャージャー一覧 ↗</a>
+</div>
+
+<h3>宿</h3>
+<div class="links">
+<a href="https://www.shirakabaresort.jp/" target="_blank" rel="noopener">白樺リゾート 池の平ホテル ↗</a>
+<a href="https://www.route-inn.co.jp/hotel_list/nagano/index_hotel_id_14/" target="_blank" rel="noopener">ルートインコート松本インター ↗</a>
+<a href="https://www.matsumoto-marunouchi.com/" target="_blank" rel="noopener">松本丸の内ホテル ↗</a>
+<a href="https://www.superhotel.co.jp/s_hotels/matumoto/" target="_blank" rel="noopener">スーパーホテル松本駅前 ↗</a>
+</div>
+
+<h3>写真</h3>
+<p class="fine">このページの写真はすべて<b>ウィキメディア・コモンズの自由ライセンス画像</b>（CC BY / CC BY-SA / CC0 / パブリックドメイン）で、各写真の下にライセンスと出典を記載しています。表示幅に合わせて縮小したほかは加工していません。<b>撮影された季節・時刻・天候はあなたが行く日とは違います</b>ので、雰囲気の参考としてご覧ください。</p>
+
+<p class="fine">作成 2026年8月。料金・営業時間・運行状況・充電単価はいずれも変わります。<b>◎ を付けた数値も「調査時点の掲載内容」であり、出発前に公式で確認してください。</b>とくに充電の単価は改定が多い分野です。</p>
+
+</div>
+</body>
+</html>

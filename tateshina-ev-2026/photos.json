@@ -1,0 +1,107 @@
+{
+ "utsukushi": [
+  {
+   "f": "img/utsukushi-1-84d84b2581.jpg",
+   "c": "美ヶ原高原の台地",
+   "a": "KBJUN",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Ushibuseyama_observatory.jpg"
+  },
+  {
+   "f": "img/utsukushi-1-84d84b2581.jpg",
+   "c": "王ヶ頭",
+   "a": "KBJUN",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Ushibuseyama_observatory.jpg"
+  }
+ ],
+ "kurumayama": [
+  {
+   "f": "img/kurumayama-1-8cbcd11925.jpg",
+   "c": "車山（車山高原）",
+   "a": "Mass Ave 975",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Kurumayama02.JPG"
+  },
+  {
+   "f": "img/kurumayama-2-b300069884.jpg",
+   "c": "霧ヶ峰",
+   "a": "Koda6029",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Kirigamine_seen_from_the_east_2018-03-04.jpg"
+  }
+ ],
+ "yashima": [
+  {
+   "f": "img/yashima-1-c9b0d68782.jpg",
+   "c": "八島ヶ原湿原",
+   "a": "Mass Ave 975",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Yashima04.JPG"
+  },
+  {
+   "f": "img/kurumayama-2-b300069884.jpg",
+   "c": "霧ヶ峰の草原",
+   "a": "Koda6029",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Kirigamine_seen_from_the_east_2018-03-04.jpg"
+  }
+ ],
+ "mishaka": [
+  {
+   "f": "img/mishaka-1-ce6e9a65ed.jpg",
+   "c": "御射鹿池",
+   "a": "TAKAO_Tsushima",
+   "l": "CC BY 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Mishaka_pond.jpg"
+  },
+  {
+   "f": "img/mishaka-2-fcbc376cf5.jpg",
+   "c": "蓼科湖",
+   "a": "Milion Base",
+   "l": "CC0",
+   "p": "https://commons.wikimedia.org/wiki/File:Lake_Tateshina_2024.jpg"
+  }
+ ],
+ "shirakaba": [
+  {
+   "f": "img/shirakaba-1-ff3210485e.jpg",
+   "c": "白樺湖",
+   "a": "ごしたい人",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Lake_Shirakaba_and_Mt_Tateshina.JPG"
+  },
+  {
+   "f": "img/shirakaba-2-83ddaf4dca.jpg",
+   "c": "蓼科山",
+   "a": "tamachi1011",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Tateshinayama-fuyu.JPG"
+  }
+ ],
+ "matsumoto": [
+  {
+   "f": "img/matsumoto-1-4cfa6a4a70.jpg",
+   "c": "国宝 松本城",
+   "a": "柑橘類 (talk)",
+   "l": "CC BY-SA 3.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Matsumoto_Castle_1-1.jpg"
+  },
+  {
+   "f": "img/matsumoto-2-ddd6fbeca7.jpg",
+   "c": "松本の街",
+   "a": "水だらけのプール",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Matsumoto_Montage.jpg"
+  }
+ ],
+ "venus": [
+  {
+   "f": "img/venus-1-61c9313e6e.jpg",
+   "c": "ビーナスライン",
+   "a": "Tomio344456",
+   "l": "CC BY-SA 4.0",
+   "p": "https://commons.wikimedia.org/wiki/File:Venusline,_Wada_Nagawa-machi_2011.jpg"
+  }
+ ]
+}
