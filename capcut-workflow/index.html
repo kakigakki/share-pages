@@ -177,7 +177,7 @@ td.k{white-space:nowrap;width:1%}
   <li><a href="#rules">铁律</a></li>
   <li><a href="#keys">快捷键</a></li>
   <li><a href="#tips">实用技巧</a></li>
-  <li><a href="#tools">工具</a></li>
+  <li><a href="#tools">工具与素材</a></li>
   <li><a href="#shoot">拍摄备忘</a></li>
 </ul></nav>
 
@@ -198,7 +198,7 @@ td.k{white-space:nowrap;width:1%}
     <li><a href="#rules">铁律 8 条</a></li>
     <li><a href="#keys">快捷键</a></li>
     <li><a href="#tips">实用技巧 22 条</a></li>
-    <li><a href="#tools">工具与代理</a></li>
+    <li><a href="#tools">工具与素材准备</a></li>
     <li><a href="#shoot">拍摄备忘</a></li>
     <li><a href="#more">还想更快</a></li>
   </ol>
@@ -213,7 +213,7 @@ td.k{white-space:nowrap;width:1%}
 <span class="h">别跳过这三件事</span>
 <ul class="chk" data-chk="start">
 <li><b>定 45 分钟闹钟。</b>响了就进入第 5 步，60 分钟必须导出。旅行记录片不存在「剪完」，只存在「停手」。</li>
-<li><b>确认在用 1080p 代理素材。</b>4K 原片在时间线上每拖一下卡半秒，乘以几百次操作就是几十分钟。见<a href="#tools">工具与代理</a>。</li>
+<li><b>确认在用 1080p 素材。</b>4K 原片在时间线上每拖一下卡半秒，乘以几百次操作就是几十分钟。见<a href="#tools">工具与素材准备</a>。</li>
 <li><b>先把音乐选好放在手边。</b>音乐时长 = 成片时长。没选好曲子就别开始，否则后面全部返工。</li>
 </ul>
 <button class="reset" data-reset="start">重置</button>
@@ -438,8 +438,8 @@ td.k{white-space:nowrap;width:1%}
 <div class="tip"><div class="t"><span class="b">01</span>素材必须拷到本地 SSD 再剪</div>
 <p>直接读<b>外接机械硬盘、U 盘、相机 SD 卡</b>剪辑，会卡到几乎没法工作。这是最常见也最容易忽略的卡顿原因。剪之前先整个文件夹拷到本地固态盘。</p></div>
 
-<div class="tip"><div class="t"><span class="b">02</span>用 1080p 代理素材</div>
-<p>4K 原片拖一下卡半秒 × 几百次操作 = 几十分钟。转一份 1080p 代理来剪，导出时再换回原片。<a href="#tools">命令见下方</a>。</p></div>
+<div class="tip"><div class="t"><span class="b">02</span>把 4K 转成 1080p 再剪</div>
+<p>4K 原片拖一下卡半秒 × 几百次操作 = 几十分钟。<b>4K 缩到 1080p 还有超采样降噪的好处</b>，画质比直接拍 1080p 更好。<a href="#tools">命令和取舍见下方</a>。</p></div>
 
 <div class="tip"><div class="t"><span class="b">03</span>预览画质调到「性能优先」</div>
 <p>剪映播放器窗口有画质 / 性能选项，<b>调低只影响预览，不影响导出画质</b>。第 3 步填镜头时完全够用。</p></div>
@@ -512,7 +512,7 @@ td.k{white-space:nowrap;width:1%}
 </div>
 
 <!-- ============ TOOLS ============ -->
-<h2 id="tools">工具与代理</h2>
+<h2 id="tools">工具与素材准备</h2>
 
 <div class="scroll"><table>
 <thead><tr><th>工具</th><th>用途</th><th>说明</th></tr></thead>
@@ -521,19 +521,62 @@ td.k{white-space:nowrap;width:1%}
 <tr><td><b>PowerToys</b><br><span style="font-family:var(--mono);font-size:.62rem;color:var(--ink3)">微软官方 · 免费</span></td><td>同上（Peek）</td><td>已装 PowerToys 就用内置 Peek（<kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>空格</kbd>），不必再装 QuickLook</td></tr>
 <tr><td><b>PotPlayer</b><br>或 MPC-HC</td><td>第 1 步倍速审片</td><td>支持倍速、逐帧、<b>书签</b>。粗筛主力</td></tr>
 <tr><td><b>LosslessCut</b></td><td>无损切候选片段</td><td>不重新编码，秒切。适合先切出候选再整体导入</td></tr>
-<tr><td><b>ffmpeg</b></td><td>批量转 1080p 代理</td><td>命令见下</td></tr>
+<tr><td><b>ffmpeg</b></td><td>批量把 4K 转成 1080p</td><td>命令和参数说明见下</td></tr>
 <tr><td><b>剪映专业版</b></td><td>主力剪辑</td><td>第 2–5 步</td></tr>
 </tbody></table></div>
 
-<h3>生成 1080p 代理素材</h3>
-<p>单个文件：</p>
-<pre><code>ffmpeg -i input.mp4 -vf scale=-2:1080 -c:v libx264 -preset veryfast -crf 23 -c:a aac proxy_input.mp4</code></pre>
+<h3>先想清楚：你要 4K 成片，还是 1080p 成片？</h3>
+
+<p>这决定了下面用哪条命令。<b>「代理」的本义是低清替身：剪的时候用替身，导出时软件自动换回原片</b>——但这需要软件支持。而 ffmpeg 转出来的是独立的低清文件，你拿它剪完导出，成片就是 1080p。两条路线：</p>
+
+<div class="scroll"><table>
+<thead><tr><th>路线</th><th>怎么做</th><th>成片</th><th>适合</th></tr></thead>
+<tbody>
+<tr><td><b>A · 直接用 1080p 剪<br><span class="ok">推荐</span></b></td><td>ffmpeg 转 1080p → 拿它剪 → 直接导出</td><td class="num">1080p</td><td><b>绝大多数情况。</b>手机观看、发社交平台，1080p 完全够</td></tr>
+<tr><td><b>B · 真代理</b></td><td>用剪映全局设置里的<b>代理模式</b>，让软件自己生成和切换</td><td class="num">4K</td><td>确实需要 4K 成片时。别用 ffmpeg 走这条</td></tr>
+</tbody></table></div>
+
+<div class="note key">
+<span class="h">为什么 4K 拍、1080p 出，画质反而好</span>
+这叫<b>超采样</b>：4 个 4K 像素平均成 1 个 1080p 像素，<b>噪点被平均掉，相当于免费降噪</b>；同时避开了很多机型 1080p 直出时跳行读取带来的摩尔纹和锯齿。<br>
+所以<b>「4K 拍 → 1080p 输出」优于「直接拍 1080p」</b>。而且缩放在哪一步做都一样——先转成 1080p 再剪，超采样的好处照样拿得到。
+</div>
+
+<h3>命令：路线 A（转成 1080p 直接用来剪）</h3>
+<p>质量给足，因为这份文件最后就是你的成片素材。单个文件：</p>
+<pre><code>ffmpeg -i input.mp4 -vf scale=-2:1080:flags=lanczos -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p -c:a aac -b:a 192k out_1080p.mp4</code></pre>
 <p>整个文件夹批量（Windows PowerShell，在素材目录下执行）：</p>
-<pre><code>New-Item -ItemType Directory -Force proxy
+<pre><code>New-Item -ItemType Directory -Force 1080p
 Get-ChildItem *.mp4 | ForEach-Object {
-  ffmpeg -i $_.FullName -vf scale=-2:1080 -c:v libx264 -preset veryfast -crf 23 -c:a aac "proxy\$($_.Name)"
+  ffmpeg -i $_.FullName -vf scale=-2:1080:flags=lanczos `
+    -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p `
+    -c:a aac -b:a 192k "1080p\$($_.Name)"
 }</code></pre>
-<p class="fine">剪映专业版的全局设置里通常也有代理相关选项（各版本菜单位置和叫法不太一样，找一次记住即可）。软件自带的够用就不必自己转；自己转的好处是<b>代理文件可以留着，下次重剪不用再等一遍</b>。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>参数</th><th>作用</th></tr></thead>
+<tbody>
+<tr><td class="k"><code>-crf 18</code></td><td><b>质量档，数字越小越好。</b>先转再剪会多经历一次编码，18 能让这次损失肉眼不可见。<br>纯当代理（最后要换回原片）用 <code>23</code> 就行，文件小很多</td></tr>
+<tr><td class="k"><code>flags=lanczos</code></td><td>缩放算法，比默认的 bicubic 更锐利干净</td></tr>
+<tr><td class="k"><code>-preset slow</code></td><td>压得更狠、文件更小，代价是转码慢。赶时间换成 <code>veryfast</code>，画质几乎一样只是文件大些</td></tr>
+<tr><td class="k"><code>scale=-2:1080</code></td><td>高度锁 1080，宽度按比例自动算（<code>-2</code> 保证是偶数，H.264 需要）</td></tr>
+<tr><td class="k"><code>-pix_fmt yuv420p</code></td><td>兼容性保险，防止某些播放器和平台不认</td></tr>
+</tbody></table></div>
+
+<h3>导出设置：码率比分辨率重要得多</h3>
+
+<p><b>「通透」感不是分辨率决定的</b>，是码率、对比度和黑位决定的。码率不够会出色块和涂抹感，那才是真正毁画质的东西。在手机上看，<b>高码率 1080p 明显好于低码率 4K</b>——何况微信、抖音、小红书还会再压一次。</p>
+
+<ul class="chk" data-chk="export">
+<li><b>分辨率 1080p，码率给足</b>（剪映选高码率档，或手动 20–30 Mbps）</li>
+<li><b>帧率和拍摄时保持一致。</b>别把 30fps 转 60fps，那只会插出果冻感</li>
+<li><b>锐化要克制。</b>过锐会出白边，看着是"脏"不是"锐"</li>
+<li>想更通透就<b>在调色里加一点对比度和去雾</b>，这比纠结分辨率有效得多——做进模板草稿一次设置长期复用</li>
+<li>发微信朋友圈的话别传 4K，压缩极狠，纯属浪费时间</li>
+</ul>
+<button class="reset" data-reset="export">重置</button>
+
+<p class="fine">剪映专业版的全局设置里通常也有代理相关选项（各版本菜单位置和叫法不太一样，找一次记住即可）。走路线 A 的话用不上它；自己转的好处是<b>转好的 1080p 文件可以留着，下次重剪不用再等一遍</b>。</p>
 
 <!-- ============ SHOOT ============ -->
 <h2 id="shoot">拍摄备忘：出门前看</h2>
