@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vlog 拍摄完全手册 — 镜头体系・转场大全・现场流程</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9; --code:#f0f3ef;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68;
+  --gothic:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans","Microsoft YaHei","Noto Sans SC","Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+
+/* header */
+.masthead{border-bottom:1px solid var(--rule);background:var(--panel)}
+.masthead .inner{max-width:1100px;margin:0 auto;padding:22px 20px 20px}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-decoration:none;
+  display:inline-block;margin-bottom:10px;color:var(--ink3)}
+.eyebrow{font-family:var(--mono);font-size:.63rem;letter-spacing:.2em;color:var(--volt);margin:0 0 7px}
+.masthead h1{font-weight:700;font-size:1.75rem;line-height:1.3;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.masthead h1 small{display:block;font-size:.55em;font-weight:600;color:var(--ink2);margin-top:6px;letter-spacing:0}
+.masthead .sub{margin:12px 0 0;font-size:.85rem;color:var(--ink2);line-height:1.8;max-width:72ch}
+
+/* layout */
+.layout{display:grid;grid-template-columns:206px minmax(0,1fr);gap:44px;
+  max-width:1100px;margin:0 auto;padding:0 20px 90px}
+.toc{position:sticky;top:24px;align-self:start;padding-top:30px;max-height:calc(100vh - 48px);overflow-y:auto}
+.toc .lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--ink3);margin:0 0 10px;
+  padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{margin:0}
+.toc li.gap{height:9px}
+.toc li.sec{font-family:var(--mono);font-size:.57rem;letter-spacing:.14em;color:var(--ink3);
+  padding:11px 0 4px 11px}
+.toc a{display:block;padding:5px 0 5px 11px;font-size:.78rem;text-decoration:none;color:var(--ink2);
+  border-left:2px solid var(--rule);line-height:1.5}
+.toc a:hover{color:var(--ink);border-left-color:var(--ink3)}
+.toc a.on{color:var(--ai);border-left-color:var(--ai);font-weight:600}
+
+nav.mobile{display:none}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0;padding-bottom:70px}
+  .toc{display:none}
+  nav.mobile{display:block;position:sticky;top:0;z-index:30;background:var(--panel);
+    border-bottom:1px solid var(--rule);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  nav.mobile ul{display:flex;list-style:none;margin:0;padding:0 8px}
+  nav.mobile a{display:block;padding:11px 10px;font-size:.75rem;white-space:nowrap;
+    text-decoration:none;color:var(--ink2)}
+}
+
+/* headings */
+main{padding-top:30px;min-width:0}
+h2{font-size:1.32rem;font-weight:700;line-height:1.35;margin:48px 0 14px;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:11px}
+h2:first-of-type{margin-top:0}
+h2 .num{flex:none;width:29px;height:29px;border-radius:50%;background:var(--ai);color:var(--panel);
+  font-family:var(--mono);font-size:.8rem;font-weight:700;display:grid;place-items:center;letter-spacing:-.03em}
+h3{font-size:1.03rem;font-weight:700;margin:32px 0 9px}
+h4{font-size:.9rem;font-weight:700;margin:22px 0 7px}
+p{margin:0 0 13px}
+ul,ol{padding-left:1.3em;margin:0 0 13px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--rule);margin:36px 0}
+.part{font-family:var(--mono);font-size:.63rem;letter-spacing:.22em;color:var(--volt);
+  text-align:center;margin:0 0 6px}
+
+code{font-family:var(--mono);font-size:.84em;background:var(--code);padding:1px 5px;
+  border:1px solid var(--rule);border-radius:3px}
+kbd{font-family:var(--mono);font-size:.73rem;background:var(--panel);color:var(--ink);
+  border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;padding:2px 6px;
+  white-space:nowrap;display:inline-block;line-height:1.5}
+
+/* callouts */
+.note{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--ai);
+  border-radius:0 5px 5px 0;padding:12px 15px;margin:16px 0;font-size:.87rem;line-height:1.8}
+.note .h{font-family:var(--mono);font-size:.61rem;letter-spacing:.14em;display:block;margin-bottom:6px;color:var(--ai)}
+.note.warn{border-left-color:var(--sun)} .note.warn .h{color:var(--sun)} .note.warn b{color:var(--sun)}
+.note.tip{border-left-color:var(--moss)} .note.tip .h{color:var(--moss)}
+.note.key{border-left-color:var(--volt)} .note.key .h{color:var(--volt)} .note.key b{color:var(--volt)}
+.note p:last-child{margin-bottom:0}
+
+/* tables */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);
+  border-radius:5px;margin:14px 0;background:var(--panel)}
+table{border-collapse:collapse;font-size:.79rem;min-width:600px;width:100%}
+th,td{padding:9px 11px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top;line-height:1.65}
+th{font-family:var(--mono);font-size:.61rem;letter-spacing:.05em;color:var(--ink2);
+  white-space:nowrap;background:var(--sunk)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;
+  color:var(--ink3);width:1%;font-size:.72rem;padding-top:11px}
+td.nm{font-weight:700;white-space:nowrap;width:1%}
+.ok{color:var(--moss);font-weight:700}
+.ng{color:var(--sun);font-weight:700}
+.vt{color:var(--volt);font-weight:700}
+.star{color:var(--sun);font-family:var(--mono);font-size:.7rem;white-space:nowrap}
+
+/* checklist */
+.chk{list-style:none;padding:0;margin:13px 0}
+.chk li{position:relative;padding-left:31px;font-size:.88rem;line-height:1.8;margin-bottom:10px;
+  cursor:pointer;user-select:none}
+.chk li::before{content:"☐";position:absolute;left:0;top:0;font-family:var(--mono);
+  color:var(--sun);font-size:1.05rem;line-height:1.7}
+.chk li.done::before{content:"☑";color:var(--moss)}
+.chk li.done{color:var(--ink3);text-decoration:line-through;text-decoration-color:var(--rule)}
+.reset{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;background:var(--panel);color:var(--ink3);
+  border:1px solid var(--rule);border-radius:4px;padding:5px 11px;cursor:pointer;margin-top:2px}
+.reset:hover{color:var(--ink);border-color:var(--ink2)}
+
+/* cards */
+.tips{display:grid;gap:9px;margin:14px 0}
+.tip{border:1px solid var(--rule);background:var(--panel);border-radius:5px;padding:11px 14px}
+.tip .t{font-weight:700;font-size:.9rem;line-height:1.5;margin-bottom:3px}
+.tip .t .b{font-family:var(--mono);font-size:.63rem;color:var(--volt);border:1px solid var(--volt);
+  border-radius:2px;padding:1px 5px;margin-right:7px;vertical-align:2px;font-weight:500}
+.tip p{font-size:.85rem;margin:0;color:var(--ink2);line-height:1.75}
+.tip p b{color:var(--ink)}
+
+.fine{font-size:.73rem;color:var(--ink3);line-height:1.75;margin:15px 0 0}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.links a{font-size:.76rem;border:1px solid var(--rule);border-radius:4px;padding:5px 10px;
+  background:var(--panel);text-decoration:none}
+</style>
+</head>
+<body>
+
+<header class="masthead"><div class="inner">
+  <a class="back" href="../">← share-pages</a>
+  <p class="eyebrow">HOW TO SHOOT · SHOT SYSTEM · TRANSITIONS · FIELD WORKFLOW</p>
+  <h1>Vlog 拍摄完全手册<small>镜头体系 · 转场大全 · 现场流程</small></h1>
+  <p class="sub">这一页只讲<b>怎么拍</b>，不讲剪辑。<br>
+  素材决定上限，剪辑只能决定你离上限有多近——<b>剪辑救不了没拍到的东西</b>。所以拍摄阶段每多做一件对的事，后期就少受一次挫折。<br>
+  剪辑流程在另一页：<a href="../capcut-workflow/">旅拍剪辑 60 分钟流程 →</a></p>
+</div></header>
+
+<nav class="mobile"><ul>
+  <li><a href="#mindset">三个认知</a></li>
+  <li><a href="#role">镜头职能</a></li>
+  <li><a href="#size">景别</a></li>
+  <li><a href="#angle">机位角度</a></li>
+  <li><a href="#compo">构图</a></li>
+  <li><a href="#move">运镜</a></li>
+  <li><a href="#trans">转场大全</a></li>
+  <li><a href="#shotlist">场景清单</a></li>
+  <li><a href="#setting">相机设置</a></li>
+  <li><a href="#audio">收音</a></li>
+  <li><a href="#stable">稳定</a></li>
+  <li><a href="#people">拍人</a></li>
+  <li><a href="#field">现场流程</a></li>
+  <li><a href="#mistakes">常见错误</a></li>
+</ul></nav>
+
+<div class="layout">
+
+<aside class="toc">
+  <p class="lbl">目录</p>
+  <ol>
+    <li class="sec">基础</li>
+    <li><a href="#mindset">0 · 三个认知</a></li>
+    <li><a href="#role">1 · 镜头的四种职能</a></li>
+    <li class="sec">镜头语言</li>
+    <li><a href="#size">2 · 景别体系</a></li>
+    <li><a href="#angle">3 · 机位与角度</a></li>
+    <li><a href="#compo">4 · 构图</a></li>
+    <li><a href="#move">5 · 运镜</a></li>
+    <li class="sec">重点</li>
+    <li><a href="#trans">6 · 转场镜头大全</a></li>
+    <li><a href="#shotlist">7 · 场景拍摄清单</a></li>
+    <li class="sec">技术</li>
+    <li><a href="#setting">8 · 相机设置</a></li>
+    <li><a href="#audio">9 · 收音</a></li>
+    <li><a href="#stable">10 · 稳定与手持</a></li>
+    <li class="sec">现场</li>
+    <li><a href="#people">11 · 拍人</a></li>
+    <li><a href="#field">12 · 现场工作流</a></li>
+    <li><a href="#mistakes">13 · 常见错误</a></li>
+    <li><a href="#gear">14 · 装备</a></li>
+  </ol>
+</aside>
+
+<main>
+
+<!-- ========== 0 ========== -->
+<h2 id="mindset"><span class="num">0</span>先建立三个认知</h2>
+
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>你不是在"拍视频"，是在"收集零件"</div>
+<p>拍摄时脑子里要有的不是"这个画面好美"，而是<b>"这个镜头在成片里承担什么职能"</b>。一个镜头如果说不出它是干嘛的，它多半用不上。这是业余和熟练之间最大的分水岭。</p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>同一个场景，至少拍三个不同的镜头</div>
+<p>远景 + 中景 + 特写。<b>只拍一个镜头 = 剪辑时无路可走</b>。三个镜头意味着你有三种排列方式、两个可用切点。这条规则单独就能让成片质量上一个台阶。</p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>每个镜头拍 8–10 秒，前后各留 2 秒静止</div>
+<p>成片里一个镜头只用 2–3 秒，但你需要余量来做转场、变速和微调。<b>运镜要有"起—行—止"</b>：先静止 2 秒，再运动，再静止 2 秒。没有这两头，很多剪辑手段直接用不了。</p></div>
+</div>
+
+<div class="note key">
+<span class="h">贯穿全篇的一句话</span>
+<b>剪辑救不了没拍到的东西。</b>调色能救曝光，防抖能救轻微抖动，但没拍的转场镜头、没拍的反应、没拍的特写，后期一秒都变不出来。
+</div>
+
+<!-- ========== 1 ========== -->
+<h2 id="role"><span class="num">1</span>镜头的四种职能</h2>
+
+<p>拍每个镜头前，先想清楚它属于哪一类。这是整个体系的地基。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>职能</th><th>是什么</th><th>典型镜头</th><th>占比</th></tr></thead>
+<tbody>
+<tr><td class="nm">A-roll<br>叙事</td><td>推进故事的主线内容。有了它观众才知道"发生了什么"</td><td>口播、对话、事件本身（点餐、登记入住、迷路）</td><td class="n">20–30%</td></tr>
+<tr><td class="nm">B-roll<br>补充</td><td>盖在 A-roll 上、提供信息和氛围。也是<b>掩盖剪辑点</b>的工具</td><td>空镜、街景、细节、手部动作、食物</td><td class="n">40–50%</td></tr>
+<tr><td class="nm">转场<br>连接</td><td>专门为了"从这里到那里"而拍。<b>最容易漏拍的一类</b></td><td>见 <a href="#trans">第 6 节</a></td><td class="n">10–15%</td></tr>
+<tr><td class="nm">情绪<br>反应</td><td>让片子"有人味"。观众通过你的表情决定自己该有什么感受</td><td>吃到好吃的表情、笑、累瘫、惊讶、皱眉</td><td class="n">10–15%</td></tr>
+</tbody></table></div>
+
+<div class="note warn">
+<span class="h">业余 vlog 的典型素材结构</span>
+90% B-roll（一堆好看的风景）+ 10% A-roll，<b>转场和情绪镜头是零</b>。<br>
+结果就是：素材看着都挺好，剪出来是一段接一段的幻灯片，没法连、没法笑、没法记住。<b>如果你只改一件事，就是开始有意识地拍转场镜头和反应镜头。</b>
+</div>
+
+<!-- ========== 2 ========== -->
+<h2 id="size"><span class="num">2</span>景别体系</h2>
+
+<p>景别 = 主体在画面里占多大。它决定观众的注意力落在哪。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>景别</th><th>画面范围</th><th>作用</th><th>什么时候用</th></tr></thead>
+<tbody>
+<tr><td class="nm">大远景<br>ELS</td><td>人只是一个小点，环境为主</td><td><b>交代地理位置</b></td><td>每到一个新地点的<b>第一个镜头</b>。观众需要知道"这是哪"</td></tr>
+<tr><td class="nm">远景<br>LS</td><td>人全身 + 大量环境</td><td>交代人与环境的关系</td><td>走在街上、站在景点前</td></tr>
+<tr><td class="nm">全景<br>FS</td><td>人全身占满画面高度</td><td>看清动作</td><td>走路、跳跃、转圈</td></tr>
+<tr><td class="nm">中景<br>MS</td><td>腰部以上</td><td><b>口播主力景别</b>，自然、不压迫</td><td>说话、互动、点餐</td></tr>
+<tr><td class="nm">中近景<br>MCU</td><td>胸部以上</td><td>更专注，情绪开始出现</td><td>说重点内容时切进来</td></tr>
+<tr><td class="nm">特写<br>CU</td><td>头部占满画面</td><td><b>情绪</b>。观众看脸判断感受</td><td>反应镜头、感慨时</td></tr>
+<tr><td class="nm">大特写<br>ECU</td><td>眼睛、嘴、手指、食物纹理</td><td><b>质感和强调</b></td><td>食物特写、手的动作、票根文字</td></tr>
+<tr><td class="nm">细节<br>Insert</td><td>物件本身，不含人</td><td>补充信息、掩盖切点</td><td>菜单、门牌、地图、行李箱轮子</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">三镜头法则</span>
+<b>每到一个场景，机械地拍这三个：</b><br>
+① 大远景或远景（这是哪）→ ② 中景（在干嘛）→ ③ 特写或细节（质感）<br>
+不用思考，形成肌肉记忆。剪辑时你就永远有得切，而且<b>景别交替本身就会让片子显得专业</b>。
+</div>
+
+<h3>景别使用的两条硬规矩</h3>
+<ul>
+<li><b>不要连续两个相同景别硬切</b>——观众会感到"跳"。中间要么换景别，要么换角度（至少 30 度以上）</li>
+<li><b>景别跨度别太小</b>：中景切中近景会有"跳帧"的错觉。要切就跨大一点，中景 → 特写</li>
+</ul>
+
+<!-- ========== 3 ========== -->
+<h2 id="angle"><span class="num">3</span>机位与角度</h2>
+
+<p>同一个东西，换个高度和角度拍，就是一个全新的镜头。这是最廉价的"多拍几个"的方法。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>角度</th><th>怎么摆</th><th>效果 / 用途</th></tr></thead>
+<tbody>
+<tr><td class="nm">平视</td><td>镜头与被摄者眼睛同高</td><td>中性、平等。口播默认角度。<b>拍小孩和宠物要蹲下来</b>，别居高临下</td></tr>
+<tr><td class="nm">俯拍</td><td>高于视线往下</td><td>显得小、可爱、清楚交代空间布局</td></tr>
+<tr><td class="nm">顶拍</td><td>正上方垂直向下</td><td><b>食物必备</b>。也用于拍手部动作、地面、行李打包</td></tr>
+<tr><td class="nm">仰拍</td><td>低于视线往上</td><td>显高大、有气势。拍建筑、树、鸟居、招牌</td></tr>
+<tr><td class="nm">贴地机位</td><td>相机几乎放在地面</td><td>脚步、行李箱轮子、落叶、猫。<b>非常出效果且很少人拍</b></td></tr>
+<tr><td class="nm">过肩</td><td>从人物肩后拍他看到的东西</td><td>代入感强。"跟着他一起看"</td></tr>
+<tr><td class="nm">POV 主观</td><td>模拟眼睛所见，手持第一人称</td><td><b>vlog 的独门武器</b>。拿起杯子、推开门、翻菜单都可以用</td></tr>
+<tr><td class="nm">背身跟随</td><td>跟在人后面拍背影</td><td><b>vlog 最经典的镜头，没有之一</b>。走进小巷、上台阶、穿过人群</td></tr>
+<tr><td class="nm">前置倒走</td><td>你倒着走，拍对方正面走来</td><td>有互动感，适合边走边聊。<b>注意身后安全，让人牵着你</b></td></tr>
+<tr><td class="nm">高举过头</td><td>手臂伸直举高</td><td>越过人群拍市集、庆典、排队队伍</td></tr>
+<tr><td class="nm">侧跟</td><td>与人物并排同速移动</td><td>看得到侧脸和环境流动，比背身多一点信息</td></tr>
+</tbody></table></div>
+
+<!-- ========== 4 ========== -->
+<h2 id="compo"><span class="num">4</span>构图</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>构图法</th><th>怎么做</th><th>适合</th></tr></thead>
+<tbody>
+<tr><td class="nm">三分法</td><td>把主体放在九宫格交叉点上，不要正中</td><td>默认构图。相机里把网格线打开</td></tr>
+<tr><td class="nm">中心对称</td><td>主体正中，左右完全对称</td><td>走廊、鸟居、笔直的路、桥、对称建筑。<b>要么很准，要么别用</b></td></tr>
+<tr><td class="nm">前景遮挡</td><td>让树叶、栏杆、人群、栏杆挡住画面一部分</td><td><b>提升观感最快的一招。</b>凭空多出层次感，随手可做</td></tr>
+<tr><td class="nm">框架构图</td><td>透过门框、窗框、拱门、车窗拍</td><td>把注意力框进去，同时交代"你在哪往外看"</td></tr>
+<tr><td class="nm">引导线</td><td>用道路、铁轨、栏杆、屋檐把视线引向主体</td><td>街道、长廊、海岸线</td></tr>
+<tr><td class="nm">负空间</td><td>大面积留白，主体只占一小块</td><td>孤独感、辽阔感。海边、雪地、大片天空</td></tr>
+<tr><td class="nm">反射</td><td>水面、玻璃、后视镜、墨镜、雨后地面</td><td>雨天救场神器</td></tr>
+<tr><td class="nm">重复图案</td><td>排列的灯笼、窗户、座椅、台阶</td><td>规律本身就好看，找到一个就多拍几秒</td></tr>
+</tbody></table></div>
+
+<h3>三条容易忽略的规矩</h3>
+<ul>
+<li><b>留视线空间</b>：人朝哪边看，哪边就要留更多空间。人贴着画面边缘往外看，会很憋屈</li>
+<li><b>头顶空间别太多</b>：头顶留一大片空白是最常见的业余构图，把画面往下压一点</li>
+<li><b>地平线要水平</b>：歪了后期只能靠裁切救，等于损失分辨率。<b>相机里把水平仪打开</b></li>
+</ul>
+
+<!-- ========== 5 ========== -->
+<h2 id="move"><span class="num">5</span>运镜</h2>
+
+<div class="note warn">
+<span class="h">运镜的三条铁律</span>
+<b>① 一个镜头只用一种运镜。</b>边推边摇边转，等于什么都没拍到。<br>
+<b>② 必须有"起—行—止"。</b>静止 2 秒 → 运动 → 静止 2 秒。没有这两头，剪辑时没法接。<br>
+<b>③ 慢比快好。</b>你觉得慢的速度，剪进去往往刚好；你觉得刚好的速度，剪进去通常太快。
+</div>
+
+<div class="scroll"><table>
+<thead><tr><th>运镜</th><th>动作</th><th>作用</th><th>难度</th></tr></thead>
+<tbody>
+<tr><td class="nm">固定</td><td>完全不动</td><td><b>B-roll 主力，永远不出错。</b>不确定拍什么就先来个固定镜头</td><td class="star">★</td></tr>
+<tr><td class="nm">摇（Pan）</td><td>脚不动，腰左右转</td><td>展示宽阔场景、从 A 摇到 B 建立关系</td><td class="star">★★</td></tr>
+<tr><td class="nm">俯仰（Tilt）</td><td>上下转</td><td>拍高的东西（塔、树、瀑布），从脚摇到脸</td><td class="star">★★</td></tr>
+<tr><td class="nm">推（Push in）</td><td>整个人向前走近</td><td><b>增强情绪、强调</b>。慢慢推向食物、推向人脸</td><td class="star">★★</td></tr>
+<tr><td class="nm">拉（Pull out）</td><td>向后退</td><td><b>揭示环境</b>。从细节拉开露出全景，很适合做段落结尾</td><td class="star">★★</td></tr>
+<tr><td class="nm">横移（Slide）</td><td>侧向平移，像轨道车</td><td><b>最有电影感的一种</b>。贴着橱窗、货架、栏杆走</td><td class="star">★★★</td></tr>
+<tr><td class="nm">环绕（Orbit）</td><td>绕着主体走半圈</td><td>360° 展示物体，很适合拍摆盘、雕塑、同伴</td><td class="star">★★★</td></tr>
+<tr><td class="nm">跟随（Follow）</td><td>跟在人后走</td><td>代入感。<b>配合背身跟随机位就是 vlog 招牌镜头</b></td><td class="star">★★</td></tr>
+<tr><td class="nm">引领（Lead）</td><td>倒着走在人前面</td><td>拍正面走来，有对话感</td><td class="star">★★★</td></tr>
+<tr><td class="nm">升降</td><td>蹲下起身，或起身蹲下</td><td>从地面细节升到全景，转场好用</td><td class="star">★★</td></tr>
+<tr><td class="nm">手持晃动</td><td>故意保留轻微晃动</td><td>纪实感、临场感。<b>要"故意"，别当成拍不稳的借口</b></td><td class="star">★</td></tr>
+</tbody></table></div>
+
+<!-- ========== 6 ========== -->
+<hr>
+<p class="part">CORE SECTION</p>
+<h2 id="trans"><span class="num">6</span>转场镜头大全</h2>
+
+<p>转场镜头是<b>专门为了"接上下一个场景"而拍的镜头</b>。它不承担信息，只承担连接。绝大多数人从来不拍这类镜头，所以他们的片子只能靠"叠化"和"闪白"硬接——那正是廉价感的来源。</p>
+
+<div class="note key">
+<span class="h">所有转场的通用原则</span>
+<b>① 转场永远是一对：</b>一个「<b>出镜头</b>」（离开当前场景）+ 一个「<b>入镜头</b>」（进入下一场景）。<b>两个都要拍，而且要在两个不同的地点分别拍。</b><br>
+<b>② 方向和速度必须匹配。</b>出镜头向左甩，入镜头也要向左甩；出得快，入也得快。<br>
+<b>③ 遮挡类要真的挡死。</b>至少有 3–5 帧画面是完全被遮住的，否则剪的时候没有可用的切点。<br>
+<b>④ 每个都多拍 2–3 秒余量</b>，并且<b>拍两三条</b>。转场镜头失败率高，现场补拍成本远低于回来发现不能用。
+</div>
+
+<h3>A 类 · 遮挡转场（最实用、成功率最高，新手先练这一类）</h3>
+<div class="scroll"><table>
+<thead><tr><th></th><th>名称</th><th>出镜头怎么拍</th><th>入镜头怎么拍</th><th>要点</th></tr></thead>
+<tbody>
+<tr><td class="n">01</td><td class="nm">手掌遮挡</td><td>手从画面边缘快速扫过，完全盖住镜头</td><td>下一场景，手从镜头前快速移开</td><td>手要贴近镜头才能挡死；进出方向一致</td></tr>
+<tr><td class="n">02</td><td class="nm">人物经过</td><td>让同伴从镜头前近距离走过，短暂遮黑</td><td>下一场景同样有人从镜头前走过</td><td>人要走得够近；<b>不需要是同一个人</b></td></tr>
+<tr><td class="n">03</td><td class="nm">车辆经过</td><td>固定机位，等公交/电车/卡车从前景驶过</td><td>下一场景同样等一辆车驶过</td><td>路边和车站的免费转场，等就行</td></tr>
+<tr><td class="n">04</td><td class="nm">柱子/树干</td><td>横移镜头，让柱子从前景扫过盖住画面</td><td>下一场景从柱子后横移出来</td><td>柱廊、行道树、电线杆都行</td></tr>
+<tr><td class="n">05</td><td class="nm">衣物遮挡</td><td>把外套、围巾、背包抬起贴近镜头</td><td>下一场景把它拿开</td><td>颜色越深越好挡</td></tr>
+<tr><td class="n">06</td><td class="nm">门帘 / 暖帘</td><td>撩开门帘往里走，帘子扫过镜头</td><td>下一场景撩开另一处门帘</td><td><b>日本旅拍神器</b>，居酒屋、拉面店到处都是</td></tr>
+<tr><td class="n">07</td><td class="nm">手指开合</td><td>手掌贴镜头，手指慢慢张开露出画面</td><td>反过来，手指合拢盖住</td><td>适合做开场</td></tr>
+<tr><td class="n">08</td><td class="nm">书本 / 地图</td><td>把摊开的地图、菜单举到镜头前盖住</td><td>下一场景把它放下</td><td>顺便交代了"接下来去哪"</td></tr>
+<tr><td class="n">09</td><td class="nm">穿过人群</td><td>迎着人流走，让路人反复遮挡镜头</td><td>下一场景同样穿过人群</td><td>市集、车站、祭典最好用</td></tr>
+</tbody></table></div>
+
+<h3>B 类 · 甩镜与运动转场（动感强，适合段落之间）</h3>
+<div class="scroll"><table>
+<thead><tr><th></th><th>名称</th><th>出镜头怎么拍</th><th>入镜头怎么拍</th><th>要点</th></tr></thead>
+<tbody>
+<tr><td class="n">10</td><td class="nm">甩镜<br>Whip Pan</td><td>拍完后<b>快速向左（或右）甩</b>，甩到画面完全糊</td><td>下一场景<b>从糊开始，同方向甩停</b></td><td>最经典的转场。<b>方向必须一致</b>；甩要够快</td></tr>
+<tr><td class="n">11</td><td class="nm">上下甩</td><td>快速向下甩到地面</td><td>下一场景从地面快速上甩</td><td>走路时特别自然</td></tr>
+<tr><td class="n">12</td><td class="nm">摇到天空</td><td>慢慢上摇到只剩天空</td><td>下一场景从天空慢慢下摇</td><td>天空是万能的中间态，任何两个场景都能接</td></tr>
+<tr><td class="n">13</td><td class="nm">摇到地面</td><td>下摇到只剩地面 / 自己的鞋</td><td>下一场景从鞋子上摇起来</td><td>配合走路，天然顺</td></tr>
+<tr><td class="n">14</td><td class="nm">急推入</td><td>快速推向一个物体直到贴上、画面糊掉</td><td>下一场景从贴着某物快速拉开</td><td>推的目标选深色、无细节的物体</td></tr>
+<tr><td class="n">15</td><td class="nm">走出画面</td><td>人从画面一侧走出，留空镜 1 秒</td><td>下一场景人从<b>另一侧</b>走入画面</td><td>出左入右，方向要连贯</td></tr>
+<tr><td class="n">16</td><td class="nm">原地转身</td><td>人原地转一圈，转到背对镜头时</td><td>下一场景从背对转回正面</td><td>穿搭 vlog 常用</td></tr>
+<tr><td class="n">17</td><td class="nm">跳跃</td><td>起跳，在最高点</td><td>下一场景从最高点落地</td><td>两边高度、速度要接近</td></tr>
+<tr><td class="n">18</td><td class="nm">下蹲起身</td><td>从站姿快速蹲下，镜头随之下降</td><td>下一场景从低处升起</td><td>比甩镜稳，成功率高</td></tr>
+</tbody></table></div>
+
+<h3>C 类 · 匹配剪辑（最高级，做对了观众会"哇"）</h3>
+<div class="scroll"><table>
+<thead><tr><th></th><th>名称</th><th>怎么拍</th><th>例子</th></tr></thead>
+<tbody>
+<tr><td class="n">19</td><td class="nm">动作匹配</td><td><b>同一个动作，在两个不同地点各拍一次</b>，剪辑时在动作中途切开</td><td>在 A 地推门 → 切 → 在 B 地推开另一扇门；举杯、坐下、戴帽子、系鞋带、拉行李箱</td></tr>
+<tr><td class="n">20</td><td class="nm">形状匹配</td><td>找两个<b>形状相似</b>的东西，放在画面同一位置</td><td>井盖 → 太阳 → 拉面碗 → 车轮；窗户 → 画框 → 手机屏幕</td></tr>
+<tr><td class="n">21</td><td class="nm">颜色匹配</td><td>两个镜头主色调一致，切换时视觉连续</td><td>红色鸟居 → 红色灯笼 → 红色外套</td></tr>
+<tr><td class="n">22</td><td class="nm">位置匹配</td><td>主体在两个镜头中处于<b>画面同一位置、同样大小</b></td><td>人站在画面左三分之一 → 切到另一地点仍站在左三分之一</td></tr>
+<tr><td class="n">23</td><td class="nm">速度匹配</td><td>两个镜头的运动方向和速度一致</td><td>火车向右驶过 → 切 → 河水向右流动</td></tr>
+<tr><td class="n">24</td><td class="nm">声音匹配</td><td>拍摄时留意<b>可以对上的声音</b>，回来对齐</td><td>关门声 → 切 → 另一处关门声；脚步节奏对上音乐鼓点</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">匹配剪辑的拍摄要诀</span>
+<b>它必须在拍摄时就规划。</b>拍 A 地推门的时候，你就要记住"待会儿在 B 地也要拍一次推门，机位高度和景别尽量一致"。<br>
+实操办法：<b>手机里存一个"匹配镜头待办"备忘</b>，拍了出镜头就记一条，拍到入镜头就划掉。
+</div>
+
+<h3>D 类 · 道具与物体转场（旅途中信手拈来）</h3>
+<div class="scroll"><table>
+<thead><tr><th></th><th>名称</th><th>怎么拍</th><th>要点</th></tr></thead>
+<tbody>
+<tr><td class="n">25</td><td class="nm">开关门</td><td>推门进入 / 关门离开，门扇扫过镜头</td><td>关门到全黑是天然切点</td></tr>
+<tr><td class="n">26</td><td class="nm">上下车</td><td>关车门、车窗升起、拉上侧拉门</td><td>自驾旅行的段落分隔</td></tr>
+<tr><td class="n">27</td><td class="nm">电梯门</td><td>门缓缓合上 / 打开</td><td>合上到全黑，非常干净</td></tr>
+<tr><td class="n">28</td><td class="nm">地铁/电车门</td><td>站在门内拍门关上，或门开时人流涌出</td><td>通勤段落必拍</td></tr>
+<tr><td class="n">29</td><td class="nm">拉窗帘</td><td>早上拉开窗帘露出窗外风景</td><td><b>酒店早晨的开场镜头</b>，一个镜头交代天气和地点</td></tr>
+<tr><td class="n">30</td><td class="nm">掀被子</td><td>被子从镜头前掀开 / 盖上</td><td>"起床"和"睡觉"的段落标记</td></tr>
+<tr><td class="n">31</td><td class="nm">戴/摘墨镜</td><td>戴上的瞬间切；或透过镜片拍</td><td>出门、上路的标记</td></tr>
+<tr><td class="n">32</td><td class="nm">开收雨伞</td><td>伞面撑开盖住镜头 / 收起露出画面</td><td>雨天救场</td></tr>
+<tr><td class="n">33</td><td class="nm">相机快门</td><td>拍照的动作 + 取景器视角 + 快门声</td><td>配合黑帧，"咔嚓"一声切场景</td></tr>
+<tr><td class="n">34</td><td class="nm">看手机</td><td>拿起手机 → 切到屏幕内容（地图、照片）</td><td>顺便交代信息</td></tr>
+<tr><td class="n">35</td><td class="nm">喝水/举杯</td><td>杯子举到镜头前挡住画面</td><td>咖啡店、居酒屋随手可拍</td></tr>
+<tr><td class="n">36</td><td class="nm">翻页</td><td>翻护照、地图、菜单、笔记本</td><td>纸张扫过镜头做遮挡</td></tr>
+<tr><td class="n">37</td><td class="nm">行李箱</td><td>合上箱盖 / 拉链拉过镜头前</td><td>出发和返程的标记镜头</td></tr>
+</tbody></table></div>
+
+<h3>E 类 · 光影与环境转场</h3>
+<div class="scroll"><table>
+<thead><tr><th></th><th>名称</th><th>怎么拍</th><th>要点</th></tr></thead>
+<tbody>
+<tr><td class="n">38</td><td class="nm">进出隧道</td><td>车上或步行穿过隧道、地下道，画面被黑暗吞没</td><td><b>免费的黑场转场</b>，自驾必拍</td></tr>
+<tr><td class="n">39</td><td class="nm">进出建筑</td><td>从明亮室外走进昏暗室内（或反过来）</td><td>让相机<b>来不及自动调曝光</b>，那一瞬的过曝/欠曝正好当切点</td></tr>
+<tr><td class="n">40</td><td class="nm">灯光开关</td><td>关灯瞬间画面变黑 / 开灯瞬间亮起</td><td>房间段落的收尾</td></tr>
+<tr><td class="n">41</td><td class="nm">太阳耀斑</td><td>移动机位让阳光正对镜头，产生大面积炫光</td><td>逆光走位，慢慢让太阳露出来</td></tr>
+<tr><td class="n">42</td><td class="nm">车窗流景</td><td>车内拍窗外飞逝的景色</td><td>速度感 + 时间流逝，段落之间的呼吸</td></tr>
+<tr><td class="n">43</td><td class="nm">水面/倒影</td><td>先拍倒影，再上摇到实景</td><td>雨后地面、水洼、河面</td></tr>
+<tr><td class="n">44</td><td class="nm">蒸汽/热气</td><td>拉面、温泉、咖啡的热气飘过镜头</td><td>近距离拍，让热气糊住一部分画面</td></tr>
+</tbody></table></div>
+
+<h3>F 类 · 视线与焦点转场</h3>
+<div class="scroll"><table>
+<thead><tr><th></th><th>名称</th><th>怎么拍</th><th>要点</th></tr></thead>
+<tbody>
+<tr><td class="n">45</td><td class="nm">视线引导</td><td>拍人物看向画外 → 切到他看到的东西</td><td><b>最自然的转场逻辑</b>，观众完全无感。两个镜头都要拍</td></tr>
+<tr><td class="n">46</td><td class="nm">手指方向</td><td>人指向某处 → 切到那个东西</td><td>同上，且更明确</td></tr>
+<tr><td class="n">47</td><td class="nm">低头看手</td><td>低头看手里的东西 → 切到手中特写</td><td>买了什么、拿到什么的标准接法</td></tr>
+<tr><td class="n">48</td><td class="nm">失焦转场</td><td>手动把焦点拧到完全虚化</td><td>下一场景从全虚拧到清晰。<b>需要手动对焦</b></td></tr>
+<tr><td class="n">49</td><td class="nm">前景虚化滑过</td><td>让虚化的前景（花、栏杆、人）从镜头前滑过</td><td>比硬遮挡柔和，很有质感</td></tr>
+</tbody></table></div>
+
+<h3>出门前，挑 5 个练熟就够</h3>
+<p>不要想着一次全用上。<b>先把这五个练成肌肉记忆</b>，它们覆盖了 80% 的场景，而且失败率最低：</p>
+<ul class="chk" data-chk="trans5">
+<li><b>手掌遮挡</b>（01）—— 任何地方都能用</li>
+<li><b>甩镜</b>（10）—— 段落之间的万能接法</li>
+<li><b>走出画面 / 走入画面</b>（15）—— 最自然，观众无感</li>
+<li><b>动作匹配·推门</b>（19）—— 一学会就显得专业</li>
+<li><b>视线引导</b>（45）—— 拍人必备，而且顺带解决了"怎么介绍这个东西"</li>
+</ul>
+<button class="reset" data-reset="trans5">重置</button>
+
+<!-- ========== 7 ========== -->
+<h2 id="shotlist"><span class="num">7</span>场景拍摄清单</h2>
+
+<p>按旅程时间线组织。每到一个环节，照着拍就行，<b>不用现场想</b>。</p>
+
+<h3>出发 / 准备</h3>
+<ul class="chk" data-chk="sl-start">
+<li>行李打包（顶拍手部动作）、合上箱盖</li>
+<li>关门、锁门、钥匙特写</li>
+<li>行李箱轮子滚动（贴地机位）</li>
+<li>护照 / 车票特写</li>
+<li>出门那一刻的背影（背身跟随）</li>
+</ul>
+<button class="reset" data-reset="sl-start">重置</button>
+
+<h3>交通途中</h3>
+<ul class="chk" data-chk="sl-move">
+<li>车站大远景（交代这是哪）+ 站名牌特写</li>
+<li>检票口、闸机、扶梯</li>
+<li>列车进站（等它从画面里冲过来）</li>
+<li>车窗外流动的风景（转场素材 42）</li>
+<li>车内：座位、餐食、同伴睡着的样子</li>
+<li>自驾：仪表盘、后视镜、路牌、穿过隧道（转场 38）</li>
+</ul>
+<button class="reset" data-reset="sl-move">重置</button>
+
+<h3>到达新地点</h3>
+<ul class="chk" data-chk="sl-arrive">
+<li><b>大远景先来一个</b>——观众需要知道这是哪</li>
+<li>地名标识、门牌、招牌</li>
+<li>背身跟随走进去（vlog 招牌镜头）</li>
+<li>抬头看的仰拍（建筑、树、鸟居）</li>
+<li>一个前景遮挡构图的中景</li>
+<li>至少两个细节特写</li>
+</ul>
+<button class="reset" data-reset="sl-arrive">重置</button>
+
+<h3>住宿</h3>
+<ul class="chk" data-chk="sl-hotel">
+<li>开门进房间的第一视角（POV）</li>
+<li>房间全景（进门先拍，别等弄乱了）</li>
+<li><b>拉开窗帘露出窗外</b>（转场 29，一个镜头交代天气和地点）</li>
+<li>细节：房卡、拖鞋、浴衣、床头灯、洗手台</li>
+<li>瘫在床上的样子（情绪镜头）</li>
+<li>晚上关灯的瞬间（转场 40）</li>
+</ul>
+<button class="reset" data-reset="sl-hotel">重置</button>
+
+<h3>吃饭（vlog 里权重最高的场景之一）</h3>
+<ul class="chk" data-chk="sl-food">
+<li>店门口、暖帘（转场 06）、菜单</li>
+<li>上菜的瞬间（服务员把盘子放下）</li>
+<li><b>顶拍全景</b>——整桌菜</li>
+<li><b>大特写</b>——食物纹理、热气（转场 44）、酱汁流动</li>
+<li>夹起来 / 拉丝 / 掰开的动作</li>
+<li><b>吃第一口的反应镜头</b> ← 最重要，最常漏拍</li>
+<li>同伴吃东西的样子</li>
+<li>吃完的空盘</li>
+</ul>
+<button class="reset" data-reset="sl-food">重置</button>
+
+<h3>街头 / 景点</h3>
+<ul class="chk" data-chk="sl-street">
+<li>人流延时或固定长镜（等好画面自己发生）</li>
+<li>穿过人群（转场 09）</li>
+<li>橱窗横移（运镜 · 横移）</li>
+<li>局部细节：招牌、灯笼、涂鸦、自动贩卖机</li>
+<li>抬头拍天空与建筑的关系</li>
+<li>猫、狗、鸽子（永远有效）</li>
+<li>买东西的交易动作、收钱找零</li>
+</ul>
+<button class="reset" data-reset="sl-street">重置</button>
+
+<h3>结束 / 离开</h3>
+<ul class="chk" data-chk="sl-end">
+<li>日落 / 夜景</li>
+<li>走远的背影</li>
+<li>关灯、锁门、拉上行李箱</li>
+<li>车 / 列车驶离</li>
+<li><b>一段面对镜头的总结口播</b>——哪怕只有一句话</li>
+</ul>
+<button class="reset" data-reset="sl-end">重置</button>
+
+<!-- ========== 8 ========== -->
+<h2 id="setting"><span class="num">8</span>相机设置</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>项目</th><th>建议</th><th>为什么</th></tr></thead>
+<tbody>
+<tr><td class="nm">分辨率</td><td><b>4K 拍摄</b></td><td>缩到 1080p 输出有超采样降噪，画质优于直接拍 1080p；也留出后期裁切和稳定的余量</td></tr>
+<tr><td class="nm">帧率</td><td><b>常规 24 或 30fps</b><br>需要慢动作的镜头单独用 60/120fps</td><td>全程 60fps 只会让文件翻倍。<b>决定要慢放的镜头才开高帧率</b>（流水、落叶、人群、跳跃）</td></tr>
+<tr><td class="nm">快门速度</td><td><b>帧率的两倍</b>：24fps → 1/50，30fps → 1/60</td><td>「180 度快门法则」。快门太快画面会有频闪般的顿挫感，不像电影</td></tr>
+<tr><td class="nm">ND 滤镜</td><td>白天户外<b>基本必须</b></td><td>要维持 1/50 的慢快门，白天光太强会过曝。ND 就是给镜头戴墨镜。可变 ND 最方便</td></tr>
+<tr><td class="nm">光圈</td><td>拍人 f/1.8–2.8（虚化背景）<br>拍风景 f/5.6–8</td><td>虚化能让手机拍不出来的"高级感"出现，但太大光圈容易脱焦</td></tr>
+<tr><td class="nm">ISO</td><td>尽量用机身的原生 ISO，夜间宁可稍暗也别拉太高</td><td>噪点比欠曝更难救</td></tr>
+<tr><td class="nm">白平衡</td><td><b>手动固定</b>，别用自动</td><td>自动白平衡会在同一场景里飘，剪辑时同一顿饭的镜头颜色对不上，非常难调</td></tr>
+<tr><td class="nm">对焦</td><td>有眼部追焦就开；没有就用单点+半按锁定</td><td>连续自动对焦在杂乱场景会"拉风箱"，前后乱找</td></tr>
+<tr><td class="nm">色彩配置</td><td><b>新手直接用标准/自然，别碰 Log</b></td><td>Log 要会调色才有意义。不会调色的 Log 素材灰蒙蒙，还不如直出</td></tr>
+<tr><td class="nm">辅助显示</td><td>打开<b>网格线、水平仪、斑马纹/峰值对焦</b></td><td>构图不歪、不过曝、对焦准，三个最常见的废片原因一次解决</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">如果你用手机拍</span>
+上面大部分仍然适用。重点做三件事：<b>①锁定曝光和对焦</b>（长按屏幕）、<b>②关掉自动 HDR 的剧烈跳变</b>、<b>③用 0.5x 超广角拍走动镜头</b>——广角对手抖宽容得多，走路镜头会稳很多。
+</div>
+
+<!-- ========== 9 ========== -->
+<h2 id="audio"><span class="num">9</span>收音</h2>
+
+<div class="note warn">
+<span class="h">先记住这句</span>
+<b>观众能忍受画质一般，但忍受不了听不清。</b>声音是 vlog 体验的一半，而且是最便宜就能拉开差距的一半——几百块的麦克风带来的提升，远超同样价钱花在镜头上。
+</div>
+
+<ul>
+<li><b>机内麦在室外基本是废的</b>——风声、车声会盖掉一切。有风必须套防风毛套</li>
+<li><b>领夹麦</b>：口播和边走边说的最优解，无线的最方便</li>
+<li><b>指向麦（枪麦）</b>：装在机顶，对准哪收哪，适合固定机位</li>
+<li><b>每到一个地点，单独录 30 秒纯环境音</b>（不说话，就举着录）。后期铺在底下能救回大量"声音断层"——不同镜头底噪不同，硬切会很突兀</li>
+<li><b>口播前后各留 2 秒静默</b>，给剪辑留余地</li>
+<li><b>每天开拍前录 10 秒测试</b>，确认麦真的连上了。<b>整天录了个寂寞是 vlog 最惨的事故</b></li>
+</ul>
+
+<!-- ========== 10 ========== -->
+<h2 id="stable"><span class="num">10</span>稳定与手持</h2>
+
+<h3>不用稳定器也能稳的六个动作</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>两肘夹紧身体</div>
+<p>把手臂锁在肋骨上，<b>把自己变成三脚架</b>。手臂悬空是最不稳的姿势。</p></div>
+<div class="tip"><div class="t"><span class="b">02</span>脚跟不动，只转腰</div>
+<p>摇镜头时用腰带动上半身，<b>绝对不要用手臂扫</b>。手臂扫出来的摇镜一定会抖。</p></div>
+<div class="tip"><div class="t"><span class="b">03</span>忍者步</div>
+<p>走路时<b>膝盖始终微弯</b>，脚跟先着地再滚到脚尖，像螃蟹一样滑过去。膝盖是最好的减震器。</p></div>
+<div class="tip"><div class="t"><span class="b">04</span>用广角端</div>
+<p><b>手抖在长焦端会被放大数倍。</b>走动镜头一律用广角，需要特写就走近，不要变焦。</p></div>
+<div class="tip"><div class="t"><span class="b">05</span>找支撑物</div>
+<p>靠墙、把手肘撑在栏杆或桌面上、把相机压在柱子上。<b>只要能借力就借力</b>，这比任何技巧都有效。</p></div>
+<div class="tip"><div class="t"><span class="b">06</span>屏住呼吸</div>
+<p>短镜头（3–5 秒）拍摄时吸气、憋住、拍完再呼。呼吸起伏是低频抖动的主要来源。</p></div>
+</div>
+
+<h3>什么时候该用什么</h3>
+<div class="scroll"><table>
+<thead><tr><th>工具</th><th>适合</th><th>代价</th></tr></thead>
+<tbody>
+<tr><td class="nm">纯手持</td><td>大部分场合。轻、快、随时能拍</td><td>需要练姿势</td></tr>
+<tr><td class="nm">机身/镜头防抖</td><td>走动镜头，先把它打开</td><td>会轻微裁切画面；有时会有果冻效应</td></tr>
+<tr><td class="nm">稳定器</td><td>横移、环绕、长时间跟随这类<b>运镜镜头</b></td><td>要平衡、要充电、要背着。<b>旅行中经常懒得拿出来——这是它最大的问题</b></td></tr>
+<tr><td class="nm">三脚架</td><td>口播、延时、夜景长曝、合影</td><td>笨重。可以用小型桌面脚架代替</td></tr>
+<tr><td class="nm">后期防抖</td><td>补救轻微抖动</td><td><b>会裁切画面</b>，所以拍摄时要留构图余量</td></tr>
+</tbody></table></div>
+
+<!-- ========== 11 ========== -->
+<h2 id="people"><span class="num">11</span>拍人</h2>
+
+<h3>拍同伴：让他们自然</h3>
+<ul>
+<li><b>别喊"看镜头"。</b>不看镜头的画面永远比摆拍好用。让他们做自己的事，你只管拍</li>
+<li><b>先拍再说。</b>一说"我要拍你了"，人立刻僵住。<b>先偷偷拍几条自然的，再拍需要配合的</b></li>
+<li><b>拍动作，不拍站姿。</b>让他们走、吃、指、笑、拿东西——有动作就不尴尬</li>
+<li><b>多拍反应，少拍动作本身。</b>不要拍"他在看樱花"，拍"他看到樱花时的表情"</li>
+<li><b>拍背影。</b>背影不需要表情管理，永远好看，而且有故事感</li>
+<li>拍小孩和宠物时<b>蹲下来平视</b>，居高临下的角度会显得疏离</li>
+</ul>
+
+<h3>拍自己：口播</h3>
+<ul>
+<li><b>别背稿</b>，想清楚要说的一件事，然后说三遍取最好的一遍</li>
+<li><b>看镜头，不要看屏幕。</b>眼神飘会让人立刻出戏——这是最常见的破绽</li>
+<li><b>边走边说</b>比坐着说自然，也顺手解决了画面单调</li>
+<li>一段只讲一个意思，<b>讲完就停</b>。别一口气讲三件事，剪的时候没法拆</li>
+<li>不好意思在人多的地方说话？<b>那就不说</b>——用字幕卡或事后配音代替，很多好 vlog 全程没有现场口播</li>
+</ul>
+
+<h3>拍陌生人：分寸</h3>
+<ul>
+<li>拍到路人做背景没问题，但<b>不要把镜头怼着陌生人的脸</b></li>
+<li>要拍店员、摊主、表演者的正面特写，<b>先用眼神或手势示意一下</b>，点头了再拍</li>
+<li>寺庙、神社、美术馆、部分店铺<b>明确禁止摄影</b>，看清标识。日本很多商店内部禁拍</li>
+<li>拍小孩要格外谨慎，最好避开或只拍背影</li>
+</ul>
+
+<!-- ========== 12 ========== -->
+<h2 id="field"><span class="num">12</span>现场工作流</h2>
+
+<h3>每天出门前（2 分钟）</h3>
+<ul class="chk" data-chk="daily">
+<li>电池装满 + 备用电池（<b>冷天电量掉得快</b>）</li>
+<li>存储卡有空间，或带备用卡</li>
+<li><b>录 10 秒测试片，确认画面和声音都正常</b></li>
+<li>镜头擦干净（指纹和灰在逆光下毁一整天素材）</li>
+<li>确认设置没被昨天改乱：帧率、快门、白平衡</li>
+</ul>
+<button class="reset" data-reset="daily">重置</button>
+
+<h3>拍摄时的三个习惯</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>好镜头当场标记</div>
+<p>机内打星标，或者<b>拍完对着麦克风说一句「这条好，日落空镜」</b>。回来 Whisper 一转就是带时间码的镜头笔记——<b>这是所有提速手段里性价比最高的一个</b>。</p></div>
+<div class="tip"><div class="t"><span class="b">02</span>每个镜头 8–10 秒，别拍 40 秒</div>
+<p>成片只用 2–3 秒。拍太久唯一的后果是<b>回来粗筛多花两小时</b>。同一个画面也别拍三遍，拍一遍，拍好。</p></div>
+<div class="tip"><div class="t"><span class="b">03</span>离开一个场景前，问自己三个问题</div>
+<p><b>「远中近都有了吗？」「转场镜头拍了吗？」「反应镜头拍了吗？」</b><br>这三个问题养成习惯后，你的素材完整度会有质的变化。</p></div>
+</div>
+
+<h3>每天晚上（10 分钟）</h3>
+<ul class="chk" data-chk="nightly">
+<li>导卡备份（<b>至少两份，其中一份不在相机里</b>）</li>
+<li>电池全部充上</li>
+<li>快速翻一遍今天的素材，记下明天要补拍的</li>
+<li>清理存储卡</li>
+</ul>
+<button class="reset" data-reset="nightly">重置</button>
+
+<!-- ========== 13 ========== -->
+<h2 id="mistakes"><span class="num">13</span>常见错误</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>错误</th><th>后果</th><th>怎么改</th></tr></thead>
+<tbody>
+<tr><td class="nm">只拍风景，不拍人和反应</td><td class="ng">素材很美，剪出来是幻灯片</td><td>强制自己每个场景拍一个反应镜头</td></tr>
+<tr><td class="nm">从不拍转场镜头</td><td class="ng">只能靠花哨转场硬接，廉价感</td><td>练熟<a href="#trans">第 6 节</a>那 5 个</td></tr>
+<tr><td class="nm">每个镜头拍 40 秒</td><td class="ng">粗筛多花两小时</td><td>8–10 秒就停</td></tr>
+<tr><td class="nm">同一个景拍三遍</td><td class="ng">回来要多做两次比较</td><td>拍一遍，拍好</td></tr>
+<tr><td class="nm">全程一个景别、一个高度</td><td class="ng">剪辑时无处可切</td><td>三镜头法则：远 + 中 + 近</td></tr>
+<tr><td class="nm">运镜没有起止</td><td class="ng">镜头两头都在动，接不上</td><td>静止 2 秒 → 运动 → 静止 2 秒</td></tr>
+<tr><td class="nm">边推边摇边转</td><td class="ng">画面混乱，且无法剪短</td><td>一个镜头只用一种运镜</td></tr>
+<tr><td class="nm">自动白平衡</td><td class="ng">同一场景颜色飘，后期极难统一</td><td>手动固定</td></tr>
+<tr><td class="nm">用机内麦在室外录口播</td><td class="ng">整段声音报废，无法补救</td><td>领夹麦 + 防风毛套</td></tr>
+<tr><td class="nm">忘了开麦 / 没检查</td><td class="ng">整天素材没声音</td><td>每天开拍前录 10 秒测试</td></tr>
+<tr><td class="nm">地平线歪</td><td class="ng">只能靠裁切救，损失分辨率</td><td>打开水平仪</td></tr>
+<tr><td class="nm">拍完不备份</td><td class="ng">卡坏了一次就够记一辈子</td><td>当晚导出，至少两份</td></tr>
+</tbody></table></div>
+
+<!-- ========== 14 ========== -->
+<h2 id="gear"><span class="num">14</span>装备：按优先级花钱</h2>
+
+<p>如果预算有限，<b>按这个顺序买</b>。前面的每一项对成片的影响都大于后面的。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>优先级</th><th>东西</th><th>为什么排这</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td class="nm">麦克风</td><td><b>提升最明显、最便宜的一项。</b>领夹麦优先，加防风毛套</td></tr>
+<tr><td class="n">2</td><td class="nm">备用电池 + 存储卡</td><td>没电和没空间时，再好的器材都是砖头</td></tr>
+<tr><td class="n">3</td><td class="nm">ND 滤镜</td><td>白天户外维持正常快门速度的唯一办法。可变 ND 最省事</td></tr>
+<tr><td class="n">4</td><td class="nm">广角镜头</td><td>vlog 绝大多数镜头是广角。自拍、狭窄空间、走动镜头都靠它</td></tr>
+<tr><td class="n">5</td><td class="nm">小型桌面三脚架</td><td>口播、延时、合影。轻，能一直带着（能带着的器材才有用）</td></tr>
+<tr><td class="n">6</td><td class="nm">稳定器</td><td>排最后不是因为没用，而是<b>旅行中经常懒得拿出来</b>。先把手持练好</td></tr>
+</tbody></table></div>
+
+<div class="note key">
+<span class="h">最后</span>
+<b>器材决定下限，习惯决定上限。</b>一个养成了"三镜头法则 + 拍转场 + 拍反应"习惯的人，用手机拍出来的东西，会比没这些习惯的人用全画幅拍出来的好看得多。<br>
+这一页的内容不需要一次学完。<b>每次出门挑两三条来练</b>，练成肌肉记忆了再加新的。
+</div>
+
+<div class="links">
+<a href="../capcut-workflow/">剪辑流程：旅拍剪辑 60 分钟 →</a>
+<a href="../capcut-workflow/#vlog-cut">剪 Vlog 的方法 →</a>
+<a href="../">← share-pages</a>
+</div>
+
+<hr>
+<p class="fine">创建于 2026 年 8 月。这一页是<b>操作手册，不是理论资料</b>——练过之后觉得哪条不对、哪条更好用，直接改它（文件在 <code>share-pages/vlog-shooting/index.html</code>）。<br>
+勾选状态存在本机浏览器里，换设备不会同步。</p>
+
+</main>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.chk').forEach(function(list){
+    var key = 'vlog-shoot:' + list.dataset.chk, saved = [];
+    try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    var items = list.querySelectorAll('li');
+    items.forEach(function(li, i){
+      if (saved.indexOf(i) !== -1) li.classList.add('done');
+      li.addEventListener('click', function(e){
+        if (e.target.tagName === 'A') return;
+        li.classList.toggle('done');
+        var on = [];
+        items.forEach(function(x, j){ if (x.classList.contains('done')) on.push(j); });
+        try { localStorage.setItem(key, JSON.stringify(on)); } catch(e) {}
+      });
+    });
+  });
+  document.querySelectorAll('[data-reset]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var list = document.querySelector('.chk[data-chk="' + btn.dataset.reset + '"]');
+      if (!list) return;
+      list.querySelectorAll('li').forEach(function(li){ li.classList.remove('done'); });
+      try { localStorage.removeItem('vlog-shoot:' + btn.dataset.reset); } catch(e) {}
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); })
+                     .filter(Boolean);
+  if (targets.length && 'IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ seen[en.target.id] = en.isIntersecting; });
+      for (var i = 0; i < targets.length; i++) {
+        if (seen[targets[i].id]) {
+          var id = targets[i].id;
+          links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + id); });
+          break;
+        }
+      }
+    }, { rootMargin: '-70px 0px -70% 0px' });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+
+</body>
+</html>
