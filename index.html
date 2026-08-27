@@ -5,23 +5,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>share-pages</title>
 <style>
-  body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;
-    max-width:560px;margin:60px auto;padding:0 20px;line-height:1.8;color:#222}
-  ul{padding-left:1.2em}
-  a{color:#234e6b}
+:root{
+  color-scheme:light;
+  --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68;
+  --gothic:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",
+    "PingFang SC","Microsoft YaHei",sans-serif;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP",serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:3px}
+
+.masthead{background:var(--panel);border-bottom:1px solid var(--rule)}
+.masthead .inner{max-width:860px;margin:0 auto;padding:46px 22px 34px}
+.eyebrow{font-family:var(--mono);font-size:.63rem;letter-spacing:.22em;color:var(--volt);margin:0 0 9px}
+.masthead h1{font-family:var(--mincho);font-weight:600;font-size:2rem;line-height:1.25;
+  margin:0;letter-spacing:.01em}
+.masthead p{margin:11px 0 0;font-size:.86rem;color:var(--ink2);line-height:1.8;max-width:56ch}
+
+.wrap{max-width:860px;margin:0 auto;padding:0 22px 90px}
+
+h2{font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.2em;color:var(--ink3);
+  margin:46px 0 0;padding-bottom:10px;border-bottom:1px solid var(--rule);
+  display:flex;align-items:baseline;gap:10px}
+h2 .jp{font-family:var(--gothic);font-size:.95rem;font-weight:700;letter-spacing:0;color:var(--ink)}
+h2 .n{margin-left:auto;font-size:.63rem;color:var(--ink3)}
+
+.grid{display:grid;gap:12px;margin-top:16px}
+
+.card{display:block;position:relative;background:var(--panel);border:1px solid var(--rule);
+  border-radius:7px;padding:17px 19px 16px;text-decoration:none;color:inherit;
+  transition:border-color .16s, box-shadow .16s, transform .16s}
+.card:hover{border-color:var(--ai);box-shadow:0 3px 14px rgba(26,36,34,.07);transform:translateY(-1px)}
+.card .ttl{font-family:var(--mincho);font-size:1.13rem;font-weight:600;line-height:1.45;
+  color:var(--ink);letter-spacing:.01em;padding-right:22px}
+.card .desc{font-size:.83rem;color:var(--ink2);line-height:1.8;margin:7px 0 0}
+.card .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.card .arrow{position:absolute;top:17px;right:17px;font-family:var(--mono);font-size:.85rem;
+  color:var(--rule);transition:color .16s,transform .16s}
+.card:hover .arrow{color:var(--ai);transform:translateX(2px)}
+
+.chip{font-family:var(--mono);font-size:.6rem;letter-spacing:.07em;padding:3px 8px;
+  border:1px solid var(--rule);border-radius:99px;color:var(--ink3);background:var(--sunk);
+  white-space:nowrap}
+.chip.zh{color:var(--sun);border-color:var(--sun);background:transparent}
+.chip.hi{color:var(--volt);border-color:var(--volt);background:transparent}
+
+.note{font-size:.78rem;color:var(--ink3);line-height:1.8;margin:9px 0 0;padding-left:13px;
+  border-left:2px solid var(--rule)}
+
+footer{max-width:860px;margin:0 auto;padding:0 22px 60px}
+footer p{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:var(--ink3);
+  margin:0;padding-top:22px;border-top:1px solid var(--rule)}
+
+@media (min-width:660px){
+  .grid{grid-template-columns:1fr 1fr}
+  .grid .wide{grid-column:1 / -1}
+}
+@media (max-width:480px){
+  .masthead .inner{padding:34px 20px 26px}
+  .masthead h1{font-size:1.6rem}
+  .wrap,footer{padding-left:20px;padding-right:20px}
+}
 </style>
 </head>
 <body>
-<h1>share-pages</h1>
-<ul>
-<li><a href="./obon-drive-2026/">お盆の日帰りドライブ下見帳 2026</a></li>
-<li><a href="./autumn-drive-2026/">2泊3日ドライブ計画帳 2026年9月（片道3〜5時間・30案）</a></li>
-<li><a href="./tateshina-ev-2026/">EV版・ビーナスライン走破と美ヶ原 2泊3日 完全版</a><br>
-  <small>— 上の 25番を電気自動車向けに詳細化（充電計画・松本の宿・区間ごとの距離と時間）</small></li>
-<li><a href="./capcut-workflow/">旅拍剪辑 60分钟流程（剪映 / CapCut・Windows）</a><br>
-  <small>— 2〜3時間の素材から2〜3分の旅行動画を60分で仕上げる手順書。ショートカット・時短テク付き</small></li>
-<li><a href="./vlog-shooting/">Vlog 拍摄完全手册（镜头体系・转场大全・现场流程）</a><br>
-  <small>— 撮影side の教科書。ショットの4機能・画角・アングル・構図・カメラワーク・<b>トランジション用ショット49種</b>・シーン別撮影リスト・機材優先度</small></li>
-</ul>
+
+<header class="masthead"><div class="inner">
+  <p class="eyebrow">SHARE PAGES</p>
+  <h1>share-pages</h1>
+  <p>調べたこと・決めたことを 1 ページにまとめて置いておく場所。旅の計画帳と、動画づくりの手順書。</p>
+</div></header>
+
+<div class="wrap">
+
+<h2>TRAVEL<span class="jp">旅の計画</span><span class="n">3</span></h2>
+<div class="grid">
+
+  <a class="card wide" href="./tateshina-ev-2026/">
+    <span class="arrow">→</span>
+    <div class="ttl">EV版・ビーナスライン走破と美ヶ原<br>2泊3日 完全版</div>
+    <p class="desc">藤沢発・2026年9月、電気自動車前提。高速の充電器を使わない方針で充電計画を組んだ実行プラン。走行 約695km、区間ごとの距離と時間、松本の宿の比較つき。</p>
+    <p class="note">下の「30案」の <b>25番 蓼科・白樺湖</b> を EV 向けに詳細化したもの。</p>
+    <div class="meta">
+      <span class="chip hi">実行プラン</span>
+      <span class="chip">EV・充電計画</span>
+      <span class="chip">695km / 2泊3日</span>
+    </div>
+  </a>
+
+  <a class="card" href="./autumn-drive-2026/">
+    <span class="arrow">→</span>
+    <div class="ttl">2泊3日ドライブ計画帳<br>2026年9月</div>
+    <p class="desc">片道3〜5時間で行ける行き先を30案。宿のタイプで絞り込めるフィルタと、寄り道の提案・参考リンクつき。</p>
+    <div class="meta">
+      <span class="chip">下見帳</span>
+      <span class="chip">30案</span>
+    </div>
+  </a>
+
+  <a class="card" href="./obon-drive-2026/">
+    <span class="arrow">→</span>
+    <div class="ttl">お盆の日帰り<br>ドライブ下見帳 2026</div>
+    <p class="desc">お盆に日帰りで行ける範囲の下見。混雑を避ける前提で候補を並べたもの。</p>
+    <div class="meta">
+      <span class="chip">下見帳</span>
+      <span class="chip">日帰り</span>
+    </div>
+  </a>
+
+</div>
+
+<h2>VIDEO<span class="jp">動画をつくる</span><span class="n">2</span></h2>
+<div class="grid">
+
+  <a class="card" href="./vlog-shooting/">
+    <span class="arrow">→</span>
+    <div class="ttl">Vlog 拍摄完全手册<br>撮影の教科書</div>
+    <p class="desc">ショットの4機能・画角・アングル・構図・カメラワーク・<b>トランジション用ショット49種</b>（出入り両方の撮り方つき）・シーン別の撮影リスト・カメラ設定・録音・手持ち安定・機材の優先順位。</p>
+    <p class="note">編集では取り返せない部分だけを扱う。撮る前に読むページ。</p>
+    <div class="meta">
+      <span class="chip zh">中文</span>
+      <span class="chip hi">教科書</span>
+      <span class="chip">全14章</span>
+    </div>
+  </a>
+
+  <a class="card" href="./capcut-workflow/">
+    <span class="arrow">→</span>
+    <div class="ttl">旅拍剪辑 60分钟流程<br>剪映 / CapCut・Windows</div>
+    <p class="desc">2〜3時間の素材を2〜3分に落とすまでの手順書。0〜5のステップ、ショートカット表、時短テク22条、4K→1080pの扱いと書き出し設定、Vlogの編集。</p>
+    <p class="note">チェックボックスと自分用ショートカット表は、その端末のブラウザに保存される。</p>
+    <div class="meta">
+      <span class="chip zh">中文</span>
+      <span class="chip hi">手順書</span>
+      <span class="chip">60分 / 1本</span>
+    </div>
+  </a>
+
+</div>
+
+</div>
+
+<footer>
+  <p>github.com/kakigakki/share-pages</p>
+</footer>
+
 </body>
 </html>
