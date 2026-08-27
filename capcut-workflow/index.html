@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>旅拍剪辑 60分钟流程 — 剪映 / CapCut（Windows）</title>
+<style>
+:root{
+  --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9; --code:#f0f3ef;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68;
+  --gothic:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans","Microsoft YaHei","Noto Sans SC","Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --paper:#0e1316; --panel:#171d21; --sunk:#131a1e; --code:#111719;
+    --ink:#e8ebe8; --ink2:#9aa5a1; --ink3:#6d7a77; --rule:#283036;
+    --ai:#7fb8d4; --sun:#e59468; --moss:#98b872; --volt:#63bfa6; }
+}
+:root[data-theme="dark"]{ --paper:#0e1316; --panel:#171d21; --sunk:#131a1e; --code:#111719;
+  --ink:#e8ebe8; --ink2:#9aa5a1; --ink3:#6d7a77; --rule:#283036;
+  --ai:#7fb8d4; --sun:#e59468; --moss:#98b872; --volt:#63bfa6; }
+:root[data-theme="light"]{ --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9; --code:#f0f3ef;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68; }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+
+/* ---------- header ---------- */
+.masthead{border-bottom:1px solid var(--rule);background:var(--panel)}
+.masthead .inner{max-width:1060px;margin:0 auto;padding:22px 20px 20px}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-decoration:none;display:inline-block;margin-bottom:10px;color:var(--ink3)}
+.eyebrow{font-family:var(--mono);font-size:.63rem;letter-spacing:.2em;color:var(--volt);margin:0 0 7px}
+.masthead h1{font-weight:700;font-size:1.75rem;line-height:1.3;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.masthead h1 small{display:block;font-size:.55em;font-weight:600;color:var(--ink2);margin-top:6px;letter-spacing:0}
+.masthead .sub{margin:12px 0 0;font-size:.85rem;color:var(--ink2);line-height:1.8;max-width:70ch}
+
+/* ---------- layout ---------- */
+.layout{display:grid;grid-template-columns:194px minmax(0,1fr);gap:44px;
+  max-width:1060px;margin:0 auto;padding:0 20px 90px}
+.toc{position:sticky;top:24px;align-self:start;padding-top:30px;max-height:calc(100vh - 48px);overflow-y:auto}
+.toc .lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--ink3);margin:0 0 10px;
+  padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{margin:0}
+.toc a{display:block;padding:5px 0 5px 11px;font-size:.79rem;text-decoration:none;color:var(--ink2);
+  border-left:2px solid var(--rule);line-height:1.5}
+.toc a:hover{color:var(--ink);border-left-color:var(--ink3)}
+.toc a.on{color:var(--ai);border-left-color:var(--ai);font-weight:600}
+.toc li.gap{height:9px}
+
+nav.mobile{display:none}
+@media (max-width:880px){
+  .layout{grid-template-columns:1fr;gap:0;padding-bottom:70px}
+  .toc{display:none}
+  nav.mobile{display:block;position:sticky;top:0;z-index:30;background:var(--panel);
+    border-bottom:1px solid var(--rule);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  nav.mobile ul{display:flex;list-style:none;margin:0;padding:0 8px}
+  nav.mobile a{display:block;padding:11px 10px;font-size:.75rem;white-space:nowrap;
+    text-decoration:none;color:var(--ink2)}
+}
+
+/* ---------- headings ---------- */
+main{padding-top:30px;min-width:0}
+h2{font-size:1.32rem;font-weight:700;line-height:1.35;margin:46px 0 14px;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:11px}
+h2:first-child{margin-top:0}
+h2 .num{flex:none;width:29px;height:29px;border-radius:50%;background:var(--ai);color:var(--panel);
+  font-family:var(--mono);font-size:.82rem;font-weight:700;display:grid;place-items:center;letter-spacing:-.03em}
+h2 .tag{flex:none;font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.1em;
+  color:var(--sun);border:1px solid var(--sun);padding:2px 7px;border-radius:2px}
+h3{font-size:1.02rem;font-weight:700;margin:30px 0 9px;padding-bottom:0}
+h4{font-size:.9rem;font-weight:700;margin:20px 0 7px;color:var(--ink)}
+p{margin:0 0 13px}
+ul,ol{padding-left:1.3em;margin:0 0 13px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--rule);margin:34px 0}
+
+code{font-family:var(--mono);font-size:.84em;background:var(--code);padding:1px 5px;
+  border:1px solid var(--rule);border-radius:3px}
+pre{font-family:var(--mono);font-size:.73rem;line-height:1.75;background:var(--code);
+  border:1px solid var(--rule);border-radius:5px;padding:12px 14px;overflow-x:auto;margin:11px 0}
+pre code{background:none;border:0;padding:0;font-size:inherit}
+kbd{font-family:var(--mono);font-size:.73rem;background:var(--panel);color:var(--ink);
+  border:1px solid var(--rule);border-bottom-width:2px;border-radius:4px;
+  padding:2px 6px;white-space:nowrap;display:inline-block;line-height:1.5}
+
+/* ---------- callouts ---------- */
+.note{border-left:3px solid var(--ai);background:var(--panel);border:1px solid var(--rule);
+  border-left-width:3px;border-radius:0 5px 5px 0;padding:12px 15px;margin:16px 0;font-size:.87rem;line-height:1.8}
+.note .h{font-family:var(--mono);font-size:.61rem;letter-spacing:.14em;display:block;margin-bottom:6px;color:var(--ai)}
+.note.warn{border-left-color:var(--sun)} .note.warn .h{color:var(--sun)} .note.warn b{color:var(--sun)}
+.note.tip{border-left-color:var(--moss)} .note.tip .h{color:var(--moss)}
+.note.key{border-left-color:var(--volt)} .note.key .h{color:var(--volt)} .note.key b{color:var(--volt)}
+.note p:last-child{margin-bottom:0}
+
+/* ---------- kpi ---------- */
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:20px 0}
+.kpi div{border:1px solid var(--rule);background:var(--panel);border-radius:5px;padding:11px 12px}
+.kpi b{display:block;font-family:var(--mono);font-size:1.2rem;font-weight:700;letter-spacing:-.03em}
+.kpi span{display:block;font-size:.64rem;color:var(--ink2);letter-spacing:.05em;margin-top:3px}
+
+/* ---------- tables ---------- */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);
+  border-radius:5px;margin:14px 0;background:var(--panel)}
+table{border-collapse:collapse;font-size:.8rem;min-width:520px;width:100%}
+th,td{padding:9px 11px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top;line-height:1.65}
+th{font-family:var(--mono);font-size:.61rem;letter-spacing:.05em;color:var(--ink2);
+  white-space:nowrap;background:var(--sunk)}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+td.k{white-space:nowrap;width:1%}
+.ok{color:var(--moss);font-weight:700}
+.ng{color:var(--sun);font-weight:700}
+.vt{color:var(--volt);font-weight:700}
+.editable{font-family:var(--mono);font-size:.75rem;min-width:5em;display:inline-block;
+  border-bottom:1px dashed var(--ink3);padding:0 4px;color:var(--ai)}
+.editable:empty::before{content:"待填";color:var(--ink3)}
+.editable:focus{outline:none;background:var(--sunk);border-bottom-color:var(--ai)}
+
+/* ---------- steps ---------- */
+.act{border:1px solid var(--rule);background:var(--panel);border-radius:5px;padding:0;margin:14px 0;overflow:hidden}
+.act .row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:14px;padding:13px 15px;
+  border-bottom:1px solid var(--rule)}
+.act .row:last-child{border-bottom:0}
+.act .lab{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;color:var(--ink3);padding-top:4px}
+.act .ttl{font-weight:700;font-size:.97rem;line-height:1.5}
+.act .d{font-size:.86rem;margin-top:4px;line-height:1.8}
+.act .no{font-size:.79rem;color:var(--sun);margin-top:6px}
+.act .m{font-family:var(--mono);font-size:.68rem;color:var(--ink2);margin-top:6px;line-height:1.65}
+
+/* ---------- checklist ---------- */
+.chk{list-style:none;padding:0;margin:13px 0}
+.chk li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:.88rem;margin-bottom:9px;
+  align-items:start;cursor:pointer;user-select:none}
+.chk li::before{content:"☐";font-family:var(--mono);color:var(--sun);font-size:1.05rem;line-height:1.55}
+.chk li.done::before{content:"☑";color:var(--moss)}
+.chk li.done{color:var(--ink3);text-decoration:line-through;text-decoration-color:var(--rule)}
+.reset{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;background:var(--panel);color:var(--ink3);
+  border:1px solid var(--rule);border-radius:4px;padding:5px 11px;cursor:pointer;margin-top:2px}
+.reset:hover{color:var(--ink);border-color:var(--ink2)}
+
+/* ---------- rules ---------- */
+.rules{list-style:none;padding:0;counter-reset:r;margin:14px 0}
+.rules li{counter-increment:r;display:grid;grid-template-columns:25px 1fr;gap:11px;font-size:.89rem;
+  margin-bottom:11px;align-items:start}
+.rules li::before{content:counter(r);font-family:var(--mono);font-size:.7rem;font-weight:700;color:var(--sun);
+  border:1px solid var(--sun);border-radius:3px;text-align:center;line-height:1.65;padding-top:1px}
+
+/* ---------- tips ---------- */
+.tips{display:grid;gap:9px;margin:14px 0}
+.tip{border:1px solid var(--rule);background:var(--panel);border-radius:5px;padding:11px 14px}
+.tip .t{font-weight:700;font-size:.9rem;line-height:1.5;margin-bottom:3px}
+.tip .t .b{font-family:var(--mono);font-size:.63rem;color:var(--volt);border:1px solid var(--volt);
+  border-radius:2px;padding:1px 5px;margin-right:7px;vertical-align:2px;font-weight:500}
+.tip p{font-size:.85rem;margin:0;color:var(--ink2);line-height:1.75}
+.tip p b{color:var(--ink)}
+
+.fine{font-size:.73rem;color:var(--ink3);line-height:1.75;margin:15px 0 0}
+</style>
+</head>
+<body>
+
+<header class="masthead"><div class="inner">
+  <a class="back" href="../">← share-pages</a>
+  <p class="eyebrow">TRAVEL FOOTAGE · CAPCUT · WINDOWS · 60 MIN</p>
+  <h1>旅拍剪辑 60 分钟流程<small>剪映专业版 / CapCut · Windows</small></h1>
+  <p class="sub">把 2〜3 小时素材做成 2〜3 分钟成片。适用于<b>以画面为主、几乎没有对白</b>的旅行记录片。<br>
+  核心不是「手速更快」，而是<b>把「评估素材」和「操作时间线」彻底分开，并把每一次微小决策提前定死</b>。每次开剪前打开这一页，从第 0 步开始。</p>
+</div></header>
+
+<nav class="mobile"><ul>
+  <li><a href="#s0">0 开剪前</a></li>
+  <li><a href="#flow">流程总表</a></li>
+  <li><a href="#s1">1 粗筛</a></li>
+  <li><a href="#s2">2 音乐</a></li>
+  <li><a href="#s3">3 填镜头</a></li>
+  <li><a href="#s4">4 包装</a></li>
+  <li><a href="#s5">5 首尾</a></li>
+  <li><a href="#rules">铁律</a></li>
+  <li><a href="#keys">快捷键</a></li>
+  <li><a href="#tips">实用技巧</a></li>
+  <li><a href="#tools">工具</a></li>
+  <li><a href="#shoot">拍摄备忘</a></li>
+</ul></nav>
+
+<div class="layout">
+
+<aside class="toc">
+  <p class="lbl">目录</p>
+  <ol>
+    <li><a href="#s0">0 · 开剪前 30 秒</a></li>
+    <li><a href="#flow">流程总表</a></li>
+    <li class="gap"></li>
+    <li><a href="#s1">1 · 粗筛（20min）</a></li>
+    <li><a href="#s2">2 · 铺音乐（5min）</a></li>
+    <li><a href="#s3">3 · 填镜头（15min）</a></li>
+    <li><a href="#s4">4 · 统一包装（10min）</a></li>
+    <li><a href="#s5">5 · 精修首尾（10min）</a></li>
+    <li class="gap"></li>
+    <li><a href="#rules">铁律 8 条</a></li>
+    <li><a href="#keys">快捷键</a></li>
+    <li><a href="#tips">实用技巧 22 条</a></li>
+    <li><a href="#tools">工具与代理</a></li>
+    <li><a href="#shoot">拍摄备忘</a></li>
+    <li><a href="#more">还想更快</a></li>
+  </ol>
+</aside>
+
+<main>
+
+<!-- ============ 0 ============ -->
+<h2 id="s0"><span class="num">0</span>开剪前 30 秒</h2>
+
+<div class="note warn">
+<span class="h">别跳过这三件事</span>
+<ul class="chk" data-chk="start">
+<li><b>定 45 分钟闹钟。</b>响了就进入第 5 步，60 分钟必须导出。旅行记录片不存在「剪完」，只存在「停手」。</li>
+<li><b>确认在用 1080p 代理素材。</b>4K 原片在时间线上每拖一下卡半秒，乘以几百次操作就是几十分钟。见<a href="#tools">工具与代理</a>。</li>
+<li><b>先把音乐选好放在手边。</b>音乐时长 = 成片时长。没选好曲子就别开始，否则后面全部返工。</li>
+</ul>
+<button class="reset" data-reset="start">重置</button>
+</div>
+
+<div class="kpi">
+  <div><b>2–3<span style="font-size:.68rem">h</span></b><span>素材长度</span></div>
+  <div><b>50–60<span style="font-size:.68rem">个</span></b><span>最终用到的镜头</span></div>
+  <div><b>60<span style="font-size:.68rem">min</span></b><span>目标工期</span></div>
+</div>
+
+<p><b>为什么这套流程能快。</b>你现在的时间大概率不是花在「剪」上，而是花在<b>看素材、来回预览、和反复做同一类小决策</b>上。人在「评估画面好不好」和「操作时间线」这两种脑力模式之间反复切换，损耗极大。下面每一步都<b>只做一种事</b>，并且<b>不许回头</b>。</p>
+
+<!-- ============ FLOW ============ -->
+<h2 id="flow">流程总表</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>步骤</th><th>时长</th><th>在哪做</th><th>做什么</th><th>绝对不做</th></tr></thead>
+<tbody>
+<tr><td class="num">1 粗筛</td><td class="num">20 min</td><td>播放器<br><span style="color:var(--sun)">不开剪映</span></td><td>2 倍速过素材，记下能用的时间码</td><td class="ng">不剪、不导入</td></tr>
+<tr><td class="num">2 音乐</td><td class="num">5 min</td><td>剪映</td><td>铺音乐、自动踩点、划分段落</td><td class="ng">不放画面</td></tr>
+<tr><td class="num">3 填镜头</td><td class="num">15 min</td><td>剪映</td><td>按踩点往里填，掐头去尾</td><td class="ng">不调色、不加转场</td></tr>
+<tr><td class="num">4 包装</td><td class="num">10 min</td><td>剪映</td><td>统一套滤镜 / 转场 / 音效</td><td class="ng">不改镜头顺序</td></tr>
+<tr><td class="num">5 首尾</td><td class="num">10 min</td><td>剪映</td><td>只精修开头 5 秒和结尾 5 秒</td><td class="ng">不碰中间</td></tr>
+</tbody></table></div>
+
+<div class="note key">
+<span class="h">整套流程最关键的一条</span>
+<b>第 1 步不要打开剪映。</b>剪映的素材管理很弱，在里面翻素材、拖时间线预览，是最慢的看片方式。用播放器 2 倍速过一遍、只记时间码，速度是前者的三四倍。<b>把「选」和「剪」拆成两个独立动作，单这一条通常就能省掉四成时间。</b>
+</div>
+
+<!-- ============ 1 ============ -->
+<h2 id="s1"><span class="num">1</span>粗筛：只看，不剪 <span class="tag">20 MIN</span></h2>
+
+<div class="act">
+  <div class="row"><div class="lab">怎么看</div><div>
+    <div class="ttl">播放器 2 倍速过素材</div>
+    <div class="d">无对白素材完全可以 <b>2〜3 倍速</b>看——你要判断的只是「画面稳不稳、主体清不清楚」，这在 2 倍速下完全看得出来。看到能用的镜头就<b>记一个时间码</b>：PotPlayer 里按 <kbd>P</kbd> 打书签，或者旁边开个记事本手记。</div>
+    <div class="m">目标：选出 60–80 个候选。3 分钟成片按平均 2.5 秒一个镜头算，最终会用掉 50–60 个。</div>
+  </div></div>
+  <div class="row"><div class="lab">怎么判断</div><div>
+    <div class="ttl">每个镜头 2 秒内决定，只问三个问题</div>
+    <div class="d">
+      <b>① 稳不稳？</b>明显抖、明显虚焦 → 跳过。<br>
+      <b>② 主体清楚吗？</b>说不出这个镜头「在拍什么」→ 跳过。<br>
+      <b>③ 有没有更好的同款？</b>同一个景拍了三遍，只留最好的那一遍。</div>
+    <div class="no">拿不准 = 跳过。犹豫超过 2 秒，本身就说明它不够好。</div>
+  </div></div>
+  <div class="row"><div class="lab">产出</div><div>
+    <div class="ttl">一张时间码清单</div>
+    <div class="d">形如 <code>DSC_0412 / 03:20 / 走路背影</code>。<b>带一句三五个字的描述</b>——第 3 步排顺序时看的是这张文字清单，不用再回想画面，这是它真正的价值。</div>
+    <div class="m">素材文件多的话，也可以用 LosslessCut 无损切出候选片段，导出到一个文件夹再整体导入。</div>
+  </div></div>
+</div>
+
+<div class="note tip">
+<span class="h">提速技巧</span>
+在资源管理器里先<b>按文件大小或时长排序</b>，把明显过短（误触）和过长（忘记停）的片子先挑出来单独处理。另外，装了 <b>QuickLook</b> 或 PowerToys 的 <b>Peek</b> 之后，选中文件按 <kbd>空格</kbd> 就能直接预览，翻素材比双击打开快得多。
+</div>
+
+<!-- ============ 2 ============ -->
+<h2 id="s2"><span class="num">2</span>铺音乐，先搭骨架 <span class="tag">5 MIN</span></h2>
+
+<p><b>顺序是反过来的：先音乐，后画面。</b>没有对白的片子，音乐就是它的剧本。先把音乐放上时间线，再往里填画面，切点会天然对齐节奏——而<b>手工微调切点是整个剪辑里第二耗时的环节</b>，这一步等于直接把它消掉。</p>
+
+<ul class="chk" data-chk="s2">
+<li>导入音乐，<b>按目标时长裁到 2〜3 分钟</b>（音乐多长，片子就多长，不要反过来）</li>
+<li>选中音频 → <b>「踩点」→「自动踩点」</b>，生成节拍标记点</li>
+<li>手动补 <b>3–4 个段落分界</b>：前奏 / 主歌 / 副歌 / 尾奏</li>
+<li>给每段想好放什么，写在草稿名或便签上：<br>
+  <span style="font-size:.82rem;color:var(--ink2)">前奏＝出发·空镜　主歌＝路上·街景　副歌＝人物·高光　尾奏＝日落·收尾</span></li>
+</ul>
+<button class="reset" data-reset="s2">重置</button>
+
+<div class="note tip">
+<span class="h">被低估的功能</span>
+<b>自动踩点是剪映里最省时间的功能，没有之一。</b>它按音乐节拍生成标记点，你把镜头端点吸附上去就行。段落分界不用精确到帧，落在节拍上即可。<br>
+选曲提示：<b>节拍清晰、有明显段落变化</b>的曲子最好剪；纯氛围音乐（没有鼓点）会让自动踩点失效，也让你失去骨架。
+</div>
+
+<!-- ============ 3 ============ -->
+<h2 id="s3"><span class="num">3</span>填镜头：快，且不回头 <span class="tag">15 MIN</span></h2>
+
+<div class="act">
+  <div class="row"><div class="lab">做法</div><div>
+    <div class="ttl">按段落顺着填</div>
+    <div class="d">对着第 1 步的时间码清单，一段一段往里填。每个镜头拖进去后<b>只做一个动作：掐头去尾，留最好的 2–3 秒</b>。填完一个立刻填下一个。</div>
+    <div class="m">掐头去尾用 <kbd>Ctrl</kbd>+<kbd>B</kbd> 分割再 <kbd>Delete</kbd>，比用鼠标拖片段边框快——拖边框要瞄准，分割是一键。</div>
+  </div></div>
+  <div class="row"><div class="lab">时长</div><div>
+    <div class="ttl">只有两档：2 秒 / 3 秒</div>
+    <div class="d">固定机位 <b>2 秒</b>，有运镜或有人物动作的 <b>3 秒</b>。别为每个镜头单独纠结长度——<b>减少决策次数，比提高单次决策质量更省时间</b>。没人看得出某个镜头该 2.4 还是 2.7 秒。</div>
+  </div></div>
+  <div class="row"><div class="lab">排序</div><div>
+    <div class="ttl">避免连续两个同景别</div>
+    <div class="d">远景（交代这是哪）→ 中景（在发生什么）→ 近景（人和细节）交替着来，观感立刻不一样。这是「好看」里成本最低的一条规则，<b>纯机械执行，不需要审美</b>。</div>
+    <div class="no">同一个地点最多留 3 个镜头。第 4 个开始观众就腻了。</div>
+  </div></div>
+</div>
+
+<div class="note warn">
+<span class="h">这一步的禁令</span>
+<b>不调色、不加转场、不加字幕、不从头预览。</b>全部留到第 4 步统一做。剪一个镜头就切去调一次色，工具面板来回切换的成本比你想的高得多。
+</div>
+
+<!-- ============ 4 ============ -->
+<h2 id="s4"><span class="num">4</span>统一包装：批处理 <span class="tag">10 MIN</span></h2>
+
+<ul class="chk" data-chk="s4">
+<li><kbd>Ctrl</kbd>+<kbd>A</kbd> <b>全选片段，套同一个滤镜 / 调色。</b>全片统一色调对「好看」的贡献极大，边际成本为零</li>
+<li><b>转场只用两种：</b>段落内部一律硬切，段落交界用叠化。时长统一 <b>0.3–0.5 秒</b></li>
+<li><b>统一音量。</b>全选音频一次性调，别一条条调</li>
+<li>加环境音或音效（可选，<b>1–2 处足够</b>）</li>
+<li>字幕：只在开头放地点和日期，中间不加</li>
+</ul>
+<button class="reset" data-reset="s4">重置</button>
+
+<div class="note key">
+<span class="h">模板草稿：把这 10 分钟压到 3 分钟</span>
+<b>包装做好后，存成一个空的模板草稿。</b>下次在草稿箱里右键复制，只换画面——旅拍片子之间的差异只有画面，包装完全可以复用。<br>
+存 <b>3–4 套轮着用</b>，就不会出现「每条都长一样」的问题。
+</div>
+
+<!-- ============ 5 ============ -->
+<h2 id="s5"><span class="num">5</span>只精修首尾 <span class="tag">10 MIN</span></h2>
+
+<p><b>观众对前 5 秒和后 5 秒最敏感，对中间最宽容。</b>所以中间交给流程和规则，把仅有的精修预算全押在这 10 秒上。这是整套流程里唯一允许你慢下来的地方。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>位置</th><th>放什么</th><th>要点</th></tr></thead>
+<tbody>
+<tr><td class="num">开头 5 秒</td><td>你手上<b>最好</b>的那一个镜头</td><td>别用「出发」这种交代性画面开场。把最好的放最前面，字幕压地点和日期</td></tr>
+<tr><td class="num">结尾 5 秒</td><td>走远的背影 / 日落 / 车开走</td><td>要有「离开」的动作感。画面淡出 + 音乐淡出 1–2 秒，别硬切黑</td></tr>
+</tbody></table></div>
+
+<ul class="chk" data-chk="s5">
+<li>开头换成候选里最好的那个镜头</li>
+<li>加地点 + 日期字幕</li>
+<li>结尾接一个「离开」类镜头，画面和音乐都淡出</li>
+<li>检查开头有没有黑帧、结尾音乐有没有突然断</li>
+<li><b>完整看一遍，只准看一遍</b>，然后直接导出</li>
+</ul>
+<button class="reset" data-reset="s5">重置</button>
+
+<!-- ============ RULES ============ -->
+<h2 id="rules">铁律 8 条</h2>
+
+<p>下面这些在开剪时<b>不许重新讨论</b>。它们不是为了让片子更好，是为了让你不用每次重新想——<b>决策疲劳才是耗时的真正原因</b>。</p>
+
+<ol class="rules">
+<li>镜头长度只有两档：<b>2 秒 / 3 秒</b></li>
+<li>转场只有两种：<b>硬切 / 叠化</b>，时长统一</li>
+<li>同一个地点<b>最多 3 个镜头</b></li>
+<li><b>拿不准就删。</b>犹豫本身就是答案</li>
+<li>整片<b>从头预览不超过 2 次</b>，中途只循环播放当前选区</li>
+<li>第 1 步不打开剪映，第 3 步不打开调色面板</li>
+<li><b>45 分钟闹钟响 = 进入第 5 步，60 分钟必须导出</b></li>
+<li>导出后<b>不许再打开这个草稿</b></li>
+</ol>
+
+<!-- ============ KEYS ============ -->
+<h2 id="keys">快捷键</h2>
+
+<h3>核心操作</h3>
+<div class="scroll"><table>
+<thead><tr><th>按键</th><th>动作</th><th>用在哪 / 说明</th></tr></thead>
+<tbody>
+<tr><td class="k"><kbd>空格</kbd></td><td>播放 / 暂停</td><td>全程</td></tr>
+<tr><td class="k"><kbd>Ctrl</kbd>+<kbd>B</kbd></td><td>分割片段</td><td><b>第 3 步的主力键。</b>掐头去尾用它，别用鼠标拖边框</td></tr>
+<tr><td class="k"><kbd>Delete</kbd></td><td>删除选中片段</td><td>配合分割使用</td></tr>
+<tr><td class="k"><kbd>←</kbd> <kbd>→</kbd></td><td>逐帧移动</td><td>第 5 步精修首尾时用</td></tr>
+<tr><td class="k"><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>全选片段</td><td><b>第 4 步的主力键。</b>统一套滤镜、统一调音量</td></tr>
+<tr><td class="k"><kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td>撤销</td><td>全程。剪错了别手动改回去，直接撤销更快</td></tr>
+<tr><td class="k"><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>V</kbd></td><td>复制 / 粘贴片段</td><td>复用已经调好的片段属性</td></tr>
+<tr><td class="k"><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>保存草稿</td><td>换段落时顺手按一下</td></tr>
+<tr><td class="k"><kbd>Ctrl</kbd>+<kbd>滚轮</kbd></td><td>缩放时间线</td><td>粗排时缩小到看得见全片，精修时放大</td></tr>
+</tbody></table></div>
+
+<h3>Windows 系统层</h3>
+<div class="scroll"><table>
+<thead><tr><th>按键</th><th>动作</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td class="k"><kbd>空格</kbd></td><td>预览选中的视频</td><td>需装 <b>QuickLook</b>（Microsoft Store，免费）。第 1 步翻素材神器</td></tr>
+<tr><td class="k"><kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>空格</kbd></td><td>Peek 预览</td><td>已装 PowerToys 的话用这个，不用再装 QuickLook</td></tr>
+<tr><td class="k"><kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>截图</td><td>做封面、记参考构图</td></tr>
+<tr><td class="k"><kbd>F2</kbd></td><td>重命名文件</td><td>整理素材时批量改名</td></tr>
+</tbody></table></div>
+
+<h3>播放器（PotPlayer，第 1 步用）</h3>
+<div class="scroll"><table>
+<thead><tr><th>按键</th><th>动作</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td class="k"><kbd>C</kbd> / <kbd>X</kbd></td><td>加速 / 减速播放</td><td>粗筛全程挂 2 倍速</td></tr>
+<tr><td class="k"><kbd>Z</kbd></td><td>恢复正常速度</td><td>看到疑似好镜头时按一下</td></tr>
+<tr><td class="k"><kbd>D</kbd> / <kbd>F</kbd></td><td>逐帧后退 / 前进</td><td>确认虚焦、抖动</td></tr>
+<tr><td class="k"><kbd>P</kbd></td><td>添加书签</td><td><b>记时间码的最快方式</b></td></tr>
+<tr><td class="k"><kbd>←</kbd> <kbd>→</kbd></td><td>快退 / 快进 5 秒</td><td>跳过明显没用的段落</td></tr>
+</tbody></table></div>
+
+<div class="note warn">
+<span class="h">第一次用时，花 3 分钟校对</span>
+<b>剪映各版本的快捷键有差异</b>，尤其是「踩点」「分离音频」这类功能键。打开剪映的<b>快捷键设置</b>对一遍，把你这个版本的实际按键<b>直接填进下面这张表</b>（点一下就能编辑，会自动保存在浏览器里）。<br>
+顺手把最常用的两三个操作也绑上快捷键——如果你现在主要靠鼠标点按钮，这一条的收益比想象中大。
+</div>
+
+<div class="scroll"><table>
+<thead><tr><th>功能</th><th>我这个版本的按键</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td>手动踩点</td><td class="k"><span class="editable" contenteditable="true" data-edit="k1"></span></td><td>第 2 步用</td></tr>
+<tr><td>分离音频</td><td class="k"><span class="editable" contenteditable="true" data-edit="k2"></span></td><td>要单独处理原声时</td></tr>
+<tr><td>定格</td><td class="k"><span class="editable" contenteditable="true" data-edit="k3"></span></td><td>结尾强调用</td></tr>
+<tr><td>导出</td><td class="k"><span class="editable" contenteditable="true" data-edit="k4"></span></td><td></td></tr>
+<tr><td>循环播放选区</td><td class="k"><span class="editable" contenteditable="true" data-edit="k5"></span></td><td><b>最该绑的一个</b>，见技巧 07</td></tr>
+<tr><td class="k"><span class="editable" contenteditable="true" data-edit="k6"></span></td><td class="k"><span class="editable" contenteditable="true" data-edit="k7"></span></td><td>自己补</td></tr>
+</tbody></table></div>
+
+<!-- ============ TIPS ============ -->
+<h2 id="tips">实用技巧 22 条</h2>
+
+<h3>A · 让软件不卡（卡顿是最大的隐形时间杀手）</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>素材必须拷到本地 SSD 再剪</div>
+<p>直接读<b>外接机械硬盘、U 盘、相机 SD 卡</b>剪辑，会卡到几乎没法工作。这是最常见也最容易忽略的卡顿原因。剪之前先整个文件夹拷到本地固态盘。</p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>用 1080p 代理素材</div>
+<p>4K 原片拖一下卡半秒 × 几百次操作 = 几十分钟。转一份 1080p 代理来剪，导出时再换回原片。<a href="#tools">命令见下方</a>。</p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>预览画质调到「性能优先」</div>
+<p>剪映播放器窗口有画质 / 性能选项，<b>调低只影响预览，不影响导出画质</b>。第 3 步填镜头时完全够用。</p></div>
+
+<div class="tip"><div class="t"><span class="b">04</span>剪之前关掉浏览器</div>
+<p>几十个标签页吃掉的内存，正是时间线卡顿的来源。<b>剪辑时只开剪映和播放器。</b></p></div>
+
+<div class="tip"><div class="t"><span class="b">05</span>草稿和缓存目录设到 SSD</div>
+<p>剪映全局设置里可以改草稿位置。如果默认落在机械盘上，改掉之后打开草稿的速度会有明显区别。</p></div>
+</div>
+
+<h3>B · 剪得更快</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">06</span>导入前先删废片</div>
+<p>在资源管理器里就把明显没用的删掉（误触的 1 秒片段、纯黑的、忘记关机拍到地面的）。<b>素材少一半，后面每一步都快一半。</b></p></div>
+
+<div class="tip"><div class="t"><span class="b">07</span>循环播放选区，绝不从头播</div>
+<p>「改一下 → 从头看一遍」是最大的隐形浪费。<b>只循环播放正在改的那 5 秒。</b>整片从头看，全程不超过 2 次。</p></div>
+
+<div class="tip"><div class="t"><span class="b">08</span>分割 + 删除，别拖边框</div>
+<p><kbd>Ctrl</kbd>+<kbd>B</kbd> 再 <kbd>Delete</kbd> 是两次键盘动作；拖边框要用鼠标瞄准边缘。几百次下来差距很大。</p></div>
+
+<div class="tip"><div class="t"><span class="b">09</span>时间线缩放跟着任务走</div>
+<p><kbd>Ctrl</kbd>+<kbd>滚轮</kbd>。<b>粗排时缩到能看见整条片子</b>（才知道进度和比例），<b>精修时放大到能看清帧</b>。一直用同一个缩放级别是在跟自己较劲。</p></div>
+
+<div class="tip"><div class="t"><span class="b">10</span>批量操作代替逐个操作</div>
+<p>音量、滤镜、转场、片段时长，全都可以 <kbd>Ctrl</kbd>+<kbd>A</kbd> 全选后一次性改。<b>凡是要做超过 3 次的操作，先想想能不能批量。</b></p></div>
+
+<div class="tip"><div class="t"><span class="b">11</span>双击片段直接进属性面板</div>
+<p>比在右侧面板里找标签页快。改好一个片段后用 <kbd>Ctrl</kbd>+<kbd>C</kbd> 复制属性，粘到同类片段上。</p></div>
+
+<div class="tip"><div class="t"><span class="b">12</span>模板草稿复用</div>
+<p>调色、字幕样式、片头片尾、转场做好存成空草稿，右键复制来用。<b>能把第 4 步从 10 分钟压到 3 分钟。</b></p></div>
+</div>
+
+<h3>C · 让画面更好看（低成本、可机械执行）</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">13</span>景别交替，别连着两个同景别</div>
+<p>远景 → 中景 → 近景轮着来。<b>这是「好看」里投入产出比最高的一条</b>，而且是纯规则，不需要审美判断。</p></div>
+
+<div class="tip"><div class="t"><span class="b">14</span>运动方向要匹配</div>
+<p>人从左往右走的镜头，接下一个也让主体<b>往同一方向</b>运动。方向对撞会让观众明显觉得「跳了一下」，但多数人说不出为什么。</p></div>
+
+<div class="tip"><div class="t"><span class="b">15</span>变速救镜头</div>
+<p>觉得某个镜头「有内容但太闷」，<b>调到 1.5–2 倍速</b>再切成 2 秒，往往一下就活了。走路、坐车、云、人流特别适合。</p></div>
+
+<div class="tip"><div class="t"><span class="b">16</span>跳切处理过长的动作</div>
+<p>同一个动作拍太久（比如慢慢走过一条街），<b>从中间切掉一段直接接上</b>。观众完全能接受，还显得有节奏。</p></div>
+
+<div class="tip"><div class="t"><span class="b">17</span>声音先入画面半秒（L-cut）</div>
+<p>下一段的环境音或音乐<b>提前 0.5 秒进来</b>，画面再切。衔接会明显变顺。只在几个段落交界处做就够，别全片做。</p></div>
+
+<div class="tip"><div class="t"><span class="b">18</span>统一色调 + 轻微暗角</div>
+<p>全片一个滤镜、一点点暗角，廉价感立刻下降。<b>宁可轻，不要重</b>——调色过头比不调色更显业余。</p></div>
+
+<div class="tip"><div class="t"><span class="b">19</span>别用花哨转场</div>
+<p>旋转、翻页、故障风这类是廉价感的第一来源。<b>硬切为主，段落交界用叠化</b>，这两种走天下。</p></div>
+</div>
+
+<h3>D · 避免返工</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">20</span>每条片子建一个文件夹</div>
+<p><code>2026-08-京都/</code> 下面放 <code>素材/ 代理/ 音乐/ 导出/</code>。半年后想改一版时，你会感谢自己。</p></div>
+
+<div class="tip"><div class="t"><span class="b">21</span>横屏竖屏分开做，别在同一草稿里改比例</div>
+<p>先做完横屏版，<b>复制草稿</b>再改成竖屏。在一个草稿里来回切比例，前面的构图调整全部作废。</p></div>
+
+<div class="tip"><div class="t"><span class="b">22</span>原始素材永远不要删</div>
+<p>硬盘比你的时间便宜得多。<b>代理文件也留着</b>，下次想重剪时省掉一次转码。</p></div>
+</div>
+
+<!-- ============ TOOLS ============ -->
+<h2 id="tools">工具与代理</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>工具</th><th>用途</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><b>QuickLook</b><br><span style="font-family:var(--mono);font-size:.62rem;color:var(--ink3)">Microsoft Store · 免费开源</span></td><td>空格键预览视频</td><td>把 macOS 的空格预览搬到 Windows。资源管理器里选中按 <kbd>空格</kbd> 直接播，翻素材极快</td></tr>
+<tr><td><b>PowerToys</b><br><span style="font-family:var(--mono);font-size:.62rem;color:var(--ink3)">微软官方 · 免费</span></td><td>同上（Peek）</td><td>已装 PowerToys 就用内置 Peek（<kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>空格</kbd>），不必再装 QuickLook</td></tr>
+<tr><td><b>PotPlayer</b><br>或 MPC-HC</td><td>第 1 步倍速审片</td><td>支持倍速、逐帧、<b>书签</b>。粗筛主力</td></tr>
+<tr><td><b>LosslessCut</b></td><td>无损切候选片段</td><td>不重新编码，秒切。适合先切出候选再整体导入</td></tr>
+<tr><td><b>ffmpeg</b></td><td>批量转 1080p 代理</td><td>命令见下</td></tr>
+<tr><td><b>剪映专业版</b></td><td>主力剪辑</td><td>第 2–5 步</td></tr>
+</tbody></table></div>
+
+<h3>生成 1080p 代理素材</h3>
+<p>单个文件：</p>
+<pre><code>ffmpeg -i input.mp4 -vf scale=-2:1080 -c:v libx264 -preset veryfast -crf 23 -c:a aac proxy_input.mp4</code></pre>
+<p>整个文件夹批量（Windows PowerShell，在素材目录下执行）：</p>
+<pre><code>New-Item -ItemType Directory -Force proxy
+Get-ChildItem *.mp4 | ForEach-Object {
+  ffmpeg -i $_.FullName -vf scale=-2:1080 -c:v libx264 -preset veryfast -crf 23 -c:a aac "proxy\$($_.Name)"
+}</code></pre>
+<p class="fine">剪映专业版的全局设置里通常也有代理相关选项（各版本菜单位置和叫法不太一样，找一次记住即可）。软件自带的够用就不必自己转；自己转的好处是<b>代理文件可以留着，下次重剪不用再等一遍</b>。</p>
+
+<!-- ============ SHOOT ============ -->
+<h2 id="shoot">拍摄备忘：出门前看</h2>
+
+<p>所有提速手段里，<b>投入产出比最高的在拍摄端</b>，只是它只对以后的素材有效。粗筛之所以要 20 分钟，根本原因就是拍的时候没做标记、而且拍太多。</p>
+
+<ul class="chk" data-chk="shoot">
+<li><b>每个镜头 8–10 秒就够，别拍 40 秒。</b>你最后只会用 2–3 秒。这一条直接决定粗筛要花多久</li>
+<li><b>同一个画面别拍 3 遍。</b>拍一遍，拍好。三遍意味着回来要多做两次比较</li>
+<li><b>拍到好镜头当场标记。</b>机内打星标，或对着麦克风说一句「这条好，XX」——回来一听就知道，等于免费的镜头笔记</li>
+<li><b>有意识地拍三种景别：</b>远景（这是哪）／中景（在发生什么）／近景（人和细节）。缺哪一种，剪的时候就会卡住</li>
+<li><b>每个地点至少拍一个空镜</b>（没有人的纯风景），用来做段落开头</li>
+<li><b>多拍「有起止动作」的镜头：</b>走进画面、坐下、回头、推门。这类天然有开始和结束，切点好找，比一动不动的画面好剪得多</li>
+<li><b>横平竖直。</b>地平线歪了后期只能裁画面救，等于损失分辨率</li>
+</ul>
+<button class="reset" data-reset="shoot">重置</button>
+
+<!-- ============ MORE ============ -->
+<h2 id="more">还想更快的话</h2>
+
+<p>这套流程是<b>纯手动</b>的极限，稳定做到 1 小时一条。再往下要么改变产出形态，要么上工具：</p>
+
+<div class="scroll"><table>
+<thead><tr><th>方向</th><th>做法</th><th>省多少</th></tr></thead>
+<tbody>
+<tr><td><b>改做短片</b></td><td>不做 1 条 3 分钟，做 6 条 30 秒。30 秒只要 8–10 个镜头，手工剪 10 分钟就能剪得相当好看</td><td class="ok">很多</td></tr>
+<tr><td><b>套现成模板</b></td><td>直接用剪映的旅拍模板，把选好的镜头往里填。<b>这是最快达到「好看」的路径</b>，没什么丢人的</td><td class="ok">很多</td></tr>
+<tr><td><b>自动粗筛</b></td><td>写脚本做场景切分（PySceneDetect）＋ 虚焦/抖动过滤 ＋ 关键帧打标，把第 1 步压到 5 分钟</td><td class="vt">15 min</td></tr>
+</tbody></table></div>
+
+<p class="fine">3 分钟这个长度其实是「记录 + 好看」里最难的区间——长到需要叙事结构，又短到装不下故事。如果每次都卡在这里，<b>先试试改做 30–60 秒的短片</b>，比换任何工具都管用。</p>
+
+<hr>
+<p class="fine">创建于 2026 年 8 月。软件菜单名和快捷键会随版本变化，第一次用时校对一遍并直接改到本页上（文件在 <code>share-pages/capcut-workflow/index.html</code>）。<br>
+这一页是<b>操作手册，不是参考资料</b>——用得不顺就改它。勾选状态和你填的快捷键都存在本机浏览器里，换设备不会同步。</p>
+
+</main>
+</div>
+
+<script>
+(function(){
+  /* checklists */
+  document.querySelectorAll('.chk').forEach(function(list){
+    var key = 'capcut-wf:' + list.dataset.chk, saved = [];
+    try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    var items = list.querySelectorAll('li');
+    items.forEach(function(li, i){
+      if (saved.indexOf(i) !== -1) li.classList.add('done');
+      li.addEventListener('click', function(e){
+        if (e.target.tagName === 'A') return;
+        li.classList.toggle('done');
+        var on = [];
+        items.forEach(function(x, j){ if (x.classList.contains('done')) on.push(j); });
+        try { localStorage.setItem(key, JSON.stringify(on)); } catch(e) {}
+      });
+    });
+  });
+  document.querySelectorAll('[data-reset]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var name = btn.dataset.reset;
+      var list = document.querySelector('.chk[data-chk="' + name + '"]');
+      if (!list) return;
+      list.querySelectorAll('li').forEach(function(li){ li.classList.remove('done'); });
+      try { localStorage.removeItem('capcut-wf:' + name); } catch(e) {}
+    });
+  });
+
+  /* editable shortcut cells */
+  document.querySelectorAll('.editable').forEach(function(el){
+    var key = 'capcut-wf:edit:' + el.dataset.edit, v = null;
+    try { v = localStorage.getItem(key); } catch(e) {}
+    if (v) el.textContent = v;
+    el.addEventListener('blur', function(){
+      try { localStorage.setItem(key, el.textContent.trim()); } catch(e) {}
+    });
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+    });
+  });
+
+  /* scroll spy */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); })
+                     .filter(Boolean);
+  if (targets.length && 'IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ seen[en.target.id] = en.isIntersecting; });
+      for (var i = 0; i < targets.length; i++) {
+        var id = targets[i].id;
+        if (seen[id]) {
+          links.forEach(function(a){
+            a.classList.toggle('on', a.getAttribute('href') === '#' + id);
+          });
+          break;
+        }
+      }
+    }, { rootMargin: '-70px 0px -70% 0px' });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+
+</body>
+</html>
