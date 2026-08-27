@@ -117,6 +117,16 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
   border:1px solid var(--rule);border-radius:4px;padding:5px 11px;cursor:pointer;margin-top:2px}
 .reset:hover{color:var(--ink);border-color:var(--ink2)}
 
+/* step rows */
+.act{border:1px solid var(--rule);background:var(--panel);border-radius:5px;margin:14px 0;overflow:hidden}
+.act .row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:14px;padding:13px 15px;
+  border-bottom:1px solid var(--rule)}
+.act .row:last-child{border-bottom:0}
+.act .lab{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;color:var(--ink3);padding-top:4px}
+.act .ttl{font-weight:700;font-size:.97rem;line-height:1.5}
+.act .d{font-size:.86rem;margin-top:4px;line-height:1.8}
+.act .no{font-size:.79rem;color:var(--sun);margin-top:6px}
+
 /* cards */
 .tips{display:grid;gap:9px;margin:14px 0}
 .tip{border:1px solid var(--rule);background:var(--panel);border-radius:5px;padding:11px 14px}
@@ -138,23 +148,28 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
   <a class="back" href="../">← share-pages</a>
   <p class="eyebrow">HOW TO SHOOT · SHOT SYSTEM · TRANSITIONS · FIELD WORKFLOW</p>
   <h1>Vlog 拍摄完全手册<small>镜头体系 · 转场大全 · 现场流程</small></h1>
-  <p class="sub">这一页只讲<b>怎么拍</b>，不讲剪辑。<br>
+  <p class="sub">这一页只讲<b>怎么拍</b>，不讲剪辑。全 21 节，从定主题到收工备份。<br>
   素材决定上限，剪辑只能决定你离上限有多近——<b>剪辑救不了没拍到的东西</b>。所以拍摄阶段每多做一件对的事，后期就少受一次挫折。<br>
   剪辑流程在另一页：<a href="../capcut-workflow/">旅拍剪辑 60 分钟流程 →</a></p>
 </div></header>
 
 <nav class="mobile"><ul>
-  <li><a href="#mindset">三个认知</a></li>
+  <li><a href="#theme">主题</a></li>
   <li><a href="#role">镜头职能</a></li>
   <li><a href="#size">景别</a></li>
-  <li><a href="#angle">机位角度</a></li>
+  <li><a href="#angle">机位</a></li>
   <li><a href="#compo">构图</a></li>
+  <li><a href="#light">光线</a></li>
   <li><a href="#move">运镜</a></li>
+  <li><a href="#sequence">序列</a></li>
   <li><a href="#trans">转场大全</a></li>
+  <li><a href="#aroll">A-roll 口播</a></li>
   <li><a href="#shotlist">场景清单</a></li>
+  <li><a href="#special">特殊镜头</a></li>
   <li><a href="#setting">相机设置</a></li>
   <li><a href="#audio">收音</a></li>
   <li><a href="#stable">稳定</a></li>
+  <li><a href="#weather">天气</a></li>
   <li><a href="#people">拍人</a></li>
   <li><a href="#field">现场流程</a></li>
   <li><a href="#mistakes">常见错误</a></li>
@@ -165,32 +180,38 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <aside class="toc">
   <p class="lbl">目录</p>
   <ol>
-    <li class="sec">基础</li>
+    <li class="sec">出发前</li>
     <li><a href="#mindset">0 · 三个认知</a></li>
-    <li><a href="#role">1 · 镜头的四种职能</a></li>
+    <li><a href="#theme">1 · 先定主题</a></li>
     <li class="sec">镜头语言</li>
-    <li><a href="#size">2 · 景别体系</a></li>
-    <li><a href="#angle">3 · 机位与角度</a></li>
-    <li><a href="#compo">4 · 构图</a></li>
-    <li><a href="#move">5 · 运镜</a></li>
+    <li><a href="#role">2 · 镜头的四种职能</a></li>
+    <li><a href="#size">3 · 景别体系</a></li>
+    <li><a href="#angle">4 · 机位与角度</a></li>
+    <li><a href="#compo">5 · 构图</a></li>
+    <li><a href="#light">6 · 光线</a></li>
+    <li><a href="#move">7 · 运镜</a></li>
+    <li><a href="#sequence">8 · 把镜头组成序列</a></li>
     <li class="sec">重点</li>
-    <li><a href="#trans">6 · 转场镜头大全</a></li>
-    <li><a href="#shotlist">7 · 场景拍摄清单</a></li>
+    <li><a href="#trans">9 · 转场镜头大全</a></li>
+    <li><a href="#aroll">10 · A-roll 说话怎么说</a></li>
+    <li><a href="#shotlist">11 · 场景拍摄清单</a></li>
     <li class="sec">技术</li>
-    <li><a href="#setting">8 · 相机设置</a></li>
-    <li><a href="#audio">9 · 收音</a></li>
-    <li><a href="#stable">10 · 稳定与手持</a></li>
+    <li><a href="#special">12 · 特殊镜头</a></li>
+    <li><a href="#setting">13 · 相机设置</a></li>
+    <li><a href="#audio">14 · 收音</a></li>
+    <li><a href="#stable">15 · 稳定与手持</a></li>
     <li class="sec">现场</li>
-    <li><a href="#people">11 · 拍人</a></li>
-    <li><a href="#field">12 · 现场工作流</a></li>
-    <li><a href="#mistakes">13 · 常见错误</a></li>
-    <li><a href="#gear">14 · 装备</a></li>
+    <li><a href="#weather">16 · 天气与突发</a></li>
+    <li><a href="#people">17 · 拍人</a></li>
+    <li><a href="#field">18 · 现场工作流</a></li>
+    <li><a href="#mistakes">19 · 常见错误</a></li>
+    <li><a href="#gear">20 · 装备</a></li>
   </ol>
 </aside>
 
 <main>
 
-<!-- ========== 0 ========== -->
+<!-- ===== mindset ===== -->
 <h2 id="mindset"><span class="num">0</span>先建立三个认知</h2>
 
 <div class="tips">
@@ -209,8 +230,51 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <b>剪辑救不了没拍到的东西。</b>调色能救曝光，防抖能救轻微抖动，但没拍的转场镜头、没拍的反应、没拍的特写，后期一秒都变不出来。
 </div>
 
-<!-- ========== 1 ========== -->
-<h2 id="role"><span class="num">1</span>镜头的四种职能</h2>
+<!-- ===== theme ===== -->
+<h2 id="theme"><span class="num">1</span>先定主题：拍什么，比怎么拍更重要</h2>
+
+<p>这一节放在所有技术之前，因为它决定的东西比后面全部加起来还多。<b>业余 vlog 九成失败在没有主题，不在技术。</b></p>
+
+<h3>一句话主题</h3>
+<p>不是「我们去了京都」，而是「<b>第一次一个人出国，语言不通差点上错车</b>」。</p>
+<p>检验标准：<b>能用一句话说清，且这句话里有冲突或变化。</b></p>
+
+<div class="note key">
+<span class="h">主题不是限制，是过滤器</span>
+有了主题，你在现场就知道<b>该拍什么、不该拍什么</b>——这正是"素材两三个小时、能用的没几个"的解药。<br>
+没有主题也能拍，但回来一定卡住。而那时候<b>已经补救不了了</b>，因为问题发生在拍摄阶段。
+</div>
+
+<h3>三幕结构</h3>
+<div class="act">
+  <div class="row"><div class="lab">第一幕</div><div>
+    <div class="ttl">钩子</div>
+    <div class="d">一句话或一个画面，告诉观众「这条片子值得看下去」。<b>可以是旅途中任何时刻的素材</b>，剪辑时提到最前面——所以拍的时候留意"这个够不够劲"。</div>
+  </div></div>
+  <div class="row"><div class="lab">第二幕</div><div>
+    <div class="ttl">过程 —— 必须有阻力</div>
+    <div class="d"><b>顺利的旅程不好看，出岔子才好看。</b>迷路、下雨、排队两小时、点错菜、赶不上车——这些当时让你烦躁的事，是片子里最好看的部分。<b>当场把它拍下来</b>，别等心情平复了才想起来。</div>
+    <div class="no">这是最反直觉、也最容易漏拍的一类素材。人在不顺的时候本能是收起相机。</div>
+  </div></div>
+  <div class="row"><div class="lab">第三幕</div><div>
+    <div class="ttl">收尾</div>
+    <div class="d">一句感受，或者一个变化。不需要升华，说人话就行。</div>
+  </div></div>
+</div>
+
+<h3>出发前先想好开场和结尾</h3>
+<p>哪怕只是模糊的想法。<b>因为知道要什么，你在现场才抓得住。</b>开场和结尾各占 5 秒，却决定了观众对整条片子的印象——留到回来再从素材里找，通常找不到。</p>
+
+<ul class="chk" data-chk="theme">
+<li>这条片子的一句话主题是什么？（写下来）</li>
+<li>这句话里有冲突或变化吗？</li>
+<li>开场大概用什么画面？</li>
+<li>结尾大概停在哪？</li>
+</ul>
+<button class="reset" data-reset="theme">重置</button>
+
+<!-- ===== role ===== -->
+<h2 id="role"><span class="num">2</span>镜头的四种职能</h2>
 
 <p>拍每个镜头前，先想清楚它属于哪一类。这是整个体系的地基。</p>
 
@@ -229,8 +293,8 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 结果就是：素材看着都挺好，剪出来是一段接一段的幻灯片，没法连、没法笑、没法记住。<b>如果你只改一件事，就是开始有意识地拍转场镜头和反应镜头。</b>
 </div>
 
-<!-- ========== 2 ========== -->
-<h2 id="size"><span class="num">2</span>景别体系</h2>
+<!-- ===== size ===== -->
+<h2 id="size"><span class="num">3</span>景别体系</h2>
 
 <p>景别 = 主体在画面里占多大。它决定观众的注意力落在哪。</p>
 
@@ -260,8 +324,8 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <li><b>景别跨度别太小</b>：中景切中近景会有"跳帧"的错觉。要切就跨大一点，中景 → 特写</li>
 </ul>
 
-<!-- ========== 3 ========== -->
-<h2 id="angle"><span class="num">3</span>机位与角度</h2>
+<!-- ===== angle ===== -->
+<h2 id="angle"><span class="num">4</span>机位与角度</h2>
 
 <p>同一个东西，换个高度和角度拍，就是一个全新的镜头。这是最廉价的"多拍几个"的方法。</p>
 
@@ -281,8 +345,8 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <tr><td class="nm">侧跟</td><td>与人物并排同速移动</td><td>看得到侧脸和环境流动，比背身多一点信息</td></tr>
 </tbody></table></div>
 
-<!-- ========== 4 ========== -->
-<h2 id="compo"><span class="num">4</span>构图</h2>
+<!-- ===== compo ===== -->
+<h2 id="compo"><span class="num">5</span>构图</h2>
 
 <div class="scroll"><table>
 <thead><tr><th>构图法</th><th>怎么做</th><th>适合</th></tr></thead>
@@ -304,8 +368,68 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <li><b>地平线要水平</b>：歪了后期只能靠裁切救，等于损失分辨率。<b>相机里把水平仪打开</b></li>
 </ul>
 
-<!-- ========== 5 ========== -->
-<h2 id="move"><span class="num">5</span>运镜</h2>
+<!-- ===== light ===== -->
+<h2 id="light"><span class="num">6</span>光线</h2>
+
+<div class="note key">
+<span class="h">先记住这一条</span>
+<b>先找光，再找构图。</b><br>
+光线对画面的影响大于构图、大于镜头、远大于机身。同一个地方，好光和坏光拍出来是两个世界——而这件事<b>完全免费</b>，只取决于你什么时候去、站在哪边。
+</div>
+
+<h3>一天中的光</h3>
+<div class="scroll"><table>
+<thead><tr><th>时段</th><th>光的性质</th><th>适合拍</th><th>评价</th></tr></thead>
+<tbody>
+<tr><td class="nm">日出前 20–40 分<br>蓝调时刻</td><td>冷调、柔和、天空深蓝，路灯还亮着</td><td>城市、水边、街道</td><td class="ok">很好，但要早起</td></tr>
+<tr><td class="nm">日出后 1–2 小时<br>黄金时刻</td><td>暖色、低角度、长影子</td><td><b>人物、风景，什么都好看</b></td><td class="ok">最好</td></tr>
+<tr><td class="nm">上午 / 下午</td><td>正常、稳定</td><td>常规拍摄</td><td>可用</td></tr>
+<tr><td class="nm">正午</td><td><b>硬光、顶光</b>，脸上眼窝和鼻下有重阴影</td><td>阴影图案、室内、树荫</td><td class="ng">最难看的时段</td></tr>
+<tr><td class="nm">日落前 1 小时<br>黄金时刻</td><td>暖、柔、方向性强</td><td><b>一天中最值得安排的拍摄窗口</b></td><td class="ok">最好</td></tr>
+<tr><td class="nm">日落后 20–40 分<br>蓝调时刻</td><td>天空仍有颜色 + 人造灯光亮起，两者平衡</td><td><b>城市夜景的唯一最佳窗口</b></td><td class="ok">极好，且最多人错过</td></tr>
+<tr><td class="nm">深夜</td><td>只剩人造光，反差极大</td><td>霓虹、居酒屋、便利店</td><td>难，但有味道</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">行程安排上的实际意义</span>
+<b>蓝调时刻只有 20–40 分钟，而且日落一结束就开始倒计时。</b>想拍城市夜景，就得提前 30 分钟到位、机位选好、参数调好，等它来——而不是吃完饭出来发现天已经全黑了。<br>
+同理：<b>把最想拍的那个地点，安排在日落前一小时</b>。这一条对成片的提升，超过任何器材升级。
+</div>
+
+<h3>光的方向</h3>
+<div class="scroll"><table>
+<thead><tr><th>方向</th><th>光在哪</th><th>效果</th><th>怎么用</th></tr></thead>
+<tbody>
+<tr><td class="nm">顺光</td><td>在你背后，照亮主体正面</td><td>颜色饱和、安全、但<b>平、没立体感</b></td><td>拍建筑、拍色彩鲜艳的东西</td></tr>
+<tr><td class="nm">侧光</td><td>在主体侧面 90 度左右</td><td><b>立体感最强</b>，能表现质感和纹理</td><td>拍脸、拍食物、拍老墙和布料</td></tr>
+<tr><td class="nm">侧逆光</td><td>斜后方 45 度</td><td>头发和肩膀有一圈轮廓光，氛围最好</td><td><b>拍人的最优解</b>，逆光同时脸还有光</td></tr>
+<tr><td class="nm">逆光</td><td>正后方，正对镜头</td><td>剪影、耀斑、空气感</td><td>要么给脸补曝光，要么<b>大方接受剪影</b>——半吊子最难看</td></tr>
+<tr><td class="nm">顶光</td><td>正上方（正午、室内射灯）</td><td class="ng">眼窝发黑、鼻下重影</td><td><b>拍人时避开</b>。躲到屋檐或树荫下</td></tr>
+</tbody></table></div>
+
+<h3>拍人的光：四条实操</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>让脸朝向光源</div>
+<p>最简单粗暴、也最有效的一条。<b>拍人之前先看一眼光在哪</b>，然后调整自己站的位置，而不是调相机。</p></div>
+<div class="tip"><div class="t"><span class="b">02</span>室内靠窗，脸朝窗</div>
+<p>窗户是免费的柔光箱。<b>绝对不要让人背对窗户</b>——那样脸会全黑，相机一提亮窗外就全白。</p></div>
+<div class="tip"><div class="t"><span class="b">03</span>阴天是天然柔光箱</div>
+<p>阴天拍人最省事，没有硬阴影，怎么站都好看。<b>代价是天空会死白</b>——所以阴天少拍天空，多拍细节和人。</p></div>
+<div class="tip"><div class="t"><span class="b">04</span>正午就躲进树荫或屋檐</div>
+<p>阴影里的光是柔和的散射光，比直射阳光下好看得多。<b>树荫边缘那一圈是正午最好的位置。</b></p></div>
+</div>
+
+<h3>夜间</h3>
+<ul>
+<li><b>找现成光源，不要用机顶补光灯。</b>直打的补光灯会让画面像监控录像</li>
+<li>可用的免费光源：<b>招牌、路灯、橱窗、便利店门口、自动贩卖机、餐厅玻璃窗</b></li>
+<li>让人物<b>站到光源旁边</b>，而不是让相机去够光</li>
+<li>宁可稍暗，也别把 ISO 拉爆——<b>噪点比欠曝更难救</b></li>
+<li>夜景混合色温严重（路灯橙、招牌绿、月光蓝），这正是<b>必须手动固定白平衡</b>的原因</li>
+</ul>
+
+<!-- ===== move ===== -->
+<h2 id="move"><span class="num">7</span>运镜</h2>
 
 <div class="note warn">
 <span class="h">运镜的三条铁律</span>
@@ -331,9 +455,61 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 </tbody></table></div>
 
 <!-- ========== 6 ========== -->
+<!-- ===== sequence ===== -->
+<h2 id="sequence"><span class="num">8</span>把镜头组成序列</h2>
+
+<p>前面几节讲的是<b>单个镜头</b>。但成片不是镜头的堆叠，是<b>序列</b>——用 5–8 个镜头讲清楚一件小事。会拍单镜头的人很多，会拍序列的人少得多，而这正是"看起来专业"的分界线。</p>
+
+<h3>一个序列长什么样</h3>
+<p>以「吃一碗拉面」为例，这是一个完整序列：</p>
+<div class="scroll"><table>
+<thead><tr><th></th><th>镜头</th><th>景别</th><th>作用</th></tr></thead>
+<tbody>
+<tr><td class="n">1</td><td>店门口、暖帘</td><td>远景</td><td>交代地点，序列的"进入"</td></tr>
+<tr><td class="n">2</td><td>坐下、环顾</td><td>中景</td><td>建立空间</td></tr>
+<tr><td class="n">3</td><td>菜单、点单的手</td><td>细节</td><td>过程信息</td></tr>
+<tr><td class="n">4</td><td>上菜的瞬间</td><td>中景</td><td>事件发生</td></tr>
+<tr><td class="n">5</td><td>面的纹理、热气</td><td>大特写</td><td>质感，让人想吃</td></tr>
+<tr><td class="n">6</td><td>夹起来、拉丝</td><td>细节</td><td>动作</td></tr>
+<tr><td class="n">7</td><td><b>吃第一口的表情</b></td><td>特写</td><td class="vt">情绪 —— 整个序列的高潮</td></tr>
+<tr><td class="n">8</td><td>空碗</td><td>细节</td><td>序列的"离开"，天然收尾</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">序列的通用骨架</span>
+<b>进入 → 建立 → 过程 → 高潮 → 离开。</b><br>
+任何场景都能套：逛神社、买东西、上车、办入住。<b>每个场景都按这个骨架拍一遍</b>，回来剪的时候会发现镜头自己就排好了。
+</div>
+
+<h3>三条剪辑逻辑的硬规矩（拍的时候就要遵守）</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>动作要拍完整</div>
+<p>拍推门，就从<b>手伸出去 → 握把手 → 推开 → 走进去 → 门关上</b>整个过程都拍。<b>剪辑时你才能在任意一点切开</b>；只拍中间那一下，就只有一个切点可用。</p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>重叠动作：同一动作拍两个景别</div>
+<p>同一个动作（倒水、坐下、开门）<b>做两遍，一遍远景一遍特写</b>。剪的时候在动作中途从远景切到特写，观感极其顺滑——这是"无缝"的来源，而不是靠转场特效。</p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>30 度规则</div>
+<p>同一个主体连续两个镜头，<b>机位至少要变 30 度以上</b>（或明显改变景别）。变化太小，剪出来像是画面"跳"了一下，观众会觉得出错了。</p></div>
+</div>
+
+<h3>轴线（180 度规则）</h3>
+<p>两个人对话、或人朝某个方向前进时，<b>想象他们之间有一条线，相机始终待在这条线的同一侧</b>。</p>
+<ul>
+<li>越过轴线拍，剪在一起时两个人会<b>变成朝同一方向看</b>，或者走路的人突然掉头</li>
+<li>观众说不出哪里不对，但会觉得"晕"、"接不上"</li>
+<li>要换到另一侧，就<b>拍一个跨越的过程镜头</b>（相机边走边拍绕过去），或者中间插一个正面/中性镜头</li>
+</ul>
+
+<div class="note warn">
+<span class="h">对 vlog 来说，最实用的一条</span>
+<b>走路的方向要一致。</b>这一段人物往画面右边走，下一段也应该往右走。如果下一段变成往左走，观众会下意识以为你<b>往回走了</b>。<br>
+除非你真的想表达"折返"——那就是正确用法。
+</div>
+
 <hr>
 <p class="part">CORE SECTION</p>
-<h2 id="trans"><span class="num">6</span>转场镜头大全</h2>
+<h2 id="trans"><span class="num">9</span>转场镜头大全</h2>
 
 <p>转场镜头是<b>专门为了"接上下一个场景"而拍的镜头</b>。它不承担信息，只承担连接。绝大多数人从来不拍这类镜头，所以他们的片子只能靠"叠化"和"闪白"硬接——那正是廉价感的来源。</p>
 
@@ -447,8 +623,127 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 </ul>
 <button class="reset" data-reset="trans5">重置</button>
 
-<!-- ========== 7 ========== -->
-<h2 id="shotlist"><span class="num">7</span>场景拍摄清单</h2>
+<hr>
+<p class="part">CORE SECTION</p>
+<h2 id="aroll"><span class="num">10</span>A-roll：说话怎么说</h2>
+
+<p>A-roll 占成片 20–30%，是观众<b>唯一能直接了解你在想什么</b>的渠道，也是绝大多数人最不擅长的部分。好消息是：它有明确的方法，而且<b>有一条完全绕开尴尬的路</b>。</p>
+
+<h3>三种形态：先选对形态，再谈技巧</h3>
+<div class="scroll"><table>
+<thead><tr><th>形态</th><th>怎么做</th><th>优点</th><th>缺点</th></tr></thead>
+<tbody>
+<tr><td class="nm">对镜头口播<br>Piece to camera</td><td>现场对着镜头说</td><td>真实、有临场感、有画面</td><td>尴尬、环境噪音、说不好要重来</td></tr>
+<tr><td class="nm">画外音 / 旁白<br>Voice over</td><td><b>回家后对着要点重新录</b>，铺在画面上</td><td class="ok"><b>不尴尬、可重录、音质最好、信息密度最高</b></td><td>少了现场的临场感</td></tr>
+<tr><td class="nm">现场自然对话</td><td>和同伴说话时顺手录下</td><td>最真实、最有人味</td><td>不可控，收音难</td></tr>
+</tbody></table></div>
+
+<div class="note key">
+<span class="h">给你的建议</span>
+<b>主力用旁白，现场只录少量口播。</b><br>
+「在大街上对着相机说话很尴尬」是绝大多数人做不下去 vlog 的真正原因，而<b>旁白直接绕开了这个问题</b>。很多优秀的旅行 vlog 全程没有一句现场口播。<br>
+现场只需要保证：<b>拍到足够的画面 + 记住当时的感受</b>。话回家再说。
+</div>
+
+<h3>对镜头说：机位与构图</h3>
+<div class="scroll"><table>
+<thead><tr><th>方式</th><th>特点</th><th>注意</th></tr></thead>
+<tbody>
+<tr><td class="nm">手臂长度自拍</td><td>最方便，随时能拍</td><td>只能用广角；<b>手要举高一点</b>，略微俯视比仰拍好看得多</td></tr>
+<tr><td class="nm">小三脚架架着</td><td>画面稳、能用中景、显得正式</td><td>要找地方放，容易引人注意</td></tr>
+<tr><td class="nm">让同伴拍</td><td>最自然，可以边走边说</td><td>需要对方配合，构图不可控</td></tr>
+</tbody></table></div>
+
+<ul>
+<li><b>别让脸占满画面。</b>留出背景——<b>背景是在替你交代"你在哪"</b>，这是自拍口播的一半价值</li>
+<li>把自己放在<b>画面三分之一处</b>，另一侧留给风景，比正中央好看</li>
+<li><b>眼睛看镜头本身，不是屏幕里的自己</b> ← 最常见的破绽，一眼就能看出来</li>
+<li>手臂自拍时<b>把手肘夹紧身体、用另一只手托住手腕</b>，能稳很多</li>
+</ul>
+
+<h3>说什么：三句话结构</h3>
+<div class="act">
+  <div class="row"><div class="lab">第一句</div><div>
+    <div class="ttl">我在哪 / 刚发生了什么</div>
+    <div class="d">「刚下电车，这里是……」「排了四十分钟队，终于进来了」</div>
+  </div></div>
+  <div class="row"><div class="lab">第二句</div><div>
+    <div class="ttl">我要干嘛 / 遇到了什么问题</div>
+    <div class="d">「接下来去找那家店」「但是我好像走错方向了」</div>
+  </div></div>
+  <div class="row"><div class="lab">第三句</div><div>
+    <div class="ttl">我的感受 / 期待</div>
+    <div class="d">「有点紧张」「说实话没想到这么好吃」。<b>感受是观众唯一无法从画面里获得的东西</b>，别省。</div>
+  </div></div>
+</div>
+
+<p><b>一段只讲一件事，讲完就停。</b>别一口气讲三件事——剪的时候没法拆开插到不同位置。</p>
+
+<h3>怎么说：六条</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>镜头会吸走 30% 的能量</div>
+<p>这是最反直觉、也最关键的一条。<b>你觉得"有点夸张"的语气，剪进去刚刚好；你觉得自然的，剪出来是没精打采。</b>把音量、语速、表情都往上抬一档。</p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>不背稿，但脑子里要有三个关键词</div>
+<p>逐字背稿一定会念得像朗读，眼神也会飘（因为在回忆）。<b>只记三个关键词，用自己的话串起来。</b></p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>每段说三遍，第三遍通常最好</div>
+<p>第一遍生涩，第二遍找到感觉，第三遍最自然。<b>连着说三遍再停</b>，不要每遍都重新架机器。</p></div>
+
+<div class="tip"><div class="t"><span class="b">04</span>说错了别停，接着说</div>
+<p>停下来重新开始会打断状态。<b>说错就顿一下、重说那一句</b>，后期剪掉就行——反正你本来就要剪。</p></div>
+
+<div class="tip"><div class="t"><span class="b">05</span>前后各留 2 秒静默</div>
+<p>说话前别急着开口，说完别急着按停。这 2 秒是留给转场、留给呼吸的，<b>没有它很多剪辑手段用不了</b>。</p></div>
+
+<div class="tip"><div class="t"><span class="b">06</span>语速稍快，停顿不用怕</div>
+<p>停顿后期能剪掉，语速慢却救不回来。<b>宁可说快了再剪，不要慢吞吞地说。</b></p></div>
+</div>
+
+<h3>不好意思在公共场合说话？五个解法</h3>
+<ul>
+<li><b>用领夹麦，可以很小声地说。</b>麦在领口，气声都能收清楚，旁边的人听不见</li>
+<li><b>戴上耳机</b>，看起来像在打电话，路人完全不会在意</li>
+<li><b>挑时间和地点</b>：清晨的街道、酒店房间、店铺打烊后、走在人少的路上</li>
+<li><b>用字幕卡代替</b>：黑底白字打一句话，比硬录一段尴尬的口播好得多</li>
+<li><b>干脆不说，回家录旁白</b> ← 最推荐。见上面那张表</li>
+</ul>
+
+<h3>旁白怎么录（在家）</h3>
+<ul>
+<li><b>先剪好画面，再对着画面录</b>——这样长度天然合适，不用反复调整</li>
+<li>写<b>要点</b>，不写逐字稿。逐字稿一定会念出朗读腔</li>
+<li><b>站着录比坐着录有精神</b>，声音会更有支撑</li>
+<li>找软的环境：房间挂满衣服的角落、被子里、衣柜前。<b>硬墙面的空房间回声重，很难听</b></li>
+<li>麦克风放<b>嘴边侧方一点</b>，不要正对嘴——避免喷麦</li>
+<li>一句一句录，说错就重说那一句，不用从头来</li>
+</ul>
+
+<h3>常见毛病对照表</h3>
+<div class="scroll"><table>
+<thead><tr><th>毛病</th><th>后果</th><th>怎么改</th></tr></thead>
+<tbody>
+<tr><td class="nm">「大家好，今天我们来到了……」</td><td class="ng">劝退开场，前 5 秒就流失观众</td><td>直接进内容，或用最精彩的一句开场</td></tr>
+<tr><td class="nm">眼睛看屏幕不看镜头</td><td class="ng">立刻出戏，显得心虚</td><td>看镜头本身。<b>必要时用胶带在镜头旁贴个标记</b></td></tr>
+<tr><td class="nm">一段讲三件事</td><td class="ng">剪不开，没法重排</td><td>一段一件事，讲完停</td></tr>
+<tr><td class="nm">一段说了 90 秒</td><td class="ng">观众流失</td><td><b>一个点控制在 20 秒内</b></td></tr>
+<tr><td class="nm">口头禅：「然后」「就是」「那个」</td><td class="ng">显得没准备</td><td>说慢半拍、想好再开口；后期也能剪</td></tr>
+<tr><td class="nm">语气平淡</td><td class="ng">观众感受不到任何情绪</td><td>能量往上抬一档（见技巧 01）</td></tr>
+<tr><td class="nm">用机内麦在街上录</td><td class="ng">整段报废，无法补救</td><td>领夹麦 + 防风毛套，或改用旁白</td></tr>
+<tr><td class="nm">忘了留静默</td><td class="ng">开头结尾被切掉半个字</td><td>前后各留 2 秒</td></tr>
+</tbody></table></div>
+
+<h3>每天至少录这三段</h3>
+<ul class="chk" data-chk="aroll">
+<li><b>早上一段</b>：今天打算干嘛、期待什么（20 秒）</li>
+<li><b>中途一段</b>：遇到的意外、当下的感受 ← <b>最有价值，也最容易忘</b></li>
+<li><b>晚上一段</b>：今天怎么样、有没有和预想不同</li>
+</ul>
+<button class="reset" data-reset="aroll">重置</button>
+<p class="fine">哪怕最后一句都没用上，<b>这三段也是你回家写旁白时最好的记忆素材</b>——比任何笔记都管用。</p>
+
+<!-- ===== shotlist ===== -->
+<h2 id="shotlist"><span class="num">11</span>场景拍摄清单</h2>
 
 <p>按旅程时间线组织。每到一个环节，照着拍就行，<b>不用现场想</b>。</p>
 
@@ -530,8 +825,49 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 </ul>
 <button class="reset" data-reset="sl-end">重置</button>
 
-<!-- ========== 8 ========== -->
-<h2 id="setting"><span class="num">8</span>相机设置</h2>
+<!-- ===== special ===== -->
+<h2 id="special"><span class="num">12</span>特殊镜头</h2>
+
+<h3>慢动作</h3>
+<ul>
+<li><b>拍摄时用 60fps 或 120fps，后期放慢到 1/2 或 1/4</b></li>
+<li>适合拍：<b>水花、喷泉、落叶、樱花、雪、跳跃、转身、头发、宠物、人流、举杯碰杯</b></li>
+<li><b>不要全程开高帧率</b>——文件翻倍、暗光画质下降、还容易忘了关。<b>只在决定要慢放的镜头开</b></li>
+<li>高帧率需要更多光，室内和夜间慎用</li>
+<li>慢动作要<b>省着用</b>。一条 3 分钟片子里 2–3 个就够，多了会显得拖沓</li>
+</ul>
+
+<h3>延时（Timelapse）</h3>
+<ul>
+<li><b>固定机位</b>，相机绝对不能动 —— 需要三脚架或找个稳的地方架住</li>
+<li>适合拍：<b>云、日落、人流、路口车流、施工、街道从白天到夜晚</b></li>
+<li>时长换算：成片 10 秒的延时，通常要拍 <b>10–30 分钟</b>。安排好时间，别中途走开</li>
+<li><b>拍日落时要锁定曝光</b>，否则天色变化会导致画面一闪一闪</li>
+</ul>
+
+<h3>移动延时（Hyperlapse）</h3>
+<ul>
+<li>每走一两步拍一张，<b>始终把同一个主体保持在画面同一位置</b></li>
+<li>效果是"人流飞速穿梭，主体稳如泰山"，非常出片</li>
+<li>难点是走位要稳、间距要匀。<b>先拍 20 张试试，别一上来就拍 200 张</b></li>
+</ul>
+
+<h3>POV（第一人称）</h3>
+<ul>
+<li>模拟自己眼睛看到的：<b>推开门、拿起杯子、翻菜单、系鞋带、掏出车票</b></li>
+<li><b>vlog 的独门武器</b>，代入感是其他景别给不了的</li>
+<li>关键是<b>手要入画</b>——看得到自己的手，代入感才成立</li>
+</ul>
+
+<h3>车载与航拍</h3>
+<ul>
+<li>车内：吸盘架固定在挡风玻璃或侧窗，拍路、拍仪表盘、拍副驾。<b>安全第一，别边开边调相机</b></li>
+<li>穿过隧道是免费的转场素材（见转场 38）</li>
+<li>无人机：<b>各国法规差别很大</b>，日本人口密集地区需要许可、机场周边禁飞、很多景区和寺庙明确禁止。<b>飞之前务必查当地规定</b></li>
+</ul>
+
+<!-- ===== setting ===== -->
+<h2 id="setting"><span class="num">13</span>相机设置</h2>
 
 <div class="scroll"><table>
 <thead><tr><th>项目</th><th>建议</th><th>为什么</th></tr></thead>
@@ -545,6 +881,7 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <tr><td class="nm">白平衡</td><td><b>手动固定</b>，别用自动</td><td>自动白平衡会在同一场景里飘，剪辑时同一顿饭的镜头颜色对不上，非常难调</td></tr>
 <tr><td class="nm">对焦</td><td>有眼部追焦就开；没有就用单点+半按锁定</td><td>连续自动对焦在杂乱场景会"拉风箱"，前后乱找</td></tr>
 <tr><td class="nm">色彩配置</td><td><b>新手直接用标准/自然，别碰 Log</b></td><td>Log 要会调色才有意义。不会调色的 Log 素材灰蒙蒙，还不如直出</td></tr>
+<tr><td class="nm">画幅</td><td>横屏 16:9 为主。<b>确定要发竖屏就重要镜头横竖各拍一遍</b></td><td>后期把横屏裁成竖屏一定会丢东西。真要裁，拍的时候就<b>把主体放中间、上下留足余量</b></td></tr>
 <tr><td class="nm">辅助显示</td><td>打开<b>网格线、水平仪、斑马纹/峰值对焦</b></td><td>构图不歪、不过曝、对焦准，三个最常见的废片原因一次解决</td></tr>
 </tbody></table></div>
 
@@ -553,8 +890,8 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 上面大部分仍然适用。重点做三件事：<b>①锁定曝光和对焦</b>（长按屏幕）、<b>②关掉自动 HDR 的剧烈跳变</b>、<b>③用 0.5x 超广角拍走动镜头</b>——广角对手抖宽容得多，走路镜头会稳很多。
 </div>
 
-<!-- ========== 9 ========== -->
-<h2 id="audio"><span class="num">9</span>收音</h2>
+<!-- ===== audio ===== -->
+<h2 id="audio"><span class="num">14</span>收音</h2>
 
 <div class="note warn">
 <span class="h">先记住这句</span>
@@ -570,8 +907,21 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <li><b>每天开拍前录 10 秒测试</b>，确认麦真的连上了。<b>整天录了个寂寞是 vlog 最惨的事故</b></li>
 </ul>
 
-<!-- ========== 10 ========== -->
-<h2 id="stable"><span class="num">10</span>稳定与手持</h2>
+<h3>主动收集"声音素材"</h3>
+<p>除了收好人声，还要<b>有意识地单独录一些声音</b>。后期铺上去，片子的质感会完全不同——这是观众感觉得到、但说不出为什么的差别。</p>
+<div class="scroll"><table>
+<thead><tr><th>类别</th><th>录什么</th></tr></thead>
+<tbody>
+<tr><td class="nm">脚步</td><td>石板路、木地板、榻榻米、雪地、落叶、楼梯 —— <b>不同地面声音完全不同</b></td></tr>
+<tr><td class="nm">开合</td><td>推门、拉门、门帘、行李箱拉链、相机快门、翻书翻菜单</td></tr>
+<tr><td class="nm">饮食</td><td>倒水、咖啡机、锅铲、油炸、冰块、碰杯、拉面吸溜声</td></tr>
+<tr><td class="nm">交通</td><td>车站广播、电车行驶和到站、检票闸机、汽车驶过</td></tr>
+<tr><td class="nm">环境</td><td>市集嘈杂、寺庙钟声、风、海浪、鸟、蝉、雨</td></tr>
+</tbody></table></div>
+<p class="fine">每段录 <b>20–30 秒</b>，比你以为需要的长。录的时候<b>自己别动、别说话</b>。</p>
+
+<!-- ===== stable ===== -->
+<h2 id="stable"><span class="num">15</span>稳定与手持</h2>
 
 <h3>不用稳定器也能稳的六个动作</h3>
 <div class="tips">
@@ -600,8 +950,44 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <tr><td class="nm">后期防抖</td><td>补救轻微抖动</td><td><b>会裁切画面</b>，所以拍摄时要留构图余量</td></tr>
 </tbody></table></div>
 
-<!-- ========== 11 ========== -->
-<h2 id="people"><span class="num">11</span>拍人</h2>
+<!-- ===== weather ===== -->
+<h2 id="weather"><span class="num">16</span>天气与突发状况</h2>
+
+<div class="note key">
+<span class="h">先扭转一个观念</span>
+<b>坏天气不是坏事，是差异化。</b>晴天的照片人人都有，雨天的画面反而稀缺、有氛围、有情绪。<br>
+更重要的是：<b>突发状况本身就是最好的故事素材</b>。下雨、延误、迷路、店家关门——这些正是你需要的"第二幕阻力"。<b>当场把它拍下来，别收起相机。</b>
+</div>
+
+<h3>雨天：其实是加分项</h3>
+<ul>
+<li><b>反射</b>：湿地面反光、水洼倒影、霓虹在路面上化开 —— 雨天独有的画面</li>
+<li><b>伞</b>：从伞下往外拍、伞面开合当转场（转场 32）、一排伞的俯拍</li>
+<li><b>水珠</b>：车窗、玻璃窗上的雨滴，对焦在水珠上，背景虚化</li>
+<li><b>室内视角</b>：从咖啡店玻璃窗往外拍街道，暖内冷外的对比</li>
+<li><b>声音</b>：雨声是极好的环境音素材，单独录 30 秒</li>
+<li>器材防护：<b>塑料袋 + 皮筋</b>就能应急，随身带擦镜布，回酒店后拿出电池晾干</li>
+</ul>
+
+<h3>其他天气</h3>
+<div class="scroll"><table>
+<thead><tr><th>天气</th><th>好在哪</th><th>要注意</th></tr></thead>
+<tbody>
+<tr><td class="nm">阴天</td><td><b>天然柔光箱，拍人最省事</b>，怎么站都没有硬阴影</td><td>天空会死白 → <b>少拍天空，多拍细节和人</b></td></tr>
+<tr><td class="nm">大晴天正午</td><td>颜色饱和、适合拍建筑</td><td>拍脸很难看 → 躲树荫屋檐，或改拍阴影图案</td></tr>
+<tr><td class="nm">大风</td><td>树、旗帜、海浪都有动感</td><td><b>防风毛套必须戴</b>，否则录音全废</td></tr>
+<tr><td class="nm">雪 / 低温</td><td>画面极出彩，安静感强</td><td><b>电池掉电极快</b>，备用电池贴身放；相机会白平衡偏蓝，手动调暖一点</td></tr>
+<tr><td class="nm">温差大</td><td>—</td><td><b>从冷外面进温暖室内，镜头会起雾</b>。进门前先把相机装进密封袋，等它慢慢回温</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">计划被打乱的时候</span>
+这是<b>拍摄机会，不是损失</b>。掏出相机拍下当时的状况和你的表情，说一句"完蛋了，关门了"。<br>
+这条素材在成片里的价值，通常高于你原本要去拍的那个景点。
+</div>
+
+<!-- ===== people ===== -->
+<h2 id="people"><span class="num">17</span>拍人</h2>
 
 <h3>拍同伴：让他们自然</h3>
 <ul>
@@ -614,13 +1000,7 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 </ul>
 
 <h3>拍自己：口播</h3>
-<ul>
-<li><b>别背稿</b>，想清楚要说的一件事，然后说三遍取最好的一遍</li>
-<li><b>看镜头，不要看屏幕。</b>眼神飘会让人立刻出戏——这是最常见的破绽</li>
-<li><b>边走边说</b>比坐着说自然，也顺手解决了画面单调</li>
-<li>一段只讲一个意思，<b>讲完就停</b>。别一口气讲三件事，剪的时候没法拆</li>
-<li>不好意思在人多的地方说话？<b>那就不说</b>——用字幕卡或事后配音代替，很多好 vlog 全程没有现场口播</li>
-</ul>
+<p>口播已经独立成 <a href="#aroll"><b>第 10 节 · A-roll：说话怎么说</b></a>——形态选择、机位构图、说什么、怎么说、克服尴尬、旁白录制、常见毛病对照表都在那一节。</p>
 
 <h3>拍陌生人：分寸</h3>
 <ul>
@@ -630,8 +1010,8 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <li>拍小孩要格外谨慎，最好避开或只拍背影</li>
 </ul>
 
-<!-- ========== 12 ========== -->
-<h2 id="field"><span class="num">12</span>现场工作流</h2>
+<!-- ===== field ===== -->
+<h2 id="field"><span class="num">18</span>现场工作流</h2>
 
 <h3>每天出门前（2 分钟）</h3>
 <ul class="chk" data-chk="daily">
@@ -662,8 +1042,8 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 </ul>
 <button class="reset" data-reset="nightly">重置</button>
 
-<!-- ========== 13 ========== -->
-<h2 id="mistakes"><span class="num">13</span>常见错误</h2>
+<!-- ===== mistakes ===== -->
+<h2 id="mistakes"><span class="num">19</span>常见错误</h2>
 
 <div class="scroll"><table>
 <thead><tr><th>错误</th><th>后果</th><th>怎么改</th></tr></thead>
@@ -682,8 +1062,8 @@ td.nm{font-weight:700;white-space:nowrap;width:1%}
 <tr><td class="nm">拍完不备份</td><td class="ng">卡坏了一次就够记一辈子</td><td>当晚导出，至少两份</td></tr>
 </tbody></table></div>
 
-<!-- ========== 14 ========== -->
-<h2 id="gear"><span class="num">14</span>装备：按优先级花钱</h2>
+<!-- ===== gear ===== -->
+<h2 id="gear"><span class="num">20</span>装备：按优先级花钱</h2>
 
 <p>如果预算有限，<b>按这个顺序买</b>。前面的每一项对成片的影响都大于后面的。</p>
 
