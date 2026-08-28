@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>旅拍调色手册 — 剪映专业版・从统一到风格</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9; --code:#f0f3ef;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68;
+  --gothic:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans","Microsoft YaHei","Noto Sans SC","Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+
+/* header */
+.masthead{border-bottom:1px solid var(--rule);background:var(--panel)}
+.masthead .inner{max-width:1100px;margin:0 auto;padding:22px 20px 20px}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-decoration:none;
+  display:inline-block;margin-bottom:10px;color:var(--ink3)}
+.eyebrow{font-family:var(--mono);font-size:.63rem;letter-spacing:.2em;color:var(--volt);margin:0 0 7px}
+.masthead h1{font-weight:700;font-size:1.75rem;line-height:1.3;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.masthead h1 small{display:block;font-size:.55em;font-weight:600;color:var(--ink2);margin-top:6px;letter-spacing:0}
+.masthead .sub{margin:12px 0 0;font-size:.85rem;color:var(--ink2);line-height:1.8;max-width:72ch}
+
+/* layout */
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:44px;
+  max-width:1100px;margin:0 auto;padding:0 20px 90px}
+.toc{position:sticky;top:24px;align-self:start;padding-top:30px;max-height:calc(100vh - 48px);overflow-y:auto}
+.toc .lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--ink3);margin:0 0 10px;
+  padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{margin:0}
+.toc li.sec{font-family:var(--mono);font-size:.57rem;letter-spacing:.14em;color:var(--ink3);padding:11px 0 4px 11px}
+.toc a{display:block;padding:5px 0 5px 11px;font-size:.78rem;text-decoration:none;color:var(--ink2);
+  border-left:2px solid var(--rule);line-height:1.5}
+.toc a:hover{color:var(--ink);border-left-color:var(--ink3)}
+.toc a.on{color:var(--ai);border-left-color:var(--ai);font-weight:600}
+
+nav.mobile{display:none}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0;padding-bottom:70px}
+  .toc{display:none}
+  nav.mobile{display:block;position:sticky;top:0;z-index:30;background:var(--panel);
+    border-bottom:1px solid var(--rule);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  nav.mobile ul{display:flex;list-style:none;margin:0;padding:0 8px}
+  nav.mobile a{display:block;padding:11px 10px;font-size:.75rem;white-space:nowrap;
+    text-decoration:none;color:var(--ink2)}
+}
+
+/* headings */
+main{padding-top:30px;min-width:0}
+h2{font-size:1.32rem;font-weight:700;line-height:1.35;margin:48px 0 14px;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:11px}
+h2:first-of-type{margin-top:0}
+h2 .num{flex:none;width:29px;height:29px;border-radius:50%;background:var(--ai);color:var(--panel);
+  font-family:var(--mono);font-size:.8rem;font-weight:700;display:grid;place-items:center;letter-spacing:-.03em}
+h3{font-size:1.03rem;font-weight:700;margin:32px 0 9px}
+h4{font-size:.9rem;font-weight:700;margin:22px 0 7px}
+p{margin:0 0 13px}
+ul,ol{padding-left:1.3em;margin:0 0 13px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--rule);margin:36px 0}
+.part{font-family:var(--mono);font-size:.63rem;letter-spacing:.22em;color:var(--volt);text-align:center;margin:0 0 6px}
+
+code{font-family:var(--mono);font-size:.84em;background:var(--code);padding:1px 5px;
+  border:1px solid var(--rule);border-radius:3px}
+
+/* callouts */
+.note{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--ai);
+  border-radius:0 5px 5px 0;padding:12px 15px;margin:16px 0;font-size:.87rem;line-height:1.8}
+.note .h{font-family:var(--mono);font-size:.61rem;letter-spacing:.14em;display:block;margin-bottom:6px;color:var(--ai)}
+.note.warn{border-left-color:var(--sun)} .note.warn .h{color:var(--sun)} .note.warn b{color:var(--sun)}
+.note.tip{border-left-color:var(--moss)} .note.tip .h{color:var(--moss)}
+.note.key{border-left-color:var(--volt)} .note.key .h{color:var(--volt)} .note.key b{color:var(--volt)}
+.note p:last-child{margin-bottom:0}
+
+/* tables */
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);
+  border-radius:5px;margin:14px 0;background:var(--panel)}
+table{border-collapse:collapse;font-size:.79rem;min-width:580px;width:100%}
+th,td{padding:9px 11px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top;line-height:1.65}
+th{font-family:var(--mono);font-size:.61rem;letter-spacing:.05em;color:var(--ink2);white-space:nowrap;background:var(--sunk)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink3);width:1%;font-size:.72rem;padding-top:11px}
+td.nm{font-weight:700;white-space:nowrap;width:1%}
+td.v{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ai);font-weight:600}
+.ok{color:var(--moss);font-weight:700}
+.ng{color:var(--sun);font-weight:700}
+.vt{color:var(--volt);font-weight:700}
+
+/* checklist */
+.chk{list-style:none;padding:0;margin:13px 0}
+.chk li{position:relative;padding-left:31px;font-size:.88rem;line-height:1.8;margin-bottom:10px;
+  cursor:pointer;user-select:none}
+.chk li::before{content:"☐";position:absolute;left:0;top:0;font-family:var(--mono);color:var(--sun);font-size:1.05rem;line-height:1.7}
+.chk li.done::before{content:"☑";color:var(--moss)}
+.chk li.done{color:var(--ink3);text-decoration:line-through;text-decoration-color:var(--rule)}
+.reset{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;background:var(--panel);color:var(--ink3);
+  border:1px solid var(--rule);border-radius:4px;padding:5px 11px;cursor:pointer;margin-top:2px}
+.reset:hover{color:var(--ink);border-color:var(--ink2)}
+
+/* step rows */
+.act{border:1px solid var(--rule);background:var(--panel);border-radius:5px;margin:14px 0;overflow:hidden}
+.act .row{display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;padding:13px 15px;border-bottom:1px solid var(--rule)}
+.act .row:last-child{border-bottom:0}
+.act .lab{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;color:var(--ink3);padding-top:4px}
+.act .ttl{font-weight:700;font-size:.97rem;line-height:1.5}
+.act .d{font-size:.86rem;margin-top:4px;line-height:1.8}
+.act .no{font-size:.79rem;color:var(--sun);margin-top:6px}
+
+/* cards */
+.tips{display:grid;gap:9px;margin:14px 0}
+.tip{border:1px solid var(--rule);background:var(--panel);border-radius:5px;padding:11px 14px}
+.tip .t{font-weight:700;font-size:.9rem;line-height:1.5;margin-bottom:3px}
+.tip .t .b{font-family:var(--mono);font-size:.63rem;color:var(--volt);border:1px solid var(--volt);
+  border-radius:2px;padding:1px 5px;margin-right:7px;vertical-align:2px;font-weight:500}
+.tip p{font-size:.85rem;margin:0;color:var(--ink2);line-height:1.75}
+.tip p b{color:var(--ink)}
+
+/* recipe */
+.recipe{border:1px solid var(--rule);background:var(--panel);border-radius:6px;margin:16px 0;overflow:hidden}
+.recipe .hd{background:var(--sunk);padding:11px 15px;border-bottom:1px solid var(--rule)}
+.recipe .hd .nm{font-weight:700;font-size:1rem;line-height:1.4}
+.recipe .hd .d{font-size:.79rem;color:var(--ink2);margin-top:3px;line-height:1.7}
+.recipe .bd{padding:4px 15px 13px}
+.recipe table{min-width:0}
+.swatch{display:flex;gap:0;height:9px;margin:0}
+.swatch i{flex:1}
+
+.fine{font-size:.73rem;color:var(--ink3);line-height:1.75;margin:15px 0 0}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.links a{font-size:.76rem;border:1px solid var(--rule);border-radius:4px;padding:5px 10px;
+  background:var(--panel);text-decoration:none}
+</style>
+</head>
+<body>
+
+<header class="masthead"><div class="inner">
+  <a class="back" href="../">← share-pages</a>
+  <p class="eyebrow">COLOR · CAPCUT · CORRECT FIRST, THEN GRADE</p>
+  <h1>旅拍调色手册<small>剪映专业版 · 从「统一」到「风格」</small></h1>
+  <p class="sub">调色是让片子「好看」性价比最高的一环：<b>不用重拍、不用买设备、纯软件操作</b>，而且做好一次可以永久复用。<br>
+  但顺序错了就白费力气——<b>先校正，再统一，最后才谈风格</b>。这一页按这个顺序讲，并给出 5 套可以直接照抄的参数配方。</p>
+</div></header>
+
+<nav class="mobile"><ul>
+  <li><a href="#order">正确顺序</a></li>
+  <li><a href="#panel">面板认识</a></li>
+  <li><a href="#correct">第一步·校正</a></li>
+  <li><a href="#unify">第二步·统一</a></li>
+  <li><a href="#style">第三步·风格</a></li>
+  <li><a href="#recipes">5套配方</a></li>
+  <li><a href="#lut">LUT</a></li>
+  <li><a href="#skin">肤色</a></li>
+  <li><a href="#hsl">HSL</a></li>
+  <li><a href="#scene">场景对策</a></li>
+  <li><a href="#phone">手机素材</a></li>
+  <li><a href="#mistakes">常见翻车</a></li>
+  <li><a href="#workflow">10分钟流程</a></li>
+</ul></nav>
+
+<div class="layout">
+
+<aside class="toc">
+  <p class="lbl">目录</p>
+  <ol>
+    <li class="sec">基础</li>
+    <li><a href="#order">0 · 正确的顺序</a></li>
+    <li><a href="#panel">1 · 认识面板</a></li>
+    <li class="sec">三个步骤</li>
+    <li><a href="#correct">2 · 校正</a></li>
+    <li><a href="#unify">3 · 统一</a></li>
+    <li><a href="#style">4 · 风格</a></li>
+    <li class="sec">直接抄</li>
+    <li><a href="#recipes">5 · 五套配方</a></li>
+    <li><a href="#lut">6 · LUT 用法</a></li>
+    <li class="sec">进阶</li>
+    <li><a href="#skin">7 · 肤色</a></li>
+    <li><a href="#hsl">8 · HSL 单色调整</a></li>
+    <li><a href="#scene">9 · 场景对策</a></li>
+    <li><a href="#phone">10 · 手机素材</a></li>
+    <li class="sec">收尾</li>
+    <li><a href="#mistakes">11 · 常见翻车</a></li>
+    <li><a href="#workflow">12 · 10 分钟流程</a></li>
+  </ol>
+</aside>
+
+<main>
+
+<!-- ===== order ===== -->
+<h2 id="order"><span class="num">0</span>正确的顺序</h2>
+
+<div class="note key">
+<span class="h">整页最重要的一句话</span>
+<b>校正 → 统一 → 风格。顺序反了，做多少都是白费。</b><br>
+绝大多数人一上来就套滤镜、拉饱和度——那是在<b>一张没校正过的歪片子上刷油漆</b>。底子不对，风格越强越难看。
+</div>
+
+<div class="act">
+  <div class="row"><div class="lab">第一步</div><div>
+    <div class="ttl">校正（Correction）—— 把画面调「对」</div>
+    <div class="d">曝光准不准、白平衡偏不偏、黑白位有没有到位。<b>这一步没有审美，只有对错</b>，所以最容易做、也最不该跳过。</div>
+    <div class="m"></div>
+  </div></div>
+  <div class="row"><div class="lab">第二步</div><div>
+    <div class="ttl">统一（Match）—— 让所有镜头看起来是同一天拍的</div>
+    <div class="d"><b>这一步对成片观感的贡献最大，但几乎所有人都跳过。</b>同一顿饭的三个镜头颜色对不上，比"没有风格"难看十倍。</div>
+  </div></div>
+  <div class="row"><div class="lab">第三步</div><div>
+    <div class="ttl">风格（Grade）—— 才轮到「日系」「胶片感」</div>
+    <div class="d">前两步做好后，这一步其实只需要很轻微的调整。<b>如果你觉得必须拉很狠才好看，说明前两步没做够。</b></div>
+  </div></div>
+</div>
+
+<div class="note warn">
+<span class="h">预算分配</span>
+如果你只有 10 分钟：<b>校正 4 分钟 + 统一 4 分钟 + 风格 2 分钟。</b><br>
+大多数人的实际分配是「风格 10 分钟」，这就是为什么调完反而更难看。
+</div>
+
+<!-- ===== panel ===== -->
+<h2 id="panel"><span class="num">1</span>认识面板：每个滑块到底在干嘛</h2>
+
+<p>剪映的调节面板参数很多，但<b>真正常用的就下面这些</b>。搞懂它们各自动的是什么，比记配方重要。</p>
+
+<h3>基础组</h3>
+<div class="scroll"><table>
+<thead><tr><th>参数</th><th>动的是什么</th><th>什么时候用</th></tr></thead>
+<tbody>
+<tr><td class="nm">亮度</td><td>整体提亮或压暗<b>全部区间</b></td><td>整体欠曝/过曝时。<b>动它之前先试对比度和阴影</b></td></tr>
+<tr><td class="nm">对比度</td><td>拉开亮部和暗部的差距</td><td>画面发灰、发闷时。<b>提「通透感」的主力</b></td></tr>
+<tr><td class="nm">饱和度</td><td>所有颜色的浓度</td><td><b>最容易过头的参数</b>。宁可 +5 也别 +30</td></tr>
+<tr><td class="nm">光感</td><td>类似曝光，但对中间调影响更大</td><td>整体调亮而不想让高光过曝时</td></tr>
+<tr><td class="nm">锐化</td><td>增强边缘</td><td><b>克制</b>。过锐会出白边，看着是「脏」不是「锐」。<b>建议 ≤10</b></td></tr>
+</tbody></table></div>
+
+<h3>色调组（决定「统一」的关键）</h3>
+<div class="scroll"><table>
+<thead><tr><th>参数</th><th>动的是什么</th><th>要点</th></tr></thead>
+<tbody>
+<tr><td class="nm">色温</td><td>← 蓝 ／ 黄 →</td><td><b>统一镜头的第一个工具。</b>室内偏黄拉负，阴天偏蓝拉正</td></tr>
+<tr><td class="nm">色调</td><td>← 绿 ／ 洋红 →</td><td>荧光灯下画面偏绿，往洋红拉一点点就正常了</td></tr>
+</tbody></table></div>
+
+<h3>明暗区间组（比「亮度」精细得多）</h3>
+<div class="scroll"><table>
+<thead><tr><th>参数</th><th>管哪一段</th><th>典型用法</th></tr></thead>
+<tbody>
+<tr><td class="nm">高光</td><td>最亮的部分</td><td>天空死白 → <b>往下拉</b>，能救回一些细节</td></tr>
+<tr><td class="nm">阴影</td><td>暗部</td><td>逆光时脸太黑 → <b>往上提</b>。这是救逆光的主力</td></tr>
+<tr><td class="nm">光比</td><td>亮暗的分布关系</td><td>整体反差调节</td></tr>
+<tr><td class="nm">褪色</td><td>把黑位抬起来、降低反差</td><td><b>「胶片感」的核心参数</b>，也是最容易用过头的</td></tr>
+<tr><td class="nm">颗粒</td><td>加噪点</td><td>模拟胶片质感。<b>少量即可，5–12</b></td></tr>
+<tr><td class="nm">暗角</td><td>四角压暗</td><td>把视线收向中心。<b>轻微就好，5–15</b></td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">一个判断技巧</span>
+不确定某个参数动了有没有用？<b>把它拉到极端两头看看变化，再拉回来定一个小值。</b>看清它管什么，比照着教程记数字有用得多。
+</div>
+
+<!-- ===== correct ===== -->
+<h2 id="correct"><span class="num">2</span>第一步：校正</h2>
+
+<p>这一步<b>没有审美，只有对错</b>。目标是把画面调回「它本来应该的样子」。</p>
+
+<h3>顺序（照着做）</h3>
+<div class="act">
+  <div class="row"><div class="lab">1</div><div>
+    <div class="ttl">白平衡：先让白的东西是白的</div>
+    <div class="d">画面里找一个<b>你知道它应该是白色或灰色</b>的东西——白墙、白盘子、白衬衫、灰色路面。调色温色调，直到它看起来不偏黄也不偏蓝。<br>
+    <b>没有白色参照物就看人的皮肤</b>，或者看整体感觉：室内灯光下通常要往蓝拉，阴天和树荫下要往黄拉。</div>
+  </div></div>
+  <div class="row"><div class="lab">2</div><div>
+    <div class="ttl">曝光：先看有没有「废掉」的区域</div>
+    <div class="d"><b>纯白（死白）和纯黑（死黑）的部分是找不回来的。</b>先把高光拉下来看看天空有没有细节，把阴影提上去看看暗部有没有东西。<br>
+    调完亮度后，画面整体应该<b>该亮的地方亮、该暗的地方暗</b>，而不是全部灰蒙蒙。</div>
+    <div class="no">如果高光已经是纯白（比如天空整片死白），拉高光是救不回来的——那是拍摄时就丢了的信息。</div>
+  </div></div>
+  <div class="row"><div class="lab">3</div><div>
+    <div class="ttl">黑位：让最暗的地方接近黑</div>
+    <div class="d">画面发灰最常见的原因，是<b>最暗的部分不够黑</b>。适当加对比度或压阴影，让画面里有一块真正的深色。<br>
+    <b>这一步是「通透感」的真正来源</b>，比加饱和度有效得多。</div>
+  </div></div>
+</div>
+
+<div class="note key">
+<span class="h">校正做完的标准</span>
+<b>看起来像是「一个正常人用眼睛看到的场景」</b>，而不是像照片或像电影。<br>
+这时候画面可能有点平淡——<b>那是对的</b>，风格是下一步的事。
+</div>
+
+<!-- ===== unify ===== -->
+<h2 id="unify"><span class="num">3</span>第二步：统一</h2>
+
+<div class="note warn">
+<span class="h">被跳过最多、但最该做的一步</span>
+<b>同一顿饭的三个镜头颜色对不上，比整条片子没有风格难看十倍。</b><br>
+观众说不出哪里不对，但会觉得「业余」——因为现实中光线不会一秒变一次。
+</div>
+
+<h3>为什么会不统一</h3>
+<ul>
+<li><b>自动白平衡</b>——同一个场景里相机自己在飘（<a href="../vlog-shooting/#setting">所以拍摄时要手动固定</a>）</li>
+<li><b>光线真的变了</b>——云飘过、走进屋檐、太阳落下去了</li>
+<li><b>不同设备</b>——相机和手机的色彩科学完全不同</li>
+<li><b>不同时间</b>——上午和傍晚拍的同一个地方</li>
+</ul>
+
+<h3>怎么统一：选一个「基准镜头」</h3>
+<div class="act">
+  <div class="row"><div class="lab">1</div><div>
+    <div class="ttl">挑基准</div>
+    <div class="d">在这个段落里挑一个<b>你最满意、曝光和颜色最正常</b>的镜头，把它调好。<b>之后所有镜头都向它靠</b>。</div>
+  </div></div>
+  <div class="row"><div class="lab">2</div><div>
+    <div class="ttl">逐个对齐</div>
+    <div class="d">先对<b>亮度</b>，再对<b>色温</b>，最后对<b>饱和度</b>。这三个对齐了，观感上就是"同一天拍的"。<br>
+    技巧：<b>把播放头在两个镜头之间来回切换</b>，看跳变明不明显，比盯着单个镜头调准得多。</div>
+  </div></div>
+  <div class="row"><div class="lab">3</div><div>
+    <div class="ttl">只求接近，不求相同</div>
+    <div class="d"><b>差一点点没关系，观众看不出来。</b>差很多才是问题。别在这一步追求完美，10 秒调不好就先放着。</div>
+  </div></div>
+</div>
+
+<div class="note tip">
+<span class="h">剪映里的省力做法</span>
+调好一个片段后，<b>复制这个片段</b>（<code>Ctrl+C</code>），选中其他片段<b>粘贴属性</b>——可以把调色参数整批套过去，再逐个微调。<br>
+各版本这个功能的叫法可能是「粘贴属性」「应用到全部」或在片段右键菜单里，找一次记住位置。
+</div>
+
+<!-- ===== style ===== -->
+<h2 id="style"><span class="num">4</span>第三步：风格</h2>
+
+<p>前两步做好后，这一步<b>只需要很轻的调整</b>。风格的本质是「有意识地偏离正确」——所以必须先有正确。</p>
+
+<h3>风格 = 三个决定</h3>
+<div class="scroll"><table>
+<thead><tr><th>决定</th><th>选项</th><th>效果</th></tr></thead>
+<tbody>
+<tr><td class="nm">整体偏暖还是偏冷</td><td>色温 ±</td><td>暖 = 回忆、温馨、傍晚；冷 = 清爽、疏离、清晨</td></tr>
+<tr><td class="nm">反差高还是低</td><td>对比度 / 褪色</td><td>高反差 = 硬朗、现代；低反差（褪色）= 柔和、胶片、日系</td></tr>
+<tr><td class="nm">颜色浓还是淡</td><td>饱和度 / HSL</td><td>浓 = 热闹、南国；淡 = 安静、文艺</td></tr>
+</tbody></table></div>
+
+<div class="note key">
+<span class="h">风格的两条纪律</span>
+<b>① 一条片子只用一种风格。</b>不同段落用不同滤镜，等于没有风格。<br>
+<b>② 强度宁可不够，不要过头。</b>滤镜强度大多数情况下 <b>40–70%</b> 就够了，100% 几乎一定过。
+</div>
+
+<!-- ===== recipes ===== -->
+<hr>
+<p class="part">COPY THESE</p>
+<h2 id="recipes"><span class="num">5</span>五套配方</h2>
+
+<div class="note warn">
+<span class="h">怎么用这些数字</span>
+下面的数值是<b>起点，不是终点</b>。每个片子的素材不同，套上去之后一定要按自己画面微调。<br>
+<b>而且必须在「校正」做完之后再套</b>——直接往没校正的素材上套，效果会很奇怪。<br>
+剪映各版本参数范围可能不同（有的 −100~100，有的 −50~50），<b>看不到对应参数就跳过那一项</b>。
+</div>
+
+<div class="recipe">
+  <div class="swatch"><i style="background:#e8dcc8"></i><i style="background:#d9c9a8"></i><i style="background:#b8a888"></i><i style="background:#8a7f6a"></i><i style="background:#4a4438"></i></div>
+  <div class="hd">
+    <div class="nm">A · 日系清新</div>
+    <div class="d">低反差、偏亮、青绿倾向。适合：樱花、街道、咖啡店、阴天、日本旅拍。<b>最百搭的一套。</b></div>
+  </div>
+  <div class="bd"><div class="scroll"><table>
+  <tbody>
+  <tr><td class="nm">亮度</td><td class="v">+5 ~ +10</td><td>整体提亮一点</td></tr>
+  <tr><td class="nm">对比度</td><td class="v">−5 ~ −10</td><td>降低反差是日系的关键</td></tr>
+  <tr><td class="nm">饱和度</td><td class="v">−5 ~ 0</td><td>略微降低，不要艳</td></tr>
+  <tr><td class="nm">高光</td><td class="v">−10</td><td>压一点，避免天空死白</td></tr>
+  <tr><td class="nm">阴影</td><td class="v">+15</td><td>暗部提亮，通透</td></tr>
+  <tr><td class="nm">褪色</td><td class="v">+10 ~ +15</td><td><b>核心参数</b>，黑位抬起来</td></tr>
+  <tr><td class="nm">色温</td><td class="v">−3 ~ 0</td><td>略偏冷</td></tr>
+  <tr><td class="nm">色调</td><td class="v">−3</td><td>略偏绿</td></tr>
+  <tr><td class="nm">HSL</td><td class="v">绿 −饱和</td><td>树叶降饱和会更清新（见 <a href="#hsl">第 8 节</a>）</td></tr>
+  </tbody></table></div></div>
+</div>
+
+<div class="recipe">
+  <div class="swatch"><i style="background:#f0d8b0"></i><i style="background:#e0b483"></i><i style="background:#c08850"></i><i style="background:#7a5636"></i><i style="background:#33241a"></i></div>
+  <div class="hd">
+    <div class="nm">B · 温暖回忆</div>
+    <div class="d">偏黄、柔和、有年代感。适合：日落、室内、美食、人物、家庭旅行。<b>最容易讨喜的一套。</b></div>
+  </div>
+  <div class="bd"><div class="scroll"><table>
+  <tbody>
+  <tr><td class="nm">色温</td><td class="v">+8 ~ +15</td><td><b>核心</b>，往黄暖走</td></tr>
+  <tr><td class="nm">对比度</td><td class="v">+5</td><td>略提，别太平</td></tr>
+  <tr><td class="nm">饱和度</td><td class="v">+5</td><td>暖调需要一点浓度</td></tr>
+  <tr><td class="nm">高光</td><td class="v">−5</td><td></td></tr>
+  <tr><td class="nm">阴影</td><td class="v">+10</td><td></td></tr>
+  <tr><td class="nm">褪色</td><td class="v">+8</td><td>柔和感</td></tr>
+  <tr><td class="nm">颗粒</td><td class="v">+8</td><td>年代感的来源</td></tr>
+  <tr><td class="nm">暗角</td><td class="v">+10</td><td>轻微，聚焦</td></tr>
+  </tbody></table></div></div>
+</div>
+
+<div class="recipe">
+  <div class="swatch"><i style="background:#dfe6e6"></i><i style="background:#a8c0c4"></i><i style="background:#6f8f98"></i><i style="background:#3f5560"></i><i style="background:#1b2a33"></i></div>
+  <div class="hd">
+    <div class="nm">C · 冷调都市</div>
+    <div class="d">偏青蓝、高反差、干净。适合：城市、夜景、雨天、现代建筑、冬天。</div>
+  </div>
+  <div class="bd"><div class="scroll"><table>
+  <tbody>
+  <tr><td class="nm">色温</td><td class="v">−8 ~ −15</td><td><b>核心</b>，往蓝冷走</td></tr>
+  <tr><td class="nm">对比度</td><td class="v">+10 ~ +15</td><td>高反差是关键</td></tr>
+  <tr><td class="nm">饱和度</td><td class="v">−10</td><td>降低，显得高级</td></tr>
+  <tr><td class="nm">高光</td><td class="v">−10</td><td></td></tr>
+  <tr><td class="nm">阴影</td><td class="v">−5</td><td>暗部压下去，别提</td></tr>
+  <tr><td class="nm">褪色</td><td class="v">0</td><td>不要褪，保持干净</td></tr>
+  <tr><td class="nm">锐化</td><td class="v">+5 ~ +10</td><td>建筑线条更清晰</td></tr>
+  <tr><td class="nm">HSL</td><td class="v">橙 −饱和</td><td>压掉路灯的橙，画面更统一</td></tr>
+  </tbody></table></div></div>
+</div>
+
+<div class="recipe">
+  <div class="swatch"><i style="background:#e6ded0"></i><i style="background:#c9bda6"></i><i style="background:#9e9a80"></i><i style="background:#6b6b58"></i><i style="background:#3c3f35"></i></div>
+  <div class="hd">
+    <div class="nm">D · 胶片</div>
+    <div class="d">低饱和、抬黑位、有颗粒。适合：任何题材，尤其人文、老街、纪录感强的内容。<b>最容易用过头的一套。</b></div>
+  </div>
+  <div class="bd"><div class="scroll"><table>
+  <tbody>
+  <tr><td class="nm">褪色</td><td class="v">+20 ~ +30</td><td><b>核心</b>，黑位抬起来</td></tr>
+  <tr><td class="nm">饱和度</td><td class="v">−15 ~ −20</td><td>明显降低</td></tr>
+  <tr><td class="nm">对比度</td><td class="v">−10</td><td>低反差</td></tr>
+  <tr><td class="nm">颗粒</td><td class="v">+12 ~ +18</td><td><b>不能省</b>，没颗粒就不是胶片</td></tr>
+  <tr><td class="nm">色温</td><td class="v">+5</td><td>略暖</td></tr>
+  <tr><td class="nm">色调</td><td class="v">+3</td><td>略洋红</td></tr>
+  <tr><td class="nm">暗角</td><td class="v">+12</td><td></td></tr>
+  <tr><td class="nm">锐化</td><td class="v">0</td><td><b>不要锐化</b>，胶片本来就不锐</td></tr>
+  </tbody></table></div></div>
+</div>
+
+<div class="recipe">
+  <div class="swatch"><i style="background:#fff4e0"></i><i style="background:#ffd9a0"></i><i style="background:#f0a860"></i><i style="background:#b06030"></i><i style="background:#4a2418"></i></div>
+  <div class="hd">
+    <div class="nm">E · 通透明快</div>
+    <div class="d">高对比、高饱和、干净利落。适合：海边、晴天、南国、美食、运动。<b>手机看最讨喜的一套。</b></div>
+  </div>
+  <div class="bd"><div class="scroll"><table>
+  <tbody>
+  <tr><td class="nm">对比度</td><td class="v">+15</td><td><b>核心</b>，通透感来源</td></tr>
+  <tr><td class="nm">饱和度</td><td class="v">+8 ~ +12</td><td>别超过 +15</td></tr>
+  <tr><td class="nm">高光</td><td class="v">−15</td><td>压高光保住天空</td></tr>
+  <tr><td class="nm">阴影</td><td class="v">+10</td><td>提暗部</td></tr>
+  <tr><td class="nm">色温</td><td class="v">0 ~ +5</td><td>中性或略暖</td></tr>
+  <tr><td class="nm">褪色</td><td class="v">0</td><td>不褪，要通透</td></tr>
+  <tr><td class="nm">锐化</td><td class="v">+8</td><td>克制</td></tr>
+  <tr><td class="nm">HSL</td><td class="v">蓝 +饱和</td><td>天空和海更蓝</td></tr>
+  </tbody></table></div></div>
+</div>
+
+<div class="note tip">
+<span class="h">存成模板，一劳永逸</span>
+调好一套后，<b>做成一个空的模板草稿</b>或者保存为自定义预设。以后新片子直接复制来用，第 4 步（统一包装）能从 10 分钟压到 3 分钟。<br>
+<b>存 3 套轮着用</b>，就不会出现「每条片子长得一样」的问题。
+</div>
+
+<!-- ===== lut ===== -->
+<h2 id="lut"><span class="num">6</span>LUT 怎么用</h2>
+
+<p>LUT 是一张<b>颜色映射表</b>：输入什么颜色 → 输出什么颜色。它本质上是「别人调好的一套参数」的打包。</p>
+
+<h3>三条使用纪律</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>先校正，再套 LUT</div>
+<p><b>LUT 假设你的素材已经是正常曝光和白平衡。</b>往一个偏黄的、欠曝的素材上套 LUT，出来一定是灾难。这是 LUT 用不好的第一原因。</p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>强度不要 100%</div>
+<p><b>40–70% 通常最合适。</b>LUT 是给你一个方向，不是最终答案。套上去之后还要微调亮度和饱和度。</p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>Log 素材要用对应的 LUT</div>
+<p>如果你用 Log 拍摄，必须先套<b>对应机型的转换 LUT</b>（如 S-Log3 → Rec.709），再套风格 LUT。<b>不会调色就别用 Log</b>——直接用标准/自然色彩配置。</p></div>
+</div>
+
+<div class="note warn">
+<span class="h">关于免费 LUT 包</span>
+网上一搜一大把「1000 个电影级 LUT」，<b>但绝大多数是垃圾</b>：要么强度过大，要么针对特定机型和特定素材做的，套到你的素材上完全不对。<br>
+<b>与其收集 LUT，不如把上面那 5 套配方练熟</b>——你自己调的参数一定比随机 LUT 更适合你的素材。
+</div>
+
+<!-- ===== skin ===== -->
+<h2 id="skin"><span class="num">7</span>肤色是底线</h2>
+
+<div class="note key">
+<span class="h">一条不能破的规矩</span>
+<b>风格再强，人的皮肤也不能是绿的、紫的、或者橙得像塑料。</b><br>
+观众对肤色的敏感度远高于其他颜色——因为每个人每天都在看脸。<b>肤色一歪，整条片子就废了</b>，哪怕其他部分调得再好。
+</div>
+
+<h3>怎么检查</h3>
+<ul>
+<li><b>调完风格后，把播放头停在有人脸的镜头上再看一遍</b></li>
+<li>健康的肤色是<b>偏橙的暖色</b>，不管什么肤色的人都在这个大方向上</li>
+<li>如果脸发绿 → 色调往洋红拉一点；发紫 → 往绿拉一点</li>
+<li>如果脸太橙、像上了色 → 降低整体饱和度，或用 HSL 单独降橙色饱和</li>
+</ul>
+
+<h3>冷调风格怎么保住肤色</h3>
+<p>冷调（配方 C）最容易让脸发青。做法：<b>整体往冷调走，但用 HSL 把橙色单独提回来一点</b>——这样阴影和背景是冷的，人脸还是暖的。这也是电影里最常见的配色思路。</p>
+
+<!-- ===== hsl ===== -->
+<h2 id="hsl"><span class="num">8</span>HSL：只改一种颜色</h2>
+
+<p>HSL 让你<b>只调某一个颜色</b>，不影响画面其他部分。这是从「套滤镜」进阶到「会调色」的分界线。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>缩写</th><th>是什么</th><th>典型用法</th></tr></thead>
+<tbody>
+<tr><td class="nm">H · 色相</td><td>把这个颜色<b>换成另一个颜色</b></td><td>把偏黄的草地拉成偏绿</td></tr>
+<tr><td class="nm">S · 饱和度</td><td>这个颜色的<b>浓度</b></td><td>降低绿色饱和 = 日系；提高蓝色 = 天空更蓝</td></tr>
+<tr><td class="nm">L · 亮度</td><td>这个颜色的<b>明暗</b></td><td>压暗蓝色 = 天空更有层次</td></tr>
+</tbody></table></div>
+
+<h3>旅拍最常用的四个 HSL 操作</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>绿色降饱和 + 色相偏青</div>
+<p><b>日系风的核心手法。</b>日本的树和草偏黄绿，降低饱和度、把色相往青绿方向拉一点，立刻就有那个味道。</p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>蓝色降亮度 + 加饱和</div>
+<p>天空和海更深邃、更有层次。<b>晴天素材必做。</b></p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>橙色单独保留</div>
+<p>整体降饱和时，<b>把橙色留住</b>——因为橙色就是肤色。这样画面高级了，人还是好看的。</p></div>
+
+<div class="tip"><div class="t"><span class="b">04</span>压掉杂色</div>
+<p>画面里有个刺眼的红色垃圾桶或蓝色招牌抢注意力？<b>单独降它的饱和度和亮度</b>，比裁画面好用。</p></div>
+</div>
+
+<!-- ===== scene ===== -->
+<h2 id="scene"><span class="num">9</span>场景对策</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>问题素材</th><th>为什么</th><th>怎么救</th></tr></thead>
+<tbody>
+<tr><td class="nm">逆光，脸太黑</td><td>相机按背景测光</td><td><b>阴影 +20~30</b>，再略降高光。别拉「亮度」——那会连天空一起提亮</td></tr>
+<tr><td class="nm">阴天，天空死白</td><td>天空和地面反差太大</td><td>高光拉不回来就<b>接受它</b>，改成降饱和 + 提对比，做成清冷调；或者剪辑时少给天空</td></tr>
+<tr><td class="nm">室内偏黄</td><td>白炽灯 / 暖光</td><td><b>色温往蓝拉</b>。别拉过头——保留一点暖是对的，全中性反而不自然</td></tr>
+<tr><td class="nm">画面偏绿</td><td>荧光灯、地下街</td><td><b>色调往洋红拉</b>一点点。这是最容易被忽略的偏色</td></tr>
+<tr><td class="nm">夜景噪点多</td><td>高 ISO</td><td>降噪会糊，<b>不如稍微压暗 + 加一点颗粒</b>把噪点「合理化」成胶片感</td></tr>
+<tr><td class="nm">夜景颜色混乱</td><td>路灯橙、招牌绿、月光蓝混在一起</td><td>选一个主色方向（通常偏青蓝），<b>用 HSL 压掉其他杂色</b></td></tr>
+<tr><td class="nm">画面发灰发闷</td><td>黑位不够黑</td><td><b>提对比度 + 压阴影</b>。这比加饱和度有效十倍</td></tr>
+<tr><td class="nm">雪景发蓝</td><td>相机对雪的白平衡判断偏差</td><td>色温往暖拉，直到雪看起来是白的而不是蓝的</td></tr>
+<tr><td class="nm">水下 / 泳池</td><td>严重偏青绿</td><td>色温往暖 + 色调往洋红，两个都要动</td></tr>
+</tbody></table></div>
+
+<!-- ===== phone ===== -->
+<h2 id="phone"><span class="num">10</span>手机素材怎么调</h2>
+
+<p>手机和相机的素材<b>放在同一条片子里会很明显</b>，因为手机做了大量机内处理。</p>
+
+<ul>
+<li><b>手机素材通常已经过度锐化和过度饱和</b> → 调的方向是<b>往下减</b>：降饱和、降锐化，而不是继续加</li>
+<li><b>手机的 HDR 会让画面发灰</b>（暗部被强行提亮）→ 需要<b>提对比度、压阴影</b>把黑位找回来</li>
+<li><b>手机夜景模式的噪点是被涂抹过的</b>，加锐化只会让涂抹感更明显 → 别锐化</li>
+<li><b>混用时，以相机素材为基准</b>，把手机素材往它靠——反过来会把好素材调坏</li>
+</ul>
+
+<div class="note tip">
+<span class="h">根本解法</span>
+如果经常混用，<b>拍摄时就把手机的「鲜艳模式」关掉</b>，选自然/标准色彩，这样后期好统一得多。
+</div>
+
+<!-- ===== mistakes ===== -->
+<h2 id="mistakes"><span class="num">11</span>常见翻车</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>做法</th><th>结果</th><th>正确做法</th></tr></thead>
+<tbody>
+<tr><td class="nm">一上来就套滤镜</td><td class="ng">在歪的底子上刷油漆，越刷越难看</td><td>先校正，再统一，最后风格</td></tr>
+<tr><td class="nm">饱和度拉到 +30</td><td class="ng">颜色溢出、脸像上了色、廉价感</td><td><b>+5~+12 就够</b>。想让某个颜色突出用 HSL</td></tr>
+<tr><td class="nm">滤镜强度 100%</td><td class="ng">过头，且所有片子长一样</td><td>40–70%</td></tr>
+<tr><td class="nm">锐化拉满</td><td class="ng">边缘白边，看着「脏」不是「锐」</td><td>≤10，胶片风格直接 0</td></tr>
+<tr><td class="nm">每个片段调不同风格</td><td class="ng">等于没有风格，观感混乱</td><td>一条片子一种风格</td></tr>
+<tr><td class="nm">只调了几个「重点镜头」</td><td class="ng">调过和没调过的镜头一切换就露馅</td><td>要么全调，要么全不调</td></tr>
+<tr><td class="nm">不看肤色</td><td class="ng">脸发绿发紫，整条片子废掉</td><td>调完停在人脸镜头上检查一遍</td></tr>
+<tr><td class="nm">在很亮/很暗的房间里调</td><td class="ng">调出来的东西在别人屏幕上完全不对</td><td>在<b>正常亮度环境</b>下调，屏幕亮度中等</td></tr>
+<tr><td class="nm">只在电脑上看效果</td><td class="ng">手机上看完全是另一回事</td><td><b>导出后在手机上看一遍</b>再定稿</td></tr>
+<tr><td class="nm">调了两小时</td><td class="ng">审美疲劳，越调越偏</td><td><b>10 分钟封顶</b>，看不出问题就是好了</td></tr>
+</tbody></table></div>
+
+<div class="note warn">
+<span class="h">关于「眼睛会骗人」</span>
+连续盯着调 20 分钟后，<b>你的眼睛会适应当前的偏色，觉得它是正常的</b>。<br>
+对策：<b>调完之后关掉，去做点别的，过 10 分钟再回来看</b>。绝大多数「调过头」都是这样发现的。
+</div>
+
+<!-- ===== workflow ===== -->
+<h2 id="workflow"><span class="num">12</span>10 分钟流程</h2>
+
+<p>接在<a href="../capcut-workflow/#s4">剪辑流程第 4 步</a>。素材已经排好、还没做包装的时候执行。</p>
+
+<ul class="chk" data-chk="flow">
+<li><b>0–1 分</b>　挑一个最有代表性的镜头当基准（有人脸的优先）</li>
+<li><b>1–4 分</b>　<b>校正基准镜头</b>：白平衡 → 曝光 → 黑位</li>
+<li><b>4–6 分</b>　套一套配方（<a href="#recipes">第 5 节</a>），强度 40–70%，微调</li>
+<li><b>6–8 分</b>　<b>复制属性，粘贴到所有片段</b>，然后逐个看有没有明显不对的</li>
+<li><b>8–9 分</b>　只修那些<b>明显跳</b>的镜头（对亮度 → 对色温 → 对饱和）</li>
+<li><b>9–10 分</b>　停在人脸镜头检查肤色 → 从头快速过一遍 → 收工</li>
+</ul>
+<button class="reset" data-reset="flow">重置</button>
+
+<div class="note key">
+<span class="h">收工标准</span>
+<b>不是「调到最好」，是「看不出问题」。</b><br>
+好的调色是观众感觉不到的——他们只会觉得「这片子看着挺舒服」，而不会想到颜色。<b>能被一眼看出「这调过色」的，通常都调过头了。</b>
+</div>
+
+<div class="links">
+<a href="../capcut-workflow/">剪辑流程：旅拍剪辑 60 分钟 →</a>
+<a href="../vlog-shooting/">拍摄手册：Vlog 拍摄完全手册 →</a>
+<a href="../">← share-pages</a>
+</div>
+
+<hr>
+<p class="fine">创建于 2026 年 8 月。<b>参数数值是起点不是标准答案</b>，各版本剪映的参数范围和名称可能不同，以自己画面为准。这一页是操作手册——用出心得就直接改它（文件在 <code>share-pages/color-grading/index.html</code>）。<br>
+勾选状态存在本机浏览器里，换设备不会同步。</p>
+
+</main>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.chk').forEach(function(list){
+    var key = 'color-grade:' + list.dataset.chk, saved = [];
+    try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    var items = list.querySelectorAll('li');
+    items.forEach(function(li, i){
+      if (saved.indexOf(i) !== -1) li.classList.add('done');
+      li.addEventListener('click', function(e){
+        if (e.target.tagName === 'A') return;
+        li.classList.toggle('done');
+        var on = [];
+        items.forEach(function(x, j){ if (x.classList.contains('done')) on.push(j); });
+        try { localStorage.setItem(key, JSON.stringify(on)); } catch(e) {}
+      });
+    });
+  });
+  document.querySelectorAll('[data-reset]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var list = document.querySelector('.chk[data-chk="' + btn.dataset.reset + '"]');
+      if (!list) return;
+      list.querySelectorAll('li').forEach(function(li){ li.classList.remove('done'); });
+      try { localStorage.removeItem('color-grade:' + btn.dataset.reset); } catch(e) {}
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if (targets.length && 'IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ seen[en.target.id] = en.isIntersecting; });
+      for (var i = 0; i < targets.length; i++) {
+        if (seen[targets[i].id]) {
+          var id = targets[i].id;
+          links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + id); });
+          break;
+        }
+      }
+    }, { rootMargin: '-70px 0px -70% 0px' });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+
+</body>
+</html>

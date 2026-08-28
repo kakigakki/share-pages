@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>素材管理与归档 — 命名・备份・可检索索引</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9; --code:#f0f3ef;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68;
+  --gothic:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans","Microsoft YaHei","Noto Sans SC","Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+
+.masthead{border-bottom:1px solid var(--rule);background:var(--panel)}
+.masthead .inner{max-width:1100px;margin:0 auto;padding:22px 20px 20px}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-decoration:none;
+  display:inline-block;margin-bottom:10px;color:var(--ink3)}
+.eyebrow{font-family:var(--mono);font-size:.63rem;letter-spacing:.2em;color:var(--volt);margin:0 0 7px}
+.masthead h1{font-weight:700;font-size:1.75rem;line-height:1.3;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.masthead h1 small{display:block;font-size:.55em;font-weight:600;color:var(--ink2);margin-top:6px;letter-spacing:0}
+.masthead .sub{margin:12px 0 0;font-size:.85rem;color:var(--ink2);line-height:1.8;max-width:72ch}
+
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:44px;
+  max-width:1100px;margin:0 auto;padding:0 20px 90px}
+.toc{position:sticky;top:24px;align-self:start;padding-top:30px;max-height:calc(100vh - 48px);overflow-y:auto}
+.toc .lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--ink3);margin:0 0 10px;
+  padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{margin:0}
+.toc li.sec{font-family:var(--mono);font-size:.57rem;letter-spacing:.14em;color:var(--ink3);padding:11px 0 4px 11px}
+.toc a{display:block;padding:5px 0 5px 11px;font-size:.78rem;text-decoration:none;color:var(--ink2);
+  border-left:2px solid var(--rule);line-height:1.5}
+.toc a:hover{color:var(--ink);border-left-color:var(--ink3)}
+.toc a.on{color:var(--ai);border-left-color:var(--ai);font-weight:600}
+
+nav.mobile{display:none}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0;padding-bottom:70px}
+  .toc{display:none}
+  nav.mobile{display:block;position:sticky;top:0;z-index:30;background:var(--panel);
+    border-bottom:1px solid var(--rule);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  nav.mobile ul{display:flex;list-style:none;margin:0;padding:0 8px}
+  nav.mobile a{display:block;padding:11px 10px;font-size:.75rem;white-space:nowrap;text-decoration:none;color:var(--ink2)}
+}
+
+main{padding-top:30px;min-width:0}
+h2{font-size:1.32rem;font-weight:700;line-height:1.35;margin:48px 0 14px;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:11px}
+h2:first-of-type{margin-top:0}
+h2 .num{flex:none;width:29px;height:29px;border-radius:50%;background:var(--ai);color:var(--panel);
+  font-family:var(--mono);font-size:.8rem;font-weight:700;display:grid;place-items:center;letter-spacing:-.03em}
+h3{font-size:1.03rem;font-weight:700;margin:32px 0 9px}
+p{margin:0 0 13px}
+ul,ol{padding-left:1.3em;margin:0 0 13px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--rule);margin:36px 0}
+.part{font-family:var(--mono);font-size:.63rem;letter-spacing:.22em;color:var(--volt);text-align:center;margin:0 0 6px}
+
+code{font-family:var(--mono);font-size:.84em;background:var(--code);padding:1px 5px;border:1px solid var(--rule);border-radius:3px}
+pre{font-family:var(--mono);font-size:.72rem;line-height:1.8;background:var(--code);border:1px solid var(--rule);
+  border-radius:5px;padding:12px 14px;overflow-x:auto;margin:11px 0}
+pre code{background:none;border:0;padding:0;font-size:inherit}
+
+.note{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--ai);
+  border-radius:0 5px 5px 0;padding:12px 15px;margin:16px 0;font-size:.87rem;line-height:1.8}
+.note .h{font-family:var(--mono);font-size:.61rem;letter-spacing:.14em;display:block;margin-bottom:6px;color:var(--ai)}
+.note.warn{border-left-color:var(--sun)} .note.warn .h{color:var(--sun)} .note.warn b{color:var(--sun)}
+.note.tip{border-left-color:var(--moss)} .note.tip .h{color:var(--moss)}
+.note.key{border-left-color:var(--volt)} .note.key .h{color:var(--volt)} .note.key b{color:var(--volt)}
+.note p:last-child{margin-bottom:0}
+
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);
+  border-radius:5px;margin:14px 0;background:var(--panel)}
+table{border-collapse:collapse;font-size:.79rem;min-width:580px;width:100%}
+th,td{padding:9px 11px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top;line-height:1.65}
+th{font-family:var(--mono);font-size:.61rem;letter-spacing:.05em;color:var(--ink2);white-space:nowrap;background:var(--sunk)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink3);width:1%;font-size:.72rem;padding-top:11px}
+td.nm{font-weight:700;white-space:nowrap;width:1%}
+td.mono{font-family:var(--mono);font-size:.72rem;white-space:nowrap}
+.ok{color:var(--moss);font-weight:700}
+.ng{color:var(--sun);font-weight:700}
+.vt{color:var(--volt);font-weight:700}
+
+.chk{list-style:none;padding:0;margin:13px 0}
+.chk li{position:relative;padding-left:31px;font-size:.88rem;line-height:1.8;margin-bottom:10px;cursor:pointer;user-select:none}
+.chk li::before{content:"☐";position:absolute;left:0;top:0;font-family:var(--mono);color:var(--sun);font-size:1.05rem;line-height:1.7}
+.chk li.done::before{content:"☑";color:var(--moss)}
+.chk li.done{color:var(--ink3);text-decoration:line-through;text-decoration-color:var(--rule)}
+.reset{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;background:var(--panel);color:var(--ink3);
+  border:1px solid var(--rule);border-radius:4px;padding:5px 11px;cursor:pointer;margin-top:2px}
+.reset:hover{color:var(--ink);border-color:var(--ink2)}
+
+.act{border:1px solid var(--rule);background:var(--panel);border-radius:5px;margin:14px 0;overflow:hidden}
+.act .row{display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;padding:13px 15px;border-bottom:1px solid var(--rule)}
+.act .row:last-child{border-bottom:0}
+.act .lab{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;color:var(--ink3);padding-top:4px}
+.act .ttl{font-weight:700;font-size:.97rem;line-height:1.5}
+.act .d{font-size:.86rem;margin-top:4px;line-height:1.8}
+.act .no{font-size:.79rem;color:var(--sun);margin-top:6px}
+
+.tips{display:grid;gap:9px;margin:14px 0}
+.tip{border:1px solid var(--rule);background:var(--panel);border-radius:5px;padding:11px 14px}
+.tip .t{font-weight:700;font-size:.9rem;line-height:1.5;margin-bottom:3px}
+.tip .t .b{font-family:var(--mono);font-size:.63rem;color:var(--volt);border:1px solid var(--volt);
+  border-radius:2px;padding:1px 5px;margin-right:7px;vertical-align:2px;font-weight:500}
+.tip p{font-size:.85rem;margin:0;color:var(--ink2);line-height:1.75}
+.tip p b{color:var(--ink)}
+
+.fine{font-size:.73rem;color:var(--ink3);line-height:1.75;margin:15px 0 0}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.links a{font-size:.76rem;border:1px solid var(--rule);border-radius:4px;padding:5px 10px;background:var(--panel);text-decoration:none}
+</style>
+</head>
+<body>
+
+<header class="masthead"><div class="inner">
+  <a class="back" href="../">← share-pages</a>
+  <p class="eyebrow">NAMING · BACKUP · SEARCHABLE INDEX</p>
+  <h1>素材管理与归档<small>命名 · 备份 · 可检索索引</small></h1>
+  <p class="sub">这一页解决两件事：<b>①这次剪得顺 ②三年后还找得到、还没丢。</b><br>
+  它不像调色那样立刻让片子变好看，但它决定了<b>你的素材是一份越攒越值钱的资产，还是一堆再也打不开的文件</b>。而且成本极低——每次旅行 10 分钟。</p>
+</div></header>
+
+<nav class="mobile"><ul>
+  <li><a href="#why">为什么要做</a></li>
+  <li><a href="#folder">文件夹结构</a></li>
+  <li><a href="#naming">命名规则</a></li>
+  <li><a href="#import">回来当天</a></li>
+  <li><a href="#backup">备份策略</a></li>
+  <li><a href="#index">可检索索引</a></li>
+  <li><a href="#auto">自动打标</a></li>
+  <li><a href="#cleanup">该删什么</a></li>
+  <li><a href="#longterm">长期保存</a></li>
+  <li><a href="#checklist">流程清单</a></li>
+</ul></nav>
+
+<div class="layout">
+
+<aside class="toc">
+  <p class="lbl">目录</p>
+  <ol>
+    <li class="sec">基础</li>
+    <li><a href="#why">0 · 为什么要做</a></li>
+    <li><a href="#folder">1 · 文件夹结构</a></li>
+    <li><a href="#naming">2 · 命名规则</a></li>
+    <li class="sec">流程</li>
+    <li><a href="#import">3 · 回来当天</a></li>
+    <li><a href="#backup">4 · 备份策略</a></li>
+    <li class="sec">找得到</li>
+    <li><a href="#index">5 · 可检索索引</a></li>
+    <li><a href="#auto">6 · 自动打标</a></li>
+    <li class="sec">收尾</li>
+    <li><a href="#cleanup">7 · 该删什么</a></li>
+    <li><a href="#longterm">8 · 长期保存</a></li>
+    <li><a href="#checklist">9 · 流程清单</a></li>
+  </ol>
+</aside>
+
+<main>
+
+<!-- ===== why ===== -->
+<h2 id="why"><span class="num">0</span>为什么要做</h2>
+
+<div class="note key">
+<span class="h">两个都会发生的场景</span>
+<b>场景 A：</b>三年后你想找「京都那碗拉面」的那段。翻出移动硬盘，看到 <code>DSC_0412.MP4</code> 到 <code>DSC_1893.MP4</code>，<b>只能一个个点开看</b>。找了半小时放弃了。<br>
+<b>场景 B：</b>硬盘掉在地上，或者某天插上去提示「需要格式化」。<b>三年的旅行素材一次归零。</b><br>
+这一页就是为了这两件事。
+</div>
+
+<h3>成本对比</h3>
+<div class="scroll"><table>
+<thead><tr><th></th><th>做</th><th>不做</th></tr></thead>
+<tbody>
+<tr><td class="nm">时间成本</td><td>每次旅行 <b>10 分钟</b></td><td>0</td></tr>
+<tr><td class="nm">三年后找一段素材</td><td class="ok">10 秒</td><td class="ng">半小时，或者放弃</td></tr>
+<tr><td class="nm">硬盘坏了</td><td class="ok">从备份恢复</td><td class="ng">全没了</td></tr>
+<tr><td class="nm">想重剪旧片子</td><td class="ok">直接开工</td><td class="ng">工程找不到、素材路径全断</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">一条基本判断</span>
+<b>硬盘比你的时间便宜得多。</b>不要为了省几百块的存储空间去删原始素材——你以后重剪一次省下的时间就值回来了。<br>
+真正该省的是<b>找东西的时间</b>，而那靠的是命名和索引，不是删文件。
+</div>
+
+<!-- ===== folder ===== -->
+<h2 id="folder"><span class="num">1</span>文件夹结构</h2>
+
+<p>一次旅行一个文件夹，里面结构固定。<b>固定的好处是不用每次想，而且脚本和批处理能直接套用。</b></p>
+
+<pre><code>2026-08_京都/
+├── 01_原片/          ← 相机/手机直接导出来的，只读，永不修改
+│   ├── camera/
+│   └── phone/
+├── 02_代理/          ← ffmpeg 转的 1080p，剪辑时实际用的
+├── 03_音频/          ← 环境音、音效、口播、旁白
+├── 04_音乐/          ← 用到的曲子 + 授权记录
+├── 05_工程/          ← 剪映草稿备份、LUT、字幕文件
+├── 06_导出/          ← 成片（各版本）
+│   ├── 京都_v1_横屏.mp4
+│   └── 京都_v1_竖屏.mp4
+├── INDEX.md          ← 可检索索引（见第 5 节）
+└── README.md         ← 这趟旅行的一句话说明 + 拍摄设备 + 参数</code></pre>
+
+<div class="note warn">
+<span class="h">最重要的一条规矩</span>
+<b><code>01_原片</code> 是只读的，永远不改、不删、不重命名里面的文件。</b><br>
+所有操作都在 <code>02_代理</code> 上做。原片就当成底片——<b>底片不能改</b>，改坏了没有第二份。
+</div>
+
+<h3>顶层怎么放</h3>
+<pre><code>D:/Video/
+├── 2026-08_京都/
+├── 2026-09_蓼科ドライブ/
+├── 2025-11_台湾/
+├── _素材库/           ← 跨旅行复用：LUT、音效、片头片尾、模板
+└── _INDEX_ALL.md      ← 所有旅行的总索引</code></pre>
+
+<p>下划线开头的文件夹会<b>排在最前面</b>，一眼能看到。</p>
+
+<!-- ===== naming ===== -->
+<h2 id="naming"><span class="num">2</span>命名规则</h2>
+
+<div class="note key">
+<span class="h">命名的唯一目标</span>
+<b>让「按名字排序」= 「按时间排序」，并且看名字就知道是什么。</b><br>
+做到这两点，你就再也不用点开文件确认了。
+</div>
+
+<h3>三条硬规矩</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>日期一律用 <code>YYYY-MM-DD</code></div>
+<p><b>唯一能让字母排序 = 时间排序的格式。</b><code>2026-08-15</code> 会自动排在 <code>2026-09-01</code> 前面；写成 <code>8月15日</code> 或 <code>15-08-2026</code> 就全乱了。</p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>不要用空格，用下划线或连字符</div>
+<p>空格会让命令行、脚本、ffmpeg 批处理全部出问题（要不停加引号转义）。<b>用 <code>_</code> 分隔大块，<code>-</code> 分隔小块。</b></p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>版本号用 <code>v1 v2 v3</code>，不要用「最终」</div>
+<p><code>最终版_真的最终_改3.mp4</code> 是所有人都犯过的错。<b>数字永远单调递增，永远不会歧义。</b></p></div>
+</div>
+
+<h3>成片命名</h3>
+<pre><code>2026-08_京都_v2_横屏_1080p.mp4
+2026-08_京都_v2_竖屏_1080p.mp4
+└─日期─┘└地点┘└版本┘└画幅┘└分辨率┘</code></pre>
+
+<h3>要不要重命名原始片段</h3>
+<p><b>不建议。</b>相机自己的编号（<code>DSC_0412</code>）是唯一且连续的，改了反而容易和备份对不上、和索引对不上。<br>
+<b>正确做法是：文件名保持不动，靠索引文件建立「文件名 → 内容」的映射。</b>见第 5 节。</p>
+
+<!-- ===== import ===== -->
+<h2 id="import"><span class="num">3</span>回来当天：10 分钟</h2>
+
+<p>旅行结束当天做，<b>别拖</b>——拖过三天你就再也想不起来哪段是哪了。</p>
+
+<div class="act">
+  <div class="row"><div class="lab">1 · 2分</div><div>
+    <div class="ttl">建文件夹，导原片</div>
+    <div class="d">按第 1 节的结构建好，把卡里的东西<b>整卡复制</b>进 <code>01_原片</code>。别挑，全导。</div>
+  </div></div>
+  <div class="row"><div class="lab">2 · 1分</div><div>
+    <div class="ttl">立刻做第二份备份</div>
+    <div class="d"><b>在删卡之前</b>。第二份放在另一块物理硬盘上。<br>见 <a href="#backup">第 4 节</a>。</div>
+    <div class="no">顺序很重要：备份完成之前不要格式化存储卡。卡是你此刻的第二份副本。</div>
+  </div></div>
+  <div class="row"><div class="lab">3 · 3分</div><div>
+    <div class="ttl">写 README</div>
+    <div class="d">三行就够：<b>这趟去了哪、用了什么设备、有什么特殊情况</b>（比如"第二天下雨"、"手机素材偏冷"）。<br>三年后这三行比什么都有用。</div>
+  </div></div>
+  <div class="row"><div class="lab">4 · 4分</div><div>
+    <div class="ttl">挂上代理转码，然后去睡觉</div>
+    <div class="d">跑 <a href="../capcut-workflow/#tools">ffmpeg 批量转 1080p</a>，让它自己跑。<b>明天起来就能直接开剪。</b></div>
+  </div></div>
+</div>
+
+<!-- ===== backup ===== -->
+<h2 id="backup"><span class="num">4</span>备份策略</h2>
+
+<div class="note key">
+<span class="h">3-2-1 原则</span>
+<b>3</b> 份副本 · <b>2</b> 种不同介质 · <b>1</b> 份异地。<br>
+听起来夸张，但对旅行素材来说，<b>做到「2 份 + 1 份异地」就已经覆盖了绝大多数风险</b>。
+</div>
+
+<h3>实际怎么落地</h3>
+<div class="scroll"><table>
+<thead><tr><th>层级</th><th>放哪</th><th>防的是什么</th><th>优先级</th></tr></thead>
+<tbody>
+<tr><td class="nm">第 1 份</td><td>电脑本机硬盘 / 工作盘</td><td>—（这是工作副本）</td><td class="ok">必须</td></tr>
+<tr><td class="nm">第 2 份</td><td><b>另一块物理硬盘</b>（移动硬盘）</td><td>硬盘故障、误删</td><td class="ok"><b>必须</b></td></tr>
+<tr><td class="nm">第 3 份</td><td>云盘 / NAS / 放在别处的硬盘</td><td>失窃、火灾、进水</td><td>强烈建议</td></tr>
+</tbody></table></div>
+
+<div class="note warn">
+<span class="h">不算备份的几种情况</span>
+<b>· 同一块硬盘上复制两份</b> —— 硬盘坏了两份一起没<br>
+<b>· 同一台电脑的两个分区</b> —— 同上<br>
+<b>· RAID</b> —— RAID 防的是硬盘故障，<b>不防误删和误格式化</b>，它不是备份<br>
+<b>· 只留在存储卡里</b> —— 卡是消耗品，而且你迟早要格式化它
+</div>
+
+<h3>取舍：不是所有东西都要三份</h3>
+<div class="scroll"><table>
+<thead><tr><th>内容</th><th>备份级别</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td class="nm">01_原片</td><td class="ok">3 份</td><td><b>唯一不可再生的东西</b></td></tr>
+<tr><td class="nm">03_音频（现场录的）</td><td class="ok">3 份</td><td>同样不可再生</td></tr>
+<tr><td class="nm">05_工程 + INDEX</td><td class="ok">3 份</td><td>体积极小，但重做要几小时</td></tr>
+<tr><td class="nm">06_导出成片</td><td>2 份</td><td>有原片和工程就能重做</td></tr>
+<tr><td class="nm">02_代理</td><td class="ng">0 份</td><td><b>随时能重新转，不用备份</b>。它占的空间最大</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">最容易被忽略的一项</span>
+<b>剪映草稿要单独备份。</b>它默认在系统盘的某个目录里，不在你的项目文件夹中——<b>重装系统就没了</b>。<br>
+剪完之后把草稿文件夹整个复制一份到 <code>05_工程/</code>。体积很小，但省掉的是几小时重剪。
+</div>
+
+<h3>一条同步命令</h3>
+<p>Windows 用 <code>robocopy</code> 做增量同步（只复制变化的部分）：</p>
+<pre><code>robocopy "D:\Video\2026-08_京都" "E:\Backup\2026-08_京都" /MIR /XD 02_代理 /R:2 /W:5</code></pre>
+<div class="scroll"><table>
+<tbody>
+<tr><td class="mono">/MIR</td><td>镜像同步（源删了目标也删）</td></tr>
+<tr><td class="mono">/XD 02_代理</td><td><b>排除代理目录</b>，不浪费空间</td></tr>
+<tr><td class="mono">/R:2 /W:5</td><td>失败重试 2 次、间隔 5 秒，避免卡死</td></tr>
+</tbody></table></div>
+<p class="fine"><b><code>/MIR</code> 会删除目标里源已经没有的文件</b>——第一次跑之前先确认路径没写错，或者先去掉 <code>/MIR</code> 试一次。</p>
+
+<!-- ===== index ===== -->
+<hr>
+<p class="part">CORE SECTION</p>
+<h2 id="index"><span class="num">5</span>可检索索引</h2>
+
+<div class="note key">
+<span class="h">这一节是整页最有价值的部分</span>
+<b>成片会过时，索引不会。</b><br>
+一条 3 分钟的成片只用掉素材的 5%。剩下 95% 如果没有索引，等于不存在——<b>建了索引，那 95% 才真正属于你</b>。
+</div>
+
+<h3>最省事的版本：一个 markdown 文件</h3>
+<p>剪辑时你本来就要<a href="../capcut-workflow/#s1">过一遍素材记时间码</a>（粗筛那一步）。<b>把那份记录顺手存下来，就是索引</b>——等于零额外成本。</p>
+
+<pre><code># 2026-08 京都
+
+设备：a7c2（4K30, 手动白平衡）+ iPhone
+天气：D1 晴 / D2 雨 / D3 阴
+
+## D1 8/15
+
+| 文件 | 时间码 | 内容 | 评价 |
+|---|---|---|---|
+| DSC_0412 | 00:00-00:08 | 京都駅 大远景 | ★★★ |
+| DSC_0418 | 00:03-00:06 | 走进小巷 背身跟随 | ★★★ 开场备选 |
+| DSC_0431 | 00:12-00:20 | 拉面 热气特写 | ★★  |
+| DSC_0433 | 00:02-00:05 | 吃第一口 反应 | ★★★ |
+| IMG_2201 | —        | 手机 街景 偏冷需调色 | ★  |
+
+## D2 8/16 雨
+...</code></pre>
+
+<div class="note tip">
+<span class="h">为什么用 markdown 而不是 Excel</span>
+<b>markdown 是纯文本，能被全局搜索工具直接搜到内容。</b>在 Everything、VS Code 或系统搜索里搜「拉面」，能直接命中这一行。<br>
+Excel 是二进制，多数搜索工具搜不到里面的文字。
+</div>
+
+<h3>怎么搜</h3>
+<div class="scroll"><table>
+<thead><tr><th>工具</th><th>怎么用</th></tr></thead>
+<tbody>
+<tr><td class="nm">Everything<br><span class="fine">Windows・免费</span></td><td>秒搜文件名。<b>装了它以后就不会再手动翻文件夹了</b>。开启「内容搜索」还能搜 md 文件里的文字</td></tr>
+<tr><td class="nm">VS Code</td><td>把 <code>D:/Video</code> 整个打开，<code>Ctrl+Shift+F</code> 全局搜索所有 INDEX.md</td></tr>
+<tr><td class="nm">grep / ripgrep</td><td><code>rg "拉面" D:/Video --type md</code> —— 一行命令搜遍所有旅行</td></tr>
+</tbody></table></div>
+
+<h3>总索引</h3>
+<p>顶层放一个 <code>_INDEX_ALL.md</code>，每次旅行加一行：</p>
+<pre><code>| 日期 | 地点 | 成片 | 素材量 | 备份 | 备注 |
+|---|---|---|---|---|---|
+| 2026-08 | 京都 | v2 横+竖 | 142GB | 本机+E盘+云 | 雨天素材多 |
+| 2026-09 | 蓼科 | v1 | 88GB | 本机+E盘 | ⚠️ 云备份未做 |</code></pre>
+<p><b>这张表还兼任备份状态检查表</b>——一眼看到哪次旅行还没做异地备份。</p>
+
+<!-- ===== auto ===== -->
+<h2 id="auto"><span class="num">6</span>自动打标（可选，工程量大）</h2>
+
+<p>如果素材已经多到手写索引也来不及，可以让机器先过一遍。<b>但先说清楚：手写索引对绝大多数人已经够用了</b>，下面这套是给"素材几个 T、且愿意写点脚本"的情况准备的。</p>
+
+<div class="act">
+  <div class="row"><div class="lab">1</div><div>
+    <div class="ttl">场景切分</div>
+    <div class="d"><b>PySceneDetect</b> 把长片段按镜头切开，输出每个镜头的时间码。</div>
+  </div></div>
+  <div class="row"><div class="lab">2</div><div>
+    <div class="ttl">抽关键帧</div>
+    <div class="d">每个镜头抽 1–3 帧存成 jpg。<b>按镜头抽，不要按秒抽</b>——几千帧的成本没必要。</div>
+  </div></div>
+  <div class="row"><div class="lab">3</div><div>
+    <div class="ttl">质量打分（纯 CV，零成本）</div>
+    <div class="d">拉普拉斯方差判虚焦、直方图判过曝欠曝、pHash 找重复镜头。<b>这一步能直接毙掉一半废片</b>，而且不用任何模型。</div>
+  </div></div>
+  <div class="row"><div class="lab">4</div><div>
+    <div class="ttl">视觉打标</div>
+    <div class="d">把关键帧喂给本地 VLM（Mac 上 <code>mlx-vlm</code> 跑 Qwen-VL 即可），生成一句话描述和标签，写进 JSON。</div>
+  </div></div>
+  <div class="row"><div class="lab">5</div><div>
+    <div class="ttl">生成 INDEX.md</div>
+    <div class="d">把 JSON 渲染成和第 5 节一样格式的 markdown，<b>汇入同一套搜索体系</b>。</div>
+  </div></div>
+</div>
+
+<div class="note tip">
+<span class="h">更省事的现成方案</span>
+<b>Immich</b>（开源自建相册）内置 CLIP 语义搜索，可以直接搜「日落 海边 空镜」找自己的素材，照片视频都支持。<br>
+不想写脚本又想要语义搜索的话，<b>这是最短路径</b>。
+</div>
+
+<!-- ===== cleanup ===== -->
+<h2 id="cleanup"><span class="num">7</span>该删什么，不该删什么</h2>
+
+<div class="scroll"><table>
+<thead><tr><th></th><th>内容</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td class="ok">可以删</td><td><b>代理文件</b>（02_代理）</td><td>随时能重转，而且占空间最大</td></tr>
+<tr><td class="ok">可以删</td><td>误触的 1 秒片段、纯黑、拍到地面的</td><td>确定无用</td></tr>
+<tr><td class="ok">可以删</td><td>同一镜头拍了 3 遍里明显失败的</td><td><b>但只删明显失败的</b>，"还行"的都留着</td></tr>
+<tr><td class="ok">可以删</td><td>中间导出的测试版本</td><td>只留最终版和上一版</td></tr>
+<tr><td class="ng">不要删</td><td><b>原始素材</b></td><td>不可再生。硬盘比你的时间便宜</td></tr>
+<tr><td class="ng">不要删</td><td>当时觉得没用的空镜</td><td><b>下次做别的片子可能正好要</b></td></tr>
+<tr><td class="ng">不要删</td><td>剪映草稿工程</td><td>体积极小，重做要几小时</td></tr>
+<tr><td class="ng">不要删</td><td>现场录的环境音</td><td>不可再生，而且以后能复用</td></tr>
+</tbody></table></div>
+
+<div class="note warn">
+<span class="h">删素材前问自己一句</span>
+<b>「这个能重新拍到吗？」</b><br>
+不能 → 不删。能 → 随便。<br>
+旅行素材几乎全部属于"不能"这一类，所以<b>默认答案是不删</b>。真的空间紧张，就去买硬盘，不要删底片。
+</div>
+
+<!-- ===== longterm ===== -->
+<h2 id="longterm"><span class="num">8</span>长期保存</h2>
+
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>移动硬盘每年通电一次</div>
+<p>长期不通电的机械硬盘有停摆和磁性衰减的风险。<b>每年插上跑一次同步</b>，顺便验证还能读。</p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>别把 SSD 当冷备份</div>
+<p>SSD 长期断电存放<b>有数据衰减风险</b>，不适合"放进抽屉五年不管"。冷备份用机械硬盘，或者上云。</p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>硬盘用三五年就该换</div>
+<p>不是坏了才换。<b>在它坏之前迁移到新盘</b>，成本远低于数据恢复。</p></div>
+
+<div class="tip"><div class="t"><span class="b">04</span>存 H.264/H.265 就够</div>
+<p>不用为了"归档质量"转成 ProRes——体积会大到离谱。<b>相机原生的格式就是最好的归档格式</b>。</p></div>
+
+<div class="tip"><div class="t"><span class="b">05</span>每次备份后随机抽查一个文件</div>
+<p><b>没验证过的备份不算备份。</b>随手打开一个视频确认能播，10 秒的事。</p></div>
+</div>
+
+<!-- ===== checklist ===== -->
+<h2 id="checklist"><span class="num">9</span>流程清单</h2>
+
+<h3>旅行回来当天（10 分钟）</h3>
+<ul class="chk" data-chk="day0">
+<li>建好文件夹结构</li>
+<li>整卡导入 <code>01_原片</code>，不挑不删</li>
+<li><b>做第二份备份 —— 在格式化存储卡之前</b></li>
+<li>写 README（去了哪 / 什么设备 / 特殊情况）</li>
+<li>挂上 ffmpeg 代理转码，去睡觉</li>
+</ul>
+<button class="reset" data-reset="day0">重置</button>
+
+<h3>剪辑时（顺手做，零额外成本）</h3>
+<ul class="chk" data-chk="editing">
+<li>粗筛记的时间码，<b>直接存成 INDEX.md</b></li>
+<li>音乐的曲名 / 来源 / 许可证记进 <code>04_音乐/</code></li>
+<li>调色参数记一笔（下次同一趟旅行的续集能直接复用）</li>
+</ul>
+<button class="reset" data-reset="editing">重置</button>
+
+<h3>成片导出后（5 分钟）</h3>
+<ul class="chk" data-chk="after">
+<li>成片按规范命名，放进 <code>06_导出</code></li>
+<li><b>剪映草稿复制到 <code>05_工程/</code></b>（它默认不在项目文件夹里）</li>
+<li>删掉 <code>02_代理</code> 释放空间</li>
+<li>跑一次 robocopy 同步到备份盘</li>
+<li>在 <code>_INDEX_ALL.md</code> 加一行</li>
+<li>随机打开一个备份文件确认能播</li>
+</ul>
+<button class="reset" data-reset="after">重置</button>
+
+<h3>每年一次</h3>
+<ul class="chk" data-chk="yearly">
+<li>所有移动硬盘通电一次，跑同步</li>
+<li>检查 <code>_INDEX_ALL.md</code> 里标了 ⚠️ 的异地备份补上</li>
+<li>用了三五年的硬盘考虑迁移到新盘</li>
+</ul>
+<button class="reset" data-reset="yearly">重置</button>
+
+<div class="note key">
+<span class="h">如果只做三件事</span>
+<b>① 回来当天做第二份备份（在格式化卡之前）</b><br>
+<b>② 粗筛的时间码顺手存成 INDEX.md</b><br>
+<b>③ 剪映草稿复制到项目文件夹里</b><br>
+这三条加起来不到 5 分钟，覆盖了 90% 的风险和 90% 的"以后找不到"。
+</div>
+
+<div class="links">
+<a href="../capcut-workflow/">剪辑流程 →</a>
+<a href="../vlog-shooting/">拍摄手册 →</a>
+<a href="../color-grading/">调色手册 →</a>
+<a href="../music-audio/">音乐与音效 →</a>
+<a href="../">← share-pages</a>
+</div>
+
+<hr>
+<p class="fine">创建于 2026 年 8 月。命令和工具名以你实际环境为准，<b>跑 <code>robocopy /MIR</code> 前务必确认路径</b>（它会删除目标里多出来的文件）。这一页是操作手册——流程跑顺了就直接改它（文件在 <code>share-pages/footage-archive/index.html</code>）。<br>
+勾选状态存在本机浏览器里，换设备不会同步。</p>
+
+</main>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.chk').forEach(function(list){
+    var key = 'footage-archive:' + list.dataset.chk, saved = [];
+    try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    var items = list.querySelectorAll('li');
+    items.forEach(function(li, i){
+      if (saved.indexOf(i) !== -1) li.classList.add('done');
+      li.addEventListener('click', function(e){
+        if (e.target.tagName === 'A') return;
+        li.classList.toggle('done');
+        var on = [];
+        items.forEach(function(x, j){ if (x.classList.contains('done')) on.push(j); });
+        try { localStorage.setItem(key, JSON.stringify(on)); } catch(e) {}
+      });
+    });
+  });
+  document.querySelectorAll('[data-reset]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var list = document.querySelector('.chk[data-chk="' + btn.dataset.reset + '"]');
+      if (!list) return;
+      list.querySelectorAll('li').forEach(function(li){ li.classList.remove('done'); });
+      try { localStorage.removeItem('footage-archive:' + btn.dataset.reset); } catch(e) {}
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if (targets.length && 'IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ seen[en.target.id] = en.isIntersecting; });
+      for (var i = 0; i < targets.length; i++) {
+        if (seen[targets[i].id]) {
+          var id = targets[i].id;
+          links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + id); });
+          break;
+        }
+      }
+    }, { rootMargin: '-70px 0px -70% 0px' });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+
+</body>
+</html>

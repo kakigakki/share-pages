@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>旅拍音乐与音效手册 — 去哪找・版权・怎么选・怎么混</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9; --code:#f0f3ef;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68;
+  --gothic:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans","Microsoft YaHei","Noto Sans SC","Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+
+.masthead{border-bottom:1px solid var(--rule);background:var(--panel)}
+.masthead .inner{max-width:1100px;margin:0 auto;padding:22px 20px 20px}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-decoration:none;
+  display:inline-block;margin-bottom:10px;color:var(--ink3)}
+.eyebrow{font-family:var(--mono);font-size:.63rem;letter-spacing:.2em;color:var(--volt);margin:0 0 7px}
+.masthead h1{font-weight:700;font-size:1.75rem;line-height:1.3;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.masthead h1 small{display:block;font-size:.55em;font-weight:600;color:var(--ink2);margin-top:6px;letter-spacing:0}
+.masthead .sub{margin:12px 0 0;font-size:.85rem;color:var(--ink2);line-height:1.8;max-width:72ch}
+
+.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:44px;
+  max-width:1100px;margin:0 auto;padding:0 20px 90px}
+.toc{position:sticky;top:24px;align-self:start;padding-top:30px;max-height:calc(100vh - 48px);overflow-y:auto}
+.toc .lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;color:var(--ink3);margin:0 0 10px;
+  padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{margin:0}
+.toc li.sec{font-family:var(--mono);font-size:.57rem;letter-spacing:.14em;color:var(--ink3);padding:11px 0 4px 11px}
+.toc a{display:block;padding:5px 0 5px 11px;font-size:.78rem;text-decoration:none;color:var(--ink2);
+  border-left:2px solid var(--rule);line-height:1.5}
+.toc a:hover{color:var(--ink);border-left-color:var(--ink3)}
+.toc a.on{color:var(--ai);border-left-color:var(--ai);font-weight:600}
+
+nav.mobile{display:none}
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr;gap:0;padding-bottom:70px}
+  .toc{display:none}
+  nav.mobile{display:block;position:sticky;top:0;z-index:30;background:var(--panel);
+    border-bottom:1px solid var(--rule);overflow-x:auto;-webkit-overflow-scrolling:touch}
+  nav.mobile ul{display:flex;list-style:none;margin:0;padding:0 8px}
+  nav.mobile a{display:block;padding:11px 10px;font-size:.75rem;white-space:nowrap;
+    text-decoration:none;color:var(--ink2)}
+}
+
+main{padding-top:30px;min-width:0}
+h2{font-size:1.32rem;font-weight:700;line-height:1.35;margin:48px 0 14px;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:11px}
+h2:first-of-type{margin-top:0}
+h2 .num{flex:none;width:29px;height:29px;border-radius:50%;background:var(--ai);color:var(--panel);
+  font-family:var(--mono);font-size:.8rem;font-weight:700;display:grid;place-items:center;letter-spacing:-.03em}
+h3{font-size:1.03rem;font-weight:700;margin:32px 0 9px}
+p{margin:0 0 13px}
+ul,ol{padding-left:1.3em;margin:0 0 13px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--rule);margin:36px 0}
+.part{font-family:var(--mono);font-size:.63rem;letter-spacing:.22em;color:var(--volt);text-align:center;margin:0 0 6px}
+
+code{font-family:var(--mono);font-size:.84em;background:var(--code);padding:1px 5px;
+  border:1px solid var(--rule);border-radius:3px}
+
+.note{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--ai);
+  border-radius:0 5px 5px 0;padding:12px 15px;margin:16px 0;font-size:.87rem;line-height:1.8}
+.note .h{font-family:var(--mono);font-size:.61rem;letter-spacing:.14em;display:block;margin-bottom:6px;color:var(--ai)}
+.note.warn{border-left-color:var(--sun)} .note.warn .h{color:var(--sun)} .note.warn b{color:var(--sun)}
+.note.tip{border-left-color:var(--moss)} .note.tip .h{color:var(--moss)}
+.note.key{border-left-color:var(--volt)} .note.key .h{color:var(--volt)} .note.key b{color:var(--volt)}
+.note p:last-child{margin-bottom:0}
+
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);
+  border-radius:5px;margin:14px 0;background:var(--panel)}
+table{border-collapse:collapse;font-size:.79rem;min-width:600px;width:100%}
+th,td{padding:9px 11px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top;line-height:1.65}
+th{font-family:var(--mono);font-size:.61rem;letter-spacing:.05em;color:var(--ink2);white-space:nowrap;background:var(--sunk)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink3);width:1%;font-size:.72rem;padding-top:11px}
+td.nm{font-weight:700;white-space:nowrap;width:1%}
+td.v{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ai);font-weight:600}
+.ok{color:var(--moss);font-weight:700}
+.ng{color:var(--sun);font-weight:700}
+.vt{color:var(--volt);font-weight:700}
+
+.chk{list-style:none;padding:0;margin:13px 0}
+.chk li{position:relative;padding-left:31px;font-size:.88rem;line-height:1.8;margin-bottom:10px;cursor:pointer;user-select:none}
+.chk li::before{content:"☐";position:absolute;left:0;top:0;font-family:var(--mono);color:var(--sun);font-size:1.05rem;line-height:1.7}
+.chk li.done::before{content:"☑";color:var(--moss)}
+.chk li.done{color:var(--ink3);text-decoration:line-through;text-decoration-color:var(--rule)}
+.reset{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;background:var(--panel);color:var(--ink3);
+  border:1px solid var(--rule);border-radius:4px;padding:5px 11px;cursor:pointer;margin-top:2px}
+.reset:hover{color:var(--ink);border-color:var(--ink2)}
+
+.act{border:1px solid var(--rule);background:var(--panel);border-radius:5px;margin:14px 0;overflow:hidden}
+.act .row{display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;padding:13px 15px;border-bottom:1px solid var(--rule)}
+.act .row:last-child{border-bottom:0}
+.act .lab{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;color:var(--ink3);padding-top:4px}
+.act .ttl{font-weight:700;font-size:.97rem;line-height:1.5}
+.act .d{font-size:.86rem;margin-top:4px;line-height:1.8}
+.act .no{font-size:.79rem;color:var(--sun);margin-top:6px}
+
+.tips{display:grid;gap:9px;margin:14px 0}
+.tip{border:1px solid var(--rule);background:var(--panel);border-radius:5px;padding:11px 14px}
+.tip .t{font-weight:700;font-size:.9rem;line-height:1.5;margin-bottom:3px}
+.tip .t .b{font-family:var(--mono);font-size:.63rem;color:var(--volt);border:1px solid var(--volt);
+  border-radius:2px;padding:1px 5px;margin-right:7px;vertical-align:2px;font-weight:500}
+.tip p{font-size:.85rem;margin:0;color:var(--ink2);line-height:1.75}
+.tip p b{color:var(--ink)}
+
+.meter{display:grid;grid-template-columns:78px 1fr;gap:11px;align-items:center;margin:7px 0;font-size:.8rem}
+.meter .lb{font-family:var(--mono);font-size:.68rem;color:var(--ink2);text-align:right}
+.meter .bar{height:19px;background:var(--sunk);border:1px solid var(--rule);border-radius:3px;position:relative;overflow:hidden}
+.meter .bar i{position:absolute;left:0;top:0;bottom:0;display:block}
+.meter .bar span{position:absolute;right:7px;top:0;line-height:19px;font-family:var(--mono);font-size:.63rem;color:var(--ink2)}
+
+.fine{font-size:.73rem;color:var(--ink3);line-height:1.75;margin:15px 0 0}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.links a{font-size:.76rem;border:1px solid var(--rule);border-radius:4px;padding:5px 10px;background:var(--panel);text-decoration:none}
+</style>
+</head>
+<body>
+
+<header class="masthead"><div class="inner">
+  <a class="back" href="../">← share-pages</a>
+  <p class="eyebrow">MUSIC · SFX · LICENSING · MIXING</p>
+  <h1>旅拍音乐与音效手册<small>去哪找 · 版权 · 怎么选 · 怎么混</small></h1>
+  <p class="sub">没有对白的旅拍片子，<b>音乐就是它的剧本</b>——切点、节奏、情绪全靠它撑起来。<br>
+  但音乐也是<b>唯一一个会让你片子被下架、被静音、被扣钱</b>的环节。这一页讲清楚：去哪找能合法用的、各平台的规则、怎么挑到好剪的曲子、以及人声和音乐的音量关系。</p>
+</div></header>
+
+<nav class="mobile"><ul>
+  <li><a href="#risk">版权风险</a></li>
+  <li><a href="#license">许可证怎么读</a></li>
+  <li><a href="#free">免费音乐库</a></li>
+  <li><a href="#paid">付费订阅</a></li>
+  <li><a href="#sfx">音效库</a></li>
+  <li><a href="#choose">怎么选曲</a></li>
+  <li><a href="#structure">曲子结构</a></li>
+  <li><a href="#mix">音量与混音</a></li>
+  <li><a href="#ambient">环境音</a></li>
+  <li><a href="#claim">被判定了怎么办</a></li>
+  <li><a href="#mistakes">常见错误</a></li>
+</ul></nav>
+
+<div class="layout">
+
+<aside class="toc">
+  <p class="lbl">目录</p>
+  <ol>
+    <li class="sec">先搞懂规则</li>
+    <li><a href="#risk">0 · 版权风险</a></li>
+    <li><a href="#license">1 · 许可证怎么读</a></li>
+    <li class="sec">去哪找</li>
+    <li><a href="#free">2 · 免费音乐库</a></li>
+    <li><a href="#paid">3 · 付费订阅</a></li>
+    <li><a href="#sfx">4 · 音效库</a></li>
+    <li class="sec">怎么用</li>
+    <li><a href="#choose">5 · 怎么选曲</a></li>
+    <li><a href="#structure">6 · 曲子的结构</a></li>
+    <li><a href="#mix">7 · 音量与混音</a></li>
+    <li><a href="#ambient">8 · 环境音</a></li>
+    <li class="sec">出事了</li>
+    <li><a href="#claim">9 · 被判定怎么办</a></li>
+    <li><a href="#mistakes">10 · 常见错误</a></li>
+  </ol>
+</aside>
+
+<main>
+
+<!-- ===== risk ===== -->
+<h2 id="risk"><span class="num">0</span>先认清风险</h2>
+
+<div class="note warn">
+<span class="h">最重要的一句</span>
+<b>「我只是自己剪着玩」「我没有商业用途」「我标注了出处」——这三句话都不能免除版权责任。</b><br>
+只要片子公开发布，用了没授权的流行歌，平台就可能静音、限制播放、把收益划走，或者直接下架。<b>标注来源不等于获得授权。</b>
+</div>
+
+<h3>会发生什么</h3>
+<div class="scroll"><table>
+<thead><tr><th>平台</th><th>机制</th><th>用了没授权的歌会怎样</th></tr></thead>
+<tbody>
+<tr><td class="nm">YouTube</td><td>Content ID<br>自动扫描</td><td>通常<b>不删片，但收益归版权方</b>；有时限制某些国家播放；严重的会被下架。反复侵权会有版权警告，三次警告封频道</td></tr>
+<tr><td class="nm">B 站</td><td>版权检测 + 举报</td><td>可能被静音、限制或下架。<b>站内有官方音乐库，用库内的最安全</b></td></tr>
+<tr><td class="nm">小红书 / 抖音</td><td>站内音乐库</td><td><b>用 App 内置音乐库的曲子是安全的</b>（平台已获授权），但那份授权<b>只在站内有效</b></td></tr>
+<tr><td class="nm">Instagram</td><td>站内音乐库</td><td>同上。商业账号可用曲库比个人账号少</td></tr>
+</tbody></table></div>
+
+<div class="note key">
+<span class="h">一个非常常见的误解</span>
+<b>「我在抖音/小红书里用它自带的音乐做的，所以我可以把这条片子发到 YouTube」——不行。</b><br>
+平台内置音乐库的授权<b>只覆盖在该平台内使用</b>。要跨平台发同一条片子，就得用一首<b>你自己拿到授权</b>的曲子（免费库或订阅库）。<br>
+这也是为什么：<b>如果你可能会多平台发布，一开始就用免费/订阅库，别用平台内置音乐。</b>
+</div>
+
+<h3>那些不管用的说法</h3>
+<div class="scroll"><table>
+<thead><tr><th>常见说法</th><th>真相</th></tr></thead>
+<tbody>
+<tr><td class="nm">「用不到 30 秒就没事」</td><td class="ng">没有这条规则，这是彻底的都市传说</td></tr>
+<tr><td class="nm">「我标注了歌名和歌手」</td><td class="ng">标注是礼貌，不是授权</td></tr>
+<tr><td class="nm">「无意侵权，仅供学习交流」</td><td class="ng">写在简介里没有任何法律效力</td></tr>
+<tr><td class="nm">「变速/变调就检测不到」</td><td class="ng">指纹识别对变速变调有相当的鲁棒性；而且这本身仍是侵权</td></tr>
+<tr><td class="nm">「我没开收益」</td><td class="ng">跟是否盈利无关，只是后果轻一些</td></tr>
+</tbody></table></div>
+
+<p class="fine">以上是各平台公开规则的一般情况，<b>具体判定和处理方式会变，也因地区而异</b>。真正涉及商业用途或纠纷时，以平台当时的条款和专业意见为准。</p>
+
+<!-- ===== license ===== -->
+<h2 id="license"><span class="num">1</span>许可证怎么读</h2>
+
+<p>下载前<b>花 30 秒看清楚三件事</b>，能省掉后面所有麻烦。</p>
+
+<div class="act">
+  <div class="row"><div class="lab">看什么</div><div>
+    <div class="ttl">① 能不能商用</div>
+    <div class="d">写着 <code>Commercial use allowed</code> 或「商用可」才安全。<b>注意：开了收益的频道、带广告的视频都算商用</b>，不是只有卖东西才叫商用。</div>
+  </div></div>
+  <div class="row"><div class="lab"></div><div>
+    <div class="ttl">② 要不要署名</div>
+    <div class="d"><code>Attribution required</code> = 必须在简介里按指定格式写出曲名和作者。<b>不写就是违约。</b><br>
+    <code>No attribution required</code> 最省事。</div>
+  </div></div>
+  <div class="row"><div class="lab"></div><div>
+    <div class="ttl">③ 有没有限制</div>
+    <div class="d">常见限制：不能用于广告、不能转售、不能单独发布音频本身、某些平台不可用。</div>
+  </div></div>
+</div>
+
+<h3>常见许可证类型</h3>
+<div class="scroll"><table>
+<thead><tr><th>类型</th><th>含义</th><th>能不能用</th></tr></thead>
+<tbody>
+<tr><td class="nm">CC0 / 公有领域</td><td>放弃全部权利</td><td class="ok">随便用，不用署名</td></tr>
+<tr><td class="nm">CC BY</td><td>可用，<b>必须署名</b></td><td class="ok">能用，记得写署名</td></tr>
+<tr><td class="nm">CC BY-NC</td><td>NC = 非商业</td><td class="ng">开了收益就不能用</td></tr>
+<tr><td class="nm">CC BY-ND</td><td>ND = 禁止改编</td><td class="ng">剪短、变速可能都算改编，避开</td></tr>
+<tr><td class="nm">Royalty-free</td><td><b>不是「免费」</b>，是「一次付费后不用再按播放量付版税」</td><td>看具体条款</td></tr>
+<tr><td class="nm">订阅授权</td><td>订阅期间下载的曲子可永久用于已发布的作品</td><td class="ok">最省心，见 <a href="#paid">第 3 节</a></td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">养成一个习惯</span>
+<b>每次下载音乐，把「曲名 / 作者 / 来源网址 / 许可证 / 下载日期」记到一个文件里</b>，和素材放在一起。<br>
+半年后被判定版权时，你需要证明自己有授权——<b>那时候你一定想不起来这首歌是从哪下的</b>。订阅库通常能补开授权证明，但你得知道是哪家。
+</div>
+
+<!-- ===== free ===== -->
+<h2 id="free"><span class="num">2</span>免费音乐库</h2>
+
+<div class="note warn">
+<span class="h">使用前务必自己确认</span>
+下面这些站的<b>条款会变</b>，而且同一个站里<b>不同曲子的许可可能不同</b>（有的要署名、有的不要）。<br>
+<b>以你下载时该页面写的为准</b>，别以这张表为准。这张表只是告诉你「去哪找」。
+</div>
+
+<div class="scroll"><table>
+<thead><tr><th>站点</th><th>特点</th><th>署名</th><th>适合</th></tr></thead>
+<tbody>
+<tr><td class="nm">YouTube<br>音频库</td><td>YouTube 创作者后台自带，曲子在 YouTube 上<b>保证不会被 Content ID 判定</b></td><td>部分需要</td><td class="ok"><b>发 YouTube 的首选</b>，最省心</td></tr>
+<tr><td class="nm">Pixabay<br>Music</td><td>量大、免费、多数不需署名</td><td>多数不需</td><td>通用。质量参差，要花时间挑</td></tr>
+<tr><td class="nm">Uppbeat</td><td>专为 YouTube 创作者做的，免费额度每月有限，<b>提供 Content ID 豁免代码</b></td><td>免费版需要</td><td class="ok">被误判时能自助解除</td></tr>
+<tr><td class="nm">Free Music<br>Archive</td><td>老牌，独立音乐多，风格独特</td><td>看每首</td><td>想要不烂大街的曲子</td></tr>
+<tr><td class="nm">DOVA-SYNDROME</td><td>日本站，<b>日系风格最对味</b>，免费商用</td><td>不需（推荐写）</td><td class="ok"><b>日本旅拍强烈推荐</b></td></tr>
+<tr><td class="nm">魔王魂</td><td>日本站，音乐 + 音效都有，免费商用</td><td>需要</td><td>日系 + 音效一站解决</td></tr>
+<tr><td class="nm">甘茶の音楽工房</td><td>日本站，温柔治愈系为主</td><td>不需</td><td>安静的旅行记录片</td></tr>
+<tr><td class="nm">Chosic</td><td>聚合站，能按情绪和 BPM 筛选</td><td>看每首</td><td>已知想要什么感觉时</td></tr>
+<tr><td class="nm">Incompetech</td><td>Kevin MacLeod 的站，CC BY</td><td>需要</td><td>经典，但用的人太多了</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">给你的具体建议</span>
+你拍的是日本旅行，<b>优先试 DOVA-SYNDROME 和 甘茶の音楽工房</b>——日系旅拍的味道非常对，而且免费商用、用的人比欧美大站少，不容易撞曲。<br>
+如果主要发 YouTube，那<b>YouTube 自带音频库是最安全的选择</b>，因为它从机制上就不会被自家 Content ID 判定。
+</div>
+
+<!-- ===== paid ===== -->
+<h2 id="paid"><span class="num">3</span>付费订阅：值不值</h2>
+
+<p>如果你会持续做片子（比如每次旅行都出一条），<b>订阅一家通常是划算的</b>——不是为了曲子更好听，而是为了<b>不用再花时间纠结版权</b>。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>服务</th><th>特点</th><th>适合</th></tr></thead>
+<tbody>
+<tr><td class="nm">Epidemic Sound</td><td>曲库大、质量稳定、<b>自动处理 Content ID</b>。用的人非常多，容易撞曲</td><td>YouTube 创作者的主流选择</td></tr>
+<tr><td class="nm">Artlist</td><td>质量高、偏电影感。<b>订阅期内下载的曲子可永久使用</b></td><td>旅拍、Vlog 的口碑首选</td></tr>
+<tr><td class="nm">Musicbed</td><td>更偏艺术性和情绪，价格较高</td><td>作品向、婚礼片</td></tr>
+<tr><td class="nm">Soundstripe</td><td>音乐 + 音效 + 素材打包</td><td>想一站解决</td></tr>
+</tbody></table></div>
+
+<div class="note key">
+<span class="h">订阅前必须看清的一条</span>
+<b>「取消订阅后，之前下载的曲子还能不能继续用在已发布的视频里？」</b><br>
+主流服务通常是<b>可以</b>的（订阅期内下载 = 永久授权），但<b>各家条款不同、也会变</b>。这是订阅制音乐最关键的一条，<b>付款前一定自己确认当前条款</b>。<br>
+具体价格我不写在这里——涨价和促销太频繁，写下来就是错的。
+</div>
+
+<p class="fine">我的建议：<b>先用免费库做三五条片子</b>。如果你发现每次找音乐都要花半小时以上，或者开始有商业用途，再考虑订阅。一开始就订阅，很可能用不到几次。</p>
+
+<!-- ===== sfx ===== -->
+<h2 id="sfx"><span class="num">4</span>音效库</h2>
+
+<p>音效是<b>最便宜的质感提升</b>。一个关门声、一个脚步声，能让画面「实」起来——观众感觉得到，但说不出为什么。</p>
+
+<div class="scroll"><table>
+<thead><tr><th>站点</th><th>特点</th></tr></thead>
+<tbody>
+<tr><td class="nm">Freesound</td><td>最大的免费音效库，社区上传。<b>许可证每个文件不同，务必逐个看</b></td></tr>
+<tr><td class="nm">Pixabay SFX</td><td>免费、许可宽松、界面友好</td></tr>
+<tr><td class="nm">BBC Sound Effects</td><td>BBC 档案库，质量极高。<b>免费用途有条款限制，商用要确认</b></td></tr>
+<tr><td class="nm">Zapsplat</td><td>量大，免费版需署名</td></tr>
+<tr><td class="nm">魔王魂 / 効果音ラボ</td><td>日本站，免费商用，日常音效很全</td></tr>
+<tr><td class="nm">剪映内置音效库</td><td><b>最省事</b>。转场、环境、UI 音效都有，站内使用没有版权问题</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">最好的音效来源其实是你自己</span>
+<a href="../vlog-shooting/#audio">拍摄手册第 14 节</a>讲了现场收集声音素材：脚步、开门、倒水、市集嘈杂。<br>
+<b>自己录的音效永远最贴画面</b>，而且完全没有版权问题。音效库是补充，不是主力。
+</div>
+
+<!-- ===== choose ===== -->
+<hr>
+<p class="part">CORE SECTION</p>
+<h2 id="choose"><span class="num">5</span>怎么选曲</h2>
+
+<div class="note key">
+<span class="h">选曲的顺序</span>
+<b>先定时长 → 再定情绪 → 最后才听好不好听。</b><br>
+很多人是反过来的：找到一首特别喜欢的歌，然后发现它 4 分半、前奏 40 秒、没有明显鼓点——<b>结果整条片子被这首歌拖垮</b>。
+</div>
+
+<h3>好剪的曲子有什么特征</h3>
+<div class="scroll"><table>
+<thead><tr><th>特征</th><th>为什么重要</th><th class="ng">反例</th></tr></thead>
+<tbody>
+<tr><td class="nm">鼓点清晰</td><td><b>自动踩点才有东西可对</b>，切点自然落在节奏上</td><td>纯氛围音乐没有鼓点，踩点功能直接失效</td></tr>
+<tr><td class="nm">有明显段落变化</td><td>前奏/主歌/副歌 = 片子的天然结构</td><td>从头到尾一个样，片子会显得平</td></tr>
+<tr><td class="nm">前奏短（&lt;10 秒）</td><td>前 5 秒定生死，长前奏在劝退观众</td><td>40 秒前奏，观众早划走了</td></tr>
+<tr><td class="nm">纯音乐或听不懂的语言</td><td><b>有歌词会和画面抢注意力</b></td><td>中文歌词会让人去听歌词，不看画面</td></tr>
+<tr><td class="nm">长度接近成片</td><td>不用大幅裁剪，段落结构保持完整</td><td>4 分半的歌剪成 3 分钟，副歌位置全乱了</td></tr>
+<tr><td class="nm">情绪不要太满</td><td>音乐太强会盖过画面</td><td>史诗感的曲子配吃拉面，很滑稽</td></tr>
+</tbody></table></div>
+
+<h3>BPM 与画面节奏</h3>
+<p>BPM = 每分钟节拍数。它直接决定<b>你的镜头该多长</b>。</p>
+<div class="scroll"><table>
+<thead><tr><th>BPM</th><th>感觉</th><th>一个镜头大约</th><th>适合</th></tr></thead>
+<tbody>
+<tr><td class="v">60–80</td><td>缓慢、抒情</td><td class="v">4–6 秒</td><td>风景、日落、安静的记录片、结尾</td></tr>
+<tr><td class="v">90–110</td><td>舒适、日常</td><td class="v">2.5–4 秒</td><td class="ok"><b>旅拍最常用的区间</b></td></tr>
+<tr><td class="v">120–130</td><td>轻快、明亮</td><td class="v">2–3 秒</td><td>城市、街拍、美食、开场</td></tr>
+<tr><td class="v">140+</td><td>激烈、动感</td><td class="v">1–2 秒</td><td>运动、快剪、短视频</td></tr>
+</tbody></table></div>
+
+<div class="note tip">
+<span class="h">用 BPM 反推片子长度</span>
+如果你打算<b>每 4 拍切一个镜头</b>：<br>
+<code>一个镜头时长 = 60 ÷ BPM × 4</code><br>
+比如 100 BPM → 每个镜头 2.4 秒 → 3 分钟片子需要约 <b>75 个镜头</b>。<br>
+<b>这个数字可以在粗筛阶段就用上</b>——知道要选多少个镜头，就不会选太多或太少。
+</div>
+
+<h3>选曲的实操顺序</h3>
+<ul class="chk" data-chk="choose">
+<li>先定成片时长（2 分钟？3 分钟？）</li>
+<li>按<b>时长</b>和 <b>BPM</b> 筛选，而不是先听好不好听</li>
+<li>挑 3–5 首候选，<b>各听前 30 秒</b>就够</li>
+<li>检查：前奏够短吗？有鼓点吗？有没有歌词干扰？</li>
+<li>把候选<b>放到时间线上试 10 秒</b>——纸上判断不准，放上去感觉完全不同</li>
+<li>定了就别换。<b>换曲子等于整条片子重剪</b></li>
+</ul>
+<button class="reset" data-reset="choose">重置</button>
+
+<!-- ===== structure ===== -->
+<h2 id="structure"><span class="num">6</span>把曲子的结构当片子的结构</h2>
+
+<p>一首流行结构的曲子天然有段落，<b>直接拿它当片子的骨架</b>，比自己想结构快得多也稳得多。</p>
+
+<div class="act">
+  <div class="row"><div class="lab">前奏</div><div>
+    <div class="ttl">开场 · 空镜</div>
+    <div class="d">出发、地点大远景、片名字幕。<b>音乐还没起来，画面要够抓人</b>。</div>
+  </div></div>
+  <div class="row"><div class="lab">主歌</div><div>
+    <div class="ttl">铺陈 · 路上</div>
+    <div class="d">交通、街景、日常。镜头可以长一点、平一点。</div>
+  </div></div>
+  <div class="row"><div class="lab">副歌</div><div>
+    <div class="ttl">高潮 · 最好的素材</div>
+    <div class="d"><b>把你最好的画面全部放在这里。</b>人物、笑、日落、最漂亮的那个景。切点密一些。</div>
+    <div class="no">最常见的错误：把最好的镜头浪费在前奏，副歌反而没东西了。</div>
+  </div></div>
+  <div class="row"><div class="lab">间奏</div><div>
+    <div class="ttl">呼吸</div>
+    <div class="d">节奏松一点，给一个长镜头。<b>观众需要喘口气</b>，全程高潮等于没有高潮。</div>
+  </div></div>
+  <div class="row"><div class="lab">尾奏</div><div>
+    <div class="ttl">收尾 · 离开</div>
+    <div class="d">走远的背影、日落、关灯。<b>画面和音乐一起淡出</b>。</div>
+  </div></div>
+</div>
+
+<div class="note warn">
+<span class="h">怎么裁曲子</span>
+成片 3 分钟、曲子 4 分半，需要裁掉 1 分半。<b>正确做法是整段删除（删掉第二段主歌，或删掉一次副歌重复），而不是从中间硬切。</b><br>
+在<b>段落交界处</b>剪，接上去几乎听不出来；在段落中间剪，一定会听出断裂。<br>
+剪完记得<b>结尾做 1–2 秒淡出</b>，不然会突然断掉。
+</div>
+
+<!-- ===== mix ===== -->
+<h2 id="mix"><span class="num">7</span>音量与混音</h2>
+
+<div class="note key">
+<span class="h">整页第二重要的一句</span>
+<b>音乐盖住人声，是业余感最强的信号。</b><br>
+比画质差、比调色难看都明显。观众可以忍受画面一般，忍受不了听不清你在说什么。
+</div>
+
+<h3>音量层级（有人说话时）</h3>
+<div class="meter"><div class="lb">人声</div><div class="bar"><i style="width:88%;background:linear-gradient(90deg,#4a7038,#6d9450)"></i><span>基准 · 最响</span></div></div>
+<div class="meter"><div class="lb">环境音</div><div class="bar"><i style="width:42%;background:linear-gradient(90deg,#1f5f7a,#4a8ba5)"></i><span>−12 ~ −18 dB</span></div></div>
+<div class="meter"><div class="lb">音乐</div><div class="bar"><i style="width:26%;background:linear-gradient(90deg,#c0562a,#d97f52)"></i><span>−18 ~ −22 dB</span></div></div>
+
+<p style="margin-top:14px">没人说话时，<b>音乐抬回来</b>：</p>
+<div class="meter"><div class="lb">音乐</div><div class="bar"><i style="width:82%;background:linear-gradient(90deg,#c0562a,#d97f52)"></i><span>抬到主导位置</span></div></div>
+<div class="meter"><div class="lb">环境音</div><div class="bar"><i style="width:40%;background:linear-gradient(90deg,#1f5f7a,#4a8ba5)"></i><span>保持</span></div></div>
+
+<div class="note tip">
+<span class="h">这个动作叫「闪避」（Ducking）</span>
+人声一进来，音乐自动降下去；人声结束，音乐升回来。<br>
+剪映里可以用<b>关键帧手动做</b>：人声开始前 0.3 秒打一个点降下去，结束后 0.3 秒升回来。<b>降落和升起都要有过渡，不要瞬间切换</b>，否则会很突兀。<br>
+有些版本有「自动闪避」或「音频降噪/人声增强」这类功能，找一下能省不少事。
+</div>
+
+<h3>五条混音要点</h3>
+<div class="tips">
+<div class="tip"><div class="t"><span class="b">01</span>戴耳机检查，别只用音箱</div>
+<p>笔记本音箱听不出低频问题和音量失衡。<b>定稿前必须戴耳机完整听一遍。</b></p></div>
+
+<div class="tip"><div class="t"><span class="b">02</span>手机外放也要试一次</div>
+<p>大部分观众是用手机外放看的。<b>手机外放几乎没有低频</b>，如果你的音乐重心太低，在手机上会听起来空。</p></div>
+
+<div class="tip"><div class="t"><span class="b">03</span>音乐开头结尾一定要淡入淡出</div>
+<p>各 1–2 秒。<b>硬切进音乐、硬切断音乐，是最刺耳的两个错误。</b></p></div>
+
+<div class="tip"><div class="t"><span class="b">04</span>整体响度别拉太满</div>
+<p>各平台都会做响度归一化，你拉得再响也会被压回去，<b>只是白白损失动态</b>。留一点余量。</p></div>
+
+<div class="tip"><div class="t"><span class="b">05</span>安静的地方要真的安静</div>
+<p>不是所有地方都要有音乐。<b>一两秒的静默，比连续三分钟的音乐更有力量</b>——尤其在段落转折和结尾前。</p></div>
+</div>
+
+<!-- ===== ambient ===== -->
+<h2 id="ambient"><span class="num">8</span>环境音：最被低估的一层</h2>
+
+<p>只有音乐 + 人声的片子会显得「悬空」。<b>底下垫一层环境音，画面立刻变得有实感。</b></p>
+
+<ul>
+<li><b>整段铺一层统一的环境音</b>，能掩盖不同镜头之间的底噪差异——这是「声音断层」的标准解法</li>
+<li>音量放在<b>音乐之上、人声之下</b>（见上面的层级图）</li>
+<li>换场景时环境音也要换：室内 → 街道 → 车站，<b>各自铺各自的</b></li>
+<li><b>关键动作配一个音效</b>：开门、放下杯子、快门。一条片子有 3–5 处就够，多了会假</li>
+<li>素材来源优先<b>自己现场录的</b>（<a href="../vlog-shooting/#audio">拍摄手册第 14 节</a>），音效库作为补充</li>
+</ul>
+
+<!-- ===== claim ===== -->
+<h2 id="claim"><span class="num">9</span>被判定版权了怎么办</h2>
+
+<p>即使用的是免费库，<b>也可能被误判</b>——因为有人把免费曲子注册进了 Content ID，或者曲子里用了公共采样。</p>
+
+<div class="act">
+  <div class="row"><div class="lab">1</div><div>
+    <div class="ttl">先确认自己真的有授权</div>
+    <div class="d">翻出下载记录：曲名、来源、许可证、下载日期。<b>这就是为什么第 1 节让你养成记录习惯。</b></div>
+  </div></div>
+  <div class="row"><div class="lab">2</div><div>
+    <div class="ttl">如果是免费/订阅库的曲子 → 申诉</div>
+    <div class="d">Uppbeat、Epidemic、Artlist 这类服务通常<b>提供 Content ID 豁免代码或清除申请表</b>，填了之后判定会被解除。<br>YouTube 后台可以直接对判定提出异议，附上授权证明。</div>
+  </div></div>
+  <div class="row"><div class="lab">3</div><div>
+    <div class="ttl">如果确实是自己用错了 → 换掉</div>
+    <div class="d">YouTube 后台有<b>替换音频</b>的功能，可以不重新上传就换掉有问题的片段（会损失一些数据）。别硬扛，反复侵权会累积警告。</div>
+  </div></div>
+</div>
+
+<p class="fine">这一节写的是一般流程，<b>各平台的具体入口和规则会变</b>。真遇到了以平台当时的帮助文档为准。</p>
+
+<!-- ===== mistakes ===== -->
+<h2 id="mistakes"><span class="num">10</span>常见错误</h2>
+
+<div class="scroll"><table>
+<thead><tr><th>错误</th><th>后果</th><th>怎么改</th></tr></thead>
+<tbody>
+<tr><td class="nm">用喜欢的流行歌</td><td class="ng">被静音、限播、收益被划走</td><td>用免费库或订阅库</td></tr>
+<tr><td class="nm">用抖音内置音乐再发 YouTube</td><td class="ng">授权不跨平台，照样被判定</td><td>多平台发布就用自己拿到授权的曲子</td></tr>
+<tr><td class="nm">先剪画面，最后配音乐</td><td class="ng">切点全对不上节奏，只能硬凑</td><td><b>先铺音乐再填画面</b>（<a href="../capcut-workflow/#s2">剪辑流程第 2 步</a>）</td></tr>
+<tr><td class="nm">选了纯氛围音乐</td><td class="ng">没有鼓点，自动踩点失效，片子没骨架</td><td>选有明确节拍的</td></tr>
+<tr><td class="nm">选了带中文歌词的歌</td><td class="ng">观众去听歌词了，不看画面</td><td>纯音乐，或听不懂的语言</td></tr>
+<tr><td class="nm">音乐盖住人声</td><td class="ng">最强的业余信号</td><td>人声处压到 −18~−22 dB</td></tr>
+<tr><td class="nm">音乐硬切开始 / 硬切结束</td><td class="ng">刺耳</td><td>淡入淡出各 1–2 秒</td></tr>
+<tr><td class="nm">从曲子中间硬裁</td><td class="ng">听得出断裂</td><td>整段删除，在段落交界处剪</td></tr>
+<tr><td class="nm">全片音乐不停</td><td class="ng">听觉疲劳，没有轻重</td><td>留 1–2 处静默</td></tr>
+<tr><td class="nm">没记下载来源</td><td class="ng">被判定时无法自证</td><td>建一个音乐授权记录文件</td></tr>
+<tr><td class="nm">只在电脑上听</td><td class="ng">手机外放上完全是另一回事</td><td>定稿前手机外放试一遍</td></tr>
+</tbody></table></div>
+
+<div class="links">
+<a href="../capcut-workflow/#s2">剪辑流程：铺音乐那一步 →</a>
+<a href="../vlog-shooting/#audio">拍摄手册：收音与声音素材 →</a>
+<a href="../color-grading/">调色手册 →</a>
+<a href="../">← share-pages</a>
+</div>
+
+<hr>
+<p class="fine">创建于 2026 年 8 月。<b>版权规则、各站条款和订阅价格变动频繁，这一页只提供方向，不构成法律意见</b>——实际使用前请以你下载时该页面的条款、以及发布平台当时的规则为准。涉及商业用途时建议咨询专业意见。<br>
+勾选状态存在本机浏览器里，换设备不会同步。</p>
+
+</main>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.chk').forEach(function(list){
+    var key = 'music-audio:' + list.dataset.chk, saved = [];
+    try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+    var items = list.querySelectorAll('li');
+    items.forEach(function(li, i){
+      if (saved.indexOf(i) !== -1) li.classList.add('done');
+      li.addEventListener('click', function(e){
+        if (e.target.tagName === 'A') return;
+        li.classList.toggle('done');
+        var on = [];
+        items.forEach(function(x, j){ if (x.classList.contains('done')) on.push(j); });
+        try { localStorage.setItem(key, JSON.stringify(on)); } catch(e) {}
+      });
+    });
+  });
+  document.querySelectorAll('[data-reset]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var list = document.querySelector('.chk[data-chk="' + btn.dataset.reset + '"]');
+      if (!list) return;
+      list.querySelectorAll('li').forEach(function(li){ li.classList.remove('done'); });
+      try { localStorage.removeItem('music-audio:' + btn.dataset.reset); } catch(e) {}
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if (targets.length && 'IntersectionObserver' in window) {
+    var seen = {};
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ seen[en.target.id] = en.isIntersecting; });
+      for (var i = 0; i < targets.length; i++) {
+        if (seen[targets[i].id]) {
+          var id = targets[i].id;
+          links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + id); });
+          break;
+        }
+      }
+    }, { rootMargin: '-70px 0px -70% 0px' });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+
+</body>
+</html>
