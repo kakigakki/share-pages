@@ -38,15 +38,16 @@ a{color:var(--sumi);text-underline-offset:.25em}
 .wordmark{font-family:var(--min);font-size:1.02rem;font-weight:600;letter-spacing:.09em;margin-right:auto}
 .wordmark small{display:block;font-family:var(--num);font-size:.56rem;letter-spacing:.2em;
   color:var(--sumi3);font-weight:400;margin-top:1px}
-.tabs{display:flex;gap:0;margin-left:auto}
+.tabs{display:flex;flex-wrap:wrap;gap:0;margin-left:auto}
 .tabs a{font-size:.83rem;padding:16px 2px 13px;margin-left:26px;text-decoration:none;color:var(--sumi2);
   border-bottom:2px solid transparent;white-space:nowrap;transition:color .16s,border-color .16s}
 .tabs a:hover{color:var(--sumi)}
 .tabs a[aria-current]{color:var(--sumi);border-bottom-color:var(--shu);font-weight:600}
-@media (max-width:600px){
-  .top .shell{flex-wrap:wrap;padding-bottom:0}
+@media (max-width:720px){
+  .top .shell{padding-bottom:0}
   .tabs{width:100%;margin:0;border-top:1px solid var(--rule-s)}
-  .tabs a{margin:0 24px 0 0;padding:11px 0 9px}
+  .tabs{gap:0 22px}
+  .tabs a{margin:0;padding:11px 0 9px}
 }
 
 /* ───── 命名書（hero） ───── */
@@ -66,9 +67,10 @@ a{color:var(--sumi);text-underline-offset:.25em}
   border:1px solid var(--rule);padding:3px 9px;background:var(--sheet)}
 
 /* 命名書そのもの */
-.meimei{width:216px;justify-self:end;background:var(--sheet);position:relative;
+.sheetwrap{justify-self:end;width:216px}
+@media (max-width:760px){.sheetwrap{justify-self:center}}
+.meimei{width:100%;background:var(--sheet);position:relative;margin:0;
   border:1px solid var(--sumi);padding:7px;box-shadow:0 10px 30px -18px rgba(18,23,26,.45)}
-@media (max-width:760px){.meimei{justify-self:center}}
 .meimei .inner{border:1px solid var(--rule);padding:20px 12px 16px;display:flex;flex-direction:column;
   align-items:center;gap:14px;min-height:322px}
 .meimei .cap{font-family:var(--min);font-size:.78rem;letter-spacing:.42em;color:var(--sumi2);
@@ -82,7 +84,7 @@ a{color:var(--sumi);text-underline-offset:.25em}
 .meimei .stamp{position:absolute;right:-9px;bottom:-9px;width:36px;height:36px;background:var(--shu);
   color:#fff;font-family:var(--min);font-size:.62rem;line-height:1.1;display:grid;place-items:center;
   text-align:center;border-radius:2px;letter-spacing:.02em}
-.reroll{margin-top:10px;width:100%;background:none;border:1px solid var(--rule);padding:7px;
+.reroll{margin-top:14px;width:100%;background:none;border:1px solid var(--rule);padding:7px;
   font-size:.76rem;color:var(--sumi2);cursor:pointer;transition:border-color .16s,color .16s}
 .reroll:hover{border-color:var(--shu);color:var(--shu)}
 .fade{animation:fade .34s ease}
@@ -207,6 +209,21 @@ footer{border-top:1px solid var(--rule);margin-top:52px;padding:22px 0 46px}
 footer .shell{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline}
 footer p{margin:0;font-size:.75rem;color:var(--sumi3);line-height:1.8;max-width:58ch}
 footer a{color:var(--sumi2);font-size:.78rem}
+
+/* ───── CJK の折り返し対策 ─────
+   日本語・中国語は文字単位で改行できるため、flex アイテムの min-content は
+   「1文字ぶんの幅」になる。つまり幅が詰まると短いラベルが縦一列に潰れる。
+   折り返す必要のない要素は nowrap にして、縮まないようにしておく。 */
+.wordmark,.fact,.ctl>.lb,.opts button,.btn,.reroll,
+.meta-line .n,.plate .pk,.plate .pr,
+.pillars .t,.pillars .g,.elems b,.elems span,
+.dr-head .rd b,.dr-head .rd span,.gk .l,.gk .v,.blk>.h,
+.bazi .cap{white-space:nowrap}
+.wordmark,.fact,.opts button,.btn,.ctl{flex-shrink:0}
+.top .shell{flex-wrap:wrap}
+footer .shell>p{flex:1 1 100%}
+.meimei .cap{white-space:nowrap}
+/* 見出しと本文は語の途中で不自然に切れないように */
 </style>
 </head>
 <body>
@@ -224,9 +241,7 @@ footer a{color:var(--sumi2);font-size:.78rem}
 <section class="hero"><div class="shell">
   <div class="lede">
     <h1>まだ、<br>書かれていない名前。</h1>
-    <p>姓は <b>何（カ）</b>。日本で生まれ、日本で育ち、中国側にも家族がいる子の名前を、
-       <b>戸籍で使える3,000字</b>の中から探すための道具です。八字の五行、姓名判断の画数、
-       耳で聞いた語呂、そして中国語での語感——<b>4つを同時に見ます</b>。</p>
+    <p>姓は <b>何（カ）</b>。日本で生まれ、日本で育ち、中国側にも家族がいる子の名前を、<b>戸籍で使える3,000字</b>の中から探すための道具です。八字の五行、姓名判断の画数、耳で聞いた語呂、そして中国語での語感——<b>4つを同時に見ます</b>。</p>
     <div class="facts">
       <span class="fact">漢字 118</span>
       <span class="fact">候補 約2,500</span>
@@ -234,6 +249,7 @@ footer a{color:var(--sumi2);font-size:.78rem}
     </div>
   </div>
 
+  <div class="sheetwrap">
   <figure class="meimei" id="meimei">
     <div class="inner">
       <div class="cap">命名</div>
@@ -242,8 +258,9 @@ footer a{color:var(--sumi2);font-size:.78rem}
       <div class="rom" id="heroRom">　</div>
     </div>
     <div class="stamp" aria-hidden="true">何</div>
-    <button class="reroll" id="reroll">別の名前を見る</button>
   </figure>
+  <button class="reroll" id="reroll">別の名前を見る</button>
+  </div>
 </div></section>
 
 <div class="rail"><div class="shell">
@@ -286,8 +303,7 @@ footer a{color:var(--sumi2);font-size:.78rem}
 </main>
 
 <footer><div class="shell">
-  <p>候補は「語幹＋止め字」という日本語の名前が実際に作られる形で組んでいます。機械で組む以上、座りの悪いものも混じります——最後は声に出して選んでください。
-     考え方・技巧・出典は<a href="./guide/">名づけを知る</a>にまとめてあります。</p>
+  <p>候補は「語幹＋止め字」という日本語の名前が実際に作られる形で組んでいます。機械で組む以上、座りの悪いものも混じります——最後は声に出して選んでください。考え方・技巧・出典は<a href="./guide/">名づけを知る</a>にまとめてあります。</p>
 </div></footer>
 
 <div class="scrim" id="scrim"></div>
@@ -332,8 +348,7 @@ function drawBazi(){
       `<div><div class="t">${lab[i]}</div><div class="g">${KAN[k]}${SHI[s]}</div></div>`).join("")}</div>
     <div class="elems">${GOGYO.map(g=>
       `<div class="${BZ.lack.includes(g)?"low":""}"><b class="g-${g}">${g}</b><span>${BZ.cnt[g]}</span></div>`).join("")}</div>
-    <p>八字の八文字を五行に置き換えて数えたものです。<b>${BZ.lack.join("・")}</b>がいちばん少ないので、
-       その五行を持つ漢字を上に出しています。年柱は${BZ.afterRisshun?"立春以降":"立春より前（前年の干支）"}として計算。
+    <p>八字の八文字を五行に置き換えて数えたものです。<b>${BZ.lack.join("・")}</b>がいちばん少ないので、その五行を持つ漢字を上に出しています。年柱は${BZ.afterRisshun?"立春以降":"立春より前（前年の干支）"}として計算。
        ${BZ.boundary?'<b style="color:var(--shu)">この日は節入り日にあたります。時刻で柱が変わるので暦要項で確認を。</b>':""}</p>`;
 }
 

@@ -37,15 +37,16 @@ button{font:inherit;color:inherit}
 .wordmark{font-family:var(--min);font-size:1.02rem;font-weight:600;letter-spacing:.09em}
 .wordmark small{display:block;font-family:var(--num);font-size:.56rem;letter-spacing:.2em;
   color:var(--sumi3);font-weight:400;margin-top:1px}
-.tabs{display:flex;margin-left:auto}
+.tabs{display:flex;flex-wrap:wrap;margin-left:auto}
 .tabs a{font-size:.83rem;padding:16px 2px 13px;margin-left:26px;text-decoration:none;color:var(--sumi2);
   border-bottom:2px solid transparent;white-space:nowrap}
 .tabs a:hover{color:var(--sumi)}
 .tabs a[aria-current]{color:var(--sumi);border-bottom-color:var(--shu);font-weight:600}
-@media (max-width:600px){
-  .top .shell{flex-wrap:wrap;padding-bottom:0}
+@media (max-width:720px){
+  .top .shell{padding-bottom:0}
   .tabs{width:100%;margin:0;border-top:1px solid var(--rule-s)}
-  .tabs a{margin:0 24px 0 0;padding:11px 0 9px}
+  .tabs{gap:0 22px}
+  .tabs a{margin:0;padding:11px 0 9px}
 }
 
 /* hero */
@@ -56,7 +57,10 @@ button{font:inherit;color:inherit}
 
 /* 本文レイアウト：目次＋段組 */
 .body{display:grid;grid-template-columns:172px minmax(0,1fr);gap:48px;padding:34px 0 0;align-items:start}
-@media (max-width:900px){.body{grid-template-columns:1fr;gap:0}}
+/* grid アイテムの min-width は既定で auto。中の table(min-width:440px) が
+   そのままトラックの下限になり、狭い画面で横にはみ出すので 0 を明示する。 */
+.body>*{min-width:0}
+@media (max-width:900px){.body{grid-template-columns:minmax(0,1fr);gap:0}}
 .toc{position:sticky;top:24px}
 @media (max-width:900px){.toc{position:static;border-bottom:1px solid var(--rule);padding-bottom:18px;margin-bottom:24px}}
 .toc .h{font-family:var(--num);font-size:.55rem;letter-spacing:.18em;color:var(--sumi3);margin-bottom:10px}
@@ -75,11 +79,15 @@ article>section>p:first-of-type{color:var(--sumi2);font-size:.92rem}
 
 /* 番号つきの技巧リスト */
 ol.tips{list-style:none;counter-reset:t;padding:0;margin:0}
-ol.tips li{counter-increment:t;display:grid;grid-template-columns:26px 1fr;gap:12px;
-  padding:11px 0;border-bottom:1px solid var(--rule-s);font-size:.89rem;line-height:1.85}
+/* grid にすると <b> や <a> まで grid item 扱いになり、序号の 26px 列に
+   押し込まれて1文字ずつ折り返してしまう。番号は絶対配置にして本文は通常の
+   インライン整形のままにする。 */
+ol.tips li{counter-increment:t;position:relative;padding:11px 0 11px 38px;
+  border-bottom:1px solid var(--rule-s);font-size:.89rem;line-height:1.85}
 ol.tips li:last-child{border-bottom:0}
-ol.tips li::before{content:counter(t,decimal-leading-zero);font-family:var(--num);font-size:.62rem;
-  color:var(--sumi3);padding-top:.45em;letter-spacing:.02em}
+ol.tips li::before{content:counter(t,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--num);font-size:.62rem;color:var(--sumi3);
+  line-height:1.85;letter-spacing:.02em}
 ol.tips b{font-weight:600}
 
 /* 日中の対比 */
@@ -124,6 +132,12 @@ td.n{font-family:var(--num);font-variant-numeric:tabular-nums;white-space:nowrap
 .cta a{background:var(--sumi);color:var(--washi);padding:9px 20px;font-size:.84rem;text-decoration:none;white-space:nowrap}
 footer{border-top:1px solid var(--rule);margin-top:56px;padding:22px 0 48px}
 footer p{margin:0;font-size:.74rem;color:var(--sumi3);line-height:1.85;max-width:62ch}
+
+/* ───── CJK の折り返し対策（ツール側と同じ理由） ───── */
+.wordmark,.srcs a,.duo .lab,.kicker,.chip,th{white-space:nowrap}
+.wordmark{flex-shrink:0}
+.top .shell{flex-wrap:wrap}
+.cta p{flex:1 1 15em}
 </style>
 </head>
 <body>
@@ -140,9 +154,7 @@ footer p{margin:0;font-size:.74rem;color:var(--sumi3);line-height:1.85;max-width
 
 <div class="hd"><div class="shell">
   <h1>継ぐ国と、避ける国。</h1>
-  <p>日本と中国では、名づけの作法が似ている部分より<b>正面からぶつかる部分</b>のほうが重要です。
-     祖先の字を、日本は継ぎ、中国は避ける——このひとつを知らないまま決めると、
-     どちらかの家族に説明できない名前になります。両方の作法と、実務的な技巧を並べます。</p>
+  <p>日本と中国では、名づけの作法が似ている部分より<b>正面からぶつかる部分</b>のほうが重要です。祖先の字を、日本は継ぎ、中国は避ける——このひとつを知らないまま決めると、どちらかの家族に説明できない名前になります。両方の作法と、実務的な技巧を並べます。</p>
 </div></div>
 
 <div class="shell"><div class="body">
