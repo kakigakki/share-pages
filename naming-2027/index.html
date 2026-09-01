@@ -3,751 +3,454 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>何家の名づけ — 寓意・八字・語呂の名前生成器</title>
+<title>名前をつくる — 何家の名づけ帳</title>
+<meta name="description" content="姓「何（カ）」の子の名前を、八字の五行・姓名判断の画数・語呂・中国語の語感で並べ替える道具。">
 <style>
 :root{
-  /* 和紙のような、わずかに緑に寄った灰白 */
-  --washi:#e8e9e3; --panel:#f3f4ef; --sunk:#dfe1d9; --rule:#c9cdc2;
-  --sumi:#161c22;            /* 墨（青みのある黒） */
-  --sumi2:#5a6470;
-  --shu:#a83f2a;             /* 朱肉 */
-  --ai:#2c4a63;              /* 藍 */
-  /* 五行の色（伝統配当） */
-  --moku:#43704e; --ka:#a83f2a; --do:#8d7440; --kin:#6e7d87; --sui:#2c4a63;
-  --min:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Songti SC",serif;
-  --got:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,"Courier New",monospace;
+  color-scheme:light;
+  /* 原稿用紙の罫（緑）・墨・朱肉 */
+  --washi:#fcfcf9; --sheet:#ffffff; --sunk:#f3f4ef;
+  --rule:#d4ddd0; --rule-s:#e6ebe3; --moss:#5f7f62;
+  --sumi:#12171a; --sumi2:#5d686d; --sumi3:#8b959a;
+  --shu:#b23a28; --shu-w:#f3e3df;
+  --moku:#3f7148; --ka:#b23a28; --do:#8c7030; --kin:#66787f; --sui:#2a5070;
+  --min:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Songti SC","Iowan Old Style",Palatino,Georgia,serif;
+  --got:"Hiragino Sans","Noto Sans JP","Yu Gothic",-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  --num:ui-monospace,SFMono-Regular,Menlo,"Courier New",monospace;
+  --w:min(1120px,100% - 3rem);
 }
-:root[data-theme="dark"],:root[data-theme="light"]{ --washi:#e8e9e3; --panel:#f3f4ef; --sunk:#dfe1d9; --rule:#c9cdc2;
-  --sumi:#161c22; --sumi2:#5a6470; --shu:#a83f2a; --ai:#2c4a63;
-  --moku:#43704e; --ka:#a83f2a; --do:#8d7440; --kin:#6e7d87; --sui:#2c4a63; }
-
-html{color-scheme:light;background:#e8e9e3}
 *{box-sizing:border-box}
+html{background:var(--washi)}
 body{margin:0;background:var(--washi);color:var(--sumi);font-family:var(--got);
-  font-size:16px;line-height:1.75;-webkit-text-size-adjust:100%}
-.wrap{max-width:74ch;margin:0 auto;padding:0 18px 80px}
-a{color:var(--ai)}
-.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-decoration:none;display:inline-block;margin-bottom:10px}
+  font-size:16px;line-height:1.75;-webkit-text-size-adjust:100%;overflow-x:hidden}
 button,select,input{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--shu);outline-offset:2px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a{color:var(--sumi);text-underline-offset:.25em}
+:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.shell{width:var(--w);margin-inline:auto}
 
-/* ---- masthead：落款のように ---- */
-.mast{border-bottom:1px solid var(--rule);background:var(--panel)}
-.mast .in{max-width:74ch;margin:0 auto;padding:26px 18px 20px;display:flex;gap:16px;align-items:flex-start}
-.seal{flex:0 0 auto;width:58px;height:58px;background:var(--shu);color:#fff;
-  display:grid;place-items:center;font-family:var(--min);font-size:2rem;line-height:1;
-  border-radius:3px;letter-spacing:0}
-.mast h1{font-family:var(--min);font-size:1.45rem;font-weight:600;margin:0;line-height:1.4;
-  letter-spacing:.04em;text-wrap:balance}
-.mast .sub{margin:7px 0 0;font-size:.79rem;color:var(--sumi2);line-height:1.7}
-.lede{font-size:.88rem;color:var(--sumi2);margin:20px 0 0;line-height:1.85}
+/* ───── masthead ───── */
+.top{border-bottom:1px solid var(--rule);background:var(--sheet)}
+.top .shell{display:flex;align-items:center;gap:14px;padding:14px 0 0}
+.seal{width:34px;height:34px;flex:0 0 auto;background:var(--shu);color:#fff;display:grid;place-items:center;
+  font-family:var(--min);font-size:1.25rem;line-height:1;border-radius:2px;
+  box-shadow:0 0 0 1px rgba(178,58,40,.25), 0 1px 0 rgba(0,0,0,.06)}
+.wordmark{font-family:var(--min);font-size:1.02rem;font-weight:600;letter-spacing:.09em;margin-right:auto}
+.wordmark small{display:block;font-family:var(--num);font-size:.56rem;letter-spacing:.2em;
+  color:var(--sumi3);font-weight:400;margin-top:1px}
+.tabs{display:flex;gap:0;margin-left:auto}
+.tabs a{font-size:.83rem;padding:16px 2px 13px;margin-left:26px;text-decoration:none;color:var(--sumi2);
+  border-bottom:2px solid transparent;white-space:nowrap;transition:color .16s,border-color .16s}
+.tabs a:hover{color:var(--sumi)}
+.tabs a[aria-current]{color:var(--sumi);border-bottom-color:var(--shu);font-weight:600}
+@media (max-width:600px){
+  .top .shell{flex-wrap:wrap;padding-bottom:0}
+  .tabs{width:100%;margin:0;border-top:1px solid var(--rule-s)}
+  .tabs a{margin:0 24px 0 0;padding:11px 0 9px}
+}
 
-h2{font-family:var(--min);font-size:1.16rem;font-weight:600;margin:38px 0 10px;
-  padding-bottom:7px;border-bottom:1px solid var(--rule);letter-spacing:.04em;
-  display:flex;align-items:baseline;gap:9px}
-h2 em{font-style:normal;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;
-  color:var(--shu);text-transform:uppercase}
-h3{font-family:var(--min);font-size:.98rem;font-weight:600;margin:22px 0 7px}
+/* ───── 命名書（hero） ───── */
+.hero{padding:38px 0 30px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to right,transparent 0 63px,var(--rule-s) 63px 64px);
+  -webkit-mask-image:linear-gradient(to bottom,#000,transparent 88%);
+  mask-image:linear-gradient(to bottom,#000,transparent 88%);opacity:.8}
+.hero .shell{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:34px;align-items:center}
+@media (max-width:760px){.hero .shell{grid-template-columns:1fr;gap:24px}}
 
-/* ---- 注意書き ---- */
-.note{border-left:2px solid var(--rule);padding:2px 0 2px 13px;margin:14px 0;
-  font-size:.82rem;color:var(--sumi2);line-height:1.8}
-.note.warn{border-left-color:var(--shu)}
-.note.warn b{color:var(--shu)}
-.note b{color:var(--sumi)}
+.lede h1{font-family:var(--min);font-size:clamp(1.6rem,4.4vw,2.35rem);font-weight:600;line-height:1.32;
+  margin:0;letter-spacing:.03em;text-wrap:balance}
+.lede p{margin:13px 0 0;font-size:.87rem;color:var(--sumi2);line-height:1.9;max-width:44ch}
+.lede .facts{display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:16px}
+.fact{font-family:var(--num);font-size:.61rem;letter-spacing:.06em;color:var(--moss);
+  border:1px solid var(--rule);padding:3px 9px;background:var(--sheet)}
 
-/* ---- 操作盤 ---- */
-.panel{background:var(--panel);border:1px solid var(--rule);padding:15px 16px;margin:16px 0}
-.row{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end}
-.fld{display:flex;flex-direction:column;gap:5px;min-width:0}
-.fld>span{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;color:var(--sumi2)}
-.seg{display:flex;border:1px solid var(--rule);background:var(--washi)}
-.seg button{border:0;background:none;padding:6px 13px;font-size:.82rem;cursor:pointer;
-  border-right:1px solid var(--rule);color:var(--sumi2);transition:background .12s}
-.seg button:last-child{border-right:0}
-.seg button[aria-pressed="true"]{background:var(--sumi);color:var(--washi);font-weight:600}
-input[type=date],input[type=time],select{border:1px solid var(--rule);background:var(--washi);
-  padding:6px 9px;font-size:.84rem;font-family:var(--mono)}
-.go{margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.go button{background:var(--shu);color:#fff;border:0;padding:9px 22px;font-size:.9rem;
-  font-family:var(--min);letter-spacing:.1em;cursor:pointer}
-.go button.sub{background:none;color:var(--sumi2);border:1px solid var(--rule);
-  font-family:var(--got);letter-spacing:0;padding:8px 15px;font-size:.82rem}
-.go button.sub.on{border-color:var(--shu);color:var(--shu)}
-.count{font-family:var(--mono);font-size:.72rem;color:var(--sumi2)}
+/* 命名書そのもの */
+.meimei{width:216px;justify-self:end;background:var(--sheet);position:relative;
+  border:1px solid var(--sumi);padding:7px;box-shadow:0 10px 30px -18px rgba(18,23,26,.45)}
+@media (max-width:760px){.meimei{justify-self:center}}
+.meimei .inner{border:1px solid var(--rule);padding:20px 12px 16px;display:flex;flex-direction:column;
+  align-items:center;gap:14px;min-height:322px}
+.meimei .cap{font-family:var(--min);font-size:.78rem;letter-spacing:.42em;color:var(--sumi2);
+  writing-mode:vertical-rl;text-orientation:upright;margin-right:-.42em}
+.namebox{flex:1;display:flex;align-items:center;justify-content:center;width:100%}
+.vname{writing-mode:vertical-rl;text-orientation:upright;font-family:var(--min);font-weight:600;
+  font-size:2.1rem;line-height:1.34;letter-spacing:.1em}
+.vname .sei{color:var(--sumi2);font-size:1.35rem}
+.meimei .kana{font-family:var(--num);font-size:.7rem;letter-spacing:.18em;color:var(--shu)}
+.meimei .rom{font-family:var(--num);font-size:.56rem;letter-spacing:.2em;color:var(--sumi3);margin-top:-9px}
+.meimei .stamp{position:absolute;right:-9px;bottom:-9px;width:36px;height:36px;background:var(--shu);
+  color:#fff;font-family:var(--min);font-size:.62rem;line-height:1.1;display:grid;place-items:center;
+  text-align:center;border-radius:2px;letter-spacing:.02em}
+.reroll{margin-top:10px;width:100%;background:none;border:1px solid var(--rule);padding:7px;
+  font-size:.76rem;color:var(--sumi2);cursor:pointer;transition:border-color .16s,color .16s}
+.reroll:hover{border-color:var(--shu);color:var(--shu)}
+.fade{animation:fade .34s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ---- 命式（四柱） ---- */
-.meishiki{display:grid;grid-template-columns:auto repeat(4,1fr);gap:1px;background:var(--rule);
-  border:1px solid var(--rule);margin:14px 0;overflow:hidden}
-.meishiki>div{background:var(--panel);padding:8px 6px;text-align:center}
-.meishiki .hd{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--sumi2);
-  background:var(--sunk);padding:6px}
-.meishiki .rl{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--sumi2);
-  background:var(--sunk);display:grid;place-items:center;writing-mode:horizontal-tb}
-.meishiki .gz{font-family:var(--min);font-size:1.5rem;line-height:1.25;font-weight:600}
-.gogyo-bar{display:flex;gap:1px;margin:12px 0 4px;border:1px solid var(--rule)}
-.gogyo-bar div{flex:1;padding:8px 4px;text-align:center;background:var(--panel)}
-.gogyo-bar b{display:block;font-family:var(--min);font-size:1.15rem}
-.gogyo-bar span{display:block;font-family:var(--mono);font-size:.62rem;color:var(--sumi2);margin-top:2px}
-.g-moku{color:var(--moku)} .g-ka{color:var(--ka)} .g-do{color:var(--do)}
-.g-kin{color:var(--kin)} .g-sui{color:var(--sui)}
-.lack{outline:2px solid var(--shu);outline-offset:-2px}
+/* ───── 操作卓 ───── */
+.rail{border-block:1px solid var(--rule);background:var(--sheet);position:sticky;top:0;z-index:30}
+.rail .shell{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px 26px;padding:13px 0}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl>.lb{font-family:var(--num);font-size:.57rem;letter-spacing:.16em;color:var(--sumi3)}
+.opts{display:flex;gap:3px}
+.opts button{background:none;border:0;border-bottom:2px solid transparent;padding:2px 3px 4px;
+  font-size:.83rem;color:var(--sumi3);cursor:pointer;transition:color .14s,border-color .14s}
+.opts button:hover{color:var(--sumi2)}
+.opts button[aria-pressed="true"]{color:var(--sumi);border-bottom-color:var(--sumi);font-weight:600}
+.ctl input{border:0;border-bottom:1px solid var(--rule);background:none;padding:2px 0 3px;
+  font-family:var(--num);font-size:.82rem;min-width:8.5em}
+.ctl input:hover{border-bottom-color:var(--moss)}
+.acts{display:flex;gap:8px;margin-left:auto;align-items:center}
+@media (max-width:860px){.acts{margin-left:0;width:100%}}
+.btn{border:1px solid var(--sumi);background:var(--sumi);color:var(--washi);padding:8px 17px;
+  font-size:.83rem;cursor:pointer;transition:opacity .14s}
+.btn:hover{opacity:.84}
+.btn.ghost{background:none;color:var(--sumi2);border-color:var(--rule)}
+.btn.ghost:hover{border-color:var(--sumi2);color:var(--sumi);opacity:1}
+.btn.ghost[aria-pressed="true"]{border-color:var(--shu);color:var(--shu)}
 
-/* ---- 名前カード ---- */
-.cards{display:flex;flex-direction:column;gap:11px;margin:16px 0}
-.card{display:grid;grid-template-columns:78px 1fr;background:var(--panel);
-  border:1px solid var(--rule);overflow:hidden}
-.tate{background:var(--sunk);display:flex;justify-content:center;padding:14px 0 12px;
-  border-right:1px solid var(--rule)}
-.tate .v{writing-mode:vertical-rl;text-orientation:upright;font-family:var(--min);
-  font-size:1.72rem;line-height:1.28;letter-spacing:.08em;font-weight:600}
-.tate .v .sei{color:var(--sumi2);font-size:1.15rem}
-.body{padding:12px 14px;min-width:0}
-.yomi{font-family:var(--mono);font-size:.95rem;letter-spacing:.08em;color:var(--shu)}
-.romaji{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--sumi2);margin-top:1px}
-.mean{font-size:.84rem;margin:8px 0 0;line-height:1.75}
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0 0}
-.chip{font-family:var(--mono);font-size:.6rem;padding:2px 7px;border:1px solid var(--rule);
-  color:var(--sumi2);white-space:nowrap}
-.chip.on{border-color:var(--shu);color:var(--shu)}
-.chip.gd{border-color:var(--moku);color:var(--moku)}
-.zh{font-family:var(--mono);font-size:.68rem;color:var(--sumi2);margin:7px 0 0;line-height:1.7}
-.flagline{font-size:.76rem;color:var(--shu);margin:7px 0 0;line-height:1.7}
-.star{background:none;border:1px solid var(--rule);padding:3px 9px;font-size:.72rem;
-  cursor:pointer;color:var(--sumi2);margin-top:9px}
-.star.on{border-color:var(--shu);color:var(--shu)}
+/* ───── 命式 ───── */
+.bazi{padding:22px 0 0}
+.bazi .cap{font-family:var(--num);font-size:.58rem;letter-spacing:.18em;color:var(--moss);
+  display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bazi .cap::after{content:"";flex:1;height:1px;background:var(--rule)}
+.pillars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);
+  border:1px solid var(--rule);max-width:420px}
+.pillars>div{background:var(--sheet);padding:9px 4px;text-align:center}
+.pillars .t{font-family:var(--num);font-size:.55rem;letter-spacing:.1em;color:var(--sumi3)}
+.pillars .g{font-family:var(--min);font-size:1.42rem;font-weight:600;line-height:1.3;margin-top:2px}
+.elems{display:flex;gap:1px;background:var(--rule);border:1px solid var(--rule);max-width:420px;margin-top:9px}
+.elems div{flex:1;background:var(--sheet);padding:7px 2px;text-align:center;position:relative}
+.elems b{font-family:var(--min);font-size:1rem;display:block}
+.elems span{font-family:var(--num);font-size:.6rem;color:var(--sumi3)}
+.elems .low{background:var(--shu-w)}
+.elems .low b{color:var(--shu)}
+.g-木{color:var(--moku)}.g-火{color:var(--ka)}.g-土{color:var(--do)}.g-金{color:var(--kin)}.g-水{color:var(--sui)}
+.bazi p{font-size:.78rem;color:var(--sumi2);margin:10px 0 0;line-height:1.85;max-width:62ch}
 
-/* ---- 漢字図鑑 ---- */
-.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px;margin:14px 0}
-.kc{background:var(--panel);border:1px solid var(--rule);padding:9px 10px}
-.kc .ch{font-family:var(--min);font-size:1.6rem;line-height:1.1;font-weight:600}
-.kc .mi{font-family:var(--mono);font-size:.56rem;color:var(--sumi2);margin-top:3px;letter-spacing:.05em}
-.kc .me{font-size:.72rem;margin-top:5px;line-height:1.6;color:var(--sumi2)}
+/* ───── 結果グリッド ───── */
+.meta-line{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:26px 0 12px}
+.meta-line .n{font-family:var(--num);font-size:.72rem;color:var(--sumi2);letter-spacing:.04em}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:9px;padding-bottom:8px}
+.plate{position:relative;background:var(--sheet);border:1px solid var(--rule);padding:15px 6px 9px;
+  display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;text-align:center;
+  transition:border-color .16s,transform .16s,box-shadow .16s;animation:rise .4s backwards ease}
+@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.plate:hover{border-color:var(--sumi);transform:translateY(-2px);box-shadow:0 8px 18px -14px rgba(18,23,26,.5)}
+.plate .pv{writing-mode:vertical-rl;text-orientation:upright;font-family:var(--min);font-weight:600;
+  font-size:1.34rem;line-height:1.3;letter-spacing:.07em;min-height:3.1em;display:flex;align-items:center}
+.plate .pv .sei{color:var(--sumi3);font-size:.92rem}
+.plate .pk{font-family:var(--num);font-size:.63rem;letter-spacing:.09em;color:var(--sumi2)}
+.plate .pr{font-family:var(--num);font-size:.52rem;letter-spacing:.13em;color:var(--sumi3);margin-top:-6px}
+.plate .fav{position:absolute;top:4px;right:5px;font-size:.75rem;color:var(--rule);
+  background:none;border:0;cursor:pointer;padding:2px;line-height:1;transition:color .14s}
+.plate .fav:hover{color:var(--sumi3)}
+.plate.on{border-color:var(--shu)}
+.plate.on .fav{color:var(--shu)}
+.plate .warn{position:absolute;top:5px;left:6px;width:5px;height:5px;background:var(--shu);border-radius:50%}
+.empty{padding:40px 0;color:var(--sumi2);font-size:.86rem;max-width:52ch;line-height:1.9}
+.more{display:block;width:100%;margin:16px 0 0;background:none;border:1px dashed var(--rule);
+  padding:12px;font-size:.8rem;color:var(--sumi2);cursor:pointer;transition:border-color .16s,color .16s}
+.more:hover{border-color:var(--moss);color:var(--moss)}
 
-.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule);margin:12px 0}
-table{border-collapse:collapse;font-size:.76rem;min-width:520px;width:100%}
-th,td{padding:7px 9px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
-th{font-family:var(--mono);font-size:.6rem;letter-spacing:.05em;color:var(--sumi2);background:var(--sunk);white-space:nowrap}
-tbody tr:last-child td{border-bottom:0}
-td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-.fine{font-size:.72rem;color:var(--sumi2);line-height:1.75;margin:14px 0 0}
-.empty{padding:22px 4px;color:var(--sumi2);font-size:.84rem}
+/* ───── 詳細ドロワー ───── */
+.scrim{position:fixed;inset:0;background:rgba(18,23,26,.28);opacity:0;pointer-events:none;
+  transition:opacity .24s;z-index:60}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;z-index:61;background:var(--sheet);border-left:1px solid var(--rule);
+  transition:transform .28s cubic-bezier(.22,.7,.3,1);overflow-y:auto;overscroll-behavior:contain}
+@media (min-width:761px){
+  .drawer{top:0;right:0;height:100%;width:min(392px,92vw);transform:translateX(101%)}
+  .drawer.on{transform:none}
+}
+@media (max-width:760px){
+  .drawer{left:0;right:0;bottom:0;max-height:86vh;border-left:0;border-top:1px solid var(--rule);
+    transform:translateY(101%);border-radius:3px 3px 0 0}
+  .drawer.on{transform:none}
+}
+.dr-head{display:flex;align-items:flex-start;gap:14px;padding:18px 20px 15px;border-bottom:1px solid var(--rule)}
+.dr-head .dv{writing-mode:vertical-rl;text-orientation:upright;font-family:var(--min);font-weight:600;
+  font-size:1.6rem;line-height:1.3;letter-spacing:.08em}
+.dr-head .dv .sei{color:var(--sumi3);font-size:1.05rem}
+.dr-head .rd{flex:1;min-width:0;padding-top:3px}
+.dr-head .rd b{display:block;font-family:var(--num);font-size:1rem;letter-spacing:.1em;color:var(--shu);font-weight:600}
+.dr-head .rd span{display:block;font-family:var(--num);font-size:.6rem;letter-spacing:.16em;color:var(--sumi3);margin-top:2px}
+.dr-close{background:none;border:1px solid var(--rule);width:28px;height:28px;flex:0 0 auto;
+  cursor:pointer;color:var(--sumi2);font-size:.9rem;line-height:1}
+.dr-close:hover{border-color:var(--sumi2)}
+.dr-body{padding:4px 20px 30px}
+.blk{padding:15px 0;border-bottom:1px solid var(--rule-s)}
+.blk:last-child{border-bottom:0}
+.blk>.h{font-family:var(--num);font-size:.56rem;letter-spacing:.16em;color:var(--moss);margin-bottom:7px}
+.blk p{margin:0;font-size:.85rem;line-height:1.85}
+.blk p+p{margin-top:8px}
+.kchar{display:flex;gap:11px;align-items:flex-start}
+.kchar+.kchar{margin-top:12px}
+.kchar .c{font-family:var(--min);font-size:1.55rem;line-height:1;font-weight:600;flex:0 0 auto;
+  width:1.5em;text-align:center}
+.kchar .d{flex:1;min-width:0;font-size:.82rem;line-height:1.8}
+.kchar .d em{font-style:normal;font-family:var(--num);font-size:.6rem;color:var(--sumi3);
+  display:block;letter-spacing:.05em;margin-top:2px}
+.gk{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.gk div{background:var(--sheet);padding:7px 2px;text-align:center}
+.gk .l{font-family:var(--num);font-size:.55rem;color:var(--sumi3)}
+.gk .v{font-family:var(--num);font-size:.95rem;font-variant-numeric:tabular-nums;margin-top:1px}
+.gk .v.ok{color:var(--moku)}
+.gk .v.no{color:var(--shu)}
+.flags{border-left:2px solid var(--shu);padding-left:11px;font-size:.81rem;color:var(--shu);line-height:1.8}
+.dr-fav{width:100%;margin-top:14px;background:none;border:1px solid var(--rule);padding:10px;
+  font-size:.83rem;cursor:pointer;color:var(--sumi2)}
+.dr-fav.on{border-color:var(--shu);color:var(--shu)}
+
+footer{border-top:1px solid var(--rule);margin-top:52px;padding:22px 0 46px}
+footer .shell{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline}
+footer p{margin:0;font-size:.75rem;color:var(--sumi3);line-height:1.8;max-width:58ch}
+footer a{color:var(--sumi2);font-size:.78rem}
 </style>
 </head>
 <body>
 
-<header class="mast"><div class="in" style="display:block">
-  <a class="back" href="../">← share-pages</a>
-  <div style="display:flex;gap:16px;align-items:flex-start">
-  <div class="seal">何</div>
-  <div>
-    <h1>何家の名づけ帳</h1>
-    <p class="sub">寓意・生辰八字・語呂・画数を一度に見るための道具。<br>
-    姓は <b>何（カ）</b>／日本で出生・日本で生活／性別は未定。</p>
-  </div></div>
+<header class="top"><div class="shell">
+  <div class="seal" aria-hidden="true">何</div>
+  <div class="wordmark">何家の名づけ帳<small>NAMING · 2027</small></div>
+  <nav class="tabs">
+    <a href="./" aria-current="page">名前をつくる</a>
+    <a href="./guide/">名づけを知る</a>
+    <a href="../">← share-pages</a>
+  </nav>
 </div></header>
 
-<div class="wrap">
-
-<p class="lede">日本の戸籍に載る名前でありながら、中国語でも自然に読める——その両方を満たす候補を出すための道具です。日本語だけ、あるいは中国語だけで考えると必ずどちらかで無理が出るので、<b>両方の言語で同時に評価</b>しています。</p>
-
-<h2><em>ground rules</em>まず動かせない3つの条件</h2>
-
-<div class="note warn">
-<b>① 名前に使える文字は決まっている。</b>常用漢字 <b>2,136字</b>＋人名用漢字 <b>864字</b>＝<b>合計3,000字</b>、それにひらがな・カタカナだけです（2026年6月26日に「勒」が追加された時点の数）。リストにない字は<b>出生届が受理されません</b>。この道具の漢字はすべてこの範囲から選んでいますが、<b>提出前に必ず<a href="https://www.moj.go.jp/MINJI/minji86.html" target="_blank" rel="noopener">法務省の一覧</a>で確認してください</b>。
-</div>
-
-<div class="note warn">
-<b>② 2025年5月26日から、戸籍に「振り仮名」が載るようになりました。</b>読み方が正式な登録事項になったということです。<b>何を「カ」と読ませる</b>のもここで初めて公式に記録されます。日本人はまず「なに」「なん」と読むので、<b>読み仮名の登録は実務上とても大きい</b>——この姓にとっては有利な改正です。
-</div>
-
-<div class="note warn">
-<b>③ 姓が1拍しかない。</b>「カ」は1モーラです。日本人の姓は2〜4拍が普通なので、<b>名前が短いと全体が軽くなりすぎます</b>。この道具は<b>名前3〜4拍（全体4〜5拍）</b>を高く評価します。加えて<b>カ行・ガ行で始まる名前は避けます</b>（カ・カズキ、カ・ゴウ のように詰まるため）。
-</div>
-
-<h2><em>generator</em>名前を出す</h2>
-<p class="fine">二字名は<b>「語幹＋止め字」という日本語の名前が実際に作られる形</b>で組んでいます（読みを無差別に連結すると「ユイオ」のような存在しない名前が出るため、その方式は採っていません）。<b>漢字118字・語幹67・止め字59</b>から、性別の整合・接合部の音の重なり・拍数で絞ったうえで、八字・画数・語呂・中国語の条件をかけて並べ替えます。<b>候補は数千件</b>あるので、上から順に見るより「★気に入る」で貯めてから見比べるのが早いです。<b>🎲ボタンで毎回ちがう組が出ます</b>（上位3割の中からランダムに引くので、質は落とさずに顔ぶれだけ変わります）。<br><b>機械で組んでいる以上、中には座りの悪いものも混じります。</b>最後は声に出して選んでください。</p>
-
-<div class="panel">
-  <div class="row">
-    <label class="fld"><span>せいべつ</span>
-      <div class="seg" id="segSex">
-        <button data-v="n" aria-pressed="true">どちらでも</button>
-        <button data-v="m" aria-pressed="false">男の子</button>
-        <button data-v="f" aria-pressed="false">女の子</button>
-      </div></label>
-    <label class="fld"><span>なまえの字数</span>
-      <div class="seg" id="segLen">
-        <button data-v="0" aria-pressed="true">両方</button>
-        <button data-v="1" aria-pressed="false">一字</button>
-        <button data-v="2" aria-pressed="false">二字</button>
-      </div></label>
+<section class="hero"><div class="shell">
+  <div class="lede">
+    <h1>まだ、<br>書かれていない名前。</h1>
+    <p>姓は <b>何（カ）</b>。日本で生まれ、日本で育ち、中国側にも家族がいる子の名前を、
+       <b>戸籍で使える3,000字</b>の中から探すための道具です。八字の五行、姓名判断の画数、
+       耳で聞いた語呂、そして中国語での語感——<b>4つを同時に見ます</b>。</p>
+    <div class="facts">
+      <span class="fact">漢字 118</span>
+      <span class="fact">候補 約2,500</span>
+      <span class="fact">日中 両対応</span>
+    </div>
   </div>
-  <div class="row" style="margin-top:14px">
-    <label class="fld"><span>生年月日（わかったら）</span>
-      <input type="date" id="bd" value="2027-02-15"></label>
-    <label class="fld"><span>出生時刻</span>
-      <input type="time" id="bt" value="12:00"></label>
-    <label class="fld"><span>八字の不足を補う</span>
-      <div class="seg" id="segBazi">
-        <button data-v="1" aria-pressed="true">使う</button>
-        <button data-v="0" aria-pressed="false">使わない</button>
-      </div></label>
+
+  <figure class="meimei" id="meimei">
+    <div class="inner">
+      <div class="cap">命名</div>
+      <div class="namebox"><div class="vname" id="heroName"><span class="sei">何</span></div></div>
+      <div class="kana" id="heroKana">　</div>
+      <div class="rom" id="heroRom">　</div>
+    </div>
+    <div class="stamp" aria-hidden="true">何</div>
+    <button class="reroll" id="reroll">別の名前を見る</button>
+  </figure>
+</div></section>
+
+<div class="rail"><div class="shell">
+  <div class="ctl"><span class="lb">せいべつ</span>
+    <div class="opts" id="oSex">
+      <button data-v="n" aria-pressed="true">どちらでも</button>
+      <button data-v="m" aria-pressed="false">男の子</button>
+      <button data-v="f" aria-pressed="false">女の子</button>
+    </div></div>
+  <div class="ctl"><span class="lb">字数</span>
+    <div class="opts" id="oLen">
+      <button data-v="0" aria-pressed="true">両方</button>
+      <button data-v="1" aria-pressed="false">一字</button>
+      <button data-v="2" aria-pressed="false">二字</button>
+    </div></div>
+  <div class="ctl"><span class="lb">生年月日・時刻</span>
+    <div style="display:flex;gap:9px">
+      <input type="date" id="bd" value="2027-02-15" aria-label="生年月日">
+      <input type="time" id="bt" value="12:00" aria-label="出生時刻" style="min-width:5.6em">
+    </div></div>
+  <div class="ctl"><span class="lb">ふるい</span>
+    <div class="opts" id="oFil">
+      <button data-k="bazi" aria-pressed="true">八字</button>
+      <button data-k="kaku" aria-pressed="true">画数</button>
+      <button data-k="pop" aria-pressed="true">俗を除く</button>
+    </div></div>
+  <div class="acts">
+    <button class="btn" id="gen">並べ替える</button>
+    <button class="btn ghost" id="shuffle" aria-pressed="false">ランダム</button>
+    <button class="btn ghost" id="favBtn" aria-pressed="false">★ <span id="favN">0</span></button>
   </div>
-  <div class="row" style="margin-top:14px">
-    <label class="fld"><span>画数（姓名判断）</span>
-      <div class="seg" id="segKaku">
-        <button data-v="1" aria-pressed="true">参考にする</button>
-        <button data-v="0" aria-pressed="false">見ない</button>
-      </div></label>
-    <label class="fld"><span>ありふれた字</span>
-      <div class="seg" id="segPop">
-        <button data-v="1" aria-pressed="true">避ける</button>
-        <button data-v="0" aria-pressed="false">気にしない</button>
-      </div></label>
-  </div>
-  <div class="go">
-    <button id="gen">名前を出す</button>
-    <button class="sub" id="showFav">★ 気に入った（<span id="favN">0</span>）</button>
-    <button class="sub" id="shuffle">🎲 別の組をランダムで</button>
-    <button class="sub" id="more">もっと見る（+60）</button>
-    <span class="count" id="cnt"></span>
-  </div>
-</div>
+</div></div>
 
-<div id="bazi"></div>
-<div id="out" class="cards"></div>
+<section class="bazi shell" id="baziBox" hidden></section>
 
-<h2><em>dictionary</em>使っている漢字</h2>
-<p class="fine">画数は<b>新字体で書いたときの数</b>。五行は字義・部首からの通説的な配当です（流派で異なります）。中国語の欄は、その字が中国語の名前として自然かどうか。</p>
-<div class="kgrid" id="kdex"></div>
+<main class="shell">
+  <div class="meta-line"><span class="n" id="cnt"></span></div>
+  <div class="grid" id="grid"></div>
+  <button class="more" id="more" hidden>さらに60件</button>
+</main>
 
-<h2><em>techniques</em>名づけの技巧</h2>
+<footer><div class="shell">
+  <p>候補は「語幹＋止め字」という日本語の名前が実際に作られる形で組んでいます。機械で組む以上、座りの悪いものも混じります——最後は声に出して選んでください。
+     考え方・技巧・出典は<a href="./guide/">名づけを知る</a>にまとめてあります。</p>
+</div></footer>
 
-<p class="fine">どちらの国にも「こう決めるとうまくいく」という実務的なコツがあります。<b>知っているだけで候補の絞り方が変わる</b>ものを並べます。</p>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="名前の詳細" hidden></aside>
 
-<h3>日本側の技巧</h3>
-<ul>
-<li><b>止め字から決める。</b>これが日本の名づけの中心です。「〜と（人・斗・翔）」「〜き（生・希・樹）」「〜や（也・哉）」で男の子、「〜な（奈・菜・那）」「〜こ」「〜み」「〜か」「〜り」で女の子、というように<b>結びの一音で性別感と時代感がほぼ決まります</b>。この道具の二字名は全部この形で組んでいます。</li>
-<li><b>姓と名の拍数を足して4〜5拍にする。</b>日本人の耳に一番落ち着く長さです。<b>何は1拍しかないので、名は3〜4拍</b>。「カ・ナオヤ」で4拍。</li>
-<li><b>母音の並びを声に出して確かめる。</b>同じ母音が3つ続くと単調に聞こえます（カ・アカリ＝a-a-a-i）。この道具は自動で警告を出します。</li>
-<li><b>姓の最後の音と名の最初の音をぶつけない。</b>何（カ）のあとにカ行・ガ行が来ると必ず詰まります。<b>この姓では最重要のルール</b>。</li>
-<li><b>愛称になるか。</b>「〇〇ちゃん」「〇〇くん」と呼んでみる。3拍以上の名前は自然に2拍の愛称ができます（ナオヤ→ナオちゃん）。</li>
-<li><b>小学一年生が書けるか。</b>入学して最初にやるのが自分の名前を書くことです。<b>画数が多すぎる字を2つ重ねない</b>。藍(18)＋織(18)で36画は、6歳にはつらい。</li>
-<li><b>部首を重ねない。</b>「澄・澪」「琳・琳」のように同じ偏が並ぶと見た目が重くなります。</li>
-<li><b>読み間違えられないか。</b>2025年から戸籍に振り仮名が載るとはいえ、日常では書類の漢字だけを見られます。</li>
-<li><b>兄弟で揃えるかを先に決める。</b>音（〜や で揃える）、字（同じ字を使う）、テーマ（自然・光・音）のどれで揃えるか。一人目で決めておくと二人目が楽です。</li>
-<li><b>由来を一文で言えるか。</b>いつか子どもに「なんでこの名前？」と聞かれます。<b>そこで答えられる名前がいい名前</b>という、いちばん実際的な基準。</li>
-</ul>
-
-<h3>中国側の技巧</h3>
-<ul>
-<li><b>八字で足りない五行を補う。</b>最も広く行われている方法。この道具が実装しているのがこれです。</li>
-<li><b>声調（平仄）を平らにしない。</b>何は <b>hé（2声）</b>。名前も2声ばかりだと平板に聞こえます。<b>2声のあとは4声か1声を置く</b>と締まる、というのが基本の感覚です（例：何皓 hé hào ＝ 2声→4声）。日本語には無い観点なので、中国側の親族に一度読んでもらうのが確実です。</li>
-<li><b>谐音を必ず声に出して確かめる。</b>姓と続けて読んで妙な語にならないか。<b>「何」は疑問詞なので特に危険</b>で、何必・何苦・何以・何時・何人・何故…と既存語になりやすい。この道具は自動でチェックします。</li>
-<li><b>典故（古典の出典）から採る。</b>由来が古典にあると格が上がるとされます。「男は楚辞、女は詩経」という言い方がありますが、これは俗説の域。</li>
-<li><b>単名より双名。</b>人口が多く同姓同名が出やすいので、現代では二字名が主流です。</li>
-<li><b>部首の重複を避ける。</b>日本と同じ感覚。</li>
-<li><b>字が姓に対して「重すぎ」ないか。</b>画数の多い荘重な字を並べると、姓とのバランスが崩れるとされます。何（7画）は軽い姓なので、名で重心を作れます。</li>
-<li><b>三才五格。</b>実はこれは日本発（下の節を参照）。中国側の親族が画数を気にする場合、この道具の五格がそのまま使えます。</li>
-</ul>
-
-<h3>混血ならではの技巧</h3>
-<ul>
-<li><b>音読みベースを選ぶ。</b>訓読み中心の名前（はると・ゆうと・つむぎ）は、漢字を見ても中国語話者には音がつながりません。<b>音読みなら両言語で音が近くなる</b>——何律（カ・リツ／hé lǜ）のように。この道具の候補に音読みが多いのはそのためです。</li>
-<li><b>3つの字形すべてで書いてみる。</b>新字体（日本の戸籍）／簡体字（中国のパスポート）／繁体字（台湾・香港の親族）。<b>3つとも同じ形の字</b>を選ぶといちばん楽です（澄・律・朔・泉・玲・雅は3つとも同形。実／实／實、藍／蓝、樹／树 は割れます）。</li>
-<li><b>両方の親族に声に出して読んでもらう。</b>紙の上では良くても、実際に呼ばれる音が違います。日本側は「カ・〇〇」、中国側は「hé 〇〇」。<b>どちらの音でも呼びやすいか</b>が最終テスト。</li>
-<li><b>国字を外す。</b>凪・雫・榊・辻・畑・峠。日本では人気でも中国側は読めず書けません。</li>
-<li><b>どちらかの言語で悪い意味にならないか。</b>日本で普通の字が中国では別物、という例は多い——湊（凑＝間に合わせ）、奈（无奈＝どうしようもない）、菜（料理・野菜）、咲（笑の古字）、麻（麻烦）、矢。この道具は該当する字に警告を出します。</li>
-<li><b>ローマ字が2種類になることを織り込む。</b>日本の書類では <b>KA</b>、中国のパスポートでは <b>HE</b>。<b>名のローマ字だけは揃う</b>ので、そこが実質的な共通の呼び名になります。名のローマ字を先に決めてから漢字を当てる、という考え方もあります。</li>
-<li><b>字辈があるなら先に確認する。</b>ご家族の族譜に世代の字が決まっているなら、<b>一字は最初から固定</b>です。その場合は残り一字を選ぶ問題になるので、先に確認しておくと候補作りが一気に楽になります。</li>
-</ul>
-
-<div class="note warn">
-<b>ひとつだけ、順番の話。</b>技巧はどれも「候補を減らす」ための道具です。<b>先に条件で絞ってから気に入るものを探すより、気に入った音をいくつか挙げてから条件でふるいにかけるほうが、たいてい早く決まります。</b>この道具も、上から順に選ぶより「★気に入る」で20〜30個ためてから見比べる使い方を想定しています。
-</div>
-
-<h2><em>two traditions</em>日本と中国、名づけの作法</h2>
-
-<p class="fine">この子には日本側と中国側の両方の親族がいます。名づけの考え方は<b>似ている部分より、正面からぶつかる部分のほうが重要</b>なので、両方を並べておきます。</p>
-
-<h3>日本のやり方</h3>
-<ul>
-<li><b>音から入ることが多い。</b>先に響きを決めて、あとから漢字を当てる。2025年の読みランキングは男の子「ハルト」が<b>17年連続1位</b>、女の子は「エマ」。</li>
-<li><b>止め字。</b>「〜と」「〜き」「〜な」「〜の」など<b>結びの音</b>で、性別感と時代感がだいたい決まります。</li>
-<li><b>通字（とおりじ）。</b>一族で代々おなじ字を継ぐ習慣（徳川家の「家」など）。<b>祖先の字を受け継ぐことが敬意</b>という考え方です。</li>
-<li><b>画数（姓名判断）。</b>大正〜昭和に熊崎健翁が体系化した五格が主流。</li>
-<li><b>漢字一文字の名前が増えている。</b>2025年はベスト10の半数が一字名。</li>
-<li><b>使える字が法律で限定されている。</b>3,000字＋かな。読みも2025年5月26日から戸籍の登録事項に。</li>
-</ul>
-
-<h3>中国のやり方</h3>
-<ul>
-<li><b>八字で五行を補う。</b>生年月日時から命式を立てて、足りない五行を名前の字で補う——これが最も広く行われている考え方です（この道具が実装しているのもこれ）。</li>
-<li><b>字輩（輩分）。</b>族譜に世代ごとの字が定めてあり、<b>同じ世代のいとこ同士が名前の一字を共有</b>します。宋の太祖・趙匡胤が後代に13の字を定めたのが最初の正式な例とされ、<b>家訓式</b>（忠・孝・礼・義・信・仁）、<b>存続を願う式</b>（永・伝・昌・盛・興・継・承）、<b>吉祥式</b>（福・禄・寿・吉・祥・慶・賢）の3系統があります。ただし<b>90年代以降は急速にすたれ、その分だけ同姓同名が増えました</b>。</li>
-<li><b>避諱（ひき）。</b>目上の人や祖先と同じ字を使わない。諱はその人の魂に直結するものとされ、軽々しく使いません。</li>
-<li><b>典故。</b>古典から採るのが良いとされます（「男は楚辞、女は詩経」という言い方がありますが、これは俗説の域）。</li>
-<li><b>声調（平仄）のバランス。</b>姓と名を続けて読んだとき声調が単調にならないように整える。<b>日本語には無い観点</b>です。</li>
-<li><b>谐音（同音）を避ける。</b>姓と続けて変な語にならないか。<b>「何」は疑問詞なので特に注意が要ります</b>（何必・何苦・何以・何時…）。この道具はそれを自動で見ています。</li>
-</ul>
-
-<div class="note warn">
-<b>正面からぶつかること ①　祖先の字を、日本は継ぎ、中国は避ける。</b><br>
-日本の<b>通字</b>と中国の<b>避諱</b>は完全に逆向きです。中国・朝鮮の伝統では「ある人物の諱に同じ漢字を使うのはその人への不敬」とされますが、<b>日本・ベトナム・琉球にはその観念がなく、むしろ反対</b>でした。<br>
-日本側の親族に「うちは代々この字を使う」という慣習があると中国側には不敬に映りうるし、中国側が「祖父と同じ字は避けて」と言うのは日本側には理解しにくい。<b>これは名前を決める前に、両家で一度話しておいたほうがいい種類の衝突です。</b>
-</div>
-
-<div class="note warn">
-<b>正面からぶつかること ②　同じ漢字に、字形が3つある。</b><br>
-日本の<b>新字体</b>／中国の<b>簡体字</b>／台湾・香港の<b>繁体字</b>。たとえば 実／实／實、藍／蓝、樹／树、澄（共通）。<b>戸籍は新字体で登記される</b>ので、中国のパスポートや中国側の親族が書く字形とずれます。どの字形で書かれても本人だと分かる字を選んでおくと、あとが楽です。
-</div>
-
-<div class="note">
-<b>そのほか、混血ならではの点。</b><br>
-・<b>ローマ字が2種類になる。</b>日本の戸籍では「カ（KA）」、中国語では hé（HE）。パスポートの表記が国によって別物になります。<br>
-・<b>国字は中国語に存在しない。</b>凪・雫・榊・辻・畑・峠。日本では人気でも、中国側の家族は読めず書けません（この道具は警告を出します）。<br>
-・<b>訓読み中心の名前は中国語で音がつながらない。</b>「はると」「ゆうと」のような名前は、漢字を見ても中国語話者には読めません。<b>音読みベースの名前のほうが両言語で成立しやすい</b>——この道具の候補に音読みが多いのはそのためです。
-</div>
-
-<h3>意外な共通点：五格は、実は日本発</h3>
-<p>中国語圏で使われている<b>「五格剖象法」「三才五格」は、もとをたどると日本の姓名判断です。</b>熊崎健翁が<b>昭和4年（1929年）1月1日</b>に発表し、同年『姓名の神秘』で全国に広まったものを、<b>1936年ごろ、台湾留学の経験がある白玉光（白惠文）が台湾経由で中華圏に持ち込みました</b>。<br>
-つまり<b>この道具が出している五格の数字は、両家がそのまま同じ基準で見られる数少ない共通言語</b>ということになります。八字は中国側に、響きは日本側に寄った指標ですが、画数だけは両方に通じます。</p>
-
-<h3>実務：届出は14日以内。ただし名前は空欄でも出せる</h3>
-<ul>
-<li>出生の日を1日目として<b>14日以内</b>に出生届。期限が土日祝なら翌開庁日。</li>
-<li><b>名前が決まらなければ、名前欄を空欄のまま提出できます。</b>決まってから「<b>追完届</b>」を出せば大丈夫です。</li>
-<li>正当な理由なく14日を過ぎると、戸籍法137条で<b>5万円以下の過料</b>。</li>
-</ul>
-<div class="note">
-<b>つまり「14日で決めきる」必要はありません。</b>焦って決めるより、空欄で出しておいて納得してから追完するほうがいい。名前は一生ものなので、ここは急がなくていいところです。
-</div>
-
-<h2><em>caveats</em>この道具が正直に言っておくこと</h2>
-<div class="note">
-<b>八字（四柱推命）は「足りない五行を補う」だけの単純な話ではありません。</b>本来は日主の強弱を見て<b>喜用神</b>を選びます。この道具がやっているのは<b>五行の数を数えて少ないものを示す</b>という簡易版です。本格的に見てもらうなら、出生後に日時を持って専門家へ。
-</div>
-<div class="note">
-<b>節入りの時刻までは持っていません。</b>年柱は<b>立春</b>で切り替わります（<b>2027年の立春は2月4日</b>）。月柱も節入りが境目です。この道具は<b>日付の計算式</b>で節入り日を出していますが、<b>時刻は入っていません</b>。出生が節入り日の前後1日に当たる場合は、国立天文台の「暦要項」で時刻を確認してください。中国時間（UTC+8）と日本時間（UTC+9）で節入りの日付が1日ずれることもあります。
-</div>
-<div class="note">
-<b>日柱の切り替わりは23時にしています。</b>子の刻を基準とする流派に合わせていますが、<b>0時で切る流派もあります</b>。23時台の出生はどちらで見るかで日柱が変わります。
-</div>
-<div class="note">
-<b>姓名判断の吉凶は熊崎式の一例です。</b>画数を<b>新字体</b>で数えるか<b>旧字体（康熙字典体）</b>で数えるかでも流派が割れます。この道具は新字体です。あくまで参考として。
-</div>
-<div class="note warn">
-<b>最後は響きと、二人が気に入るかどうかです。</b>八字も画数も、決め手ではなく<b>候補を絞る道具</b>として使うのがちょうどいい距離だと思います。
-</div>
-
-<p class="fine">出典：<a href="https://www.moj.go.jp/MINJI/minji86.html" target="_blank" rel="noopener">法務省 子の名に使える漢字</a>／<a href="https://www.gov-online.go.jp/article/202505/entry-7609.html" target="_blank" rel="noopener">政府広報オンライン 戸籍の振り仮名</a>／人気の名前は明治安田生命 2025年調査（男の子「湊」・女の子「翠」、読みは17年連続「ハルト」「エマ」）を「ありふれた字」の判定に使っています。<br>作法の節は次を参照しました：<a href="https://zh.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA%E5%90%8D" target="_blank" rel="noopener">日本人名（中文維基）</a>／<a href="https://zh.wikipedia.org/zh-cn/%E5%81%8F%E8%AB%B1" target="_blank" rel="noopener">名讳・避諱（中文維基）</a>／<a href="https://shindan.kosazukari.com/column/kumazaki-shiki-toha" target="_blank" rel="noopener">熊崎式姓名判断の歴史</a>／<a href="https://ja.wikipedia.org/wiki/%E5%87%BA%E7%94%9F%E5%B1%8A" target="_blank" rel="noopener">出生届（Wikipedia）</a></p>
-
+<script src="./core.js"></script>
 <script>
-/* ============ 漢字プール ============
-   c:字 s:画数(新字体) g:五行 sex:m/f/n lv:常用/人名用 pop:0-2(ありふれ度)
-   a:先頭で使える読み b:末尾で使える読み  m:意味  z:拼音  zn:中国語での見え方
-   warn:注意（国字など）                                                    */
-const K=[
-{c:"律",s:9,g:"火",sex:"n",lv:"常用",pop:0,m:"きまり、調べ。整った秩序と自分を律する力",z:"lǜ",zn:"「规律・自律」。硬質で知的、中国でも名に使う"},
-{c:"朔",s:10,g:"水",sex:"n",lv:"人名用",pop:0,m:"新月、月の初め。ものごとの始まり",z:"shuò",zn:"「朔月」。古典的で品がある。日中どちらでも珍しい"},
-{c:"碧",s:14,g:"水",sex:"n",lv:"人名用",pop:0,m:"深く澄んだ青緑。玉の色",z:"bì",zn:"「碧空・碧玉」。中国語の名前として非常に美しい"},
-{c:"澄",s:15,g:"水",sex:"n",lv:"常用",pop:0,m:"にごりがなく澄んでいること",z:"chéng",zn:"「澄澈」。中国でも名に使う。清潔感が両言語で共通"},
-{c:"惟",s:11,g:"火",sex:"n",lv:"人名用",pop:0,m:"深く思う。思惟",z:"wéi",zn:"「思惟」。中国語話者には教養を感じさせる"},
-{c:"玲",s:9,g:"火",sex:"n",lv:"人名用",pop:0,m:"玉が触れ合う澄んだ音",z:"líng",zn:"「玲珑」。中国の名前で非常に一般的"},
-{c:"雅",s:13,g:"木",sex:"n",lv:"常用",pop:0,m:"みやびやか、正しく上品",z:"yǎ",zn:"「优雅・雅致」。両言語で同じ格調"},
-{c:"泉",s:9,g:"水",sex:"n",lv:"常用",pop:0,m:"湧き出る水。尽きない源",z:"quán",zn:"「清泉」。素直で古びない"},
-{c:"望",s:11,g:"水",sex:"n",lv:"常用",pop:0,m:"のぞむ、遠くを見る。満月",z:"wàng",zn:"「希望・望月」。両言語で前向き"},
-{c:"詩",s:13,g:"金",sex:"n",lv:"常用",pop:0,m:"詩、うた",z:"shī",zn:"「诗」。中国の名前で好まれる。文学的"},
-{c:"星",s:9,g:"火",sex:"n",lv:"常用",pop:0,m:"ほし",z:"xīng",zn:"「星」。中国ではやや現代的な印象"},
-{c:"環",s:17,g:"金",sex:"n",lv:"常用",pop:0,m:"輪。めぐりつづけるもの",z:"huán",zn:"簡体字「环」になる点に注意"},
-{c:"灯",s:6,g:"火",sex:"n",lv:"常用",pop:0,m:"ともしび。人を導く小さな光",z:"dēng",zn:"中国語では日用の語で、名前には珍しい"},
-{c:"樹",s:16,g:"木",sex:"n",lv:"常用",pop:1,m:"立ち続ける木",z:"shù",zn:"簡体字「树」。日本では人気が高い"},
-{c:"音",s:9,g:"土",sex:"n",lv:"常用",pop:1,m:"おと、ひびき",z:"yīn",zn:"中国では単独の名前字としては少なめ"},
-{c:"実",s:8,g:"水",sex:"n",lv:"常用",pop:0,m:"みのり、中身があること",z:"shí",zn:"日本の新字体。中国語は「实/實」で字形が違う"},
-{c:"舟",s:6,g:"金",sex:"n",lv:"常用",pop:0,m:"ふね",z:"zhōu",zn:"「舟」。中国では古典的で詩的"},
-{c:"遼",s:15,g:"火",sex:"n",lv:"人名用",pop:0,m:"はるかに広い",z:"liáo",zn:"「辽阔」。「辽宁」の地名連想が強い"},
-{c:"遥",s:12,g:"火",sex:"n",lv:"常用",pop:1,m:"はるか遠い",z:"yáo",zn:"「遥远」。中国語でも詩的"},
-{c:"蒼",s:13,g:"木",sex:"n",lv:"人名用",pop:1,m:"深い青、草木の茂るさま",z:"cāng",zn:"簡体字「苍」。「苍老」など古さの含みも"},
-{c:"葉",s:12,g:"土",sex:"n",lv:"常用",pop:0,m:"は。枝葉が広がること",z:"yè",zn:"簡体字「叶」。中国では姓でもある"},
-{c:"月",s:4,g:"木",sex:"n",lv:"常用",pop:0,m:"つき",z:"yuè",zn:"「明月」。中国でも上品"},
-{c:"光",s:6,g:"火",sex:"n",lv:"常用",pop:0,m:"ひかり",z:"guāng",zn:"「光明」。両言語で通じる"},
-{c:"希",s:7,g:"水",sex:"n",lv:"常用",pop:0,m:"ねがう、まれ",z:"xī",zn:"「希望」。中国でも名に使う"},
-{c:"奏",s:9,g:"金",sex:"n",lv:"常用",pop:0,m:"かなでる、申し上げる",z:"zòu",zn:"「演奏」。中国では名前に珍しい"},
-{c:"和",s:8,g:"水",sex:"n",lv:"常用",pop:1,m:"やわらぐ、調和",z:"hé",zn:"「和平」。ただし姓の何(hé)と同音になる",warn:"中国語で姓と同音"},
-{c:"千",s:3,g:"金",sex:"n",lv:"常用",pop:1,m:"数の多さ、はてしなさ",z:"qiān",zn:"「千」。中国でも一般的"},
-{c:"文",s:4,g:"水",sex:"n",lv:"常用",pop:0,m:"あや、ふみ、学問",z:"wén",zn:"「文雅」。中国では非常に一般的で品がある"},
-{c:"世",s:5,g:"金",sex:"n",lv:"常用",pop:0,m:"よ、世の中、代",z:"shì",zn:"「世」。中国でも名に使う"},
-{c:"由",s:5,g:"火",sex:"n",lv:"常用",pop:0,m:"よりどころ、いわれ",z:"yóu",zn:"「自由」。中国では名前に珍しい"},
-{c:"有",s:6,g:"土",sex:"n",lv:"常用",pop:0,m:"もつ、そなえる",z:"yǒu",zn:"「有」。中国では名に使うことは少ない"},
-{c:"唯",s:11,g:"土",sex:"n",lv:"常用",pop:1,m:"ただひとつ",z:"wéi",zn:"「唯一」。中国でも通じる"},
-{c:"結",s:12,g:"木",sex:"n",lv:"常用",pop:2,m:"むすぶ、実を結ぶ",z:"jié",zn:"簡体字「结」。日本では非常に多い"},
-{c:"優",s:17,g:"土",sex:"n",lv:"常用",pop:1,m:"すぐれる、やさしい",z:"yōu",zn:"「优秀」。簡体字「优」"},
-{c:"智",s:12,g:"火",sex:"n",lv:"常用",pop:0,m:"ちえ",z:"zhì",zn:"「智慧」。中国でも男女ともに使う"},
-{c:"陽",s:12,g:"土",sex:"n",lv:"常用",pop:1,m:"太陽、明るいほう",z:"yáng",zn:"簡体字「阳」。中国でも一般的"},
-{c:"晴",s:12,g:"火",sex:"n",lv:"常用",pop:1,m:"はれ",z:"qíng",zn:"「晴朗」。中国では名前にやや珍しい"},
-{c:"薫",s:16,g:"木",sex:"n",lv:"常用",pop:0,m:"かおる、よい香りが移る",z:"xūn",zn:"「薰陶」。中国では「薰」。上品"},
-{c:"慧",s:15,g:"水",sex:"n",lv:"人名用",pop:0,m:"かしこい、さとい",z:"huì",zn:"「智慧」。中国では女児名に多い"},
-{c:"想",s:13,g:"金",sex:"n",lv:"常用",pop:0,m:"おもう",z:"xiǎng",zn:"「思想」。中国では名前に珍しい"},
-{c:"凪",s:6,g:"水",sex:"n",lv:"人名用",pop:1,m:"風がやみ、海が静かになること",z:"—",zn:"日本で作られた国字。中国語には存在せず読めません",warn:"国字"},
-{c:"皓",s:12,g:"木",sex:"m",lv:"人名用",pop:0,m:"白く輝く、明るく清らか",z:"hào",zn:"「皓月当空」。中国の男児名として格調が高い"},
-{c:"昴",s:9,g:"火",sex:"m",lv:"人名用",pop:0,m:"すばる。二十八宿のひとつ",z:"mǎo",zn:"星宿名。中国では稀で、かえって新鮮"},
-{c:"洵",s:9,g:"水",sex:"m",lv:"人名用",pop:0,m:"まことに、いつわりがない",z:"xún",zn:"「洵美」。中国でも上品な男児名"},
-{c:"峻",s:10,g:"金",sex:"m",lv:"人名用",pop:0,m:"高くけわしい山。厳しく正しい",z:"jùn",zn:"「峻峭」。中国の男児名として力強い"},
-{c:"篤",s:16,g:"木",sex:"m",lv:"常用",pop:0,m:"人情にあつい、誠実",z:"dǔ",zn:"簡体字「笃」。誠実さの語"},
-{c:"拓",s:8,g:"火",sex:"m",lv:"常用",pop:0,m:"きりひらく",z:"tuò",zn:"「开拓」。両言語で前向き"},
-{c:"涼",s:11,g:"水",sex:"m",lv:"人名用",pop:0,m:"すずしい、清涼",z:"liáng",zn:"簡体字「凉」"},
-{c:"尚",s:8,g:"金",sex:"m",lv:"常用",pop:0,m:"とうとぶ、高く保つ",z:"shàng",zn:"「高尚・崇尚」。中国でも名に使う"},
-{c:"湧",s:12,g:"水",sex:"m",lv:"人名用",pop:0,m:"わき出る",z:"yǒng",zn:"簡体字「涌」"},
-{c:"慎",s:13,g:"金",sex:"m",lv:"常用",pop:0,m:"つつしむ、慎重",z:"shèn",zn:"「谨慎」。中国では単独の名は少なめ"},
-{c:"陸",s:11,g:"火",sex:"m",lv:"常用",pop:1,m:"大地、陸",z:"lù",zn:"「陆」。中国の姓でもあり誤解される場合も"},
-{c:"弘",s:5,g:"水",sex:"m",lv:"常用",pop:0,m:"ひろい、大きく広める",z:"hóng",zn:"「弘扬」。中国でも男児名に使う"},
-{c:"直",s:8,g:"火",sex:"m",lv:"常用",pop:0,m:"まっすぐ、いつわらない",z:"zhí",zn:"「正直」。両言語で同じ意味"},
-{c:"大",s:3,g:"火",sex:"m",lv:"常用",pop:1,m:"おおきい",z:"dà",zn:"「大」。中国では単独では名前に使いにくい"},
-{c:"圭",s:6,g:"土",sex:"m",lv:"常用",pop:0,m:"玉でつくった礼器。清らかで角がある",z:"guī",zn:"「珪璋」。古典的で品がある"},
-{c:"至",s:6,g:"火",sex:"m",lv:"常用",pop:0,m:"いたる、きわまる",z:"zhì",zn:"「至诚」。中国では珍しい"},
-{c:"翔",s:12,g:"土",sex:"m",lv:"常用",pop:2,m:"空をかける",z:"xiáng",zn:"「翱翔」。日本では非常に多い"},
-{c:"輝",s:15,g:"火",sex:"m",lv:"常用",pop:1,m:"かがやく",z:"huī",zn:"「光辉」。中国でも男児名に使う"},
-{c:"郁",s:9,g:"木",sex:"f",lv:"常用",pop:0,m:"香りが満ちる、文化がさかん",z:"yù",zn:"「馥郁」。中国では女児名として上品で定番"},
-{c:"琳",s:12,g:"木",sex:"f",lv:"人名用",pop:0,m:"美しい玉",z:"lín",zn:"「琳琅」。中国の女児名として非常に自然"},
-{c:"茜",s:9,g:"木",sex:"f",lv:"人名用",pop:0,m:"あかね。夕暮れの赤",z:"qiàn",zn:"中国でも女児名に使う"},
-{c:"桐",s:10,g:"木",sex:"f",lv:"常用",pop:0,m:"きり。鳳凰が宿るとされる木",z:"tóng",zn:"「梧桐」。中国では古典的で品がある"},
-{c:"藍",s:18,g:"木",sex:"f",lv:"常用",pop:0,m:"あい色。染めの青",z:"lán",zn:"簡体字「蓝」。中国でも女児名に使う"},
-{c:"芹",s:7,g:"木",sex:"f",lv:"人名用",pop:0,m:"せり。早春の若い草",z:"qín",zn:"中国でも女児名に使う。素朴で清潔"},
-{c:"尋",s:12,g:"金",sex:"f",lv:"常用",pop:0,m:"たずねる、探し求める",z:"xún",zn:"簡体字「寻」。「千尋」は中国でも通じる"},
-{c:"彩",s:11,g:"金",sex:"f",lv:"常用",pop:0,m:"いろどり",z:"cǎi",zn:"「色彩」。中国でも女児名に使う"},
-{c:"綾",s:14,g:"木",sex:"f",lv:"人名用",pop:0,m:"あや織りの美しい模様",z:"líng",zn:"「绫罗」。中国では珍しいが美しい"},
-{c:"紗",s:10,g:"金",sex:"f",lv:"人名用",pop:0,m:"うすぎぬ",z:"shā",zn:"「轻纱」。中国でも女児名に使う"},
-{c:"麻",s:11,g:"水",sex:"f",lv:"常用",pop:0,m:"あさ。まっすぐ育つ植物",z:"má",zn:"中国語では「麻烦」の連想があり名前には稀",warn:"中国語で語感注意"},
-{c:"楓",s:13,g:"木",sex:"f",lv:"人名用",pop:1,m:"かえで",z:"fēng",zn:"簡体字「枫」。中国でも詩的"},
-{c:"紬",s:11,g:"火",sex:"f",lv:"人名用",pop:1,m:"つむぎ。糸を紡いだ絹",z:"chóu",zn:"「绸」。中国では名前に使わない"},
-{c:"澪",s:16,g:"水",sex:"f",lv:"人名用",pop:1,m:"船の通る水路",z:"lì",zn:"中国語では極めて稀な字"},
-{c:"舞",s:15,g:"水",sex:"f",lv:"常用",pop:0,m:"まう",z:"wǔ",zn:"「舞」。中国でも女児名に使う"},
-{c:"織",s:18,g:"金",sex:"f",lv:"常用",pop:0,m:"おる、織物",z:"zhī",zn:"簡体字「织」"},
-{c:"愛",s:13,g:"土",sex:"f",lv:"常用",pop:1,m:"いつくしむ",z:"ài",zn:"「爱」。中国でも一般的"},
-{c:"雫",s:11,g:"水",sex:"f",lv:"人名用",pop:1,m:"したたる水のひとつぶ",z:"—",zn:"日本で作られた国字。中国語には存在せず読めません",warn:"国字"},
-{c:"咲",s:9,g:"木",sex:"f",lv:"常用",pop:1,m:"さく",z:"xiào",zn:"中国語の「咲」は「笑」の古字で、名前には使いません",warn:"中国語で語感注意"},
-{c:"人",s:2,g:"金",sex:"m",lv:"常用",pop:1,m:"ひと",z:"rén",zn:"「人」。中国では名前の結びに使わない"},
-{c:"斗",s:4,g:"火",sex:"m",lv:"人名用",pop:1,m:"ひしゃく、北斗七星",z:"dǒu",zn:"「北斗」。中国では名前に珍しい"},
-{c:"太",s:4,g:"火",sex:"m",lv:"常用",pop:1,m:"ふとい、ゆたか",z:"tài",zn:"「太」。中国では名前に使わない"},
-{c:"也",s:3,g:"土",sex:"m",lv:"人名用",pop:0,m:"古典の助字。断定のひびき",z:"yě",zn:"古典的な人名字。男児名の結びに合う"},
-{c:"哉",s:9,g:"金",sex:"m",lv:"人名用",pop:0,m:"古典の感嘆の助字",z:"zāi",zn:"「快哉」。中国でも古典的"},
-{c:"真",s:10,g:"金",sex:"n",lv:"常用",pop:1,m:"まこと、いつわりのないもの",z:"zhēn",zn:"「真」。日本ではやや多い"},
-{c:"生",s:5,g:"金",sex:"n",lv:"常用",pop:0,m:"うまれる、いきる",z:"shēng",zn:"中国では結びに使うことは少ない"},
-{c:"紀",s:9,g:"木",sex:"n",lv:"常用",pop:0,m:"すじみち、記録",z:"jì",zn:"「纪」。中国でも名に使う"},
-{c:"介",s:4,g:"火",sex:"m",lv:"常用",pop:0,m:"たすける、間に立つ",z:"jiè",zn:"「介」。中国では名前に稀"},
-{c:"平",s:5,g:"水",sex:"m",lv:"常用",pop:0,m:"たいら、おだやか",z:"píng",zn:"「和平」。中国でも一般的"},
-{c:"之",s:3,g:"火",sex:"n",lv:"人名用",pop:0,m:"の。古典の助字で格調を添える",z:"zhī",zn:"中国語でも古典的に人名に使う"},
-{c:"士",s:3,g:"金",sex:"m",lv:"常用",pop:0,m:"りっぱな人、学のある人",z:"shì",zn:"「士」。中国でも古典的"},
-{c:"志",s:7,g:"火",sex:"m",lv:"常用",pop:0,m:"こころざし",z:"zhì",zn:"「志向」。中国でも男児名に多い"},
-{c:"一",s:1,g:"水",sex:"m",lv:"常用",pop:1,m:"ひとつ、はじめ",z:"yī",zn:"「一」。中国では単独では名に使いにくい"},
-{c:"郎",s:9,g:"火",sex:"m",lv:"常用",pop:0,m:"男子。古風な結び",z:"láng",zn:"「郎」。中国では古風"},
-{c:"馬",s:10,g:"水",sex:"m",lv:"常用",pop:0,m:"うま",z:"mǎ",zn:"「马」。中国では姓なので名には使わない",warn:"中国語では姓"},
-{c:"輔",s:14,g:"水",sex:"m",lv:"人名用",pop:0,m:"たすける",z:"fǔ",zn:"「辅佐」。中国では名前に珍しい"},
-{c:"矢",s:5,g:"金",sex:"m",lv:"常用",pop:0,m:"や。まっすぐ飛ぶ",z:"shǐ",zn:"中国語では「屎」と同音に近く、名前に使いません",warn:"中国語で語感注意"},
-{c:"奈",s:8,g:"火",sex:"f",lv:"常用",pop:1,m:"からなし。音を借りる字",z:"nài",zn:"「奈何・无奈」＝どうしようもない、の語感",warn:"中国語で語感注意"},
-{c:"菜",s:11,g:"木",sex:"f",lv:"常用",pop:2,m:"な。青菜",z:"cài",zn:"中国語では「料理・野菜」。名前には使いません",warn:"中国語で語感注意"},
-{c:"那",s:7,g:"火",sex:"f",lv:"人名用",pop:0,m:"あれ、かの",z:"nà",zn:"「那」。中国では指示詞で名前に稀"},
-{c:"乃",s:2,g:"火",sex:"f",lv:"人名用",pop:0,m:"すなわち。古典の助字でやわらかく結ぶ",z:"nǎi",zn:"中国語でも古典的な助字"},
-{c:"里",s:7,g:"火",sex:"f",lv:"常用",pop:0,m:"ひと里、ふるさと",z:"lǐ",zn:"「千里」＝一日千里。中国語として非常に良い"},
-{c:"莉",s:10,g:"木",sex:"f",lv:"人名用",pop:1,m:"茉莉花（ジャスミン）",z:"lì",zn:"「茉莉」。中国でも女児名に多い"},
-{c:"理",s:11,g:"火",sex:"f",lv:"常用",pop:0,m:"ことわり、すじみち",z:"lǐ",zn:"「道理」。中国でも名に使う"},
-{c:"美",s:9,g:"水",sex:"f",lv:"常用",pop:2,m:"うつくしい",z:"měi",zn:"「美」。両言語で一般的すぎるほど一般的"},
-{c:"海",s:9,g:"水",sex:"n",lv:"常用",pop:1,m:"うみ",z:"hǎi",zn:"「海」。中国でも男女ともに使う"},
-{c:"香",s:9,g:"水",sex:"f",lv:"常用",pop:0,m:"かおり",z:"xiāng",zn:"「香」。中国でも女児名に使う"},
-{c:"華",s:10,g:"水",sex:"f",lv:"常用",pop:0,m:"はな、はなやか、光彩",z:"huá",zn:"「华」。中国の名前で最も好まれる字のひとつ"},
-{c:"花",s:7,g:"木",sex:"f",lv:"常用",pop:1,m:"はな",z:"huā",zn:"「花」。何花は「荷花（蓮）」と同音になる"},
-{c:"佳",s:8,g:"火",sex:"f",lv:"常用",pop:0,m:"よい、うつくしい",z:"jiā",zn:"「佳人・佳作」。中国でも上品"},
-{c:"穂",s:15,g:"木",sex:"f",lv:"常用",pop:0,m:"みのった稲のほ",z:"suì",zn:"繁体では「穗」。中国では名に稀"},
-{c:"帆",s:6,g:"水",sex:"f",lv:"常用",pop:0,m:"ふねの帆。風を受けて進む",z:"fān",zn:"「一帆风顺」。中国語では非常に縁起がよい"},
-{c:"子",s:3,g:"水",sex:"f",lv:"常用",pop:1,m:"こ。古典では男子の敬称でもある",z:"zǐ",zn:"「孔子」。中国では男性の敬称の含み"},
-{c:"絵",s:12,g:"木",sex:"f",lv:"常用",pop:0,m:"え、絵画",z:"huì",zn:"簡体字「绘」。中国では名前に珍しい"},
-{c:"恵",s:10,g:"水",sex:"f",lv:"常用",pop:0,m:"めぐみ、恩恵",z:"huì",zn:"「恩惠」。中国でも女児名に使う"},
-{c:"衣",s:6,g:"土",sex:"f",lv:"常用",pop:1,m:"ころも",z:"yī",zn:"「衣」。中国では名前に稀"},
-{c:"依",s:8,g:"土",sex:"f",lv:"常用",pop:1,m:"よりそう",z:"yī",zn:"「依偎」。中国でも女児名に使う"},
-{c:"央",s:5,g:"土",sex:"n",lv:"常用",pop:0,m:"まんなか。かたよらない",z:"yāng",zn:"「中央」。中国では稀だが違和感はない"},
-{c:"心",s:4,g:"金",sex:"f",lv:"常用",pop:2,m:"こころ",z:"xīn",zn:"「心」。日本では非常に多い"}
-];
-
-
-/* 二字名は自動合成せず、日本語として実際に成立する読みだけを用意しています。
-   （読みの機械的な組み合わせは「ユイオ」「シュウハ」のような非実在の名前を大量に作るため） */
-const SOLO=[["律","リツ","n"],["朔","サク","n"],["碧","ミドリ","n"],["碧","アオイ","n"],["澄","スミ","f"],["泉","イズミ","n"],["詩","ウタ","f"],["環","タマキ","n"],["灯","アカリ","f"],["樹","イツキ","n"],["蒼","アオイ","m"],["遥","ハルカ","n"],["昴","スバル","m"],["至","イタル","m"],["薫","カオル","n"],["舟","シュウ","n"],["峻","シュン","m"],["篤","アツシ","m"],["茜","アカネ","f"],["楓","カエデ","f"],["澪","ミオ","f"],["舞","マイ","f"],["光","ヒカル","n"],["望","ノゾミ","n"],["奏","カナデ","n"],["陸","リク","m"],["優","ユウ","n"],["愛","アイ","f"],["玲","レイ","f"],["琳","リン","f"],["藍","アイ","f"],["芹","セリ","f"],["葉","ヨウ","n"],["惟","ユイ","n"],["雅","ミヤビ","n"],["弘","ヒロシ","m"],["直","ナオ","n"],["智","サトシ","m"],["洵","ジュン","m"],["湧","ユウ","m"],["遼","リョウ","m"],["涼","リョウ","m"],["慧","サトシ","n"],["紬","ツムギ","f"],["綾","アヤ","f"],["彩","アヤ","f"],["穂","ミノリ","f"],["郁","カオル","n"],["桐","キリ","f"],["星","アカリ","n"],["希","ノゾミ","n"],["織","オリエ","f"]];
-const FIRST=[["律","リツ","n"],["朔","サク","n"],["碧","アオ","n"],["澄","スミ","f"],["惟","ユイ","n"],["玲","レイ","f"],["雅","マサ","n"],["泉","イズ","n"],["詩","シ","f"],["星","セイ","n"],["灯","アカ","f"],["音","オト","f"],["実","ミ","n"],["遼","リョウ","m"],["遥","ハル","n"],["蒼","ソウ","m"],["葉","ハ","f"],["月","ツキ","f"],["光","ミツ","m"],["希","ノゾ","f"],["奏","カナ","f"],["千","チ","f"],["文","フミ","n"],["由","ユ","f"],["唯","ユイ","f"],["智","トモ","n"],["陽","ハル","n"],["晴","ハル","n"],["皓","コウ","m"],["皓","ヒロ","m"],["洵","ジュン","m"],["峻","シュン","m"],["篤","アツ","m"],["拓","タク","m"],["涼","リョウ","m"],["尚","ナオ","m"],["湧","ユウ","m"],["慎","シン","m"],["陸","リク","m"],["弘","ヒロ","m"],["直","ナオ","m"],["圭","ケイ","m"],["輝","テル","m"],["郁","イク","f"],["琳","リン","f"],["桐","キリ","f"],["藍","アイ","f"],["芹","セリ","f"],["尋","ヒロ","f"],["彩","アヤ","f"],["綾","アヤ","f"],["紗","サ","f"],["麻","マ","f"],["紬","ツム","f"],["愛","アイ","f"],["真","マ","n"],["紀","ノリ","n"],["志","シ","m"],["海","ウミ","n"],["香","カ","f"],["華","ハナ","f"],["佳","ヨシ","f"],["穂","ホ","f"],["帆","ホ","f"],["恵","エ","f"],["優","ユウ","n"],["結","ユ","f"]];
-const LAST=[["人","ト","m"],["人","ヒト","m"],["斗","ト","m"],["太","タ","m"],["也","ヤ","m"],["哉","ヤ","m"],["真","マ","n"],["生","キ","n"],["生","セイ","m"],["紀","キ","n"],["介","スケ","m"],["平","ヘイ","m"],["之","ノ","n"],["士","シ","m"],["志","シ","m"],["一","イチ","m"],["郎","ロウ","m"],["馬","マ","m"],["輔","スケ","m"],["樹","キ","n"],["希","キ","n"],["輝","キ","m"],["翔","ト","m"],["陸","リク","m"],["大","タ","m"],["奈","ナ","f"],["菜","ナ","f"],["那","ナ","f"],["乃","ノ","f"],["里","リ","f"],["莉","リ","f"],["理","リ","f"],["美","ミ","f"],["実","ミ","f"],["海","ミ","f"],["香","カ","f"],["華","カ","f"],["花","カ","f"],["佳","カ","f"],["穂","ホ","f"],["帆","ホ","f"],["子","コ","f"],["絵","エ","f"],["恵","エ","f"],["衣","イ","f"],["依","イ","f"],["央","オ","n"],["心","ミ","f"],["音","ネ","f"],["音","オン","n"],["葉","ハ","n"],["月","ツキ","f"],["玲","レイ","f"],["琳","リン","f"],["尋","ヒロ","f"],["澄","スミ","f"],["光","ミツ","m"],["星","セイ","n"],["和","カズ","m"]];
-
-/* ============ 定数 ============ */
-const KAN="甲乙丙丁戊己庚辛壬癸".split(""), SHI="子丑寅卯辰巳午未申酉戌亥".split("");
-const KAN_G=["木","木","火","火","土","土","金","金","水","水"];
-const SHI_G=["水","土","木","木","土","火","火","土","金","金","土","水"];
-const GOGYO=["木","火","土","金","水"];
-const GCLS={"木":"g-moku","火":"g-ka","土":"g-do","金":"g-kin","水":"g-sui"};
-const SEI={c:"何",s:7,yomi:"カ",z:"hé"};
-/* 熊崎式の吉数（一例。流派で異なる） */
-const KICHI=new Set([1,3,5,6,7,8,11,13,15,16,17,18,21,23,24,25,29,31,32,33,35,37,39,41,45,47,48,52,57,61,63,65,67,68,81]);
-/* 中国語で「何＋名」が既存語になってしまう読み（避けたい） */
-const HE_WORDS={"必":"何必","苦":"何苦","時":"何時","以":"何以","須":"何須","妨":"何妨","況":"何況","等":"何等","故":"何故","処":"何処","来":"何来","事":"何事","人":"何人","者":"何者"};
-/* 節入り日を出す通用寿星公式の定数（21世紀・12の節） */
-const SETSU=[["小寒",1,5.4055],["立春",2,3.87],["驚蟄",3,5.63],["清明",4,4.81],["立夏",5,5.52],
-  ["芒種",6,5.678],["小暑",7,7.108],["立秋",8,7.5],["白露",9,7.646],["寒露",10,8.318],
-  ["立冬",11,7.438],["大雪",12,7.18]];
-/* 節に対応する月支（小寒→丑、立春→寅 …） */
-const SETSU_SHI=[1,2,3,4,5,6,7,8,9,10,11,0];
-
-/* ============ 八字 ============ */
-function setsuDay(year,idx){ // idx:0=小寒 … 11=大雪
-  const [,mo,C]=SETSU[idx], Y=year%100;
-  return {m:mo, d:Math.floor(Y*0.2422+C)-Math.floor((Y-1)/4)};
-}
-function jdn(y,m,d){
-  const a=Math.floor((14-m)/12), yy=y+4800-a, mm=m+12*a-3;
-  return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;
-}
-function bazi(dt){
-  if(!(dt instanceof Date)||isNaN(dt)) return null;
-  let y=dt.getFullYear(), mo=dt.getMonth()+1, d=dt.getDate(), h=dt.getHours(), mi=dt.getMinutes();
-  // 日柱：23時以降は翌日の日柱として扱う
-  let dd=new Date(dt); if(h>=23) dd.setDate(dd.getDate()+1);
-  const dIdx=(jdn(dd.getFullYear(),dd.getMonth()+1,dd.getDate())+49)%60;
-  // 年柱：立春で切り替え
-  const ris=setsuDay(y,1);
-  const afterRisshun=(mo>2)||(mo===2&&d>=ris.d);
-  const yearForPillar=afterRisshun?y:y-1;
-  const yIdx=((yearForPillar-4)%60+60)%60;
-  // 月柱：どの節の期間にいるか
-  let si=-1;
-  for(let i=0;i<12;i++){
-    const s=setsuDay(y,i);
-    const passed=(mo>s.m)||(mo===s.m&&d>=s.d);
-    if(passed) si=i;
-  }
-  if(si<0){ const s=setsuDay(y-1,11); si=11; } // 1月で小寒前 → 前年の大雪
-  const mShi=SETSU_SHI[si];
-  const yKan=yIdx%10;
-  const firstTora=[2,4,6,8,0][yKan%5];              // 五虎遁：寅月の天干
-  const mKan=(firstTora+((mShi-2)+12)%12)%10;
-  // 時柱：五鼠遁
-  const dKan=dIdx%10;
-  const hShi=(h===23)?0:Math.floor((h+1)/2)%12;
-  const firstNe=[0,2,4,6,8][dKan%5];
-  const hKan=(firstNe+hShi)%10;
-  // 節入り日ちょうどか
-  const boundary=SETSU.some((_,i)=>{const s=setsuDay(y,i);return s.m===mo&&s.d===d;});
-  const pil=[[yIdx%10,yIdx%12],[mKan,mShi],[dKan,dIdx%12],[hKan,hShi]];
-  const cnt={"木":0,"火":0,"土":0,"金":0,"水":0};
-  pil.forEach(([k,s])=>{cnt[KAN_G[k]]++;cnt[SHI_G[s]]++;});
-  const min=Math.min(...GOGYO.map(g=>cnt[g]));
-  return {pil,cnt,lack:GOGYO.filter(g=>cnt[g]===min),boundary,afterRisshun,risshun:ris};
-}
-
-/* ============ 語呂・画数 ============ */
-const KAGYO=/^[カキクケコガギグゲゴ]/;
-const VOW=c=>{const m={ア:"a",カ:"a",サ:"a",タ:"a",ナ:"a",ハ:"a",マ:"a",ヤ:"a",ラ:"a",ワ:"a",ガ:"a",ザ:"a",ダ:"a",バ:"a",パ:"a",
- イ:"i",キ:"i",シ:"i",チ:"i",ニ:"i",ヒ:"i",ミ:"i",リ:"i",ギ:"i",ジ:"i",ビ:"i",ピ:"i",
- ウ:"u",ク:"u",ス:"u",ツ:"u",ヌ:"u",フ:"u",ム:"u",ユ:"u",ル:"u",グ:"u",ズ:"u",ブ:"u",プ:"u",
- エ:"e",ケ:"e",セ:"e",テ:"e",ネ:"e",ヘ:"e",メ:"e",レ:"e",ゲ:"e",ゼ:"e",ベ:"e",ペ:"e",
- オ:"o",コ:"o",ソ:"o",ト:"o",ノ:"o",ホ:"o",モ:"o",ヨ:"o",ロ:"o",ゴ:"o",ゾ:"o",ド:"o",ボ:"o",ポ:"o"};
- return m[c]||"";};
-const ROMA={ア:"a",イ:"i",ウ:"u",エ:"e",オ:"o",カ:"ka",キ:"ki",ク:"ku",ケ:"ke",コ:"ko",サ:"sa",シ:"shi",ス:"su",セ:"se",ソ:"so",
- タ:"ta",チ:"chi",ツ:"tsu",テ:"te",ト:"to",ナ:"na",ニ:"ni",ヌ:"nu",ネ:"ne",ノ:"no",ハ:"ha",ヒ:"hi",フ:"fu",ヘ:"he",ホ:"ho",
- マ:"ma",ミ:"mi",ム:"mu",メ:"me",モ:"mo",ヤ:"ya",ユ:"yu",ヨ:"yo",ラ:"ra",リ:"ri",ル:"ru",レ:"re",ロ:"ro",ワ:"wa",ヲ:"o",ン:"n",
- ガ:"ga",ギ:"gi",グ:"gu",ゲ:"ge",ゴ:"go",ザ:"za",ジ:"ji",ズ:"zu",ゼ:"ze",ゾ:"zo",ダ:"da",ヂ:"ji",ヅ:"zu",デ:"de",ド:"do",
- バ:"ba",ビ:"bi",ブ:"bu",ベ:"be",ボ:"bo",パ:"pa",ピ:"pi",プ:"pu",ペ:"pe",ポ:"po",ー:""};
-function romaji(k){
-  let r="",i=0;
-  while(i<k.length){
-    const two=k.slice(i,i+2);
-    if(/^[キシチニヒミリギジビピ][ャュョ]$/.test(two)){
-      r+=ROMA[two[0]].replace(/i$/,"")+{ャ:"ya",ュ:"yu",ョ:"yo"}[two[1]]; i+=2; continue;
-    }
-    r+=ROMA[k[i]]??""; i++;
-  }
-  return r.charAt(0).toUpperCase()+r.slice(1);
-}
-function gokaku(nameChars){
-  const ns=nameChars.map(x=>x.s), sum=ns.reduce((a,b)=>a+b,0);
-  const ten=SEI.s+1, jin=SEI.s+ns[0], chi=ns.length>1?sum:sum+1;
-  const gai=1+ns[ns.length-1], sou=SEI.s+sum;
-  return {ten,jin,chi,gai,sou};
-}
-const isKichi=n=>KICHI.has(((n-1)%81)+1);
-
-function score(chars,yomi){
-  let sc=0, notes=[], flags=[];
-  const full="カ"+yomi, mora=[...full].filter(c=>!"ャュョー".includes(c)).length;
-  if(KAGYO.test(yomi)){ sc-=4; flags.push("「カ」のあとにカ行・ガ行が続いて詰まります"); }
-  else sc+=1;
-  if(/カ$/.test(yomi)){ sc-=2; flags.push("姓と同じ「カ」で終わり、カ…カと反復します"); }
-  if(mora>=4&&mora<=5){ sc+=3; notes.push("全体"+mora+"拍・据わりがいい"); }
-  else if(mora===3){ sc-=1; notes.push("全体3拍・やや短い"); }
-  else if(mora>=6){ sc-=1; notes.push("全体"+mora+"拍・やや長い"); }
-  const vs=[...full].map(VOW).filter(Boolean);
-  for(let i=0;i+2<vs.length;i++) if(vs[i]===vs[i+1]&&vs[i+1]===vs[i+2]){ sc-=2; flags.push("同じ母音が3つ続いて単調です"); break; }
-  if(/^[アイウエオヤユヨワ]/.test(yomi)) sc+=1;
-  chars.forEach(k=>{
-    if(HE_WORDS[k.c]) flags.push("中国語で「"+HE_WORDS[k.c]+"」という既存の語になります");
-    if(k.warn==="国字") flags.push(k.c+"は日本の国字で、中国語には存在しません");
-    else if(k.warn) flags.push(k.c+"：中国語では「奈何・无奈」の語感があり、単独では名前に使いません");
-  });
-  return {sc,notes,flags,mora};
-}
-
-/* ============ 生成 ============ */
+const $=id=>document.getElementById(id);
 const S={sex:"n",len:0,bazi:1,kaku:1,pop:1};
 const fav=new Set(JSON.parse(localStorage.getItem("he-name-fav")||"[]"));
-const $=id=>document.getElementById(id);
-let lastList=[], showingFav=false, LIMIT=60, mode="score";
+const saveFav=()=>localStorage.setItem("he-name-fav",JSON.stringify([...fav]));
+const keyOf=o=>o.chars.map(c=>c.c).join("")+"/"+o.yomi;
+let LIST=[], BZ=null, LIMIT=60, mode="score", showFav=false, cur=null;
 
-function build(){
-  const d=$("bd").value, t=$("bt").value||"12:00";
-  const bz=(S.bazi&&d)?bazi(new Date(d+"T"+t)):null;
-  const dict=Object.fromEntries(K.map(k=>[k.c,k]));
-  const okSex=(a,b)=>a==="n"||b==="n"||a===b;
-  const want=(sx)=>S.sex==="n"||sx===S.sex||sx==="n";
-  const cand=[];
-
-  // 一字名：プールの漢字のうち、上の字として読みを持つもの
-  if(S.len!==2){
-    SOLO.forEach(([c,r,sx])=>{
-      const k=dict[c]; if(!k) return;
-      cand.push({chars:[k],yomi:r,sex:sx,kind:"一字"});
-    });
-  }
-  // 二字名：上の字 × 止め字。日本語の名前が実際に作られる形に沿って組む
-  if(S.len!==1){
-    FIRST.forEach(([c1,r1,s1])=>{
-      const k1=dict[c1]; if(!k1) return;
-      LAST.forEach(([c2,r2,s2])=>{
-        const k2=dict[c2]; if(!k2) return;
-        if(c1===c2) return;                              // 同じ字の重複
-        if(!okSex(s1,s2)) return;                        // 男の字＋女の止め字は組まない
-        if(r1[r1.length-1]===r2[0]) return;              // 接合部で同じ仮名が重なる
-        const y=r1+r2;
-        const mora=[...y].filter(c=>!"ャュョー".includes(c)).length;
-        if(mora<2||mora>4) return;                       // 名は2〜4拍（姓が1拍のため）
-        cand.push({chars:[k1,k2],yomi:y,sex:(s1==="n"?s2:s1),kind:"二字"});
-      });
-    });
-  }
-
-  const out=[];
-  cand.forEach(o=>{
-    if(!want(o.sex)) return;
-    if(S.pop && o.chars.some(k=>k.pop>=2)) return;
-    const g=gokaku(o.chars), sc=score(o.chars,o.yomi);
-    let total=sc.sc;
-    if(S.kaku){ [g.jin,g.chi,g.sou].forEach(v=>total+=isKichi(v)?1.5:-1); }
-    if(bz){ o.chars.forEach(k=>{ if(bz.lack.includes(k.g)) total+=2.5; }); }
-    if(S.pop) o.chars.forEach(k=>total-=k.pop*1.5);
-    out.push({...o,g,s:sc,total,bz});
-  });
-  out.sort((x,y)=>y.total-x.total);
-  const seen=new Set(), uniq=[];
-  for(const o of out){
-    const key=o.chars.map(c=>c.c).join("")+"/"+o.yomi;
-    if(seen.has(key)) continue; seen.add(key); uniq.push(o);
-  }
-  return {list:uniq,bz,total:uniq.length};
-}
-
-function baziPanel(bz){
-  if(!bz) return "";
-  const rows=["年柱","月柱","日柱","時柱"];
-  const cells=bz.pil.map(([k,s])=>KAN[k]+SHI[s]);
-  return `<h3>命式（四柱）</h3>
-  <div class="meishiki">
-    <div class="rl">干支</div>${rows.map((r,i)=>`<div class="hd">${r}</div>`).join("")}
-    <div class="rl">　</div>${cells.map(c=>`<div class="gz">${c}</div>`).join("")}
-  </div>
-  <div class="gogyo-bar">${GOGYO.map(g=>
-    `<div class="${bz.lack.includes(g)?"lack":""}"><b class="${GCLS[g]}">${g}</b><span>${bz.cnt[g]}</span></div>`).join("")}</div>
-  <p class="fine">八字の八文字を五行に置き換えて数えたものです。<b class="g-ka">枠のついた「${bz.lack.join("・")}」がいちばん少ない五行</b>で、この道具はその五行を持つ漢字に加点しています。
-  年柱は${bz.afterRisshun?"立春以降":"立春より前（前年の干支）"}として計算。2027年の立春は2月4日です。
-  ${bz.boundary?'<b class="g-ka">この日は節入り日にあたります。時刻によって柱が変わるので、暦要項で節入り時刻を確認してください。</b>':""}</p>`;
-}
-
-function card(o,i){
-  const nm=o.chars.map(c=>c.c).join(""), key=nm;
-  const on=fav.has(key);
-  const kanji=[o.g.ten,o.g.jin,o.g.chi,o.g.gai,o.g.sou];
-  const lbl=["天","人","地","外","総"];
-  const lacked=o.bz?o.chars.filter(c=>o.bz.lack.includes(c.g)):[];
-  return `<div class="card">
-    <div class="tate"><div class="v"><span class="sei">何</span>${nm}</div></div>
-    <div class="body">
-      <div class="yomi">カ・${o.yomi}</div>
-      <div class="romaji">KA ${romaji(o.yomi)}</div>
-      <p class="mean">${o.chars.map(c=>`<b>${c.c}</b>＝${c.m}`).join("／")}</p>
-      <div class="chips">
-        ${o.chars.map(c=>`<span class="chip ${lacked.includes(c)?"on":""}">${c.g}</span>`).join("")}
-        <span class="chip">${o.s.mora}拍</span>
-        ${kanji.map((v,j)=>`<span class="chip ${isKichi(v)?"gd":""}">${lbl[j]}${v}</span>`).join("")}
-        ${o.chars.some(c=>c.lv==="人名用")?'<span class="chip">人名用漢字を含む</span>':""}
-        <span class="chip">${o.kind}名</span>
-      </div>
-      <p class="zh">中国語：何${nm}／${SEI.z} ${o.chars.map(c=>c.z).join(" ")}　—　${o.chars.map(c=>c.zn).join("／")}</p>
-      ${o.s.notes.length?`<p class="zh">語呂：${o.s.notes.join("、")}</p>`:""}
-      ${o.s.flags.length?`<p class="flagline">▲ ${o.s.flags.join("／")}</p>`:""}
-      <button class="star ${on?"on":""}" data-k="${key}">${on?"★ 気に入った":"☆ 気に入る"}</button>
-    </div></div>`;
-}
-
-/* スコア上位の母集団から一様にランダム抽出する。
-   全件から引くと座りの悪いものばかり出るので、上位3割（最低300件）を母集団にしている。 */
+/* 上位3割（最低300件）を母集団にしてシャッフル。全件から引くと座りの悪いものばかり出る */
 function sample(list,n){
-  const poolSize=Math.max(300,Math.ceil(list.length*0.3));
-  const pool=list.slice(0,Math.min(poolSize,list.length));
+  const pool=list.slice(0,Math.min(Math.max(300,Math.ceil(list.length*.3)),list.length));
   const idx=pool.map((_,i)=>i);
-  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; }
+  for(let i=idx.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
   return idx.slice(0,n).map(i=>pool[i]);
 }
+const vname=o=>`<span class="sei">何</span>${o.chars.map(c=>c.c).join("")}`;
 
-function render(){
-  const {list,bz}=build();
-  lastList=list;
-  $("bazi").innerHTML=baziPanel(bz);
-  const show=showingFav
-    ? list.filter(o=>fav.has(o.chars.map(c=>c.c).join("")))
-    : (mode==="random" ? sample(list,LIMIT) : list.slice(0,LIMIT));
-  $("out").innerHTML=show.length?show.map(card).join("")
-    :`<p class="empty">${showingFav?"まだ「気に入った」名前がありません。カードの☆を押すとここに集まります（この端末にだけ保存されます）。":"条件に合う候補がありません。設定をゆるめてください。"}</p>`;
-  $("cnt").textContent = showingFav
-    ? `${show.length}件を表示中`
-    : mode==="random"
-      ? `${list.length.toLocaleString()}件から ${show.length}件をランダム抽出（上位3割から）`
-      : `${list.length.toLocaleString()}件が条件に合致 → 上位 ${show.length}件を表示`;
-  $("shuffle").classList.toggle("on", mode==="random" && !showingFav);
+/* ── 命名書 ── */
+function hero(o){
+  if(!o) return;
+  const n=$("heroName"), k=$("heroKana"), r=$("heroRom");
+  [n,k,r].forEach(e=>e.classList.remove("fade"));
+  void n.offsetWidth;
+  n.innerHTML=vname(o); k.textContent="カ・"+o.yomi; r.textContent="KA "+passport(o.yomi).toUpperCase();
+  [n,k,r].forEach(e=>e.classList.add("fade"));
+}
+
+/* ── 命式 ── */
+function drawBazi(){
+  const b=$("baziBox");
+  if(!BZ){ b.hidden=true; return; }
+  b.hidden=false;
+  const lab=["年柱","月柱","日柱","時柱"];
+  b.innerHTML=`<div class="cap">命式（四柱）</div>
+    <div class="pillars">${BZ.pil.map(([k,s],i)=>
+      `<div><div class="t">${lab[i]}</div><div class="g">${KAN[k]}${SHI[s]}</div></div>`).join("")}</div>
+    <div class="elems">${GOGYO.map(g=>
+      `<div class="${BZ.lack.includes(g)?"low":""}"><b class="g-${g}">${g}</b><span>${BZ.cnt[g]}</span></div>`).join("")}</div>
+    <p>八字の八文字を五行に置き換えて数えたものです。<b>${BZ.lack.join("・")}</b>がいちばん少ないので、
+       その五行を持つ漢字を上に出しています。年柱は${BZ.afterRisshun?"立春以降":"立春より前（前年の干支）"}として計算。
+       ${BZ.boundary?'<b style="color:var(--shu)">この日は節入り日にあたります。時刻で柱が変わるので暦要項で確認を。</b>':""}</p>`;
+}
+
+/* ── グリッド ── */
+function draw(){
+  const list=showFav?LIST.filter(o=>fav.has(keyOf(o))):LIST;
+  const show=showFav?list:(mode==="random"?sample(list,LIMIT):list.slice(0,LIMIT));
+  const g=$("grid");
+  if(!show.length){
+    g.innerHTML="";
+    g.insertAdjacentHTML("beforeend",`<p class="empty">${showFav
+      ? "まだ★がありません。名前をタップして、気に入ったものに★を付けてください。この端末にだけ保存されます。"
+      : "この条件に合う候補がありません。ふるいをゆるめてください。"}</p>`);
+  }else{
+    g.innerHTML=show.map((o,i)=>{
+      const k=keyOf(o), on=fav.has(k);
+      return `<div class="plate ${on?"on":""}" data-i="${i}" role="button" tabindex="0"
+        style="animation-delay:${Math.min(i,24)*16}ms" aria-label="何${o.chars.map(c=>c.c).join("")} カ・${o.yomi}">
+        ${o.s.flags.length?'<span class="warn" title="注意あり"></span>':""}
+        <button class="fav" data-k="${k}" aria-label="★をつける">${on?"★":"☆"}</button>
+        <span class="pv">${vname(o)}</span>
+        <span class="pk">${o.yomi}</span>
+        <span class="pr">${passport(o.yomi).toUpperCase()}</span>
+      </div>`;}).join("");
+  }
+  window.__show=show;
+  $("cnt").textContent = showFav ? `★ ${show.length}件`
+    : mode==="random" ? `${LIST.length.toLocaleString()}件から ${show.length}件をランダムに`
+    : `${LIST.length.toLocaleString()}件が条件に合致 — 上位 ${show.length}件`;
+  $("more").hidden = showFav || show.length>=list.length;
   $("favN").textContent=fav.size;
-  $("out").querySelectorAll(".star").forEach(b=>b.onclick=()=>{
-    const k=b.dataset.k; fav.has(k)?fav.delete(k):fav.add(k);
-    localStorage.setItem("he-name-fav",JSON.stringify([...fav])); render();
+  $("favBtn").setAttribute("aria-pressed",showFav);
+  $("shuffle").setAttribute("aria-pressed",mode==="random"&&!showFav);
+  g.querySelectorAll(".fav").forEach(b=>b.onclick=e=>{
+    e.stopPropagation(); const k=b.dataset.k;
+    fav.has(k)?fav.delete(k):fav.add(k); saveFav(); draw();
+  });
+  g.querySelectorAll(".plate").forEach(p=>{
+    const open=()=>openDrawer(window.__show[+p.dataset.i]);
+    p.onclick=open;
+    p.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}};
   });
 }
 
-document.querySelectorAll(".seg").forEach(seg=>{
-  const key={segSex:"sex",segLen:"len",segBazi:"bazi",segKaku:"kaku",segPop:"pop"}[seg.id];
-  seg.querySelectorAll("button").forEach(b=>b.onclick=()=>{
-    seg.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
-    S[key]=(key==="sex")?b.dataset.v:+b.dataset.v;
-    showingFav=false; LIMIT=60; render();
+/* ── ドロワー ── */
+function openDrawer(o){
+  cur=o;
+  const k=keyOf(o), on=fav.has(k), lab=["天","人","地","外","総"];
+  const vals=[o.g.ten,o.g.jin,o.g.chi,o.g.gai,o.g.sou];
+  $("drawer").hidden=false;
+  $("drawer").innerHTML=`
+    <div class="dr-head">
+      <span class="dv">${vname(o)}</span>
+      <span class="rd"><b>カ・${o.yomi}</b><span>KA ${passport(o.yomi).toUpperCase()}</span></span>
+      <button class="dr-close" id="drClose" aria-label="閉じる">✕</button>
+    </div>
+    <div class="dr-body">
+      <div class="blk"><div class="h">字の意味</div>
+        ${o.chars.map(c=>`<div class="kchar"><span class="c">${c.c}</span>
+          <span class="d">${c.m}<em>${c.s}画 ／ <span class="g-${c.g}">五行 ${c.g}</span> ／ ${c.lv}${c.warn?" ／ "+c.warn:""}</em></span></div>`).join("")}
+      </div>
+      <div class="blk"><div class="h">中国語では</div>
+        <p><b>何${o.chars.map(c=>c.c).join("")}</b>　${SEI.z} ${o.chars.map(c=>c.z).join(" ")}</p>
+        ${o.chars.map(c=>`<p style="color:var(--sumi2);font-size:.81rem">${c.c}：${c.zn}</p>`).join("")}
+      </div>
+      <div class="blk"><div class="h">画数（姓名判断・熊崎式）</div>
+        <div class="gk">${vals.map((v,i)=>`<div><div class="l">${lab[i]}格</div>
+          <div class="v ${isKichi(v)?"ok":"no"}">${v}</div></div>`).join("")}</div>
+        <p style="font-size:.76rem;color:var(--sumi3);margin-top:8px">緑が吉数、朱が凶数とされる数。新字体の画数で計算しています。流派で結果は変わります。</p>
+      </div>
+      <div class="blk"><div class="h">語呂</div>
+        <p>全体 ${o.s.mora}拍${o.s.notes.length?"（"+o.s.notes.join("、")+"）":""}</p>
+        ${o.s.flags.length?`<p class="flags">${o.s.flags.join("<br>")}</p>`:""}
+      </div>
+      <button class="dr-fav ${on?"on":""}" id="drFav">${on?"★ 気に入りに入れた":"☆ 気に入りに入れる"}</button>
+    </div>`;
+  requestAnimationFrame(()=>{$("drawer").classList.add("on");$("scrim").classList.add("on");});
+  $("drClose").onclick=closeDrawer;
+  $("drFav").onclick=()=>{fav.has(k)?fav.delete(k):fav.add(k);saveFav();openDrawer(o);draw();};
+  $("drClose").focus();
+}
+function closeDrawer(){
+  $("drawer").classList.remove("on"); $("scrim").classList.remove("on");
+  setTimeout(()=>{$("drawer").hidden=true;},280);
+}
+$("scrim").onclick=closeDrawer;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("drawer").hidden)closeDrawer();});
+
+/* ── 再計算 ── */
+function recompute(keepMode){
+  const r=build(S,$("bd").value,$("bt").value);
+  LIST=r.list; BZ=r.bz;
+  if(!keepMode){mode="score";}
+  LIMIT=60; drawBazi(); draw();
+  if(LIST.length) hero(sample(LIST,1)[0]);
+}
+
+/* ── 操作 ── */
+["oSex","oLen"].forEach(id=>{
+  const key=id==="oSex"?"sex":"len";
+  $(id).querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    $(id).querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    S[key]=key==="sex"?b.dataset.v:+b.dataset.v; showFav=false; recompute();
   });
 });
-$("gen").onclick=()=>{mode="score";showingFav=false;LIMIT=60;render();};
-$("showFav").onclick=()=>{showingFav=!showingFav;LIMIT=60;render();};
-$("more").onclick=()=>{LIMIT+=60;render();};
-$("shuffle").onclick=()=>{mode="random";showingFav=false;render();};
-["bd","bt"].forEach(id=>$(id).onchange=render);
+$("oFil").querySelectorAll("button").forEach(b=>b.onclick=()=>{
+  const k=b.dataset.k; S[k]=S[k]?0:1;
+  b.setAttribute("aria-pressed",!!S[k]); showFav=false; recompute();
+});
+$("gen").onclick=()=>{showFav=false;mode="score";LIMIT=60;draw();};
+$("shuffle").onclick=()=>{showFav=false;mode="random";draw();};
+$("favBtn").onclick=()=>{showFav=!showFav;draw();};
+$("more").onclick=()=>{LIMIT+=60;draw();};
+$("reroll").onclick=()=>{if(LIST.length)hero(sample(LIST,1)[0]);};
+["bd","bt"].forEach(id=>$(id).onchange=()=>recompute(true));
 
-$("kdex").innerHTML=K.map(k=>`<div class="kc">
-  <div class="ch">${k.c}</div>
-  <div class="mi">${k.s}画 ／ <span class="${GCLS[k.g]}">${k.g}</span> ／ ${k.lv}${k.pop===2?" ／ 人気":""}${k.warn?" ／ "+k.warn:""}</div>
-  <div class="me">${k.m}<br>中：${k.z}　${k.zn}</div></div>`).join("");
-
-render();
+recompute();
 </script>
-
-</div>
-
 </body>
 </html>

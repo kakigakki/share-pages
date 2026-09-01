@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>名づけを知る — 何家の名づけ帳</title>
+<meta name="description" content="日本と中国、名づけの作法と技巧。通字と避諱の衝突、字形の三分裂、そして両家に通じる唯一の共通言語。">
+<style>
+:root{
+  color-scheme:light;
+  --washi:#fcfcf9; --sheet:#ffffff; --sunk:#f3f4ef;
+  --rule:#d4ddd0; --rule-s:#e6ebe3; --moss:#5f7f62;
+  --sumi:#12171a; --sumi2:#5d686d; --sumi3:#8b959a;
+  --shu:#b23a28; --shu-w:#f8efed;
+  --jp:#2a5070; --cn:#b23a28;
+  --min:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Songti SC","Iowan Old Style",Palatino,Georgia,serif;
+  --got:"Hiragino Sans","Noto Sans JP","Yu Gothic",-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  --num:ui-monospace,SFMono-Regular,Menlo,"Courier New",monospace;
+  --w:min(1120px,100% - 3rem);
+}
+*{box-sizing:border-box}
+html{background:var(--washi);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--washi);color:var(--sumi);font-family:var(--got);
+  font-size:16px;line-height:1.85;-webkit-text-size-adjust:100%}
+a{color:var(--sumi);text-underline-offset:.25em}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+.shell{width:var(--w);margin-inline:auto}
+
+/* masthead（ツール側と共通） */
+.top{border-bottom:1px solid var(--rule);background:var(--sheet)}
+.top .shell{display:flex;align-items:center;gap:14px;padding:14px 0 0}
+.seal{width:34px;height:34px;flex:0 0 auto;background:var(--shu);color:#fff;display:grid;place-items:center;
+  font-family:var(--min);font-size:1.25rem;line-height:1;border-radius:2px;
+  box-shadow:0 0 0 1px rgba(178,58,40,.25),0 1px 0 rgba(0,0,0,.06)}
+.wordmark{font-family:var(--min);font-size:1.02rem;font-weight:600;letter-spacing:.09em}
+.wordmark small{display:block;font-family:var(--num);font-size:.56rem;letter-spacing:.2em;
+  color:var(--sumi3);font-weight:400;margin-top:1px}
+.tabs{display:flex;margin-left:auto}
+.tabs a{font-size:.83rem;padding:16px 2px 13px;margin-left:26px;text-decoration:none;color:var(--sumi2);
+  border-bottom:2px solid transparent;white-space:nowrap}
+.tabs a:hover{color:var(--sumi)}
+.tabs a[aria-current]{color:var(--sumi);border-bottom-color:var(--shu);font-weight:600}
+@media (max-width:600px){
+  .top .shell{flex-wrap:wrap;padding-bottom:0}
+  .tabs{width:100%;margin:0;border-top:1px solid var(--rule-s)}
+  .tabs a{margin:0 24px 0 0;padding:11px 0 9px}
+}
+
+/* hero */
+.hd{padding:44px 0 30px;border-bottom:1px solid var(--rule)}
+.hd h1{font-family:var(--min);font-size:clamp(1.7rem,4.6vw,2.5rem);font-weight:600;line-height:1.3;
+  margin:0;letter-spacing:.03em;text-wrap:balance;max-width:22ch}
+.hd p{margin:14px 0 0;font-size:.9rem;color:var(--sumi2);max-width:56ch;line-height:1.95}
+
+/* 本文レイアウト：目次＋段組 */
+.body{display:grid;grid-template-columns:172px minmax(0,1fr);gap:48px;padding:34px 0 0;align-items:start}
+@media (max-width:900px){.body{grid-template-columns:1fr;gap:0}}
+.toc{position:sticky;top:24px}
+@media (max-width:900px){.toc{position:static;border-bottom:1px solid var(--rule);padding-bottom:18px;margin-bottom:24px}}
+.toc .h{font-family:var(--num);font-size:.55rem;letter-spacing:.18em;color:var(--sumi3);margin-bottom:10px}
+.toc a{display:block;font-size:.8rem;color:var(--sumi2);text-decoration:none;padding:4px 0 4px 11px;
+  border-left:1px solid var(--rule);transition:color .15s,border-color .15s}
+.toc a:hover{color:var(--sumi);border-left-color:var(--sumi)}
+
+article{max-width:66ch}
+h2{font-family:var(--min);font-size:1.42rem;font-weight:600;letter-spacing:.03em;line-height:1.4;
+  margin:0 0 4px;scroll-margin-top:22px}
+section+section{margin-top:56px;padding-top:32px;border-top:1px solid var(--rule)}
+.kicker{font-family:var(--num);font-size:.56rem;letter-spacing:.2em;color:var(--moss);margin:0 0 9px}
+h3{font-family:var(--min);font-size:1.03rem;font-weight:600;margin:30px 0 8px;letter-spacing:.02em}
+p{margin:0 0 14px}
+article>section>p:first-of-type{color:var(--sumi2);font-size:.92rem}
+
+/* 番号つきの技巧リスト */
+ol.tips{list-style:none;counter-reset:t;padding:0;margin:0}
+ol.tips li{counter-increment:t;display:grid;grid-template-columns:26px 1fr;gap:12px;
+  padding:11px 0;border-bottom:1px solid var(--rule-s);font-size:.89rem;line-height:1.85}
+ol.tips li:last-child{border-bottom:0}
+ol.tips li::before{content:counter(t,decimal-leading-zero);font-family:var(--num);font-size:.62rem;
+  color:var(--sumi3);padding-top:.45em;letter-spacing:.02em}
+ol.tips b{font-weight:600}
+
+/* 日中の対比 */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:18px 0}
+@media (max-width:620px){.duo{grid-template-columns:1fr}}
+.duo>div{background:var(--sheet);padding:15px 16px}
+.duo .lab{font-family:var(--num);font-size:.56rem;letter-spacing:.16em;margin-bottom:8px}
+.duo .jp .lab{color:var(--jp)} .duo .cn .lab{color:var(--cn)}
+.duo p{margin:0;font-size:.85rem;line-height:1.85}
+.duo p+p{margin-top:9px}
+
+/* 衝突の強調 */
+.clash{border:1px solid var(--shu);background:var(--shu-w);padding:17px 19px;margin:20px 0}
+.clash .t{font-family:var(--min);font-size:1.02rem;font-weight:600;color:var(--shu);margin-bottom:8px}
+.clash p{margin:0;font-size:.86rem;line-height:1.9}
+.clash p+p{margin-top:9px}
+
+.note{border-left:2px solid var(--rule);padding-left:14px;margin:18px 0;font-size:.85rem;
+  color:var(--sumi2);line-height:1.9}
+.note b{color:var(--sumi)}
+
+table{border-collapse:collapse;width:100%;font-size:.8rem;margin:16px 0}
+.scroll{overflow-x:auto;border:1px solid var(--rule)}
+.scroll table{min-width:440px;margin:0}
+th,td{padding:8px 11px;border-bottom:1px solid var(--rule-s);text-align:left;vertical-align:top}
+th{font-family:var(--num);font-size:.57rem;letter-spacing:.08em;color:var(--sumi3);
+  background:var(--sunk);white-space:nowrap;border-bottom-color:var(--rule)}
+tbody tr:last-child td{border-bottom:0}
+td.n{font-family:var(--num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip{font-family:var(--num);font-size:.6rem;border:1px solid var(--rule);padding:2px 7px;
+  color:var(--sumi2);white-space:nowrap;display:inline-block}
+
+.srcs{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}
+.srcs a{font-size:.75rem;border:1px solid var(--rule);padding:5px 11px;text-decoration:none;
+  color:var(--sumi2);background:var(--sheet)}
+.srcs a:hover{border-color:var(--sumi2);color:var(--sumi)}
+.fine{font-size:.75rem;color:var(--sumi3);line-height:1.85}
+
+.cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:44px 0 0;padding:20px 22px;
+  border:1px solid var(--rule);background:var(--sheet)}
+.cta p{margin:0;font-size:.86rem;color:var(--sumi2);flex:1;min-width:15em}
+.cta a{background:var(--sumi);color:var(--washi);padding:9px 20px;font-size:.84rem;text-decoration:none;white-space:nowrap}
+footer{border-top:1px solid var(--rule);margin-top:56px;padding:22px 0 48px}
+footer p{margin:0;font-size:.74rem;color:var(--sumi3);line-height:1.85;max-width:62ch}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="shell">
+  <div class="seal" aria-hidden="true">何</div>
+  <div class="wordmark">何家の名づけ帳<small>NAMING · 2027</small></div>
+  <nav class="tabs">
+    <a href="../">名前をつくる</a>
+    <a href="./" aria-current="page">名づけを知る</a>
+    <a href="../../">← share-pages</a>
+  </nav>
+</div></header>
+
+<div class="hd"><div class="shell">
+  <h1>継ぐ国と、避ける国。</h1>
+  <p>日本と中国では、名づけの作法が似ている部分より<b>正面からぶつかる部分</b>のほうが重要です。
+     祖先の字を、日本は継ぎ、中国は避ける——このひとつを知らないまま決めると、
+     どちらかの家族に説明できない名前になります。両方の作法と、実務的な技巧を並べます。</p>
+</div></div>
+
+<div class="shell"><div class="body">
+
+<nav class="toc">
+  <div class="h">CONTENTS</div>
+  <a href="#rules">動かせない3条件</a>
+  <a href="#clash">ぶつかるところ</a>
+  <a href="#jp">日本の作法と技巧</a>
+  <a href="#cn">中国の作法と技巧</a>
+  <a href="#mix">混血ならではの技巧</a>
+  <a href="#common">意外な共通点</a>
+  <a href="#todoke">届出の実務</a>
+  <a href="#caveat">この道具の限界</a>
+  <a href="#src">出典</a>
+</nav>
+
+<article>
+
+<section id="rules">
+  <p class="kicker">HARD CONSTRAINTS</p>
+  <h2>まず、動かせない3つの条件</h2>
+  <p>好みの前に、これは決まっています。</p>
+
+  <ol class="tips">
+    <li><b>名前に使える文字は3,000字だけ。</b>常用漢字 2,136字 ＋ 人名用漢字 864字、それにひらがな・カタカナ（2026年6月26日に「勒」が追加された時点）。<b>リストにない字は出生届が受理されません。</b>この道具の漢字はすべてこの範囲から選んでいますが、提出前に必ず<a href="https://www.moj.go.jp/MINJI/minji86.html" target="_blank" rel="noopener">法務省の一覧</a>で確認してください。</li>
+    <li><b>2025年5月26日から、戸籍に「振り仮名」が載ります。</b>読み方が正式な登録事項になりました。<b>何を「カ」と読ませる</b>ことが、ここで初めて公式に記録されます。日本人はまず「なに」「なん」と読むので、この姓にとっては有利な改正です。</li>
+    <li><b>姓が1拍しかない。</b>「カ」は1モーラ。日本人の姓は2〜4拍が普通なので、<b>名が短いと全体が軽くなりすぎます</b>。名は3〜4拍（全体4〜5拍）が据わります。さらに<b>カ行・ガ行で始まる名は必ず詰まる</b>——この姓で最も効くルールです。</li>
+  </ol>
+</section>
+
+<section id="clash">
+  <p class="kicker">WHERE THEY COLLIDE</p>
+  <h2>正面からぶつかるところ</h2>
+  <p>混血の名づけで実際に問題になるのは、ここです。</p>
+
+  <div class="clash">
+    <div class="t">① 祖先の字を、日本は継ぎ、中国は避ける</div>
+    <p>日本の<b>通字（とおりじ）</b>は、一族で代々おなじ字を継ぐ習慣です（徳川家の「家」など）。<b>祖先の字を受け継ぐことが敬意</b>という考え方。</p>
+    <p>中国の<b>避諱（ひき）</b>は逆で、目上の人や祖先と同じ字を使いません。諱はその人の魂に直結するものとされ、軽々しく使わない。中国・朝鮮の伝統では<b>「ある人物の諱に同じ漢字を使うのはその人への不敬」</b>とされますが、<b>日本・ベトナム・琉球にはその観念がなく、むしろ反対</b>でした。</p>
+    <p>日本側に「うちは代々この字を使う」があると中国側には不敬に映りうるし、中国側の「祖父と同じ字は避けて」は日本側には理解しにくい。<b>名前を決める前に、両家で一度話しておいたほうがいい種類の衝突です。</b></p>
+  </div>
+
+  <div class="clash">
+    <div class="t">② 同じ漢字に、字形が3つある</div>
+    <p>日本の<b>新字体</b>（戸籍に載る形）／中国の<b>簡体字</b>（パスポート）／台湾・香港の<b>繁体字</b>（親族が書く形）。</p>
+    <p>3つとも同じ形の字を選ぶといちばん楽です。<b>澄・律・朔・泉・玲・雅</b>は3つとも同形。いっぽう <b>実／实／實</b>、<b>藍／蓝</b>、<b>樹／树</b>、<b>華／华</b> は割れます。どの字形で書かれても本人だと分かる字を選んでおくと、あとの手続きが軽くなります。</p>
+  </div>
+
+  <div class="note">
+    <b>ローマ字も2つになります。</b>日本の書類では <b>KA</b>、中国のパスポートでは <b>HE</b>。姓は一致しません。ただし<b>名のローマ字だけは揃う</b>ので、そこが実質的な国際共通の呼び名になります。「名のローマ字を先に決めてから漢字を当てる」という考え方もあります。
+  </div>
+</section>
+
+<section id="jp">
+  <p class="kicker">JAPAN</p>
+  <h2>日本の作法と技巧</h2>
+  <p>現代の日本の名づけは<b>音から入る</b>のが主流です。先に響きを決めて、あとから漢字を当てる。</p>
+
+  <div class="duo">
+    <div class="jp"><div class="lab">近年の傾向</div>
+      <p>2025年の1位は男の子<b>「湊」</b>、女の子<b>「翠」</b>。読みは男の子<b>「ハルト」が17年連続</b>、女の子<b>「エマ」</b>。</p>
+      <p>ベスト10の半数が<b>漢字一文字</b>。太陽・自然・色にちなむ名前が上位に並びます。</p></div>
+    <div class="jp"><div class="lab">この道具での扱い</div>
+      <p>これらは「ありふれた字」として<b>既定で除外</b>しています（外すこともできます）。</p>
+      <p>ただし一字名は、姓が1拍のこの家では全体が短くなりがちな点に注意。</p></div>
+  </div>
+
+  <h3>技巧</h3>
+  <ol class="tips">
+    <li><b>止め字から決める。</b>これが日本の名づけの中心です。「〜と（人・斗・翔）」「〜き（生・希・樹）」「〜や（也・哉）」で男の子、「〜な（奈・菜・那）」「〜こ」「〜み」「〜か」「〜り」で女の子。<b>結びの一音で性別感と時代感がほぼ決まります。</b></li>
+    <li><b>姓と名の拍数を足して4〜5拍にする。</b>日本人の耳にいちばん落ち着く長さ。「カ・ナオヤ」で4拍。</li>
+    <li><b>母音の並びを声に出す。</b>同じ母音が3つ続くと単調に聞こえます（カ・アカリ＝a-a-a-i）。</li>
+    <li><b>姓の最後と名の最初をぶつけない。</b>何（カ）のあとにカ行・ガ行が来ると必ず詰まります。</li>
+    <li><b>愛称になるか。</b>「〇〇ちゃん」「〇〇くん」と呼んでみる。3拍以上あれば自然に2拍の愛称ができます。</li>
+    <li><b>小学一年生が書けるか。</b>入学して最初にやるのが自分の名前を書くこと。<b>画数の多い字を2つ重ねない</b>——藍(18)＋織(18)で36画は、6歳にはつらい。</li>
+    <li><b>部首を重ねない。</b>「澄・澪」のように同じ偏が並ぶと視覚的に重くなります。</li>
+    <li><b>読み間違えられないか。</b>振り仮名が戸籍に載るとはいえ、日常では漢字だけを見られます。</li>
+    <li><b>兄弟で揃えるかを先に決める。</b>音・字・テーマのどれで揃えるか。一人目で決めておくと二人目が楽です。</li>
+    <li><b>由来を一文で言えるか。</b>いつか子どもに「なんでこの名前？」と聞かれます。<b>そこで答えられる名前がいい名前</b>——いちばん実際的な基準です。</li>
+  </ol>
+</section>
+
+<section id="cn">
+  <p class="kicker">CHINA</p>
+  <h2>中国の作法と技巧</h2>
+  <p>中国の名づけは<b>意味と、生まれた時の気</b>から入ります。音より先に、字が背負うものを見る。</p>
+
+  <h3>字輩（輩分）——世代でひと文字を共有する</h3>
+  <p>族譜に世代ごとの字が定めてあり、<b>同じ世代のいとこ同士が名前の一字を共有</b>します。宋の太祖・趙匡胤が後代に13の字を定めたのが最初の正式な例とされます。</p>
+  <div class="scroll"><table>
+    <thead><tr><th>系統</th><th>使われる字</th><th>込める意味</th></tr></thead>
+    <tbody>
+      <tr><td>家訓式</td><td class="n">忠・孝・礼・義・信・仁</td><td>言行を一致させてほしい</td></tr>
+      <tr><td>存続式</td><td class="n">永・伝・昌・盛・興・延・継・承</td><td>家が絶えず続くように</td></tr>
+      <tr><td>吉祥式</td><td class="n">福・禄・寿・吉・祥・慶・賢</td><td>幸福であるように</td></tr>
+    </tbody></table></div>
+  <div class="note">1950〜60年代には「建国」「建設」といった政治的な名前が現れ、70〜80年代に二字姓名が広がり、<b>90年代以降は個性重視で字輩による命名が急速にすたれました</b>。その分だけ同姓同名が増えたと言われます。<b>ご家族の族譜に字輩があるなら、一字は最初から固定です</b>——先に確認しておくと候補作りが一気に楽になります。</div>
+
+  <h3>技巧</h3>
+  <ol class="tips">
+    <li><b>八字で足りない五行を補う。</b>最も広く行われている方法。<a href="../">名前をつくる</a>が実装しているのがこれです。</li>
+    <li><b>声調（平仄）を平らにしない。</b>何は <b>hé（2声）</b>。名も2声ばかりだと平板に聞こえます。<b>2声のあとに4声か1声</b>を置くと締まる、というのが基本の感覚（何皓 hé hào＝2声→4声）。<b>日本語にない観点</b>なので、中国側の親族に一度読んでもらうのが確実です。</li>
+    <li><b>谐音を必ず声に出す。</b>姓と続けて読んで妙な語にならないか。<b>「何」は疑問詞なので特に危険</b>——何必・何苦・何以・何時・何人・何故…と既存語になりやすい。</li>
+    <li><b>典故から採る。</b>由来が古典にあると格が上がるとされます。「男は楚辞、女は詩経」という言い方がありますが、これは俗説の域。</li>
+    <li><b>単名より双名。</b>人口が多く同姓同名が出やすいので、現代では二字名が主流です。</li>
+    <li><b>部首を重ねない。</b>日本と同じ感覚。</li>
+    <li><b>字が姓に対して重すぎないか。</b>画数の多い荘重な字を並べるとバランスが崩れるとされます。何は7画の軽い姓なので、名で重心を作れます。</li>
+  </ol>
+</section>
+
+<section id="mix">
+  <p class="kicker">FOR A CHILD OF BOTH</p>
+  <h2>混血ならではの技巧</h2>
+  <p>どちらか片方の作法だけで決めると、もう片方で必ず無理が出ます。</p>
+
+  <ol class="tips">
+    <li><b>音読みベースを選ぶ。</b>訓読み中心の名前（はると・ゆうと・つむぎ）は、漢字を見ても中国語話者には音がつながりません。<b>音読みなら両言語で音が近づく</b>——何律（カ・リツ／hé lǜ）のように。</li>
+    <li><b>3つの字形すべてで書いてみる。</b>新字体・簡体字・繁体字。3つとも同形の字がいちばん扱いやすい。</li>
+    <li><b>両方の親族に声に出して読んでもらう。</b>紙の上では良くても、実際に呼ばれる音は違います。日本側は「カ・〇〇」、中国側は「hé 〇〇」。<b>どちらの音でも呼びやすいかが最終テスト。</b></li>
+    <li><b>国字を外す。</b>凪・雫・榊・辻・畑・峠。日本では人気でも、中国側は読めず書けません。</li>
+    <li><b>片方の言語で悪い意味にならないか。</b>日本で普通の字が中国では別物、という例は多い。</li>
+    <li><b>字輩があるなら先に確認する。</b>一字が固定なら、残り一字を選ぶ問題に変わります。</li>
+  </ol>
+
+  <h3>日本で普通、中国では要注意の字</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>字</th><th>日本での印象</th><th>中国語では</th></tr></thead>
+    <tbody>
+      <tr><td class="n">湊</td><td>船が集まる港。2025年の男の子1位</td><td><b>凑</b>＝間に合わせ、寄せ集め。名前に使わない</td></tr>
+      <tr><td class="n">奈</td><td>音を借りる字。玲奈・芹奈など</td><td><b>奈何・无奈</b>＝どうしようもない、の語感</td></tr>
+      <tr><td class="n">菜</td><td>陽菜・菜々など人気</td><td>料理・野菜そのもの。名前に使わない</td></tr>
+      <tr><td class="n">咲</td><td>花が咲く</td><td><b>笑</b>の古字。名前には使わない</td></tr>
+      <tr><td class="n">麻</td><td>まっすぐ育つ植物</td><td><b>麻烦</b>＝面倒、の連想</td></tr>
+      <tr><td class="n">矢</td><td>まっすぐ飛ぶ</td><td>発音が <b>屎</b> に近く、避けられる</td></tr>
+      <tr><td class="n">凪・雫</td><td>人気の国字</td><td><b>中国語に存在しない字</b>。読めず書けない</td></tr>
+      <tr><td class="n">花</td><td>はな</td><td>何花は <b>荷花（蓮）</b> と同音になる</td></tr>
+    </tbody></table></div>
+  <p class="fine">この表の字は、<a href="../">名前をつくる</a>で候補に出たときに自動で警告が付きます。</p>
+</section>
+
+<section id="common">
+  <p class="kicker">AN UNEXPECTED BRIDGE</p>
+  <h2>意外な共通点——五格は、実は日本発</h2>
+  <p>中国語圏で使われている<b>「五格剖象法」「三才五格」</b>は、もとをたどると日本の姓名判断です。</p>
+  <p>熊崎健翁が<b>昭和4年（1929年）1月1日</b>に発表し、同年『姓名の神秘』で全国に広まったものを、<b>1936年ごろ、台湾留学の経験がある白玉光（白惠文）が台湾経由で中華圏に持ち込みました</b>。</p>
+  <div class="note">八字は中国側に、響きは日本側に寄った指標です。<b>画数だけは両方に通じます</b>——この道具が出す五格の数字は、<b>両家がそのまま同じ基準で見られる数少ない共通言語</b>ということになります。</div>
+</section>
+
+<section id="todoke">
+  <p class="kicker">PAPERWORK</p>
+  <h2>届出は14日以内。ただし名前は空欄でも出せる</h2>
+  <ol class="tips">
+    <li>出生の日を1日目として<b>14日以内</b>に出生届。期限が土日祝なら翌開庁日。</li>
+    <li><b>名前が決まらなければ、名前欄を空欄のまま提出できます。</b>決まってから「<b>追完届</b>」を出せば大丈夫。</li>
+    <li>正当な理由なく14日を過ぎると、戸籍法137条で<b>5万円以下の過料</b>。</li>
+  </ol>
+  <div class="note"><b>つまり「14日で決めきる」必要はありません。</b>焦って決めるより、空欄で出しておいて納得してから追完するほうがいい。名前は一生ものなので、ここは急がなくていいところです。</div>
+</section>
+
+<section id="caveat">
+  <p class="kicker">HONEST LIMITS</p>
+  <h2>この道具が正直に言っておくこと</h2>
+  <ol class="tips">
+    <li><b>八字は「足りない五行を補う」だけの単純な話ではありません。</b>本来は日主の強弱を見て<b>喜用神</b>を選びます。この道具がやっているのは五行の数を数えて少ないものを示す簡易版です。本格的に見てもらうなら、出生後に日時を持って専門家へ。</li>
+    <li><b>節入りの時刻までは持っていません。</b>年柱は立春で切り替わります（<b>2027年の立春は2月4日</b>）。日付は計算式で出していますが時刻は入っていないので、出生が節入り日の前後1日なら国立天文台の「暦要項」で確認を。中国時間（UTC+8）と日本時間（UTC+9）で日付が1日ずれることもあります。</li>
+    <li><b>日柱の切り替わりは23時にしています。</b>子の刻を基準とする流派に合わせていますが、0時で切る流派もあります。</li>
+    <li><b>姓名判断の吉凶は熊崎式の一例です。</b>新字体で数えるか旧字体（康熙字典体）で数えるかでも流派が割れます。この道具は新字体。</li>
+    <li><b>候補は機械で組んでいます。</b>「語幹＋止め字」という実際の造名の形に沿ってはいますが、中には座りの悪いものも混じります。<b>最後は声に出して選んでください。</b></li>
+  </ol>
+  <div class="note"><b>八字も画数も、決め手ではなく候補を絞る道具として使うのがちょうどいい距離だと思います。</b>最後は響きと、二人が気に入るかどうかです。</div>
+</section>
+
+<section id="src">
+  <p class="kicker">SOURCES</p>
+  <h2>出典</h2>
+  <div class="srcs">
+    <a href="https://www.moj.go.jp/MINJI/minji86.html" target="_blank" rel="noopener">法務省 子の名に使える漢字</a>
+    <a href="https://www.gov-online.go.jp/article/202505/entry-7609.html" target="_blank" rel="noopener">政府広報 戸籍の振り仮名</a>
+    <a href="https://ja.wikipedia.org/wiki/%E5%87%BA%E7%94%9F%E5%B1%8A" target="_blank" rel="noopener">出生届</a>
+    <a href="https://zh.wikipedia.org/zh-cn/%E5%81%8F%E8%AB%B1" target="_blank" rel="noopener">避諱（中文維基）</a>
+    <a href="https://zh.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA%E5%90%8D" target="_blank" rel="noopener">日本人名（中文維基）</a>
+    <a href="https://shindan.kosazukari.com/column/kumazaki-shiki-toha" target="_blank" rel="noopener">熊崎式姓名判断の歴史</a>
+    <a href="https://www.meijiyasuda.co.jp/enjoy/ranking/" target="_blank" rel="noopener">明治安田 名前ランキング</a>
+  </div>
+  <p class="fine">人気の名前は明治安田生命の2025年調査を「ありふれた字」の判定に使っています。作法の記述は上記のほか、字輩については中国の家譜・姓名文化に関する解説を参照しました。料金・制度は変わることがあるので、手続きの前に必ず一次情報で確認してください。</p>
+</section>
+
+<div class="cta">
+  <p>作法がわかったら、実際に候補を出してみてください。</p>
+  <a href="../">名前をつくる →</a>
+</div>
+
+</article>
+</div></div>
+
+<footer><div class="shell">
+  <p>2026年8月作成。何家の私的なメモとして書いています。</p>
+</div></footer>
+
+</body>
+</html>
