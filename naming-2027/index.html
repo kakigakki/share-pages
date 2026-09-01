@@ -75,6 +75,7 @@ input[type=date],input[type=time],select{border:1px solid var(--rule);background
   font-family:var(--min);letter-spacing:.1em;cursor:pointer}
 .go button.sub{background:none;color:var(--sumi2);border:1px solid var(--rule);
   font-family:var(--got);letter-spacing:0;padding:8px 15px;font-size:.82rem}
+.go button.sub.on{border-color:var(--shu);color:var(--shu)}
 .count{font-family:var(--mono);font-size:.72rem;color:var(--sumi2)}
 
 /* ---- 命式（四柱） ---- */
@@ -167,7 +168,7 @@ td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowra
 </div>
 
 <h2><em>generator</em>名前を出す</h2>
-<p class="fine">二字名は<b>「語幹＋止め字」という日本語の名前が実際に作られる形</b>で組んでいます（読みを無差別に連結すると「ユイオ」のような存在しない名前が出るため、その方式は採っていません）。<b>漢字118字・語幹67・止め字59</b>から、性別の整合・接合部の音の重なり・拍数で絞ったうえで、八字・画数・語呂・中国語の条件をかけて並べ替えます。<b>候補は数千件</b>あるので、上から順に見るより「★気に入る」で貯めてから見比べるのが早いです。<br><b>機械で組んでいる以上、中には座りの悪いものも混じります。</b>最後は声に出して選んでください。</p>
+<p class="fine">二字名は<b>「語幹＋止め字」という日本語の名前が実際に作られる形</b>で組んでいます（読みを無差別に連結すると「ユイオ」のような存在しない名前が出るため、その方式は採っていません）。<b>漢字118字・語幹67・止め字59</b>から、性別の整合・接合部の音の重なり・拍数で絞ったうえで、八字・画数・語呂・中国語の条件をかけて並べ替えます。<b>候補は数千件</b>あるので、上から順に見るより「★気に入る」で貯めてから見比べるのが早いです。<b>🎲ボタンで毎回ちがう組が出ます</b>（上位3割の中からランダムに引くので、質は落とさずに顔ぶれだけ変わります）。<br><b>機械で組んでいる以上、中には座りの悪いものも混じります。</b>最後は声に出して選んでください。</p>
 
 <div class="panel">
   <div class="row">
@@ -210,6 +211,7 @@ td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowra
   <div class="go">
     <button id="gen">名前を出す</button>
     <button class="sub" id="showFav">★ 気に入った（<span id="favN">0</span>）</button>
+    <button class="sub" id="shuffle">🎲 別の組をランダムで</button>
     <button class="sub" id="more">もっと見る（+60）</button>
     <span class="count" id="cnt"></span>
   </div>
@@ -595,7 +597,7 @@ function score(chars,yomi){
 const S={sex:"n",len:0,bazi:1,kaku:1,pop:1};
 const fav=new Set(JSON.parse(localStorage.getItem("he-name-fav")||"[]"));
 const $=id=>document.getElementById(id);
-let lastList=[], showingFav=false, LIMIT=60;
+let lastList=[], showingFav=false, LIMIT=60, mode="score";
 
 function build(){
   const d=$("bd").value, t=$("bt").value||"12:00";
@@ -691,15 +693,31 @@ function card(o,i){
     </div></div>`;
 }
 
+/* スコア上位の母集団から一様にランダム抽出する。
+   全件から引くと座りの悪いものばかり出るので、上位3割（最低300件）を母集団にしている。 */
+function sample(list,n){
+  const poolSize=Math.max(300,Math.ceil(list.length*0.3));
+  const pool=list.slice(0,Math.min(poolSize,list.length));
+  const idx=pool.map((_,i)=>i);
+  for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; }
+  return idx.slice(0,n).map(i=>pool[i]);
+}
+
 function render(){
   const {list,bz}=build();
   lastList=list;
   $("bazi").innerHTML=baziPanel(bz);
-  const show=showingFav?list.filter(o=>fav.has(o.chars.map(c=>c.c).join("")))
-    :list.slice(0,LIMIT);
+  const show=showingFav
+    ? list.filter(o=>fav.has(o.chars.map(c=>c.c).join("")))
+    : (mode==="random" ? sample(list,LIMIT) : list.slice(0,LIMIT));
   $("out").innerHTML=show.length?show.map(card).join("")
     :`<p class="empty">${showingFav?"まだ「気に入った」名前がありません。カードの☆を押すとここに集まります（この端末にだけ保存されます）。":"条件に合う候補がありません。設定をゆるめてください。"}</p>`;
-  $("cnt").textContent=showingFav?`${show.length}件を表示中`:`${list.length.toLocaleString()}件が条件に合致 → 上位 ${show.length}件を表示`;
+  $("cnt").textContent = showingFav
+    ? `${show.length}件を表示中`
+    : mode==="random"
+      ? `${list.length.toLocaleString()}件から ${show.length}件をランダム抽出（上位3割から）`
+      : `${list.length.toLocaleString()}件が条件に合致 → 上位 ${show.length}件を表示`;
+  $("shuffle").classList.toggle("on", mode==="random" && !showingFav);
   $("favN").textContent=fav.size;
   $("out").querySelectorAll(".star").forEach(b=>b.onclick=()=>{
     const k=b.dataset.k; fav.has(k)?fav.delete(k):fav.add(k);
@@ -715,9 +733,10 @@ document.querySelectorAll(".seg").forEach(seg=>{
     showingFav=false; LIMIT=60; render();
   });
 });
-$("gen").onclick=()=>{showingFav=false;LIMIT=60;render();};
+$("gen").onclick=()=>{mode="score";showingFav=false;LIMIT=60;render();};
 $("showFav").onclick=()=>{showingFav=!showingFav;LIMIT=60;render();};
 $("more").onclick=()=>{LIMIT+=60;render();};
+$("shuffle").onclick=()=>{mode="random";showingFav=false;render();};
 ["bd","bt"].forEach(id=>$(id).onchange=render);
 
 $("kdex").innerHTML=K.map(k=>`<div class="kc">
