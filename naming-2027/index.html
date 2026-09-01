@@ -247,9 +247,9 @@ footer .shell>p{flex:1 1 100%}
     <h1>まだ、<br>書かれていない名前。</h1>
     <p>姓は <b>何（カ）</b>。日本で生まれ、日本で育ち、中国側にも家族がいる子の名前を、<b>戸籍で使える3,000字</b>の中から探すための道具です。八字の五行、姓名判断の画数、耳で聞いた語呂、そして中国語での語感——<b>4つを同時に見ます</b>。</p>
     <div class="facts">
-      <span class="fact">漢字 192</span>
-      <span class="fact">候補 2,576</span>
-      <span class="fact">中国風 61</span>
+      <span class="fact">漢字 229</span>
+      <span class="fact">候補 2,616</span>
+      <span class="fact">中国風 101</span>
       <span class="fact">日中 両対応</span>
     </div>
   </div>
@@ -280,6 +280,12 @@ footer .shell>p{flex:1 1 100%}
       <button data-v="both" aria-pressed="true">両方</button>
       <button data-v="jp" aria-pressed="false">日本風</button>
       <button data-v="cn" aria-pressed="false">中国風</button>
+    </div></div>
+  <div class="ctl" id="ctlEra" hidden><span class="lb">趣き</span>
+    <div class="opts" id="oEra">
+      <button data-v="all" aria-pressed="true">両方</button>
+      <button data-v="modern" aria-pressed="false">現代寄り</button>
+      <button data-v="classic" aria-pressed="false">古典寄り</button>
     </div></div>
   <div class="ctl"><span class="lb">字数</span>
     <div class="opts" id="oLen">
@@ -323,7 +329,7 @@ footer .shell>p{flex:1 1 100%}
 <script src="./core.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-const S={sex:"n",len:0,bazi:1,kaku:1,pop:1,style:"both"};
+const S={sex:"n",len:0,bazi:1,kaku:1,pop:1,style:"both",era:"all"};
 const fav=new Set(JSON.parse(localStorage.getItem("he-name-fav")||"[]"));
 const saveFav=()=>localStorage.setItem("he-name-fav",JSON.stringify([...fav]));
 const keyOf=o=>o.chars.map(c=>c.c).join("")+"/"+o.yomi;
@@ -379,7 +385,7 @@ function draw(){
       return `<div class="plate ${on?"on":""}" data-i="${i}" role="button" tabindex="0"
         style="animation-delay:${Math.min(i,24)*16}ms" aria-label="何${o.chars.map(c=>c.c).join("")} カ・${o.yomi}">
         ${o.s.flags.length?'<span class="warn" title="注意あり"></span>':""}
-        ${o.kind==="中国式"?'<span class="cnmark" title="中国式">中</span>':""}
+        ${o.kind==="中国式"?`<span class="cnmark" title="${o.era==="modern"?"中国式・現代寄り":"中国式・古典寄り"}">${o.era==="modern"?"中":"古"}</span>`:""}
         <button class="fav" data-k="${k}" aria-label="★をつける">${on?"★":"☆"}</button>
         <span class="pv">${vname(o)}</span>
         <span class="pk">${o.yomi}</span>
@@ -423,7 +429,7 @@ function openDrawer(o){
           <span class="d">${c.m}<em>${c.s}画 ／ <span class="g-${c.g}">五行 ${c.g}</span> ／ ${c.lv}${c.warn?" ／ "+c.warn:""}</em></span></div>`).join("")}
       </div>
       ${o.kind==="中国式"?`<div class="blk"><div class="h">中国式の名前</div>
-        <p><b>hé ${o.py}</b>　<span style="color:var(--sumi2)">声調 2-${o.tones.join("-")}</span></p>
+        <p><b>hé ${o.py}</b>　<span style="color:var(--sumi2)">声調 2-${o.tones.join("-")}　／　${o.era==="modern"?"現代寄り":"古典寄り"}</span></p>
         ${o.src?`<p style="font-size:.82rem;color:var(--sumi2)">出典：${o.src}</p>`:""}
         <p style="font-size:.82rem">${o.note}</p>
         <p style="font-size:.78rem;color:var(--sumi3)">日本の戸籍にはこの音読みを振り仮名として登録します。中国語では自然でも、日本では硬く聞こえる名前です。</p>
@@ -465,7 +471,7 @@ function recompute(keepMode){
 }
 
 /* ── 操作 ── */
-[["oSex","sex"],["oLen","len"],["oStyle","style"]].forEach(([id,key])=>{
+[["oSex","sex"],["oLen","len"],["oStyle","style"],["oEra","era"]].forEach(([id,key])=>{
   $(id).querySelectorAll("button").forEach(b=>b.onclick=()=>{
     $(id).querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
     S[key]=(key==="len")?+b.dataset.v:b.dataset.v; showFav=false; recompute();
@@ -473,6 +479,7 @@ function recompute(keepMode){
 });
 function syncLen(){
   const off = S.style==="cn";
+  $("ctlEra").hidden = S.style==="jp";   // 趣きは中国式にしか効かない
   $("oLen").style.opacity = off ? .35 : 1;
   $("oLen").querySelectorAll("button").forEach(b=>b.disabled=off);
   $("oLen").title = off ? "中国風は二字で固定です" : "";
