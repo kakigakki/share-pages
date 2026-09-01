@@ -151,6 +151,10 @@ a{color:var(--sumi);text-underline-offset:.25em}
 .plate.on{border-color:var(--shu)}
 .plate.on .fav{color:var(--shu)}
 .plate .warn{position:absolute;top:5px;left:6px;width:5px;height:5px;background:var(--shu);border-radius:50%}
+.plate .cnmark{position:absolute;bottom:5px;left:6px;font-family:var(--min);font-size:.56rem;
+  color:var(--shu);border:1px solid var(--shu);border-radius:2px;width:13px;height:13px;
+  display:grid;place-items:center;line-height:1}
+.opts button:disabled{cursor:default}
 .empty{padding:40px 0;color:var(--sumi2);font-size:.86rem;max-width:52ch;line-height:1.9}
 .more{display:block;width:100%;margin:16px 0 0;background:none;border:1px dashed var(--rule);
   padding:12px;font-size:.8rem;color:var(--sumi2);cursor:pointer;transition:border-color .16s,color .16s}
@@ -270,6 +274,12 @@ footer .shell>p{flex:1 1 100%}
       <button data-v="m" aria-pressed="false">男の子</button>
       <button data-v="f" aria-pressed="false">女の子</button>
     </div></div>
+  <div class="ctl"><span class="lb">名前の作り</span>
+    <div class="opts" id="oStyle">
+      <button data-v="both" aria-pressed="true">両方</button>
+      <button data-v="jp" aria-pressed="false">日本風</button>
+      <button data-v="cn" aria-pressed="false">中国風</button>
+    </div></div>
   <div class="ctl"><span class="lb">字数</span>
     <div class="opts" id="oLen">
       <button data-v="0" aria-pressed="true">両方</button>
@@ -312,7 +322,7 @@ footer .shell>p{flex:1 1 100%}
 <script src="./core.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-const S={sex:"n",len:0,bazi:1,kaku:1,pop:1};
+const S={sex:"n",len:0,bazi:1,kaku:1,pop:1,style:"both"};
 const fav=new Set(JSON.parse(localStorage.getItem("he-name-fav")||"[]"));
 const saveFav=()=>localStorage.setItem("he-name-fav",JSON.stringify([...fav]));
 const keyOf=o=>o.chars.map(c=>c.c).join("")+"/"+o.yomi;
@@ -368,6 +378,7 @@ function draw(){
       return `<div class="plate ${on?"on":""}" data-i="${i}" role="button" tabindex="0"
         style="animation-delay:${Math.min(i,24)*16}ms" aria-label="何${o.chars.map(c=>c.c).join("")} カ・${o.yomi}">
         ${o.s.flags.length?'<span class="warn" title="注意あり"></span>':""}
+        ${o.kind==="中国式"?'<span class="cnmark" title="中国式">中</span>':""}
         <button class="fav" data-k="${k}" aria-label="★をつける">${on?"★":"☆"}</button>
         <span class="pv">${vname(o)}</span>
         <span class="pk">${o.yomi}</span>
@@ -410,6 +421,12 @@ function openDrawer(o){
         ${o.chars.map(c=>`<div class="kchar"><span class="c">${c.c}</span>
           <span class="d">${c.m}<em>${c.s}画 ／ <span class="g-${c.g}">五行 ${c.g}</span> ／ ${c.lv}${c.warn?" ／ "+c.warn:""}</em></span></div>`).join("")}
       </div>
+      ${o.kind==="中国式"?`<div class="blk"><div class="h">中国式の名前</div>
+        <p><b>hé ${o.py}</b>　<span style="color:var(--sumi2)">声調 2-${o.tones.join("-")}</span></p>
+        ${o.src?`<p style="font-size:.82rem;color:var(--sumi2)">出典：${o.src}</p>`:""}
+        <p style="font-size:.82rem">${o.note}</p>
+        <p style="font-size:.78rem;color:var(--sumi3)">日本の戸籍にはこの音読みを振り仮名として登録します。中国語では自然でも、日本では硬く聞こえる名前です。</p>
+      </div>`:""}
       <div class="blk"><div class="h">中国語では</div>
         <p><b>何${o.chars.map(c=>c.c).join("")}</b>　${SEI.z} ${o.chars.map(c=>c.z).join(" ")}</p>
         ${o.chars.map(c=>`<p style="color:var(--sumi2);font-size:.81rem">${c.c}：${c.zn}</p>`).join("")}
@@ -442,18 +459,23 @@ function recompute(keepMode){
   const r=build(S,$("bd").value,$("bt").value);
   LIST=r.list; BZ=r.bz;
   if(!keepMode){mode="score";}
-  LIMIT=60; drawBazi(); draw();
+  LIMIT=60; syncLen(); drawBazi(); draw();
   if(LIST.length) hero(sample(LIST,1)[0]);
 }
 
 /* ── 操作 ── */
-["oSex","oLen"].forEach(id=>{
-  const key=id==="oSex"?"sex":"len";
+[["oSex","sex"],["oLen","len"],["oStyle","style"]].forEach(([id,key])=>{
   $(id).querySelectorAll("button").forEach(b=>b.onclick=()=>{
     $(id).querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
-    S[key]=key==="sex"?b.dataset.v:+b.dataset.v; showFav=false; recompute();
+    S[key]=(key==="len")?+b.dataset.v:b.dataset.v; showFav=false; recompute();
   });
 });
+function syncLen(){
+  const off = S.style==="cn";
+  $("oLen").style.opacity = off ? .35 : 1;
+  $("oLen").querySelectorAll("button").forEach(b=>b.disabled=off);
+  $("oLen").title = off ? "中国風は二字で固定です" : "";
+}
 $("oFil").querySelectorAll("button").forEach(b=>b.onclick=()=>{
   const k=b.dataset.k; S[k]=S[k]?0:1;
   b.setAttribute("aria-pressed",!!S[k]); showFav=false; recompute();
