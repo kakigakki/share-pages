@@ -160,6 +160,45 @@ a{color:var(--sumi);text-underline-offset:.25em}
   padding:12px;font-size:.8rem;color:var(--sumi2);cursor:pointer;transition:border-color .16s,color .16s}
 .more:hover{border-color:var(--moss);color:var(--moss)}
 
+
+/* ───── 字から組む ───── */
+.compose{padding:44px 0 0}
+.cap2{font-family:var(--num);font-size:.58rem;letter-spacing:.18em;color:var(--moss);
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;white-space:nowrap}
+.cap2::after{content:"";flex:1;height:1px;background:var(--rule)}
+.lead2{font-size:.84rem;color:var(--sumi2);line-height:1.9;max-width:62ch;margin:0 0 16px}
+.slots{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;background:var(--sheet);
+  border:1px solid var(--rule);padding:16px 18px;margin-bottom:14px}
+.sv{writing-mode:vertical-rl;text-orientation:upright;font-family:var(--min);font-weight:600;
+  font-size:1.7rem;letter-spacing:.08em;line-height:1.3;flex:0 0 auto;display:flex}
+.sv .sei{color:var(--sumi3);font-size:1.1rem}
+.slot{display:inline-block;min-height:1.1em;min-width:1em;border-bottom:1px solid var(--rule)}
+.slot.on{border-bottom-color:var(--shu)}
+.sinfo{flex:1;min-width:16em;font-size:.83rem;line-height:1.85;color:var(--sumi2)}
+.sinfo b{color:var(--sumi)}
+.sinfo .r{font-family:var(--num);font-size:.95rem;color:var(--shu);letter-spacing:.08em}
+.sinfo .rr{font-family:var(--num);font-size:.6rem;color:var(--sumi3);letter-spacing:.14em}
+.sinfo .gk2{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.sinfo .gk2 span{font-family:var(--num);font-size:.6rem;border:1px solid var(--rule);padding:2px 7px}
+.sinfo .gk2 span.ok{border-color:var(--moku);color:var(--moku)}
+.sinfo .gk2 span.no{border-color:var(--shu);color:var(--shu)}
+.sinfo .warn2{color:var(--shu);font-size:.79rem;margin-top:6px}
+.kfil{display:flex;gap:12px 18px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.kfil input{border:0;border-bottom:1px solid var(--rule);background:none;padding:5px 0;
+  font-size:.85rem;min-width:min(22em,100%);flex:1}
+.kfil input:focus{border-bottom-color:var(--shu);outline:none}
+.knum{font-family:var(--num);font-size:.68rem;color:var(--sumi3);white-space:nowrap}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px;
+  max-height:400px;overflow-y:auto;padding:2px;border:1px solid var(--rule);background:var(--sheet)}
+.kbtn{background:none;border:1px solid transparent;padding:7px 2px 5px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:1px;transition:border-color .12s,background .12s}
+.kbtn:hover{border-color:var(--rule);background:var(--sunk)}
+.kbtn.on{border-color:var(--shu);background:var(--shu-w)}
+.kbtn .kc2{font-family:var(--min);font-size:1.24rem;line-height:1.15;font-weight:600}
+.kbtn .kp{font-family:var(--num);font-size:.5rem;color:var(--sumi3);letter-spacing:.02em;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kbtn .kg{font-size:.5rem;line-height:1}
+
 /* ───── 詳細ドロワー ───── */
 .scrim{position:fixed;inset:0;background:rgba(18,23,26,.28);opacity:0;pointer-events:none;
   transition:opacity .24s;z-index:60}
@@ -247,9 +286,10 @@ footer .shell>p{flex:1 1 100%}
     <h1>まだ、<br>書かれていない名前。</h1>
     <p>姓は <b>何（カ）</b>。日本で生まれ、日本で育ち、中国側にも家族がいる子の名前を、<b>戸籍で使える3,000字</b>の中から探すための道具です。八字の五行、姓名判断の画数、耳で聞いた語呂、そして中国語での語感——<b>4つを同時に見ます</b>。</p>
     <div class="facts">
-      <span class="fact">漢字 229</span>
+      <span class="fact">漢字 458</span>
       <span class="fact">候補 2,616</span>
       <span class="fact">中国風 101</span>
+      <span class="fact">自分で組める</span>
       <span class="fact">日中 両対応</span>
     </div>
   </div>
@@ -319,8 +359,32 @@ footer .shell>p{flex:1 1 100%}
   <button class="more" id="more" hidden>さらに60件</button>
 </main>
 
+
+<section class="compose shell" id="compose">
+  <div class="cap2">字から組む</div>
+  <p class="lead2">候補に無い名前も、<b id="kn">458</b>字から自分で組んで、その場で評価できます。
+     字を1つか2つ選んでください。<b>すべて日本の戸籍で使える字</b>で、拼音・画数・五行はUnicodeのUnihanから取っています。</p>
+
+  <div class="slots">
+    <span class="sv"><span class="sei">何</span><span id="s1" class="slot">　</span><span id="s2" class="slot">　</span></span>
+    <div class="sinfo" id="sinfo">字を選ぶと、ここに読み・画数・五行・中国語での評価が出ます。</div>
+    <button class="btn ghost" id="clr">選び直す</button>
+  </div>
+
+  <div class="kfil">
+    <input type="search" id="ksearch" placeholder="読み・拼音・意味で探す（例：あお、qing、みず）" aria-label="漢字を探す">
+    <div class="opts" id="kgo">
+      <button data-v="" aria-pressed="true">五行すべて</button>
+      <button data-v="木">木</button><button data-v="火">火</button><button data-v="土">土</button>
+      <button data-v="金">金</button><button data-v="水">水</button>
+    </div>
+    <span class="knum" id="knum"></span>
+  </div>
+  <div class="kgrid" id="kgrid"></div>
+</section>
+
 <footer><div class="shell">
-  <p>候補は「語幹＋止め字」という日本語の名前が実際に作られる形で組んでいます。機械で組む以上、座りの悪いものも混じります——最後は声に出して選んでください。考え方・技巧・出典は<a href="./guide/">名づけを知る</a>にまとめてあります。</p>
+  <p>候補は「語幹＋止め字」という日本語の名前が実際に作られる形で組んでいます。機械で組む以上、座りの悪いものも混じります——最後は声に出して選んでください。一覧に無い名前は<b>「字から組む」</b>で自由に組めます（458字すべて日本の戸籍で使える字）。考え方・技巧・出典は<a href="./guide/">名づけを知る</a>にまとめてあります。</p>
 </div></footer>
 
 <div class="scrim" id="scrim"></div>
@@ -496,6 +560,69 @@ $("reroll").onclick=()=>{if(LIST.length)hero(sample(LIST,1)[0]);};
 ["bd","bt"].forEach(id=>$(id).onchange=()=>recompute(true));
 
 recompute();
+
+/* ───── 字から組む ───── */
+let pick=[], kq="", kg="";
+const G5={"木":"g-木","火":"g-火","土":"g-土","金":"g-金","水":"g-水"};
+$("kn").textContent=K.length;
+
+/* 拼音は声調記号つき（qīng）で入っているので、
+   検索では NFD 正規化して結合記号を落とし、qing でも当たるようにする */
+const flat = s => (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+function kmatch(k){
+  if(kg && k.g!==kg) return false;
+  if(!kq) return true;
+  const q=flat(kq);
+  return k.c.includes(kq) || (k.m||"").includes(kq) || (k.zn||"").includes(kq)
+      || flat(k.z).includes(q) || (k.on||[]).some(r=>r.includes(kq));
+}
+function drawK(){
+  const list=K.filter(kmatch);
+  $("knum").textContent=`${list.length} / ${K.length}字`;
+  $("kgrid").innerHTML=list.map(k=>`<button class="kbtn ${pick.includes(k.c)?"on":""}" data-c="${k.c}"
+      title="${k.c}　${k.z}　${k.s}画　五行${k.g}　${(k.on||[]).join("・")}　${k.m}">
+      <span class="kc2">${k.c}</span><span class="kp">${k.z||""}</span>
+      <span class="kg ${G5[k.g]}">${k.g}</span></button>`).join("");
+  $("kgrid").querySelectorAll(".kbtn").forEach(b=>b.onclick=()=>{
+    const c=b.dataset.c;
+    if(pick.includes(c)) pick=pick.filter(x=>x!==c);
+    else if(pick.length<2) pick.push(c);
+    else pick=[pick[1],c];
+    drawK(); drawPick();
+  });
+}
+function drawPick(){
+  const dict=Object.fromEntries(K.map(k=>[k.c,k]));
+  $("s1").textContent=pick[0]||"　"; $("s2").textContent=pick[1]||"　";
+  $("s1").classList.toggle("on",!!pick[0]); $("s2").classList.toggle("on",!!pick[1]);
+  if(!pick.length){
+    $("sinfo").innerHTML="字を選ぶと、ここに読み・画数・五行・中国語での評価が出ます。";
+    return;
+  }
+  const cs=pick.map(c=>dict[c]).filter(Boolean);
+  if(!cs.length){ pick=[]; $("sinfo").innerHTML="字を選ぶと、ここに読み・画数・五行・中国語での評価が出ます。"; return; }
+  const yomi=cs.map(k=>(k.on&&k.on[0])||"").join("");
+  const g=gokaku(cs), sc=score(cs,yomi,{});
+  const lab=["天","人","地","外","総"], vals=[g.ten,g.jin,g.chi,g.gai,g.sou];
+  const lack=BZ?cs.filter(k=>BZ.lack.includes(k.g)):[];
+  $("sinfo").innerHTML=`
+    <div class="r">カ・${yomi||"—"}</div>
+    <div class="rr">KA ${yomi?passport(yomi).toUpperCase():""}　／　hé ${cs.map(k=>k.z).join(" ")}</div>
+    <div style="margin-top:7px">${cs.map(k=>`<b>${k.c}</b>（${k.s}画・<span class="${G5[k.g]}">${k.g}</span>）${k.m}`).join("　／　")}</div>
+    <div class="gk2">${vals.map((v,i)=>`<span class="${isKichi(v)?"ok":"no"}">${lab[i]}${v}</span>`).join("")}
+      ${lack.length?`<span class="ok">八字で不足する${lack.map(k=>k.g).join("・")}を補う</span>`:""}
+      <span>${sc.mora}拍</span></div>
+    ${sc.flags.length?`<div class="warn2">▲ ${sc.flags.join("／")}</div>`:""}
+    ${cs.some(k=>k.bulk)?`<div class="rr" style="margin-top:6px">※字典から選んだ字の読み・画数はUnihan由来です。届出前に法務省の一覧で最終確認を。</div>`:""}`;
+}
+$("ksearch").oninput=e=>{kq=e.target.value.trim();drawK();};
+$("kgo").querySelectorAll("button").forEach(b=>b.onclick=()=>{
+  $("kgo").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  kg=b.dataset.v; drawK();
+});
+$("clr").onclick=()=>{pick=[];drawK();drawPick();};
+drawK(); drawPick();
+
 </script>
 </body>
 </html>
