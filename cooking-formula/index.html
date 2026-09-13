@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>炒菜公式｜不用称重的一盘菜调味法</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68;
+  --leaf:#4a7038; --hard:#8a6a2a; --water:#1f5f7a; --strong:#a4442a; --bean:#7a3f6d; --mush:#5b5340;
+  --gothic:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",
+    "PingFang SC","Microsoft YaHei",sans-serif;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Songti SC",serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:17px;line-height:1.85;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:3px}
+
+.masthead{background:var(--panel);border-bottom:1px solid var(--rule)}
+.masthead .inner{max-width:760px;margin:0 auto;padding:34px 18px 26px}
+.eyebrow{font-family:var(--mono);font-size:.64rem;letter-spacing:.22em;color:var(--volt);margin:0 0 9px}
+.masthead h1{font-family:var(--mincho);font-weight:600;font-size:1.75rem;line-height:1.35;margin:0}
+.masthead p{margin:11px 0 0;font-size:.88rem;color:var(--ink2)}
+.back{display:inline-block;margin:14px 0 0;font-family:var(--mono);font-size:.66rem;
+  letter-spacing:.12em;color:var(--ink3);text-decoration:none}
+
+.wrap{max-width:760px;margin:0 auto;padding:0 18px 100px}
+
+h2{font-family:var(--mono);font-size:.66rem;font-weight:500;letter-spacing:.2em;color:var(--ink3);
+  margin:44px 0 0;padding-bottom:10px;border-bottom:1px solid var(--rule);
+  display:flex;align-items:baseline;gap:10px}
+h2 .jp{font-family:var(--gothic);font-size:1rem;font-weight:700;letter-spacing:0;color:var(--ink)}
+
+p{margin:12px 0 0}
+.lead{font-size:.92rem;color:var(--ink2)}
+.note{font-size:.82rem;color:var(--ink3);line-height:1.8;margin:10px 0 0;padding-left:13px;
+  border-left:2px solid var(--rule)}
+.note.warn{border-left-color:var(--sun);color:var(--ink2)}
+
+/* 铁律 */
+.laws{display:grid;gap:10px;margin-top:16px}
+.law{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:15px 17px;
+  display:flex;gap:13px;align-items:flex-start}
+.law .n{font-family:var(--mono);font-size:.72rem;color:var(--volt);flex:none;
+  border:1px solid var(--volt);border-radius:99px;width:26px;height:26px;
+  display:flex;align-items:center;justify-content:center;margin-top:3px}
+.law .t{font-size:.92rem;line-height:1.75}
+.law .t b{color:var(--ink)}
+.law .t em{font-style:normal;color:var(--sun);font-weight:700}
+
+/* 单位 */
+.units{display:grid;gap:10px;margin-top:16px}
+@media(min-width:560px){.units{grid-template-columns:1fr 1fr}}
+.u{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:13px 16px}
+.u .k{font-family:var(--mincho);font-size:1.12rem;font-weight:600}
+.u .v{font-size:.85rem;color:var(--ink2);margin-top:3px}
+
+/* 味型卡 */
+.flavors{display:grid;gap:11px;margin-top:16px}
+@media(min-width:560px){.flavors{grid-template-columns:1fr 1fr}}
+.fl{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:15px 17px}
+.fl h4{margin:0;font-family:var(--mincho);font-size:1.15rem;font-weight:600}
+.fl .sub{font-size:.78rem;color:var(--ink3);margin-top:2px}
+.fl dl{margin:11px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.9rem}
+.fl dt{color:var(--ink2)}
+.fl dd{margin:0;font-family:var(--mono);font-size:.88rem;text-align:right;color:var(--ink)}
+
+.adds{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.add{background:var(--panel);border:1px solid var(--rule);border-radius:99px;
+  padding:7px 14px;font-size:.85rem;color:var(--ink2)}
+.add b{color:var(--ink)}
+
+/* 蔬菜分类 */
+.klasses{display:grid;gap:11px;margin-top:16px}
+.kl{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:15px 17px;
+  border-left-width:4px}
+.kl.leaf{border-left-color:var(--leaf)} .kl.hard{border-left-color:var(--hard)}
+.kl.water{border-left-color:var(--water)} .kl.strong{border-left-color:var(--strong)}
+.kl.bean{border-left-color:var(--bean)} .kl.mush{border-left-color:var(--mush)}
+.kl h4{margin:0;font-family:var(--mincho);font-size:1.18rem;font-weight:600}
+.kl .rule{font-size:.92rem;color:var(--ink);margin-top:7px;font-weight:700}
+.kl .why{font-size:.85rem;color:var(--ink2);margin-top:6px}
+.kl .eg{font-size:.8rem;color:var(--ink3);margin-top:8px;font-family:var(--mono)}
+
+/* 工具 */
+.tool{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:18px;margin-top:16px}
+.tool label.lb{display:block;font-family:var(--mono);font-size:.63rem;letter-spacing:.14em;
+  color:var(--ink3);margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{appearance:none;border:1px solid var(--rule);background:var(--panel);color:var(--ink2);
+  border-radius:99px;padding:9px 15px;font-family:var(--gothic);font-size:.9rem;cursor:pointer;
+  line-height:1.3}
+.chips button[aria-pressed="true"]{background:var(--ai);border-color:var(--ai);color:#fff}
+.chips button .zh{font-size:.72rem;opacity:.72;margin-left:5px}
+select{width:100%;font-family:var(--gothic);font-size:1rem;padding:12px 12px;
+  border:1px solid var(--rule);border-radius:7px;background:var(--panel);color:var(--ink);
+  margin-top:0}
+.row2{margin-top:18px}
+
+/* 出力 */
+.plate{margin-top:20px;border-top:1px solid var(--rule);padding-top:18px}
+.plate .ttl{font-family:var(--mincho);font-size:1.35rem;font-weight:600;line-height:1.4}
+.plate .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.tag{font-family:var(--mono);font-size:.64rem;letter-spacing:.06em;padding:4px 10px;border-radius:99px;
+  border:1px solid var(--rule);color:var(--ink3)}
+.tag.k{color:#fff;border:0}
+.tag.k.leaf{background:var(--leaf)} .tag.k.hard{background:var(--hard)}
+.tag.k.water{background:var(--water)} .tag.k.strong{background:var(--strong)}
+.tag.k.bean{background:var(--bean)} .tag.k.mush{background:var(--mush)}
+.tag.hot{color:var(--sun);border-color:var(--sun)}
+
+.sect{margin-top:20px}
+.sect h5{margin:0 0 9px;font-family:var(--mono);font-size:.63rem;letter-spacing:.16em;color:var(--ink3);
+  font-weight:500}
+.seaz{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:.98rem;
+  background:var(--sunk);border-radius:7px;padding:13px 15px}
+.seaz dt{color:var(--ink2)}
+.seaz dd{margin:0;font-family:var(--mono);text-align:right;font-weight:700}
+
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;
+  padding:11px 0;border-bottom:1px solid var(--rule);font-size:.96rem;line-height:1.7}
+ol.steps li:last-child{border-bottom:0}
+ol.steps li::before{content:counter(s);font-family:var(--mono);font-size:.72rem;color:var(--ink3);
+  border:1px solid var(--rule);border-radius:99px;width:25px;height:25px;flex:none;
+  display:flex;align-items:center;justify-content:center;margin-top:3px}
+ol.steps li.done{color:var(--ink3);text-decoration:line-through}
+ol.steps li.done::before{background:var(--volt);border-color:var(--volt);color:#fff;content:"✓"}
+ol.steps li b{color:var(--ink)}
+ol.steps li.done b{color:inherit}
+ol.steps li .hot{color:var(--sun);font-weight:700}
+
+.caution{margin-top:16px;background:#fdf6f2;border:1px solid var(--sun);border-radius:7px;
+  padding:13px 16px;font-size:.9rem;color:var(--ink2)}
+.caution b{color:var(--sun)}
+
+/* 表 */
+.filter{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.filter button{appearance:none;border:1px solid var(--rule);background:var(--panel);color:var(--ink2);
+  border-radius:99px;padding:7px 13px;font-size:.82rem;cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.scroll{overflow-x:auto;margin-top:12px;border:1px solid var(--rule);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:.85rem;min-width:620px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--ink3);font-weight:500;
+  background:var(--sunk);white-space:nowrap;position:sticky;top:0}
+tbody tr:last-child td{border-bottom:0}
+td .ja{font-weight:700;white-space:nowrap}
+td .zh{font-size:.78rem;color:var(--ink3)}
+td.c{white-space:nowrap}
+.dot{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:6px;vertical-align:1px}
+.dot.leaf{background:var(--leaf)} .dot.hard{background:var(--hard)} .dot.water{background:var(--water)}
+.dot.strong{background:var(--strong)} .dot.bean{background:var(--bean)} .dot.mush{background:var(--mush)}
+
+footer{border-top:1px solid var(--rule);margin-top:56px;padding-top:18px;
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:var(--ink3)}
+.src{font-size:.8rem;color:var(--ink3);line-height:1.85;margin-top:16px}
+</style>
+</head>
+<body>
+
+<header class="masthead"><div class="inner">
+  <p class="eyebrow">KITCHEN / 炒菜</p>
+  <h1>炒菜公式</h1>
+  <p>不用称重、不记菜谱。只记「一盘菜放多少」和「这棵菜属于哪一类」。</p>
+  <a class="back" href="../">← SHARE PAGES</a>
+</div></header>
+
+<div class="wrap">
+
+<h2>LAWS<span class="jp">五条铁律</span></h2>
+<div class="laws">
+  <div class="law"><span class="n">1</span><span class="t">
+    <b>盐和生抽不能相加。</b>生抽本身就是咸的。生抽多 → 盐就少，生抽少 → 盐才多。
+    <em>别「生抽 20ml + 盐 3g」</em>，一定咸。</span></div>
+  <div class="law"><span class="n">2</span><span class="t">
+    <b>先放 ⅔，尝完再补。</b>公式给的是 1 汤匙，就先放 ⅔ 汤匙，尝一口再决定补不补。</span></div>
+  <div class="law"><span class="n">3</span><span class="t">
+    <b>淡了能补，咸了别硬救。</b>咸了就记下来，下次减 20〜30%。加水加糖抢救基本都会更难吃。</span></div>
+  <div class="law"><span class="n">4</span><span class="t">
+    <b>肉先炒 → 盛出 → 炒菜 → 肉回锅 → 调味。</b>这是几乎所有「X 炒肉」的骨架。
+    肉留在锅里陪着菜炒，一定会老。</span></div>
+  <div class="law"><span class="n">5</span><span class="t">
+    <b>切法比菜名更决定炒法。</b>越厚越难熟。同一根胡萝卜，切丝直接炒，切两厘米块要先焯。</span></div>
+</div>
+
+<h2>UNITS<span class="jp">量多少 · 手感单位</span></h2>
+<p class="lead">别量 ml。厨房里能立刻做出来的动作才是单位。</p>
+<div class="units">
+  <div class="u"><div class="k">1 汤匙 = 15ml</div><div class="v">普通喝汤的那种大勺</div></div>
+  <div class="u"><div class="k">1 小匙 = 5ml</div><div class="v">咖啡勺 / 量勺小头</div></div>
+  <div class="u"><div class="k">一小撮</div><div class="v">拇指 + 食指捏起来的一点 ≈ 盐 1g</div></div>
+  <div class="u"><div class="k">沿锅边淋一圈</div><div class="v">≈ 1 汤匙生抽。半圈 ≈ 半汤匙</div></div>
+  <div class="u"><div class="k">一盘</div><div class="v">2 人份。超市一盒肉 200〜300g 就当「一盘的肉」</div></div>
+  <div class="u"><div class="k">几滴</div><div class="v">香油、醋收尾用的量</div></div>
+</div>
+<p class="note">不用知道到底 267g 还是 312g。一块鸡腿 + 一个洋葱 = 一盘菜，就按一盘的量放。</p>
+
+<h2>FLAVORS<span class="jp">味型公式 · 一盘的量</span></h2>
+<div class="flavors" id="flavorCards"></div>
+<p class="lead" style="margin-top:18px">在这个基础上加方向：</p>
+<div class="adds">
+  <span class="add">想甜 → <b>糖</b></span>
+  <span class="add">想酸 → <b>醋</b></span>
+  <span class="add">想辣 → <b>辣椒</b></span>
+  <span class="add">想鲜 → <b>蚝油</b></span>
+  <span class="add">想香 → <b>蒜 / 葱</b></span>
+  <span class="add">想酱香 → <b>豆瓣酱</b></span>
+</div>
+
+<h2>VEGETABLES<span class="jp">蔬菜只有五类</span></h2>
+<p class="lead">不按菜名记，按性质记。看到没做过的菜，先问它属于哪一类。</p>
+<div class="klasses" id="klassCards"></div>
+
+<h2>PLATE<span class="jp">配一盘菜</span></h2>
+<p class="lead">选肉、选菜，直接给这一盘的下锅顺序和调料量。</p>
+
+<div class="tool">
+  <label class="lb">肉</label>
+  <div class="chips" id="meatChips"></div>
+
+  <div class="row2">
+    <label class="lb">菜（日本超市能买到的）</label>
+    <select id="vegSel"></select>
+  </div>
+
+  <div class="row2">
+    <label class="lb">味型</label>
+    <div class="chips" id="flavorChips"></div>
+  </div>
+
+  <div class="plate" id="plate"></div>
+</div>
+<p class="note">步骤可以点着划掉，油手也能用。刷新页面就重置。</p>
+
+<h2>TABLE<span class="jp">蔬菜分类表</span></h2>
+<p class="lead">以日本超市常见的为准，标中文名。</p>
+<div class="filter" id="filter"></div>
+<div class="scroll"><table id="vtbl"></table></div>
+
+<h2>NOTE<span class="jp">这页是怎么来的</span></h2>
+<p class="src">
+「五条铁律」「手感单位」「味型公式」「蔬菜五分类」来自你和 ChatGPT 的那次对话，内容基本原样保留。<br>
+「蔬菜分类表」和「配一盘菜」工具里的具体菜品、下锅顺序、焯水判断、味型搭配，是对话里提到要给但没给的部分，由我按同一套逻辑补的——<b>属于经验性整理，不是权威菜谱</b>，按自己口味调。<br>
+一个安全提醒不是口味问题：<b>四季豆 / 豇豆 / 荷兰豆这类豆角必须彻底加热</b>，半生会中毒，别为了脆嫩少炒。
+</p>
+
+<footer>
+  <p>github.com/kakigakki/share-pages</p>
+</footer>
+
+</div>
+
+<script>
+/* ---------- 味型 ---------- */
+const FLAVORS = {
+  xian:  {nm:'咸鲜', sub:'最常用。不知道做什么味就这个',
+    s:[['生抽','1汤匙'],['料酒','½汤匙'],['糖','½小匙'],['盐','一小撮']]},
+  jiang: {nm:'酱香', sub:'豆瓣酱打底，下饭',
+    s:[['生抽','½汤匙'],['豆瓣酱','1小匙'],['料酒','½汤匙'],['糖','½小匙']]},
+  hao:   {nm:'蚝油', sub:'菌菇、硬蔬菜、牛肉',
+    s:[['蚝油','1汤匙'],['生抽','½汤匙'],['糖','½小匙'],['盐','不放']]},
+  teri:  {nm:'照烧', sub:'鸡肉。日本调料齐的话最省事',
+    s:[['酱油','1汤匙'],['味醂','1汤匙'],['料理酒','1汤匙'],['糖','½〜1小匙']]},
+  tangcu:{nm:'糖醋', sub:'番茄、里脊、虾',
+    s:[['生抽','1汤匙'],['糖','1汤匙'],['醋','1汤匙'],['水','1〜2汤匙']]},
+  suan:  {nm:'蒜香', sub:'叶菜最合适。调料越少越好',
+    s:[['蒜','2〜3瓣切片'],['盐','一小撮'],['生抽','½汤匙']]},
+  hei:   {nm:'黑椒', sub:'牛肉、洋葱、菌菇',
+    s:[['蚝油','1汤匙'],['生抽','½汤匙'],['黑胡椒','多放'],['糖','½小匙']]},
+  yu:    {nm:'鱼香', sub:'茄子、肉末。酸甜辣一起来',
+    s:[['豆瓣酱','1小匙'],['糖','1汤匙'],['醋','1汤匙'],['生抽','½汤匙'],['蒜姜葱','各适量']]}
+};
+const CARD_FLAVORS = ['xian','teri','tangcu','hao'];
+
+/* ---------- 五类 ---------- */
+const K = {
+  leaf:  {nm:'① 叶菜', rule:'大火快炒，最后调味',
+    why:'又快熟又爱出水。炒过头就塌成一摊。蒜爆香 → 下菜 → 翻几下 → 调味 → 出锅，全程不超过 2 分钟。',
+    eg:'小松菜・ほうれん草・チンゲン菜・水菜・豆苗'},
+  hard:  {nm:'② 硬质蔬菜', rule:'切薄 / 焯水 / 多炒一会儿',
+    why:'难熟。要么切薄让它快熟，要么先焯水断生再炒。硬的先下锅，肉和软的后放。',
+    eg:'にんじん・じゃがいも・ブロッコリー・れんこん・アスパラ'},
+  water: {nm:'③ 高含水蔬菜', rule:'大火 · 不加水 · 不盖盖 · 最后调味',
+    why:'炒着炒着自己出一大摊水。一盖盖子就变炖菜，调料全被稀释，于是「放了这么多怎么还是淡」。',
+    eg:'トマト・ズッキーニ・なす・白菜・もやし'},
+  strong:{nm:'④ 味道重的菜', rule:'盐 + 生抽就够',
+    why:'本身香味就明显，不需要复杂调味。青椒炒肉、芹菜炒肉、洋葱炒肉其实是同一道菜。',
+    eg:'ピーマン・玉ねぎ・セロリ・にんにくの芽・ニラ'},
+  bean:  {nm:'⑤ 豆角类', rule:'必须彻底加热',
+    why:'没熟透会中毒，这条不是口味问题。炒不透就加两汤匙水盖盖焖 2〜3 分钟，宁可软一点。',
+    eg:'いんげん・スナップエンドウ・さやえんどう'},
+  mush:  {nm:'＋ 菌菇', rule:'干锅先炒香，晚点放盐',
+    why:'严格说不属于五类，但太常买所以单列。别洗，擦一下就行。早放盐会逼出水，香味就没了。',
+    eg:'しめじ・えのき・しいたけ・エリンギ・まいたけ'}
+};
+const KNAME = {leaf:'叶菜',hard:'硬质',water:'出水多',strong:'味道重',bean:'豆角',mush:'菌菇'};
+
+/* ---------- 肉 ---------- */
+const MEATS = [
+  {id:'butakoma', ja:'豚こま', zh:'猪肉片', marinate:1, fl:['xian','jiang','teri'],
+   pre:'切成入口大小'},
+  {id:'butabara', ja:'豚バラ', zh:'五花', marinate:0, fl:['jiang','xian','teri'],
+   pre:'不用放油，自己出油'},
+  {id:'gyu', ja:'牛こま', zh:'牛肉片', marinate:1, fl:['hei','hao','xian'],
+   pre:'炒到刚变色就盛出，别等全熟'},
+  {id:'torimomo', ja:'鶏もも', zh:'鸡腿肉', marinate:1, fl:['teri','xian','hei'],
+   pre:'皮朝下先煎，逼出油再翻'},
+  {id:'torimune', ja:'鶏むね', zh:'鸡胸肉', marinate:2, fl:['xian','teri','tangcu'],
+   pre:'逆纹切薄片，淀粉一定要放，不然发柴'},
+  {id:'hiki', ja:'ひき肉', zh:'肉末', marinate:0, fl:['yu','jiang','xian'],
+   pre:'炒散炒到出油发香再下菜'},
+  {id:'ebi', ja:'えび', zh:'虾', marinate:1, fl:['tangcu','xian','suan'],
+   pre:'背上划一刀去虾线，炒到卷起来就好'},
+  {id:'tofu', ja:'厚揚げ', zh:'厚炸豆腐', marinate:0, fl:['jiang','hao','xian'],
+   pre:'切块，煎到两面带焦色（素菜也用这套公式）'}
+];
+
+/* ---------- 蔬菜 ---------- */
+const V = [
+  // leaf
+  ['小松菜','小松菜','leaf','切段','no','後','蒜香 / 咸鲜','最好上手的叶菜，几乎不会失败'],
+  ['ほうれん草','菠菜','leaf','切段','yes','後','蒜香 / 咸鲜','涩味重，先焯 30 秒再炒'],
+  ['チンゲン菜','上海青','leaf','梗叶分开','no','梗先','蒜香 / 蚝油','梗先下 30 秒，再放叶'],
+  ['水菜','水菜','leaf','切段','no','最後','咸鲜','下锅十几秒就够，基本是拌熟的'],
+  ['豆苗','豆苗','leaf','对半切','no','最後','蒜香','超便宜，根部泡水还能再长一茬'],
+  ['春菊','茼蒿','leaf','切段','no','後','蒜香','香味重，别配味道也重的肉'],
+  ['ニラ','韭菜','leaf','切段','no','最後','酱香 / 咸鲜','最后 20 秒放，久炒发黑'],
+  ['空心菜','空心菜','leaf','切段','no','後','蒜香','夏天才有，见到就买'],
+  ['キャベツ','卷心菜','leaf','手撕','no','後','咸鲜 / 酱香','手撕比刀切好吃，断面粗糙挂味'],
+  // hard
+  ['にんじん','胡萝卜','hard','切丝或薄片','no','先','咸鲜 / 蚝油','切丝可直接炒；切块要焯'],
+  ['じゃがいも','土豆','hard','切细丝泡水','no','先','咸鲜 / 醋溜','丝要泡掉淀粉才脆'],
+  ['ブロッコリー','西兰花','hard','掰小朵','yes','先','蚝油 / 蒜香','焯 1 分半再炒，否则外熟里生'],
+  ['カリフラワー','花菜','hard','掰小朵','yes','先','咸鲜 / 酱香','同西兰花'],
+  ['れんこん','莲藕','hard','切薄片泡水','no','先','咸鲜 / 糖醋','薄片能直接炒，脆'],
+  ['アスパラ','芦笋','hard','斜切段','no','先','蚝油 / 黑椒','根部老皮削掉'],
+  ['ごぼう','牛蒡','hard','切细丝泡水','no','先','酱香 / 照烧','一定要切细，粗了嚼不动'],
+  ['かぼちゃ','南瓜','hard','切薄片','no','先','咸鲜 / 照烧','厚了要加水焖，会变成炖菜'],
+  ['いんげん','四季豆','bean','切段','opt','先','酱香 / 咸鲜','必须炒透。加 2 汤匙水盖盖焖 2〜3 分最稳'],
+  ['スナップエンドウ','甜豆','bean','撕筋','opt','先','咸鲜','同样要熟透'],
+  ['さやえんどう','荷兰豆','bean','撕筋','opt','先','咸鲜 / 蒜香','薄，炒 2 分钟左右'],
+  // water
+  ['トマト','番茄','water','切块','no','後','糖醋 / 咸鲜','出水多，大火快炒；配鸡蛋牛肉都行'],
+  ['ズッキーニ','西葫芦','water','切片','no','後','咸鲜 / 蒜香','大火，绝对别盖盖'],
+  ['なす','茄子','water','切滚刀','no','後','鱼香 / 酱香','吃油。先用一点油煎软再调味'],
+  ['白菜','白菜','water','梗叶分开','no','梗先','咸鲜 / 醋溜','梗先炒，叶最后'],
+  ['もやし','豆芽','water','洗净沥干','no','最後','咸鲜 / 蒜香','30 秒到 1 分钟，久了出一锅水'],
+  ['大根','白萝卜','water','切薄片','no','先','咸鲜 / 酱香','炒着吃要切薄，否则改炖'],
+  ['ピーマン','青椒','strong','切丝或块','no','後','咸鲜 / 酱香','最经典的炒肉搭档'],
+  ['パプリカ','彩椒','strong','切条','no','後','咸鲜 / 黑椒','比青椒甜，不苦'],
+  ['玉ねぎ','洋葱','strong','切丝','no','先','黑椒 / 照烧','先炒软出甜味再放肉'],
+  ['長ねぎ','大葱','strong','斜切','no','先','酱香 / 咸鲜','爆香用，或当主菜炒肉'],
+  ['セロリ','芹菜','strong','斜切段','no','後','咸鲜','去筋，切斜口更容易熟'],
+  ['にんにくの芽','蒜薹','strong','切段','no','先','酱香 / 咸鲜','比叶菜耐炒，要多炒 1 分钟'],
+  ['ゴーヤ','苦瓜','strong','切薄片','opt','後','咸鲜 / 豆豉','焯水或盐揉能去苦'],
+  ['なばな','油菜花','strong','切段','yes','後','蒜香','春季限定，微苦'],
+  // mush
+  ['しめじ','蟹味菇','mush','撕开','no','先','蚝油 / 黑椒','别洗，出水就没香味了'],
+  ['えのき','金针菇','mush','切根撕开','no','後','蚝油 / 咸鲜','很快熟，出水也快'],
+  ['しいたけ','香菇','mush','切片','no','先','蚝油 / 酱香','香味最足，配牛肉好'],
+  ['エリンギ','杏鲍菇','mush','切条或滚刀','no','先','黑椒 / 蚝油','撕成条比切片更有嚼劲'],
+  ['まいたけ','舞茸','mush','撕开','no','先','酱香 / 黑椒','香味重，炒出来发黑是正常的'],
+  ['マッシュルーム','口蘑','mush','切片','no','先','黑椒 / 蚝油','配牛肉黄油都行']
+];
+const VEG = V.map((r,i) => ({i, ja:r[0], zh:r[1], k:r[2], cut:r[3], blanch:r[4],
+  order:r[5], fl:r[6], note:r[7]}));
+
+/* ---------- 渲染：味型卡 ---------- */
+document.getElementById('flavorCards').innerHTML = CARD_FLAVORS.map(k => {
+  const f = FLAVORS[k];
+  return '<div class="fl"><h4>' + f.nm + '</h4><div class="sub">' + f.sub + '</div><dl>' +
+    f.s.map(x => '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>').join('') + '</dl></div>';
+}).join('');
+
+/* ---------- 渲染：五类 ---------- */
+document.getElementById('klassCards').innerHTML = Object.entries(K).map(([id,k]) =>
+  '<div class="kl ' + id + '"><h4>' + k.nm + '</h4>' +
+  '<div class="rule">' + k.rule + '</div>' +
+  '<div class="why">' + k.why + '</div>' +
+  '<div class="eg">' + k.eg + '</div></div>').join('');
+
+/* ---------- 工具 ---------- */
+let meat = MEATS[0], veg = VEG[26], flavor = null, done = new Set();
+
+document.getElementById('meatChips').innerHTML = MEATS.map(m =>
+  '<button data-id="' + m.id + '" aria-pressed="' + (m===meat) + '">' + m.ja +
+  '<span class="zh">' + m.zh + '</span></button>').join('');
+document.getElementById('meatChips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  meat = MEATS.find(m => m.id === b.dataset.id);
+  [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', x===b));
+  flavor = null; done.clear(); render();
+});
+
+const groups = ['leaf','hard','water','strong','bean','mush'];
+document.getElementById('vegSel').innerHTML = groups.map(g =>
+  '<optgroup label="' + KNAME[g] + '">' +
+  VEG.filter(v => v.k===g).map(v =>
+    '<option value="' + v.i + '"' + (v===veg?' selected':'') + '>' + v.ja + '（' + v.zh + '）</option>'
+  ).join('') + '</optgroup>').join('');
+document.getElementById('vegSel').addEventListener('change', e => {
+  veg = VEG[+e.target.value]; flavor = null; done.clear(); render();
+});
+
+function suggestFlavors(){
+  const fromVeg = veg.fl.split(' / ').map(n =>
+    Object.keys(FLAVORS).find(k => FLAVORS[k].nm === n)).filter(Boolean);
+  const merged = [...new Set([...fromVeg, ...meat.fl])];
+  return merged.slice(0, 4);
+}
+
+function render(){
+  const opts = suggestFlavors();
+  if(!flavor || !opts.includes(flavor)) flavor = opts[0];
+
+  document.getElementById('flavorChips').innerHTML = opts.map(k =>
+    '<button data-f="' + k + '" aria-pressed="' + (k===flavor) + '">' + FLAVORS[k].nm + '</button>'
+  ).join('');
+
+  const f = FLAVORS[flavor];
+  const steps = buildSteps();
+
+  document.getElementById('plate').innerHTML =
+    '<div class="ttl">' + meat.ja + ' × ' + veg.ja + '</div>' +
+    '<div class="tags">' +
+      '<span class="tag k ' + veg.k + '">' + KNAME[veg.k] + '</span>' +
+      '<span class="tag">一盘 / 2人份</span>' +
+      '<span class="tag">' + f.nm + '</span>' +
+      (veg.blanch==='yes' ? '<span class="tag hot">要焯水</span>' : '') +
+      (veg.k==='bean' ? '<span class="tag hot">必须炒透</span>' : '') +
+    '</div>' +
+
+    '<div class="sect"><h5>調味料 · 一盘的量</h5><dl class="seaz">' +
+      f.s.map(x => '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>').join('') +
+    '</dl></div>' +
+
+    '<div class="sect"><h5>手順 · 点一下划掉</h5><ol class="steps">' +
+      steps.map((s,i) => '<li data-i="' + i + '"' + (done.has(i)?' class="done"':'') + '>' +
+        s + '</li>').join('') +
+    '</ol></div>' +
+
+    (veg.k==='bean'
+      ? '<div class="caution"><b>安全</b>　豆角没熟透会中毒。掰开看断面不再是生绿色、吃起来没有豆腥味才算熟。宁可软，别追求脆。</div>'
+      : '<div class="caution" style="background:var(--sunk);border-color:var(--rule);color:var(--ink2)">' +
+        '<b style="color:var(--ink)">' + veg.zh + '</b>　' + veg.note + '</div>');
+
+  document.querySelector('#plate .steps').addEventListener('click', e => {
+    const li = e.target.closest('li'); if(!li) return;
+    const i = +li.dataset.i;
+    done.has(i) ? done.delete(i) : done.add(i);
+    li.classList.toggle('done');
+  });
+}
+
+document.getElementById('flavorChips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  flavor = b.dataset.f; done.clear(); render();
+});
+
+function buildSteps(){
+  const s = [];
+  const isTofu = meat.id === 'tofu';
+
+  if(meat.marinate){
+    const fen = meat.marinate === 2 ? '<span class="hot">淀粉 1小匙</span>' : '淀粉 1小匙';
+    s.push('<b>腌肉</b>　生抽 ½汤匙 · 料酒 ½汤匙 · ' + fen + ' · 油 1小匙，抓匀放 5 分钟。');
+  }
+
+  const thin = (veg.k==='hard' || veg.k==='water') ? '切得越薄越快熟。' : '';
+  s.push('<b>切菜</b>　' + veg.ja + '（' + veg.zh + '）' + veg.cut + '。' + thin);
+
+  if(veg.blanch === 'yes')
+    s.push('<b>焯水</b>　烧水加一小撮盐，' + veg.ja + '下锅 <span class="hot">1〜1分半</span>，捞出沥干。不焯的话外面熟了里面还生。');
+  else if(veg.blanch === 'opt')
+    s.push('<b>（可选）焯水</b>　不放心就焯 1 分钟。豆角类焯过之后炒起来更保险。');
+
+  s.push('<b>热锅</b>　锅烧到冒烟再下油。<span class="hot">锅不够热，肉一定粘</span>。');
+
+  s.push('<b>炒' + (isTofu ? '豆腐' : '肉') + '</b>　大火下' + meat.ja +
+    '，摊开别翻，等一面定型再炒。' + (isTofu ? '两面焦黄' : '刚变色') + '就<b>盛出来</b>。' +
+    '<br><span style="color:var(--ink3);font-size:.86rem">※ ' + meat.pre + '</span>');
+
+  const K2 = {
+    leaf:  '<b>炒菜</b>　蒜片爆香，下' + veg.ja + '，<span class="hot">最大火</span>翻几下，看到塌下去就够了，不超过 1 分钟。',
+    hard:  '<b>炒菜</b>　下' + veg.ja + '，中大火炒 2〜3 分钟。' +
+           (veg.blanch==='yes' ? '焯过了所以主要是炒香。' : '尝一根，还硬就再炒，别靠调料掩盖。'),
+    water: '<b>炒菜</b>　下' + veg.ja + '，<span class="hot">最大火 · 不加水 · 不盖盖</span>。出水就开大火把水收掉，不然调料全被稀释。',
+    strong:'<b>炒菜</b>　下' + veg.ja + '，大火炒 1〜2 分钟到断生。它本身有味道，别炒太久把香气跑光。',
+    bean:  '<b>炒菜</b>　下' + veg.ja + '，充分翻炒；炒不透就<span class="hot">加 2 汤匙水盖盖焖 2〜3 分钟</span>，再开盖把水收干。',
+    mush:  '<b>炒菜</b>　下' + veg.ja + '，<span class="hot">先干炒</span>到边缘上色出香，这时候别放盐。'
+  };
+  s.push(K2[veg.k]);
+
+  s.push('<b>回锅</b>　' + meat.ja + '倒回去，和菜炒匀。');
+
+  const first = FLAVORS[flavor].s[0];
+  s.push('<b>调味</b>　' + FLAVORS[flavor].nm + '那一组，<span class="hot">先放 ⅔</span>（' +
+    first[0] + '就先来大半勺），沿锅边淋进去更香。');
+
+  s.push('<b>尝一口</b>　淡了补剩下的 ⅓。咸了别救，记下来下次减量。');
+
+  s.push('<b>出锅</b>　别在锅里放着，余温会继续把菜焖软。');
+
+  return s;
+}
+
+render();
+
+/* ---------- 分类表 ---------- */
+let filt = 'all';
+const FILTS = [['all','全部'],...groups.map(g => [g, KNAME[g]])];
+document.getElementById('filter').innerHTML = FILTS.map(([id,nm]) =>
+  '<button data-f="' + id + '" aria-pressed="' + (id===filt) + '">' +
+  (id==='all' ? '' : '<span class="dot ' + id + '"></span>') + nm + '</button>').join('');
+document.getElementById('filter').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  filt = b.dataset.f;
+  [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', x===b));
+  table();
+});
+
+function table(){
+  const rows = VEG.filter(v => filt==='all' || v.k===filt);
+  const BL = {yes:'要', no:'不用', opt:'可选'};
+  document.getElementById('vtbl').innerHTML =
+    '<thead><tr><th>菜</th><th>类</th><th>切法</th><th>焯水</th><th>下锅</th><th>味型</th><th>备注</th></tr></thead><tbody>' +
+    rows.map(v =>
+      '<tr><td><span class="ja">' + v.ja + '</span><br><span class="zh">' + v.zh + '</span></td>' +
+      '<td class="c"><span class="dot ' + v.k + '"></span>' + KNAME[v.k] + '</td>' +
+      '<td class="c">' + v.cut + '</td>' +
+      '<td class="c"' + (v.blanch==='yes' ? ' style="color:var(--sun);font-weight:700"' : '') + '>' +
+        BL[v.blanch] + '</td>' +
+      '<td class="c">' + v.order + '</td>' +
+      '<td class="c">' + v.fl + '</td>' +
+      '<td style="font-size:.8rem;color:var(--ink2)">' + v.note + '</td></tr>'
+    ).join('') + '</tbody>';
+}
+table();
+</script>
+
+</body>
+</html>
