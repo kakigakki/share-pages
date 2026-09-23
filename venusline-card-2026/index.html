@@ -143,6 +143,14 @@
     display:grid; place-items:center; font-size:12px; font-weight:700; margin-top:1px;
   }
   .leg.charge .leg-n{background:var(--accent-soft); border-color:transparent; color:var(--accent)}
+  .leg.meal .leg-n{background:var(--gold-soft); border-color:transparent; color:var(--gold)}
+
+  /* ---------- timeline ---------- */
+  table.tl{min-width:0}
+  table.tl td:first-child{white-space:nowrap; font-variant-numeric:tabular-nums; font-weight:700; width:1%}
+  table.tl td:last-child{white-space:nowrap; color:var(--faint); font-variant-numeric:tabular-nums; text-align:right}
+  table.tl tr.drive td{color:var(--muted); font-size:12.5px}
+  table.tl tr.drive td:first-child{font-weight:500}
   .leg-title{margin:0; font-size:16.5px; font-weight:700; line-height:1.35}
   .leg-sub{margin:3px 0 0; color:var(--muted); font-size:13px}
   .leg-body{padding:0 16px 15px 55px}
@@ -262,7 +270,7 @@
       <h2>对原页面的三处订正</h2>
       <ol>
         <li><b>别去「エニタイムフィットネス諏訪店」充电。</b>原页面写 90kW×6 口 — 实际是 <span class="strike">90kW 快充</span> <b>6kW 普通充电 × 2 台</b>。真正的 90kW×6 是 <b>諏訪湖SA（下り）</b>。</li>
-        <li><b>漏了两个关键桩</b>：あいまりファーム（茅野，240kW，按 kWh 计费）和 <b>車山ビジターセンター</b>（20kW 中速，山里唯一）。</li>
+        <li><b>漏了山里唯一的桩</b>：<b>車山ビジターセンター</b>（20kW 中速，24h）。按方案用不上，但它是 Day 2 唯一的保险。</li>
         <li><b>通行止め的路名写错了。</b>原页面写「武石観光センター↔武石峠 灾害通行止」。截至 9/16 上田建设事务所在列的是 <b>県道464号 美ヶ原公園西内線（武石峠〜国道254号）落石・全面通行止</b>；「武石観光センター↔美ヶ原台上」没有在列。<b>ビーナスライン 主线（和田峠↔美ヶ原台上）全通</b>，本行程一段都不碰上述封闭路段。</li>
       </ol>
     </div>
@@ -288,6 +296,27 @@
       <h2>Day 1 — 藤沢 → 蓼科・白樺湖</h2>
       <p>约 290 km · 净驾驶 4.5 小时 · 中央道为主</p>
       <div class="wx">诹访 阴转晴 27° / 17° · 降水 30% — 三天里最好的一天</div>
+    </div>
+
+    <div class="tablewrap">
+      <table class="tl">
+        <thead><tr><th>时刻</th><th>做什么</th><th>用时</th></tr></thead>
+        <tbody>
+          <tr><td>08:00</td><td>藤沢 出发</td><td>—</td></tr>
+          <tr class="drive"><td>↓</td><td>圏央道 → 中央道，约 205–215 km</td><td>2h45–3h</td></tr>
+          <tr><td>11:00</td><td>⚡ 諏訪湖SA（下り）充电到 90%</td><td>25–30 分</td></tr>
+          <tr class="drive"><td>↓</td><td>下高速 → 蓼科プール平（见下方「下高速怎么走」）</td><td>40–45 分</td></tr>
+          <tr><td>12:15</td><td>🍜 午餐：黙坊（プール平）</td><td>50–60 分</td></tr>
+          <tr><td>13:20</td><td>蓼科大滝（往返步行 + 拍照）</td><td>1h–1h10</td></tr>
+          <tr class="drive"><td>↓</td><td>県道191号 湯みち街道</td><td>15–20 分</td></tr>
+          <tr><td>14:50</td><td>横谷観音 · 王滝展望台（往返 30 分 + 拍照）</td><td>约 1h</td></tr>
+          <tr class="drive"><td>↓</td><td>同路继续往里</td><td>15–20 分</td></tr>
+          <tr><td>16:10</td><td>御射鹿池（等无风水镜 — 日落 17:35）</td><td>约 1h</td></tr>
+          <tr class="drive"><td>↓</td><td>県道191 → R299 メルヘン街道 → 県道192，约 21 km</td><td>35–40 分</td></tr>
+          <tr><td>17:55</td><td>池の平ホテル 入住</td><td>—</td></tr>
+          <tr><td>18:30</td><td>🍽 晚餐：酒店 Food Hall 自助</td><td>—</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <ol class="legs">
@@ -323,7 +352,32 @@
         <div class="leg-body">
           <p class="meta"><span>CHAdeMO <b class="tnum">90 kW × 6 口</b></span><span>24 小时</span><span>充电 <b>99 円/分</b></span><span>停车免费</span></p>
           <p class="note"><b>充到 90%，约 25–30 分钟。</b>这一次充电要覆盖 Day 1 剩余景点 + Day 2 整个山上行程（115 km），所以别只充一半。6 口分在 5 台机器上：1 台可双车同充，另 4 台有总功率 200kW 的共享上限 — 旁边车多时功率会掉，时间要往长了估。</p>
-          <p class="note flag"><b>省钱可选，但今年风险高：</b>下高速后绕去 <b>あいまりファーム いちご園</b>（茅野市泉野字丸生戸5400-1，240kW，24h，<b>44 円/kWh</b> 按电量计费，限充 90%，刷信用卡或扫码）。比 SA 的按分钟便宜不少 —— <b>但 EVsmart 上有 7 月的「故障中」报告，且只有 1 台、CHAdeMO 与 Tesla NACS 不可同充</b>。要去就先打 0120-007-533 问，别把它当主力。</p>
+          <p class="note flag"><b>下高速怎么走 — 这个 SA 其实在出口之后。</b>諏訪IC 在中央道 <b>KP 172.0</b>，諏訪湖SA／SIC 在 <b>KP 178.5</b>：SA 比去蓼科的出口<b>远 6.5 km</b>。充完电有两条路，<b>推荐第二条</b>：<br>
+          · 从 <b>諏訪湖スマートIC</b> 直接下（ETC 专用・24h・上下线均可进出，2025/7/27 开通）→ 但落点在岡谷市湊、湖的另一头，到プール平还有 <b>约 26 km</b>。<br>
+          · <b>上中央道「上り」退一站到 諏訪IC 再下</b> → 到プール平只有 <b>约 16 km</b>。多 6.5 km 高速费，省 20 分钟。</p>
+        </div>
+      </li>
+
+      <li class="leg meal">
+        <div class="leg-top">
+          <div class="leg-n">🍜</div>
+          <div><h3 class="leg-title">午餐：手打ち蕎麦 黙坊</h3>
+          <p class="leg-sub">就在プール平 — 停一次车，吃完直接走去瀑布</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">导航到（与蓼科大滝同一个停车场）</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="0266672014">黙坊（もくぼう）<br><span style="font-weight:500;font-size:13px;color:var(--muted)">茅野市蓼科高原プール平 · 电话：0266-67-2014</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E9%BB%99%E5%9D%8A%20%E8%94%BC%E7%A7%91%E9%AB%98%E5%8E%9F%E3%83%97%E3%83%BC%E3%83%AB%E5%B9%B3">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="meta"><span>食べログ <b class="tnum">3.57</b></span><span><b class="tnum">11:00–14:30</b></span><span>周三休（5–11 月）</span><span><b class="tnum">1,000–1,999 円</b></span></p>
+          <p class="note"><b>9/24 是周四，开门。</b>卖完就关，别拖到 14:00 之后。可以电话预约。</p>
+          <p class="note flag"><b>更高分的那家今天可能不开。</b>同在プール平的 <b>みつ蔵</b>（食べログ <b>3.69</b>、10:00–15:00、茅野市北山4035-228、0266-78-2278）规则是「周三休，<b>周三逢节假日则改休周四</b>」—— 9/23 周三正好是秋分の日，所以 <b>9/24 很可能休息</b>。想去先打电话。</p>
         </div>
       </li>
 
@@ -331,7 +385,7 @@
         <div class="leg-top">
           <div class="leg-n tnum">2</div>
           <div><h3 class="leg-title">蓼科大滝</h3>
-          <p class="leg-sub">苔藓原生林，停车场步行约 10 分钟</p></div>
+          <p class="leg-sub">苔藓原生林，停车场步行约 10 分钟 · 停留约 1 小时</p></div>
         </div>
         <div class="leg-body">
           <div class="navbox">
@@ -352,7 +406,7 @@
         <div class="leg-top">
           <div class="leg-n tnum">3</div>
           <div><h3 class="leg-title">横谷観音 · 王滝展望台</h3>
-          <p class="leg-sub">步行约 15 分钟</p></div>
+          <p class="leg-sub">往返步行约 30 分钟 · 停留约 1 小时</p></div>
         </div>
         <div class="leg-body">
           <div class="navbox">
@@ -373,7 +427,7 @@
         <div class="leg-top">
           <div class="leg-n tnum">4</div>
           <div><h3 class="leg-title">御射鹿池</h3>
-          <p class="leg-sub">傍晚水镜最好 — 风小的时候才有倒影</p></div>
+          <p class="leg-sub">傍晚水镜最好 — 风小的时候才有倒影 · 留足 1 小时</p></div>
         </div>
         <div class="leg-body">
           <div class="navbox">
@@ -386,7 +440,8 @@
               </div>
             </div>
           </div>
-          <p class="note"><b>很多车载导航没有「御射鹿池」这个点。</b>按茅野市官方说法，设 <b>明治温泉旅館</b> 为目的地，到达前约 600 m 就是水池。停车场免费，普通车 31 台。</p>
+          <p class="note"><b>很多车载导航没有「御射鹿池」这个点。</b>按茅野市官方说法，设 <b>明治温泉旅館</b> 为目的地，到达前约 600 m 就是水池。停车场免费，普通车 31 台。<b>9/24 日落 17:35</b>，16:00–17:15 这段是最好的窗口。</p>
+          <p class="note flag"><b>到白樺湖没有近路。</b>御射鹿池 是 県道191号 的尽头方向，必须原路退回到 国道299号（メルヘン街道）再往西北绕，<b>约 21 km／35–40 分</b>。原完整版页面写的「11.3 km・18 分」偏短，按 40 分钟准备。</p>
         </div>
       </li>
 
@@ -422,6 +477,29 @@
       <div class="wx">诹访 阴时晴 25° / 16° · 降水 30% — 和 Day 1 同档，山上可能起雾</div>
     </div>
 
+    <div class="tablewrap">
+      <table class="tl">
+        <thead><tr><th>时刻</th><th>做什么</th><th>用时</th></tr></thead>
+        <tbody>
+          <tr><td>09:00</td><td>酒店出发</td><td>—</td></tr>
+          <tr class="drive"><td>↓</td><td>県道40号，约 4 km</td><td>10 分</td></tr>
+          <tr><td>09:15</td><td>車山高原 展望リフト（往返 50 分 + 山顶 30–40 分）</td><td>1h30</td></tr>
+          <tr class="drive"><td>↓</td><td>ビーナスライン 到 車山肩，约 10 km</td><td>15–20 分</td></tr>
+          <tr><td>11:05</td><td>🍜 午餐：ころぼっくるひゅって（車山肩）</td><td>约 1h</td></tr>
+          <tr class="drive"><td>↓</td><td>県道194号 下坡发卡弯，4.5 km</td><td>15 分</td></tr>
+          <tr><td>12:20</td><td>八島ヶ原湿原（一周 3.7 km）</td><td>1h30<br>半周折返 35 分</td></tr>
+          <tr class="drive"><td>↓</td><td>和田峠 → 県道460号，约 24 km</td><td>35–40 分</td></tr>
+          <tr><td>14:30</td><td>道の駅 美ヶ原高原（店铺 17:00 关）</td><td>30 分</td></tr>
+          <tr class="drive"><td>↓</td><td>台上道路到 山本小屋</td><td>约 10 分</td></tr>
+          <tr><td>15:10</td><td>美しの塔 往返步行</td><td>45 分<br>王ヶ頭 则 1h40</td></tr>
+          <tr><td><b>16:00</b></td><td><b>下山出发（走 B 案就别晚于这个点）</b></td><td>—</td></tr>
+          <tr class="drive"><td>↓</td><td>B 案 アザレアライン 33 km／A 案 和田峠绕行 69 km</td><td>B 1h10–1h20<br>A 约 2h</td></tr>
+          <tr><td>17:20</td><td>松本着 → ⚡ 充电 ②</td><td>30–40 分</td></tr>
+          <tr><td>19:00</td><td>🍽 晚餐：松本市内</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <p class="prose"><b>海拔 2000 m 比平地低约 10℃，早上体感 8–12℃ 且风大。</b>薄羽绒、好走的鞋、晕车药（和田峠・扉峠 连续发卡弯）。</p>
 
     <ol class="legs">
@@ -446,6 +524,29 @@
           <p class="meta"><span>运行 <b class="tnum">9:00 起</b></span><span>上行末班 <b class="tnum">16:00</b></span><span>下行末班 <b class="tnum">16:30</b></span><span>绿季营业至 <b class="tnum">11/3</b></span></p>
           <p class="note">大风会停运，出发前打电话确认。票价页面是图片格式，现场看。停车场就在缆车口。<b>原页面写的 8:30 始发是旧时刻</b>，官网现在是 9:00。</p>
           <p class="note flag"><b>顺手充电：車山ビジターセンター</b> 就在车山高原，CHAdeMO <b>20kW 中速</b>、24 小时 — 山里唯一的快充。按方案你用不上，但万一电量比预期低，这是你的保险（20kW 充一小时约 20 kWh，够跑 100 km 出头）。</p>
+        </div>
+      </li>
+
+      <li class="leg meal">
+        <div class="leg-top">
+          <div class="leg-n">🍜</div>
+          <div><h3 class="leg-title">午餐：ころぼっくるひゅって</h3>
+          <p class="leg-sub">車山肩 · 就在 ビーナスライン 边上，从車山高原 去八島 的正路上</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="ころぼっくるひゅって 車山肩">ころぼっくるひゅって<br><span style="font-weight:500;font-size:13px;color:var(--muted)">坐标 36.104842, 138.188054</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=36.104842,138.188054">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="meta"><span>食べログ <b class="tnum">3.53</b></span><span><b class="tnum">8:00–16:30</b></span><span>营业至 <b>11 月末</b></span><span>期间无休</span></p>
+          <p class="note">霧ヶ峰 的山小屋咖啡馆，露台正对車山湿原。招牌是<b>虹吹咖啡</b>和<b>罗宋汤</b>。<b>恶劣天气会休业</b>，山上起雾那天先看一眼。平日也会排队，早到一点。</p>
+          <p class="note flag"><b>这一段没有别的选择。</b>从車山高原 到 美ヶ原 之间，正经吃饭的地方基本就这一家（八島ビジターセンター 旁的八島山荘 是简餐）。<b>错过就要饿到松本</b> —— 道の駅美ヶ原高原 的餐饮 17:00 就关。</p>
         </div>
       </li>
 
@@ -522,8 +623,9 @@
           <p class="leg-sub">台上不能横穿到松本侧，必须绕</p></div>
         </div>
         <div class="leg-body">
-          <p class="note"><b>A · 稳妥（原计划）：</b>原路 ビーナスライン 折返 → 和田峠 → 下諏訪 → 松本。路好走，但绕一大圈。</p>
-          <p class="note"><b>B · 快：</b>折返到扉峠 → 走 <b>アザレアライン（林道よもぎこば線）</b>经三城下松本，省不少时间。<b>但是窄山路</b>，进山口看一眼路况牌再决定。这条路 <b>10 月 19 日起</b>因挡土墙修缮长期封闭（三城地区〜扉峠）— <b>你 25 号走，还开着</b>。注意：它是松本市道／林道，和地图上的「県道67号 松本和田線」不是同一条。</p>
+          <p class="note"><b>A · 稳妥（原计划）：</b>原路 ビーナスライン 折返 → 和田峠 → 下諏訪 → 松本。路好走，但绕一大圈：<b>约 69 km／将近 2 小时</b>。</p>
+          <p class="note"><b>B · 快：</b>折返到扉峠 → 走 <b>アザレアライン（林道よもぎこば線）</b>经三城下松本，<b>约 33 km／1 小时 10–20 分</b>，比 A 案省约 40 分钟。<b>但是窄山路</b>，进山口看一眼路况牌再决定。这条路 <b>10 月 19 日起</b>因挡土墙修缮长期封闭（三城地区〜扉峠）— <b>你 25 号走，还开着</b>。注意：它是松本市道／林道，和地图上的「県道67号 松本和田線」不是同一条。</p>
+          <p class="note flag"><b>走 B 案就别晚于 16:00 下山。</b>9/25 日落约 17:35，アザレアライン 是无路灯的窄林道，天黑之后会难开很多。要在美ヶ原待到傍晚，就老实走 A 案。</p>
           <div class="navbox">
             <span class="lbl">松本市内导航到（充电 ②）</span>
             <div class="navrow">
@@ -534,6 +636,10 @@
               </div>
             </div>
           </div>
+          <p class="note"><b>🍽 晚餐两个方向 —— 都是周日休，9/25 周五都开：</b><br>
+          · <b>卯屋（うさぎや）</b>食べログ <b>3.73</b>・<b>居酒屋 EAST 百名店 2025</b>。松本市中央1-2-12，松本駅步行 3 分，周五 17:00–21:30（L.O. 21:00），预算 4,000–4,999 円。<b>必须预约、只收现金</b> — 0263-36-2544，平日 16:30 前受理。信州的菌菇、山菜、马肉和地酒。<br>
+          · <b>居酒屋 一歩</b>食べログ <b>3.28</b>。松本市大手4-10-17，<b>就在松本城旁边</b>，17:30–22:00，预算 3,000–3,999 円，0263-36-8484。自称山賊焼き発祥，比卯屋好进，适合不想提前订位的时候。<br>
+          （山賊焼き 另一家「発祥」<b>河昌</b>食べログ 3.42 在浅間温泉，<b>只做午市 11:30–13:30</b>，晚上去不了。）</p>
           <p class="note flag"><b>不要用「松本市役所東庁舎」。</b>虽然免费，但只有 20kW、1 台，而且非办公时间停车要钱 — 20kW 充一小时只够跑 120 km 左右，不值得耗一晚。替代：住 <b>ルートインコート松本インター</b> 用 6kW 过夜（订房时要预约充电位，一晚就满）。<b>梓川SA 别指望</b> —— 它在長野道、松本IC 再往北，无论下山进城还是次日回程都不顺路。</p>
         </div>
       </li>
@@ -547,6 +653,23 @@
       <h2>Day 3 — 松本 → 藤沢</h2>
       <p>约 290 km · 净驾驶 4 小时 · 長野道 → 中央道 → 圏央道</p>
       <div class="wx">雨天 — 松本 阴时々雨 23°/16° 降水 80%；诹访 雨后阴 19°/15° 降水 80%・降水量 10mm</div>
+    </div>
+
+    <div class="tablewrap">
+      <table class="tl">
+        <thead><tr><th>时刻</th><th>做什么</th><th>用时</th></tr></thead>
+        <tbody>
+          <tr><td>08:30</td><td>退房 → 松本城大手門駐車場（停一次别挪车）</td><td>—</td></tr>
+          <tr><td>09:00</td><td>国宝 松本城（含天守内部爬楼）</td><td>1h30</td></tr>
+          <tr><td>10:30</td><td>中町通り · 縄手通り（步行圈内）</td><td>约 1h</td></tr>
+          <tr><td>11:30</td><td>🍜 午餐：そば（见下）</td><td>约 1h</td></tr>
+          <tr class="drive"><td>↓</td><td>市内 → 松本IC</td><td>20–30 分</td></tr>
+          <tr><td>13:00</td><td>上高速，长野道 → 中央道</td><td>—</td></tr>
+          <tr><td>15:00</td><td>⚡ 双葉SA（上り）补电（可选）</td><td>10–15 分</td></tr>
+          <tr class="drive"><td>↓</td><td>中央道 → 圏央道，共约 290 km</td><td>3h45–4h</td></tr>
+          <tr><td>17:00–17:30</td><td>藤沢 着</td><td>—</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <p class="prose"><b>这天会下雨，建议早点上高速。</b>松本城 + 中町通り 都要在外面走，淋雨概率不小；把室内部分（天守内部、中町的仓库商店）当主力，室外快速过。</p>
@@ -571,7 +694,43 @@
             </div>
           </div>
           <p class="meta"><span>立体 <b class="tnum">437 台</b></span><span><b class="tnum">7:30–22:30</b></span><span><b class="tnum">30 分 150 円</b></span></p>
-          <p class="note">这个立体停车场到松本城、中町通り、縄手通り 都是步行距离，<b>停一次别挪车</b>。有回数券（1,500 円 / 30 分券 11 张），停超过 2.5 小时就划算。</p>
+          <p class="note">这个立体停车场到松本城、中町通り、縄手通り 都是步行距离，<b>停一次别挪车</b>。有回数券（1,500 円 / 30 分券 11 张），停超过 2.5 小时就划算 —— 按上面的时间表要停约 3 小时，<b>直接买回数券</b>。</p>
+        </div>
+      </li>
+
+      <li class="leg meal">
+        <div class="leg-top">
+          <div class="leg-n">🍜</div>
+          <div><h3 class="leg-title">午餐：信州そば</h3>
+          <p class="leg-sub">9/26 是周六 — 下面三家都开（松本的高分荞麦面店多数周日休）</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="tablewrap">
+            <table>
+              <thead><tr><th>店</th><th>食べログ</th><th>位置 / 时间</th><th>怎么选</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><b>三城（さんじろ）</b><br>松本市大手3-3-5</td>
+                  <td class="pw fast">3.75<br><span style="font-weight:400;color:var(--faint)">468 条</span></td>
+                  <td>11:30–15:00<br>周日休 · <b>离停车场最近</b></td>
+                  <td><b>要预约才进得去</b>（0263-35-0234）。食べログ そば EAST 百名店 2025。没有菜单，只有一套ざる蕎麦套餐，20 席，现金，店内禁拍照</td>
+                </tr>
+                <tr>
+                  <td><b>御そば打処 野麦</b><br>松本市中央2-9-11</td>
+                  <td class="pw fast">3.74</td>
+                  <td>周六 11:30–14:30<br>周二・周三休 · 12 席</td>
+                  <td><b>能排队就选它</b>。辰野町小野产荞麦粉的九割细切，<b>卖完就关</b> — 11:30 开门前到最稳。0263-36-3753</td>
+                </tr>
+                <tr>
+                  <td><b>浅田</b><br>松本駅周边</td>
+                  <td class="pw fast">3.65</td>
+                  <td>松本駅一带</td>
+                  <td>二八和十割都有，比上面两家好进的备选</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note flag"><b>下雨天 + 周六，两家头牌都难进。</b>三城 要预约、野麦 要排队且卖完关门。<b>今天就把 三城 的电话打了</b>；打不到位就按「11:30 直奔野麦」执行，再不行走浅田。</p>
         </div>
       </li>
 
@@ -619,11 +778,6 @@
             <td>D1 必充，充到 90%。共 5 基：1 基可双车同充，其余 4 基有 200kW 总功率上限</td>
           </tr>
           <tr>
-            <td><b>あいまりファーム いちご園</b><br>茅野市泉野字丸生戸5400-1</td>
-            <td class="pw fast">240 kW × 1</td><td>24h</td><td><b>44 円/kWh</b></td>
-            <td><b>有 7 月「故障中」报告，先打 0120-007-533 确认。</b>CHAdeMO + Tesla NACS 不可同充，限充 90%，刷卡／扫码</td>
-          </tr>
-          <tr>
             <td><b>車山ビジターセンター</b><br>车山高原</td>
             <td class="pw slow">20 kW × 1</td><td>24h</td><td>要现场确认</td>
             <td>D2 山里唯一快充，纯保险。属「中速」，一小时约 20 kWh</td>
@@ -657,7 +811,7 @@
     </div>
 
     <h3 class="sec">要装的 App / 卡</h3>
-    <p class="prose">e-Mobility Power（SA 和日産店都是这套）、エネチェンジ、TerraCharge。あいまりファーム 直接刷信用卡或扫码，不需要 App。<b>没有 eMP 会员卡的话按 visitor 价计费，99 円/分 是 visitor 价</b>；会员价约 27.5 円/分，这趟充 2–3 次的话，值得先算一下月费划不划算。</p>
+    <p class="prose">e-Mobility Power（SA 和日産店都是这套）、エネチェンジ、TerraCharge。<b>没有 eMP 会员卡的话按 visitor 价计费，99 円/分 是 visitor 价</b>；会员价约 27.5 円/分，这趟充 2–3 次的话，值得先算一下月费划不划算。</p>
   </section>
 
   <!-- ====================== 清单 ====================== -->
@@ -672,7 +826,9 @@
       <li><label><input type="checkbox" id="c1"><span class="ck">池の平ホテル　<b>0266-68-2100</b><small>确认有无充电桩（两边说法不一致）、停车安排</small></span></label></li>
       <li><label><input type="checkbox" id="c2"><span class="ck">松本住宿<small>如果订了 ルートインコート — 预约充电位，否则明早白等</small></span></label></li>
       <li><label><input type="checkbox" id="c3"><span class="ck">車山高原 SKYPARK　<b>0266-68-2723</b><small>缆车是否因大风停运；确认 9:00 始发</small></span></label></li>
-      <li><label><input type="checkbox" id="c4"><span class="ck">あいまりファーム　<b>0120-007-533</b><small>只在打算绕去省钱时才需要 — 确认充电桩是否已修好</small></span></label></li>
+      <li><label><input type="checkbox" id="c4"><span class="ck">三城（松本・9/26 午餐）　<b>0263-35-0234</b><small>完全预约制，20 席。周六难进，今天问最后一天</small></span></label></li>
+      <li><label><input type="checkbox" id="c13"><span class="ck">卯屋（松本・9/25 晚餐）　<b>0263-36-2544</b><small>必须预约、只收现金。不想订位就去「一歩」</small></span></label></li>
+      <li><label><input type="checkbox" id="c14"><span class="ck">みつ蔵（蓼科・9/24 午餐，可选）　<b>0266-78-2278</b><small>周三逢节假日改休周四 — 9/23 是秋分の日，今天可能休。不开就去黙坊</small></span></label></li>
     </ul>
 
     <h3 class="sec">车上</h3>
@@ -747,9 +903,29 @@
         <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202045/v26898/">EVsmart 諏訪湖SA 下り線</a></p>
       </li>
       <li>
-        <h4><span class="tag watch">盯</span>あいまりファーム 有「故障中」报告</h4>
-        规格核对无误（240kW、44 円/kWh、限充 90%、CHAdeMO 与 NACS 不可同充、刷卡或扫码）。但 EVsmart 上有 <b>约两个月前（7 月）的「故障中」口コミ</b>。当成「省钱的加分项」可以，当成计划里的一环不行 — 要去先打 0120-007-533。
-        <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202142/v30885/">EVsmart あいまりファーム いちご園</a>／<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202142/">EVsmart 茅野市一覧</a></p>
+        <h4><span class="tag fix">改</span>あいまりファーム 已从计划中删除</h4>
+        规格核对无误（240kW、44 円/kWh、限充 90%、CHAdeMO 与 NACS 不可同充），但 EVsmart 上有 <b>7 月的「故障中」口コミ</b>，且全场只有 1 台。绕路实测 <b>+7.5 km／自由流 +14 分（实际 15–20 分）</b>，省 1,000–3,000 円。<b>权衡后决定不去</b>，页面已移除相关条目。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202142/v30885/">EVsmart あいまりファーム いちご園</a>／绕路距离为 OSRM 公共路由计算（坐标 35.992108, 138.242787）</p>
+      </li>
+      <li>
+        <h4><span class="tag fix">改</span>諏訪湖SA 在去蓼科的出口「之后」6.5 km</h4>
+        中央道里程标：<b>諏訪IC＝KP 172.0</b>、<b>諏訪湖SA／SIC＝KP 178.5</b>。原计划「开到 諏訪湖SA 充电再上山」等于先冲过出口。实测下高速后到プール平：<b>諏訪IC 下 约 16 km</b>／<b>諏訪湖SIC 下 约 26 km</b>。好在 <b>諏訪湖スマートIC（2025/7/27 开通、ETC 专用、24h、上下线均可进出）</b>就在 SA，所以充完可以上「上り」退一站到 諏訪IC 再下，省约 20 分钟。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://ja.wikipedia.org/wiki/%E8%AB%8F%E8%A8%AA%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%81%E3%82%A7%E3%83%B3%E3%82%B8">諏訪IC</a>／<a target="_blank" rel="noopener" href="https://ja.wikipedia.org/wiki/%E8%AB%8F%E8%A8%AA%E6%B9%96%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%A8%E3%83%AA%E3%82%A2">諏訪湖SA</a>（里程标・SIC 规格）；距离为 OSRM 计算</p>
+      </li>
+      <li>
+        <h4><span class="tag fix">改</span>御射鹿池 → 白樺湖 不止 18 分钟</h4>
+        完整版页面写「11.3 km・18分」。但 御射鹿池 在 県道191号 的尽头方向，必须退回 国道299号 再绕，OSRM 实测 <b>21.2 km／自由流 22.7 分</b>，实际按 <b>35–40 分</b> 准备。这段正好卡在日落后，别算漏。
+        <p class="src">来源：OSRM 公共路由（御射鹿池 36.033371, 138.292007 → 池の平ホテル 36.109690, 138.243304，坐标取自 OpenStreetMap）</p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>下山 B 案确实省 40 分钟</h4>
+        道の駅美ヶ原高原 → 松本城：<b>A 案（和田峠→下諏訪）68.7 km／自由流 1h15</b>，<b>B 案（扉峠→アザレアライン→三城）32.6 km／自由流 49 分</b>。A 案与完整版页面的「约 75 km・约 2 小时」吻合。实际按 A 约 2h、B 约 1h10–1h20 算。
+        <p class="src">来源：OSRM 公共路由（B 案经 扉峠 36.186849, 138.128377 强制取道）</p>
+      </li>
+      <li>
+        <h4><span class="tag watch">盯</span>餐厅：三家的休息日正好卡在你的日程上</h4>
+        <b>みつ蔵</b>（3.69）规则是「周三休，周三逢祝日则改休周四」，9/23 周三是秋分の日 → <b>9/24 很可能休</b>。<b>黙坊</b>（3.57）5–11 月只休周三 → 9/24 开。<b>三城</b>（3.75）与<b>卯屋</b>（3.73）都是周日休，9/25・9/26 开，但两家都<b>必须预约、只收现金</b>。<b>野麦</b>（3.74）周二・周三休，周六开到 14:30 但卖完即止、仅 12 席。
+        <p class="src">来源：食べログ 各店页面（<a target="_blank" rel="noopener" href="https://tabelog.com/nagano/A2002/A200201/20000629/">三城</a>・<a target="_blank" rel="noopener" href="https://tabelog.com/nagano/A2002/A200201/20000086/">卯屋</a>・<a target="_blank" rel="noopener" href="https://tabelog.com/nagano/A2002/A200201/20000700/">一歩</a>・<a target="_blank" rel="noopener" href="https://tabelog.com/nagano/A2004/A200403/20000546/">黙坊</a>・<a target="_blank" rel="noopener" href="https://tabelog.com/nagano/A2004/A200403/20000740/">ころぼっくるひゅって</a>）及各店官网。分数为 2026-09-24 查询时的值，会变动</p>
       </li>
       <li>
         <h4><span class="tag ok">对</span>車山ビジターセンター 20kW・稼働中</h4>
@@ -810,14 +986,15 @@
     <p class="prose">
       · <b>車山ビジターセンター 的充电费用</b>——只查到规格和「稼働中」，单价没有公开记载，现场看机器。<br>
       · <b>松本日産 的 visitor 单价</b>——官网只写「他社カードは有料」，金额要现场或 App 里看。<br>
-      · <b>あいまりファーム 现在到底修好没有</b>——只有 7 月的口コミ，无官方公告。<br>
+      · <b>浅田（松本・そば 3.65）的具体营业时间和定休日</b>——只查到分数和「松本駅周边」，当备选用，去之前查一下。<br>
+      · <b>所有行车时间都是 OSRM 自由流值</b>——不含红绿灯、堵车和停车找位。表里的时刻已经按经验放宽过，但山路和周末仍可能更慢。<br>
       · <b>車山高原 展望リフト 的票价</b>——官网是图片格式，机器读不到，现场看。<br>
       · <b>藤沢→諏訪湖SA 的精确里程</b>——本页的 205–215 km 是按 圏央道 约 50 km ＋ 中央道 八王子IC〜諏訪湖SA 约 148 km ＋ 市内一般道推算的，不是导航实测。
     </p>
   </section>
 
   <footer>
-    <p>核查于 2026-09-23 深夜。来源：長野県上田建設事務所／松本市／武石観光協会 通行規制情報，ビーナスライン 官网，EVsmart 充电桩数据，車山高原SKYPARK・八島ビジターセンター・山本小屋 官网，tenki.jp・Yahoo!天気。<b>山区路况和缆车运行当天可变，以现场路牌和电话确认为准。</b>　·　<a href="../tateshina-ev-2026/">完整版行程页</a>　·　<a href="../">share-pages</a></p>
+    <p>核查于 2026-09-23 深夜，行程时间与餐厅于 2026-09-24 追加。来源：長野県上田建設事務所／松本市／武石観光協会 通行規制情報，ビーナスライン 官网，EVsmart 充电桩数据，車山高原SKYPARK・八島ビジターセンター・山本小屋 官网，tenki.jp・Yahoo!天気，食べログ（餐厅分数与营业时间），OSRM 公共路由与 OpenStreetMap／国土地理院（距离与坐标）。<b>山区路况和缆车运行当天可变，以现场路牌和电话确认为准。</b>　·　<a href="../tateshina-ev-2026/">完整版行程页</a>　·　<a href="../">share-pages</a></p>
   </footer>
 </div>
 
