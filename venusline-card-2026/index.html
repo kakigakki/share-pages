@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ビーナスライン EV 行程卡（2026.09.24–26）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&display=swap">
+<style>
+  :root{
+    --bg:#EBEFEC; --surface:#FFFFFF; --surface-2:#F4F7F5;
+    --ink:#161B18; --muted:#5D6B64; --faint:#8A968F;
+    --line:#D6DDD8; --line-strong:#BFC9C3;
+    --accent:#0E7156; --accent-soft:#DEEEE7;
+    --warn:#A8441A; --warn-soft:#F8E7DD;
+    --gold:#7E6212; --gold-soft:#F2EAD2;
+    --shadow:0 1px 2px rgba(20,35,28,.06),0 6px 18px rgba(20,35,28,.05);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#10130F; --surface:#181D19; --surface-2:#1F2521;
+      --ink:#E7EDE8; --muted:#9AA79F; --faint:#7A857E;
+      --line:#2A322C; --line-strong:#3A443D;
+      --accent:#54D3AC; --accent-soft:#16342A;
+      --warn:#EE9463; --warn-soft:#37200F;
+      --gold:#D9BC63; --gold-soft:#302915;
+      --shadow:0 1px 2px rgba(0,0,0,.45),0 6px 18px rgba(0,0,0,.32);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#10130F; --surface:#181D19; --surface-2:#1F2521;
+    --ink:#E7EDE8; --muted:#9AA79F; --faint:#7A857E;
+    --line:#2A322C; --line-strong:#3A443D;
+    --accent:#54D3AC; --accent-soft:#16342A;
+    --warn:#EE9463; --warn-soft:#37200F;
+    --gold:#D9BC63; --gold-soft:#302915;
+    --shadow:0 1px 2px rgba(0,0,0,.45),0 6px 18px rgba(0,0,0,.32);
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans CJK SC","Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    font-size:15px; line-height:1.65;
+    -webkit-text-size-adjust:100%;
+  }
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  .wrap{max-width:760px; margin:0 auto; padding:0 16px; padding-block:0 64px}
+  h1,h2,h3,.num,.tabs button,.leg-n,.kpi b{font-family:Archivo,-apple-system,"Hiragino Sans","Noto Sans SC",sans-serif}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  /* ---------- masthead ---------- */
+  header.mast{padding-block:24px 18px}
+  .back{
+    display:inline-block; font-size:12px; font-weight:600; letter-spacing:.04em;
+    color:var(--muted); text-decoration:none; margin-bottom:14px;
+  }
+  .back:hover{color:var(--accent)}
+  .eyebrow{
+    font-size:11px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); margin:0 0 10px;
+  }
+  h1{
+    margin:0; font-size:clamp(28px,7.5vw,42px); line-height:1.08; font-weight:800;
+    letter-spacing:-.02em; text-wrap:balance;
+  }
+  h1 span{display:block; color:var(--muted); font-weight:600; font-size:.47em; letter-spacing:0; margin-top:8px}
+  .facts{
+    display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; list-style:none; padding:0;
+  }
+  .facts li{
+    background:var(--surface); border:1px solid var(--line); border-radius:999px;
+    padding:5px 12px; font-size:12.5px; color:var(--muted);
+  }
+  .facts li b{color:var(--ink); font-weight:600}
+
+  /* ---------- alert ---------- */
+  .alert{
+    margin-top:20px; background:var(--warn-soft); border:1px solid color-mix(in srgb,var(--warn) 32%,transparent);
+    border-radius:14px; padding:16px 18px;
+  }
+  .alert h2{
+    margin:0 0 10px; font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--warn); display:flex; align-items:center; gap:8px;
+  }
+  .alert ol{margin:0; padding-left:20px}
+  .alert li{margin-bottom:8px; font-size:14px}
+  .alert li:last-child{margin-bottom:0}
+  .alert b{font-weight:700}
+  .strike{text-decoration:line-through; color:var(--faint)}
+
+  .lede{
+    margin-top:16px; background:var(--surface); border:1px solid var(--line);
+    border-radius:14px; padding:14px 16px; font-size:13.5px; color:var(--muted);
+  }
+  .lede b{color:var(--ink); font-weight:600}
+  .lede a{color:var(--accent)}
+
+  /* ---------- tabs ---------- */
+  .tabs{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    margin:24px -16px 0; padding:10px 16px;
+    border-bottom:1px solid var(--line);
+    display:flex; gap:6px; overflow-x:auto; scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{
+    flex:0 0 auto; border:1px solid var(--line); background:var(--surface); color:var(--muted);
+    border-radius:999px; padding:7px 15px; font-size:13px; font-weight:600; cursor:pointer;
+    white-space:nowrap; transition:background .15s,color .15s,border-color .15s;
+  }
+  .tabs button:hover{border-color:var(--line-strong); color:var(--ink)}
+  .tabs button[aria-selected="true"]{background:var(--accent); border-color:var(--accent); color:var(--bg)}
+  .tabs button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+  /* ---------- day head ---------- */
+  .dayhead{padding-block:26px 6px}
+  .dayhead h2{margin:0; font-size:22px; font-weight:700; letter-spacing:-.01em}
+  .dayhead p{margin:6px 0 0; color:var(--muted); font-size:13.5px}
+  .wx{
+    display:inline-flex; align-items:center; gap:7px; margin-top:12px;
+    background:var(--gold-soft); color:var(--gold); border-radius:8px;
+    padding:5px 11px; font-size:12.5px; font-weight:600;
+  }
+
+  /* ---------- legs ---------- */
+  ol.legs{list-style:none; margin:14px 0 0; padding:0; display:flex; flex-direction:column; gap:12px}
+  .leg{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    box-shadow:var(--shadow); overflow:hidden;
+  }
+  .leg-top{display:flex; gap:13px; padding:15px 16px 0}
+  .leg-n{
+    flex:0 0 26px; height:26px; border-radius:8px; background:var(--surface-2);
+    border:1px solid var(--line); color:var(--muted);
+    display:grid; place-items:center; font-size:12px; font-weight:700; margin-top:1px;
+  }
+  .leg.charge .leg-n{background:var(--accent-soft); border-color:transparent; color:var(--accent)}
+  .leg-title{margin:0; font-size:16.5px; font-weight:700; line-height:1.35}
+  .leg-sub{margin:3px 0 0; color:var(--muted); font-size:13px}
+  .leg-body{padding:0 16px 15px 55px}
+  @media (max-width:430px){.leg-body{padding-left:16px}}
+
+  /* nav target */
+  .navbox{
+    margin-top:12px; background:var(--surface-2); border:1px solid var(--line);
+    border-radius:11px; padding:11px 12px;
+  }
+  .navbox .lbl{
+    font-size:10px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent); display:block; margin-bottom:5px;
+  }
+  .navrow{display:flex; align-items:flex-start; gap:10px; flex-wrap:wrap}
+  .navtarget{
+    flex:1 1 200px; min-width:0; font-size:15.5px; font-weight:700; line-height:1.4;
+    word-break:break-word;
+  }
+  .navacts{display:flex; gap:6px; flex:0 0 auto}
+  .btn{
+    border:1px solid var(--line-strong); background:var(--surface); color:var(--muted);
+    border-radius:8px; padding:5px 10px; font-size:12px; font-weight:600; cursor:pointer;
+    text-decoration:none; display:inline-flex; align-items:center; gap:4px; white-space:nowrap;
+  }
+  .btn:hover{color:var(--ink); border-color:var(--ink)}
+  .btn:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .btn.ok{color:var(--accent); border-color:var(--accent)}
+  .meta{margin:8px 0 0; font-size:12.5px; color:var(--muted); display:flex; flex-wrap:wrap; gap:4px 14px}
+  .meta span b{color:var(--ink); font-weight:600}
+  .note{margin:10px 0 0; font-size:13.5px; color:var(--muted)}
+  .note b{color:var(--ink)}
+  .note.flag{
+    background:var(--warn-soft); color:var(--warn); border-radius:9px; padding:9px 11px; font-size:13px;
+  }
+  .note.flag b{color:var(--warn)}
+
+  /* ---------- table ---------- */
+  .tablewrap{overflow-x:auto; margin-top:14px; border:1px solid var(--line); border-radius:13px; background:var(--surface)}
+  table{border-collapse:collapse; width:100%; min-width:540px; font-size:13.5px}
+  th,td{padding:11px 13px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+  thead th{
+    font-size:10.5px; letter-spacing:.11em; text-transform:uppercase;
+    color:var(--faint); font-weight:700; background:var(--surface-2); white-space:nowrap;
+  }
+  tbody tr:last-child td{border-bottom:none}
+  td b{font-weight:600}
+  .pw{font-weight:700; white-space:nowrap}
+  .pw.fast{color:var(--accent)}
+  .pw.slow{color:var(--muted)}
+
+  /* ---------- checklist ---------- */
+  ul.check{list-style:none; margin:14px 0 0; padding:0; display:flex; flex-direction:column; gap:8px}
+  ul.check li{
+    background:var(--surface); border:1px solid var(--line); border-radius:11px;
+  }
+  ul.check label{display:flex; gap:11px; align-items:flex-start; padding:12px 14px; cursor:pointer; font-size:14px}
+  ul.check input{margin:3px 0 0; width:17px; height:17px; accent-color:var(--accent); flex:0 0 auto}
+  ul.check input:checked ~ .ck{color:var(--faint); text-decoration:line-through}
+  .ck small{display:block; color:var(--muted); font-size:12.5px; text-decoration:none; margin-top:2px}
+  ul.check input:checked ~ .ck small{color:var(--faint)}
+
+  /* ---------- verify log ---------- */
+  ol.vlog{list-style:none; margin:14px 0 0; padding:0; display:flex; flex-direction:column; gap:10px; counter-reset:v}
+  ol.vlog li{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:13px 15px;
+    font-size:13.5px; color:var(--muted);
+  }
+  ol.vlog li h4{margin:0 0 5px; font-size:14.5px; color:var(--ink); font-weight:700; line-height:1.4}
+  ol.vlog li b{color:var(--ink); font-weight:600}
+  .tag{
+    display:inline-block; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    border-radius:5px; padding:2px 7px; margin-right:7px; vertical-align:2px;
+  }
+  .tag.ok{background:var(--accent-soft); color:var(--accent)}
+  .tag.fix{background:var(--warn-soft); color:var(--warn)}
+  .tag.watch{background:var(--gold-soft); color:var(--gold)}
+  .src{margin:7px 0 0; font-size:12px; color:var(--faint)}
+  .src a{color:var(--faint)}
+
+  /* ---------- misc ---------- */
+  h3.sec{
+    margin:26px 0 0; font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--faint);
+  }
+  .prose{font-size:14px; color:var(--muted); margin:10px 0 0}
+  .prose b{color:var(--ink); font-weight:600}
+  footer{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:12px; color:var(--faint)}
+  footer a{color:var(--muted)}
+  .toast{
+    position:fixed; left:50%; transform:translateX(-50%) translateY(20px);
+    bottom:24px;
+    background:var(--ink); color:var(--bg); padding:9px 18px; border-radius:999px;
+    font-size:13px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .2s,transform .2s; z-index:50;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="mast">
+    <a class="back" href="../">← share-pages</a>
+    <p class="eyebrow">2026.09.24 – 09.26 · 藤沢 ⇄ 美ヶ原</p>
+    <h1>ビーナスライン<span>EV 三日行程卡 — 导航目标 · 充电 · 避坑</span></h1>
+    <ul class="facts">
+      <li><b>BYD SEALION 7</b> · 82.56 kWh</li>
+      <li>CHAdeMO 最大 <b class="tnum">105 kW</b></li>
+      <li>交流 <b class="tnum">6 kW</b></li>
+      <li>全程约 <b class="tnum">695 km</b></li>
+      <li>只需充 <b class="tnum">2</b> 次</li>
+    </ul>
+
+    <div class="alert">
+      <h2>对原页面的三处订正</h2>
+      <ol>
+        <li><b>别去「エニタイムフィットネス諏訪店」充电。</b>原页面写 90kW×6 口 — 实际是 <span class="strike">90kW 快充</span> <b>6kW 普通充电 × 2 台</b>。真正的 90kW×6 是 <b>諏訪湖SA（下り）</b>。</li>
+        <li><b>漏了两个关键桩</b>：あいまりファーム（茅野，240kW，按 kWh 计费）和 <b>車山ビジターセンター</b>（20kW 中速，山里唯一）。</li>
+        <li><b>通行止め的路名写错了。</b>原页面写「武石観光センター↔武石峠 灾害通行止」。截至 9/16 上田建设事务所在列的是 <b>県道464号 美ヶ原公園西内線（武石峠〜国道254号）落石・全面通行止</b>；「武石観光センター↔美ヶ原台上」没有在列。<b>ビーナスライン 主线（和田峠↔美ヶ原台上）全通</b>，本行程一段都不碰上述封闭路段。</li>
+      </ol>
+    </div>
+
+    <div class="lede">
+      本页是 <a href="../tateshina-ev-2026/">EV版・ビーナスライン走破と美ヶ原 2泊3日</a> 的<b>车上速查版</b>：只留导航目标、充电决策和当天会踩的坑。<br>
+      全部条目已在 <b>2026-09-23 夜</b> 重新核对过一遍，改动和存疑项列在最后一个标签「核查记录」里。
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="行程分区">
+    <button role="tab" id="t-d1" aria-controls="p-d1" aria-selected="true">Day 1 · 9/24</button>
+    <button role="tab" id="t-d2" aria-controls="p-d2" aria-selected="false">Day 2 · 9/25</button>
+    <button role="tab" id="t-d3" aria-controls="p-d3" aria-selected="false">Day 3 · 9/26</button>
+    <button role="tab" id="t-ev" aria-controls="p-ev" aria-selected="false">充电桩总表</button>
+    <button role="tab" id="t-ck" aria-controls="p-ck" aria-selected="false">出发前清单</button>
+    <button role="tab" id="t-vf" aria-controls="p-vf" aria-selected="false">核查记录</button>
+  </nav>
+
+  <!-- ====================== DAY 1 ====================== -->
+  <section id="p-d1" role="tabpanel" aria-labelledby="t-d1">
+    <div class="dayhead">
+      <h2>Day 1 — 藤沢 → 蓼科・白樺湖</h2>
+      <p>约 290 km · 净驾驶 4.5 小时 · 中央道为主</p>
+      <div class="wx">诹访 阴转晴 27° / 17° · 降水 30% — 三天里最好的一天</div>
+    </div>
+
+    <ol class="legs">
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">1</div>
+          <div><h3 class="leg-title">出发：满电上中央道</h3>
+          <p class="leg-sub">藤沢 → 圏央道 → 八王子JCT → 中央道 西行</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="諏訪湖サービスエリア 下り線">諏訪湖SA（下り線）</div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E8%AB%8F%E8%A8%AA%E6%B9%96%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%A8%E3%83%AA%E3%82%A2%20%E4%B8%8B%E3%82%8A%E7%B7%9A">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="meta"><span>距离 <b class="tnum">约 205–215 km</b></span><span>到达电量 <b class="tnum">约 50–58%</b></span></p>
+          <p class="note">中途不用停。SA 前后没有更好的选择，直接一口气开到诹访湖。<b>电量按最坏情况准备</b>：全程高速、山区空调，电耗按 5.5 km/kWh 算，这段吃掉约 38 kWh。</p>
+        </div>
+      </li>
+
+      <li class="leg charge">
+        <div class="leg-top">
+          <div class="leg-n">⚡</div>
+          <div><h3 class="leg-title">充电 ①：諏訪湖SA（下り）</h3>
+          <p class="leg-sub">岡谷市湊方久保 · 全程唯一必充的一次</p></div>
+        </div>
+        <div class="leg-body">
+          <p class="meta"><span>CHAdeMO <b class="tnum">90 kW × 6 口</b></span><span>24 小时</span><span>充电 <b>99 円/分</b></span><span>停车免费</span></p>
+          <p class="note"><b>充到 90%，约 25–30 分钟。</b>这一次充电要覆盖 Day 1 剩余景点 + Day 2 整个山上行程（115 km），所以别只充一半。6 口分在 5 台机器上：1 台可双车同充，另 4 台有总功率 200kW 的共享上限 — 旁边车多时功率会掉，时间要往长了估。</p>
+          <p class="note flag"><b>省钱可选，但今年风险高：</b>下高速后绕去 <b>あいまりファーム いちご園</b>（茅野市泉野字丸生戸5400-1，240kW，24h，<b>44 円/kWh</b> 按电量计费，限充 90%，刷信用卡或扫码）。比 SA 的按分钟便宜不少 —— <b>但 EVsmart 上有 7 月的「故障中」报告，且只有 1 台、CHAdeMO 与 Tesla NACS 不可同充</b>。要去就先打 0120-007-533 问，别把它当主力。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">2</div>
+          <div><h3 class="leg-title">蓼科大滝</h3>
+          <p class="leg-sub">苔藓原生林，停车场步行约 10 分钟</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="長野県茅野市北山4035 蓼科郵便局">蓼科郵便局<br><span style="font-weight:500;font-size:13px;color:var(--muted)">茅野市北山4035（〒391-0301）</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=36.059116,138.267330">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="note"><b>停「プール平駐車場」</b>（邮局旁边，坐标 36.059116, 138.267330），旁边有公厕。从停车场出来走铺装路右转往邮局方向，公厕和邮局之间的那条路是最短路线，岔路都有路标。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">3</div>
+          <div><h3 class="leg-title">横谷観音 · 王滝展望台</h3>
+          <p class="leg-sub">步行约 15 分钟</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="横谷観音展望台駐車場">横谷観音展望台駐車場</div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E6%A8%AA%E8%B0%B7%E8%A6%B3%E9%9F%B3%E5%B1%95%E6%9C%9B%E5%8F%B0%E9%A7%90%E8%BB%8A%E5%A0%B4">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="note">车载导航搜不到的话，用附近的 <b>横谷温泉旅館</b> 代替，到了再按路标走最后一段。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">4</div>
+          <div><h3 class="leg-title">御射鹿池</h3>
+          <p class="leg-sub">傍晚水镜最好 — 风小的时候才有倒影</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到（关键技巧）</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="0266672660">明治温泉旅館<br><span style="font-weight:500;font-size:13px;color:var(--muted)">电话检索：0266-67-2660</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E5%BE%A1%E5%B0%84%E9%B9%BF%E6%B1%A0">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="note"><b>很多车载导航没有「御射鹿池」这个点。</b>按茅野市官方说法，设 <b>明治温泉旅館</b> 为目的地，到达前约 600 m 就是水池。停车场免费，普通车 31 台。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">5</div>
+          <div><h3 class="leg-title">入住：白樺リゾート 池の平ホテル</h3>
+          <p class="leg-sub">白樺湖畔</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="0266682100">白樺リゾート 池の平ホテル<br><span style="font-weight:500;font-size:13px;color:var(--muted)">电话检索：0266-68-2100</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E7%99%BD%E6%A8%BA%E3%83%AA%E3%82%BE%E3%83%BC%E3%83%88%20%E6%B1%A0%E3%81%AE%E5%B9%B3%E3%83%9B%E3%83%86%E3%83%AB">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="note flag"><b>酒店有没有充电桩，两边说法不一致。</b>Relux 的设施栏写「EV 充电」有，ビーナスライン 官方景点页写「無」。<b>今晚打 0266-68-2100 问一句就定了。</b>不过按上面的方案，你到店时电量足够，<b>不充也能跑完 Day 2</b>，不用焦虑。</p>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- ====================== DAY 2 ====================== -->
+  <section id="p-d2" role="tabpanel" aria-labelledby="t-d2" hidden>
+    <div class="dayhead">
+      <h2>Day 2 — 白樺湖 → 美ヶ原 → 松本</h2>
+      <p>约 115 km · 净驾驶 3.5 小时 · 全程山路，这是全行程的重头戏</p>
+      <div class="wx">诹访 阴时晴 25° / 16° · 降水 30% — 和 Day 1 同档，山上可能起雾</div>
+    </div>
+
+    <p class="prose"><b>海拔 2000 m 比平地低约 10℃，早上体感 8–12℃ 且风大。</b>薄羽绒、好走的鞋、晕车药（和田峠・扉峠 连续发卡弯）。</p>
+
+    <ol class="legs">
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">1</div>
+          <div><h3 class="leg-title">車山高原 展望リフト</h3>
+          <p class="leg-sub">山顶 1925 m · 两段缆车接驳，单程约 25 分钟</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="0266682723">車山高原 SKYPARK RESORT<br><span style="font-weight:500;font-size:13px;color:var(--muted)">茅野市北山3413 · 电话检索：0266-68-2723</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E8%BB%8A%E5%B1%B1%E9%AB%98%E5%8E%9F%20SKYPARK%20RESORT">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="meta"><span>运行 <b class="tnum">9:00 起</b></span><span>上行末班 <b class="tnum">16:00</b></span><span>下行末班 <b class="tnum">16:30</b></span><span>绿季营业至 <b class="tnum">11/3</b></span></p>
+          <p class="note">大风会停运，出发前打电话确认。票价页面是图片格式，现场看。停车场就在缆车口。<b>原页面写的 8:30 始发是旧时刻</b>，官网现在是 9:00。</p>
+          <p class="note flag"><b>顺手充电：車山ビジターセンター</b> 就在车山高原，CHAdeMO <b>20kW 中速</b>、24 小时 — 山里唯一的快充。按方案你用不上，但万一电量比预期低，这是你的保险（20kW 充一小时约 20 kWh，够跑 100 km 出头）。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">2</div>
+          <div><h3 class="leg-title">八島ヶ原湿原</h3>
+          <p class="leg-sub">一周 3.7 km · 想省时间可以只走前半段折返（约 30 分）</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="八島ビジターセンターあざみ館 長野県諏訪郡下諏訪町10618">八島ビジターセンターあざみ館<br><span style="font-weight:500;font-size:13px;color:var(--muted)">諏訪郡下諏訪町10618</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E5%85%AB%E5%B3%B6%E3%83%93%E3%82%B8%E3%82%BF%E3%83%BC%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%81%82%E3%81%96%E3%81%BF%E9%A4%A8">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="meta"><span>停车 <b>免费 · 约 100 台</b></span><span>厕所 <b class="tnum">100 円</b></span><span>24 小时开放</span></p>
+          <p class="note">旺季白天满车是常态，早点到。偶有落石临时封路，走之前看一眼八島ビジターセンター官网。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">3</div>
+          <div><h3 class="leg-title">ビーナスライン 走破：和田峠 → 扉峠 → 美ヶ原</h3>
+          <p class="leg-sub">76.5 km 全线通行 · 连续发卡弯路段</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到（别导航"美ヶ原高原"）</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="道の駅美ヶ原高原 長野県上田市武石上本入美ヶ原高原">道の駅 美ヶ原高原<br><span style="font-weight:500;font-size:13px;color:var(--muted)">上田市武石上本入美ヶ原高原 · 海拔 1938 m</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E9%81%93%E3%81%AE%E9%A7%85%E7%BE%8E%E3%83%B6%E5%8E%9F%E9%AB%98%E5%8E%9F">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="meta"><span>停车 <b>免费 · 800 台</b></span><span>店铺 <b class="tnum">9:00–17:00</b></span><span>日本海拔最高的道の駅</span></p>
+          <p class="note"><b>下坡回收能量很多</b> — Venus Line 一路下来电量掉得比你想的慢，不用省着开。<b>店铺 17:00 关门</b>，想买东西别拖到闭店。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">4</div>
+          <div><h3 class="leg-title">山本小屋（王ヶ頭 步行起点）</h3>
+          <p class="leg-sub">从道の駅再往西开一小段</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="山本小屋ふる里館 長野県小県郡長和町和田美ヶ原高原5101">山本小屋<br><span style="font-weight:500;font-size:13px;color:var(--muted)">小県郡長和町和田美ヶ原高原5101</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E5%B1%B1%E6%9C%AC%E5%B0%8F%E5%B1%8B%E3%81%B5%E3%82%8B%E9%87%8C%E9%A4%A8">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="meta"><span>山本小屋前约 <b class="tnum">100 台</b>＋長和町営 <b class="tnum">60 台</b>（均免费）</span><span>美しの塔 步行 <b class="tnum">约 20 分</b></span><span>王ヶ頭 步行 <b class="tnum">约 45–50 分</b></span></p>
+          <p class="note flag"><b>台上一般车禁入 — 车只能开到这里。</b>别导航「王ヶ頭ホテル」。如果直接从道の駅走去王ヶ頭，来回要 3 小时；从山本小屋出发才是 50 分钟那条。<b>时间紧就只走到美しの塔</b>。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">5</div>
+          <div><h3 class="leg-title">下山去松本 — 两条路，二选一</h3>
+          <p class="leg-sub">台上不能横穿到松本侧，必须绕</p></div>
+        </div>
+        <div class="leg-body">
+          <p class="note"><b>A · 稳妥（原计划）：</b>原路 ビーナスライン 折返 → 和田峠 → 下諏訪 → 松本。路好走，但绕一大圈。</p>
+          <p class="note"><b>B · 快：</b>折返到扉峠 → 走 <b>アザレアライン（林道よもぎこば線）</b>经三城下松本，省不少时间。<b>但是窄山路</b>，进山口看一眼路况牌再决定。这条路 <b>10 月 19 日起</b>因挡土墙修缮长期封闭（三城地区〜扉峠）— <b>你 25 号走，还开着</b>。注意：它是松本市道／林道，和地图上的「県道67号 松本和田線」不是同一条。</p>
+          <div class="navbox">
+            <span class="lbl">松本市内导航到（充电 ②）</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="松本日産自動車 松本店 長野県松本市高宮北3-6">松本日産自動車 松本店<br><span style="font-weight:500;font-size:13px;color:var(--muted)">松本市高宮北3-6 · CHAdeMO 90kW × 3 口 · 24 小时</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E6%9C%AC%E6%97%A5%E7%94%A3%E8%87%AA%E5%8B%95%E8%BB%8A%20%E6%9D%BE%E6%9C%AC%E5%BA%97%20%E9%AB%98%E5%AE%AE%E5%8C%973-6">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="note flag"><b>不要用「松本市役所東庁舎」。</b>虽然免费，但只有 20kW、1 台，而且非办公时间停车要钱 — 20kW 充一小时只够跑 120 km 左右，不值得耗一晚。替代：住 <b>ルートインコート松本インター</b> 用 6kW 过夜（订房时要预约充电位，一晚就满）。<b>梓川SA 别指望</b> —— 它在長野道、松本IC 再往北，无论下山进城还是次日回程都不顺路。</p>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- ====================== DAY 3 ====================== -->
+  <section id="p-d3" role="tabpanel" aria-labelledby="t-d3" hidden>
+    <div class="dayhead">
+      <h2>Day 3 — 松本 → 藤沢</h2>
+      <p>约 290 km · 净驾驶 4 小时 · 長野道 → 中央道 → 圏央道</p>
+      <div class="wx">雨天 — 松本 阴时々雨 23°/16° 降水 80%；诹访 雨后阴 19°/15° 降水 80%・降水量 10mm</div>
+    </div>
+
+    <p class="prose"><b>这天会下雨，建议早点上高速。</b>松本城 + 中町通り 都要在外面走，淋雨概率不小；把室内部分（天守内部、中町的仓库商店）当主力，室外快速过。</p>
+
+    <ol class="legs">
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">1</div>
+          <div><h3 class="leg-title">松本城 + 中町通り</h3>
+          <p class="leg-sub">一个停车场搞定两个点</p></div>
+        </div>
+        <div class="leg-body">
+          <div class="navbox">
+            <span class="lbl">上车导航到</span>
+            <div class="navrow">
+              <div class="navtarget" data-copy="0263331010">松本城大手門駐車場（立体）<br><span style="font-weight:500;font-size:13px;color:var(--muted)">松本市大手2-3-10 · 电话检索：0263-33-1010</span></div>
+              <div class="navacts">
+                <button class="btn js-copy" type="button">复制</button>
+                <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=%E6%9D%BE%E6%9C%AC%E5%9F%8E%E5%A4%A7%E6%89%8B%E9%96%80%E9%A7%90%E8%BB%8A%E5%A0%B4">地图</a>
+              </div>
+            </div>
+          </div>
+          <p class="meta"><span>立体 <b class="tnum">437 台</b></span><span><b class="tnum">7:30–22:30</b></span><span><b class="tnum">30 分 150 円</b></span></p>
+          <p class="note">这个立体停车场到松本城、中町通り、縄手通り 都是步行距离，<b>停一次别挪车</b>。有回数券（1,500 円 / 30 分券 11 张），停超过 2.5 小时就划算。</p>
+        </div>
+      </li>
+
+      <li class="leg charge">
+        <div class="leg-top">
+          <div class="leg-n">⚡</div>
+          <div><h3 class="leg-title">充电 ③（可选）：双葉SA（上り）</h3>
+          <p class="leg-sub">中央道 · 甲斐市龍地</p></div>
+        </div>
+        <div class="leg-body">
+          <p class="meta"><span>CHAdeMO <b class="tnum">90 kW × 6 口</b></span><span>24 小时</span><span><b>99 円/分</b></span><span>停车免费</span></p>
+          <p class="note"><b>出发前在松本充到 90% 以上的话，290 km 高速其实能直达。</b>想留余量就在这里停 10–15 分钟。原页面推荐的 イオンモール甲府昭和（急速只收 WAON、要下高速）没必要绕。</p>
+        </div>
+      </li>
+
+      <li class="leg">
+        <div class="leg-top">
+          <div class="leg-n tnum">2</div>
+          <div><h3 class="leg-title">回家</h3>
+          <p class="leg-sub">中央道 → 八王子JCT → 圏央道 → 藤沢</p></div>
+        </div>
+        <div class="leg-body">
+          <p class="note">周六下午中央道上行（尤其 小仏トンネル 一带）常堵。雨天 + 周末，能早走就早走。</p>
+        </div>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- ====================== 充电表 ====================== -->
+  <section id="p-ev" role="tabpanel" aria-labelledby="t-ev" hidden>
+    <div class="dayhead">
+      <h2>充电桩总表</h2>
+      <p>SEALION 7 是 82.56 kWh / CHAdeMO 最大 105 kW（WLTC 航续 RWD 590 km・AWD 540 km）。全程只需要充 2 次，第 3 次是保险。</p>
+    </div>
+
+    <h3 class="sec">主力（按使用顺序）</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>地点</th><th>规格</th><th>时间</th><th>费用</th><th>备注</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>諏訪湖SA（下り）</b><br>中央道・岡谷市</td>
+            <td class="pw fast">90 kW × 6 口</td><td>24h</td><td>99 円/分</td>
+            <td>D1 必充，充到 90%。共 5 基：1 基可双车同充，其余 4 基有 200kW 总功率上限</td>
+          </tr>
+          <tr>
+            <td><b>あいまりファーム いちご園</b><br>茅野市泉野字丸生戸5400-1</td>
+            <td class="pw fast">240 kW × 1</td><td>24h</td><td><b>44 円/kWh</b></td>
+            <td><b>有 7 月「故障中」报告，先打 0120-007-533 确认。</b>CHAdeMO + Tesla NACS 不可同充，限充 90%，刷卡／扫码</td>
+          </tr>
+          <tr>
+            <td><b>車山ビジターセンター</b><br>车山高原</td>
+            <td class="pw slow">20 kW × 1</td><td>24h</td><td>要现场确认</td>
+            <td>D2 山里唯一快充，纯保险。属「中速」，一小时约 20 kWh</td>
+          </tr>
+          <tr>
+            <td><b>松本日産自動車 松本店</b><br>松本市高宮北3-6</td>
+            <td class="pw fast">90 kW × 3 口</td><td>24h</td><td>eMP 计费</td>
+            <td>D2 松本首选。2 基机器（其中 1 基双车同充）</td>
+          </tr>
+          <tr>
+            <td><b>双葉SA（上り）</b><br>中央道・甲斐市</td>
+            <td class="pw fast">90 kW × 6 口</td><td>24h</td><td>99 円/分</td>
+            <td>D3 回程，10–15 分钟即可</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sec">备选 / 慢充</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>地点</th><th>规格</th><th>时间</th><th>为什么排后面</th></tr></thead>
+        <tbody>
+          <tr><td><b>ルートインコート松本インター</b></td><td class="pw slow">6 kW</td><td>过夜</td><td>最省事 — 一晚充满。但订房时必须预约充电位</td></tr>
+          <tr><td><b>梓川SA（下り 4 口／上り 4 口）</b><br>長野道</td><td class="pw fast">90 kW</td><td>24h</td><td><b>不顺路</b>：位置在松本IC 以北，下山进城和次日回程都要专门绕</td></tr>
+          <tr><td><b>松本市役所 東庁舎 北側</b></td><td class="pw slow">20 kW × 1</td><td>24h</td><td>充电免费但只有 1 台；非开厅时间停车收费。1 小时只够 120 km 左右</td></tr>
+          <tr><td><b>蓼科東急ホテル / 東急タウンセンター</b></td><td class="pw slow">6 kW</td><td>—</td><td>白樺湖周边保险，速度太慢，只能过夜用（タウンセンター 需 TerraCharge App）</td></tr>
+          <tr><td><b>エニタイムフィットネス 諏訪店</b></td><td class="pw slow">6 kW × 2</td><td>24h</td><td><b>原页面误标为 90kW×6 — 实际是普通充电，别去</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sec">要装的 App / 卡</h3>
+    <p class="prose">e-Mobility Power（SA 和日産店都是这套）、エネチェンジ、TerraCharge。あいまりファーム 直接刷信用卡或扫码，不需要 App。<b>没有 eMP 会员卡的话按 visitor 价计费，99 円/分 是 visitor 价</b>；会员价约 27.5 円/分，这趟充 2–3 次的话，值得先算一下月费划不划算。</p>
+  </section>
+
+  <!-- ====================== 清单 ====================== -->
+  <section id="p-ck" role="tabpanel" aria-labelledby="t-ck" hidden>
+    <div class="dayhead">
+      <h2>出发前清单</h2>
+      <p>勾选状态只存在这台设备上 — 山里没信号也能用。</p>
+    </div>
+
+    <h3 class="sec">今晚要打的电话</h3>
+    <ul class="check">
+      <li><label><input type="checkbox" id="c1"><span class="ck">池の平ホテル　<b>0266-68-2100</b><small>确认有无充电桩（两边说法不一致）、停车安排</small></span></label></li>
+      <li><label><input type="checkbox" id="c2"><span class="ck">松本住宿<small>如果订了 ルートインコート — 预约充电位，否则明早白等</small></span></label></li>
+      <li><label><input type="checkbox" id="c3"><span class="ck">車山高原 SKYPARK　<b>0266-68-2723</b><small>缆车是否因大风停运；确认 9:00 始发</small></span></label></li>
+      <li><label><input type="checkbox" id="c4"><span class="ck">あいまりファーム　<b>0120-007-533</b><small>只在打算绕去省钱时才需要 — 确认充电桩是否已修好</small></span></label></li>
+    </ul>
+
+    <h3 class="sec">车上</h3>
+    <ul class="check">
+      <li><label><input type="checkbox" id="c5"><span class="ck">出发前充满电<small>家里 / 附近充到 100%，这决定了第一段能不能一口气到诹访</small></span></label></li>
+      <li><label><input type="checkbox" id="c6"><span class="ck">e-Mobility Power 卡或 App 能用<small>SA 和日産店全靠它</small></span></label></li>
+      <li><label><input type="checkbox" id="c7"><span class="ck">手机架 + Android Auto 线<small>山里信号差，建议先把三天的路线在 Google 地图下成离线地图</small></span></label></li>
+    </ul>
+
+    <h3 class="sec">带上</h3>
+    <ul class="check">
+      <li><label><input type="checkbox" id="c8"><span class="ck">薄羽绒 / 防风外套<small>美ヶ原 2000 m，早上体感 8–12℃ 且风大</small></span></label></li>
+      <li><label><input type="checkbox" id="c9"><span class="ck">好走的鞋<small>八島湿原 3.7 km、王ヶ頭 单程 45–50 分</small></span></label></li>
+      <li><label><input type="checkbox" id="c10"><span class="ck">晕车药<small>和田峠・扉峠 连续发卡弯</small></span></label></li>
+      <li><label><input type="checkbox" id="c11"><span class="ck">雨具<small>9/26 松本・诹访 降水概率都是 80%</small></span></label></li>
+      <li><label><input type="checkbox" id="c12"><span class="ck">零钱<small>八島湿原厕所 100 円</small></span></label></li>
+    </ul>
+  </section>
+
+  <!-- ====================== 核查记录 ====================== -->
+  <section id="p-vf" role="tabpanel" aria-labelledby="t-vf" hidden>
+    <div class="dayhead">
+      <h2>核查记录（2026-09-23）</h2>
+      <p>出发前一晚逐条重查的结果。<span class="tag ok">对</span>＝原样保留，<span class="tag fix">改</span>＝本页已改，<span class="tag watch">盯</span>＝现场／电话确认。</p>
+    </div>
+
+    <h3 class="sec">道路</h3>
+    <ol class="vlog">
+      <li>
+        <h4><span class="tag fix">改</span>通行止め的路名和区间</h4>
+        截至 <b>令和8年9月16日</b> 上田建设事务所在列的封闭是 <b>県道464号 美ヶ原公園西内線・上田市西内 武石峠〜国道254号</b>，理由「落石により通行困難」，全面通行止・当面の間。原行程卡写的「美ヶ原公園沖線（番所ヶ原スキー場⇔武石峠）塌方」是 <b>2024 年 11 月</b>的旧通知，现在已不在县／市的在列名单上。
+        <b>结论不变：这两处本行程都不经过。</b>
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://www.pref.nagano.lg.jp/ueken/doro/joho-02/tsukokisei.html">長野県 上田建設事務所 道路通行規制情報</a>／<a target="_blank" rel="noopener" href="https://www.takeshikanko.com/blog/categories/%E4%BA%A4%E9%80%9A%E6%83%85%E5%A0%B1-1">武石観光協会 交通情報</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>ビーナスライン 主线全通</h4>
+        冬期通行止め已于 <b>2026年4月21日</b> 解除，官网新闻此后无新的封闭公告。道の駅美ヶ原高原 也正常营业（9:00–17:00，11 月中旬随冬期封路休馆）。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://www.venus-line.net/news/">ビーナスライン 新着情報</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>アザレアライン 10/19 起封闭 — 9/25 还开着</h4>
+        松本市与三城いこいの広場 双方公告一致：<b>2026年10月19日起</b>，「三城地区〜扉峠」因挡土墙修缮全天通行止め，直到次年解除冬期封路为止。<b>改</b>：这条是 <b>松本市道／林道よもぎこば線（アザレアライン）</b>，和「県道67号 松本和田線」不是同一条路，本页已改正名称。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://www.city.matsumoto.nagano.jp/soshiki/76/146139.html">松本市 美ケ原高原へのアクセスに関する通行規制情報</a>／<a target="_blank" rel="noopener" href="https://www.sanjiro-camp.com/roadclose2026/">三城いこいの広場 お知らせ（8/29）</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>台上不能开车横穿</h4>
+        山本小屋官网的交通案内也写明，从松本市内经由的路线「自然保護センターより先が通行止」。车只能开到山本小屋／道の駅一侧。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://www.furusatokan.jp/access/">山本小屋ふる里館 交通案内</a></p>
+      </li>
+    </ol>
+
+    <h3 class="sec">天气</h3>
+    <ol class="vlog">
+      <li>
+        <h4><span class="tag fix">改</span>「Day 2 是最好的一天」不成立</h4>
+        tenki.jp（23日22時発表）诹访：<b>9/24 曇のち晴 27/17 降水30%</b>／<b>9/25 曇時々晴 25/16 降水30%</b>／<b>9/26 雨のち曇 19/15 降水80%・10mm</b>。Yahoo!天気 松本（23日20時発表）：<b>9/24 晴 27/20 降水0%</b>／<b>9/25 晴のち曇 28/16 降水10%</b>／<b>9/26 曇時々雨 23/16 降水80%</b>。
+        两家都指向 <b>9/24 最好、9/25 同档偏阴、9/26 下雨</b>。原卡把 9/25 叫「三天里天气最好的一天」，并把 Day 3 松本写成 60%，本页已按最新预报改。<b>如果 25 日早上山上起雾</b>，车山缆车的展望价值会打折，可以把八島湿原提前。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://tenki.jp/forecast/3/23/4820/20206/10days.html">tenki.jp 諏訪市 2週間天気</a>／<a target="_blank" rel="noopener" href="https://weather.yahoo.co.jp/weather/jp/20/4820/20202.html">Yahoo!天気 松本市</a></p>
+      </li>
+    </ol>
+
+    <h3 class="sec">充电</h3>
+    <ol class="vlog">
+      <li>
+        <h4><span class="tag ok">对</span>エニタイムフィットネス諏訪店 ＝ 6kW 普通充电 × 2</h4>
+        确认是 200V/30A・6kW・2 台的普通充电（エネチェンジ），不是 90kW 快充。原页面这一条确实错了。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202061/v26733/">EVsmart エニタイムフィットネス諏訪店</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>諏訪湖SA（下り）90kW × 6 口・99 円/分</h4>
+        6 口分布在 5 基机器上，其中 1 基双车同充，其余 4 基共享 200kW 上限 — 与原卡描述一致。停车免费、24 小时。<b>改</b>：把「20–25 分钟」放宽到 <b>25–30 分钟</b>，因为共享上限下实际功率会低于 90kW。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202045/v26898/">EVsmart 諏訪湖SA 下り線</a></p>
+      </li>
+      <li>
+        <h4><span class="tag watch">盯</span>あいまりファーム 有「故障中」报告</h4>
+        规格核对无误（240kW、44 円/kWh、限充 90%、CHAdeMO 与 NACS 不可同充、刷卡或扫码）。但 EVsmart 上有 <b>约两个月前（7 月）的「故障中」口コミ</b>。当成「省钱的加分项」可以，当成计划里的一环不行 — 要去先打 0120-007-533。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202142/v30885/">EVsmart あいまりファーム いちご園</a>／<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202142/">EVsmart 茅野市一覧</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>車山ビジターセンター 20kW・稼働中</h4>
+        茅野市的充电桩一览里状态为「稼働中」。<b>改</b>：措辞从「快充」改为「中速」，并写清 20kW 一小时大约能补多少 — 免得真出事时高估它。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202142/">EVsmart 茅野市一覧</a></p>
+      </li>
+      <li>
+        <h4><span class="tag fix">改</span>梓川SA 不顺路</h4>
+        梓川SA 在長野道、<b>松本IC 以北</b>。从扉峠或下諏訪进松本市区根本不上長野道；Day 3 回程从松本IC 南下更是反方向。原卡把它列为「下山进松本顺路」的替代，已改为「不顺路」。松本的替代应该是宿泊地过夜慢充。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202029/v1714/">EVsmart 梓川SA 下り線</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>松本日産 90kW × 3 口・24h ／ 双葉SA（上り）90kW × 6 口</h4>
+        松本日産：2 基机器共 3 口，24 小时，eMP／JCN 认证，非日産卡为有料。<b>改</b>：补上地址 <b>松本市高宮北3-6</b>（原页面写「国道19号沿」，与该店地址不符）。双葉SA 上り：90kW×3 基、每基双口＝6 口，与原卡一致。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://evsmart.net/spot/nagano/l202029/v1663/">EVsmart 松本日産自動車 松本店</a>／<a target="_blank" rel="noopener" href="https://evsmart.net/spot/yamanashi/l192104/v24287">EVsmart 双葉SA 上り線</a></p>
+      </li>
+      <li>
+        <h4><span class="tag fix">改</span>Day 1 的距离和到达电量太乐观</h4>
+        藤沢 → 諏訪湖SA 走 圏央道＋中央道 实际约 <b>205–215 km</b>（原卡写 190 km，原页面写 250 km，两个都偏）。SEALION 7 高速实际电耗按 5.5 km/kWh 算，这段约 38 kWh ＝ 46% 电量，<b>满电出发到达约 50–58%</b>，不是 60–65%。结论不变（充一次够），但别拿 60% 当前提去省充电时间。
+      </li>
+    </ol>
+
+    <h3 class="sec">景点与设施</h3>
+    <ol class="vlog">
+      <li>
+        <h4><span class="tag fix">改</span>車山高原 展望リフト 是 9:00 始发</h4>
+        官网绿季（2026/4/24–11/3）通常营业 <b>9:00 起、上行末班 16:00、下行末班 16:30</b>。原行程卡写对了；<b>原页面的「8:30〜16:10」是旧时刻</b>，本页加了一句提醒，免得按旧时间算行程。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://summer.kurumayama-skypark.com/">車山高原SKYPARK RESORT グリーンシーズン</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>松本城大手門駐車場</h4>
+        松本市官方（2025/12/15 更新）：立体 <b>437 台</b>、<b>7:30–22:30</b>、<b>30 分以内每 150 円</b>、回数券 <b>1,500 円／30 分券 11 枚</b>。原卡四项全对。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://www.city.matsumoto.nagano.jp/soshiki/75/5760.html">松本市 松本城大手門駐車場</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>八島湿原 停车约 100 台・免费・厕所 100 円</h4>
+        与原卡一致。<b>改</b>：把「常年开放」改成「24 小时开放」，把「周末上午容易满」改成「旺季白天满车是常态」— 官方页面的说法更强。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://shimosuwaonsen.jp/yashima/access/">八島ビジターセンター アクセス</a></p>
+      </li>
+      <li>
+        <h4><span class="tag fix">改</span>山本小屋的停车台数</h4>
+        原卡写「约 140 台」。实际是 <b>山本小屋前约 100 台</b>＋<b>美ヶ原長和町営駐車場 60 台</b>（另有大巴位），都免费。步行时间核对：山本小屋→美しの塔 约 17–20 分、美しの塔→王ヶ頭 约 27 分，合计 <b>45–50 分</b>，与原卡的「约 50 分」相符。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://tozanguchinavi.com/trailhead/trailhead-4028">登山口ナビ 山本小屋ふる里館</a></p>
+      </li>
+      <li>
+        <h4><span class="tag watch">盯</span>池の平ホテル 的充电桩，说法不一致</h4>
+        原卡写「大概率没有」。实际上 <b>Relux 的设施一览里列了 EV 充电</b>，而 <b>ビーナスライン 官方景点页写「無」</b>。两边矛盾，只能电话确认（0266-68-2100）。不影响计划 — 按无桩设计，有就是赚到。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://rlx.jp/21894/">Relux 白樺リゾート 池の平ホテル</a>／<a target="_blank" rel="noopener" href="https://www.venus-line.net/sightsee/%E7%99%BD%E6%A8%BA%E3%83%AA%E3%82%BE%E3%83%BC%E3%83%88-%E6%B1%A0%E3%81%AE%E5%B9%B3%E3%83%9B%E3%83%86%E3%83%AB/">ビーナスライン 池の平ホテル</a></p>
+      </li>
+      <li>
+        <h4><span class="tag ok">对</span>SEALION 7 的车辆参数</h4>
+        82.56 kWh（ブレードバッテリー・LFP）、CHAdeMO 车侧最大受电 <b>105 kW</b>、WLTC 航续 RWD 590 km／AWD 540 km。与原卡一致。
+        <p class="src">来源：<a target="_blank" rel="noopener" href="https://blog.evsmart.net/ev-news/byd-sealion7-japan-release-8256kwh-large-battery-price-4950000/">EVsmartブログ BYD シーライオン7 日本発売</a></p>
+      </li>
+    </ol>
+
+    <h3 class="sec">没能查实的</h3>
+    <p class="prose">
+      · <b>車山ビジターセンター 的充电费用</b>——只查到规格和「稼働中」，单价没有公开记载，现场看机器。<br>
+      · <b>松本日産 的 visitor 单价</b>——官网只写「他社カードは有料」，金额要现场或 App 里看。<br>
+      · <b>あいまりファーム 现在到底修好没有</b>——只有 7 月的口コミ，无官方公告。<br>
+      · <b>車山高原 展望リフト 的票价</b>——官网是图片格式，机器读不到，现场看。<br>
+      · <b>藤沢→諏訪湖SA 的精确里程</b>——本页的 205–215 km 是按 圏央道 约 50 km ＋ 中央道 八王子IC〜諏訪湖SA 约 148 km ＋ 市内一般道推算的，不是导航实测。
+    </p>
+  </section>
+
+  <footer>
+    <p>核查于 2026-09-23 深夜。来源：長野県上田建設事務所／松本市／武石観光協会 通行規制情報，ビーナスライン 官网，EVsmart 充电桩数据，車山高原SKYPARK・八島ビジターセンター・山本小屋 官网，tenki.jp・Yahoo!天気。<b>山区路况和缆车运行当天可变，以现场路牌和电话确认为准。</b>　·　<a href="../tateshina-ev-2026/">完整版行程页</a>　·　<a href="../">share-pages</a></p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
+
+<script>
+(function(){
+  var KEY='vl2026:';
+  function safeGet(k){try{return localStorage.getItem(KEY+k)}catch(e){return null}}
+  function safeSet(k,v){try{localStorage.setItem(KEY+k,v)}catch(e){}}
+
+  /* ---- tabs ---- */
+  var tabs=Array.prototype.slice.call(document.querySelectorAll('.tabs button'));
+  function show(id){
+    tabs.forEach(function(t){
+      var on=t.id===id;
+      t.setAttribute('aria-selected',on?'true':'false');
+      var p=document.getElementById(t.getAttribute('aria-controls'));
+      if(p) p.hidden=!on;
+    });
+    safeSet('tab',id);
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      show(t.id);
+      window.scrollTo({top:document.querySelector('.tabs').offsetTop-8,behavior:'smooth'});
+    });
+  });
+  var hash=(location.hash||'').replace('#','');
+  var saved=(hash&&document.getElementById('t-'+hash))?('t-'+hash):safeGet('tab');
+  if(saved&&document.getElementById(saved)) show(saved);
+
+  /* ---- toast ---- */
+  var toast=document.getElementById('toast'),tid;
+  function flash(msg){
+    toast.textContent=msg; toast.classList.add('show');
+    clearTimeout(tid); tid=setTimeout(function(){toast.classList.remove('show')},1600);
+  }
+
+  /* ---- copy ---- */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.js-copy'); if(!b) return;
+    var box=b.closest('.navrow').querySelector('.navtarget');
+    var text=box.getAttribute('data-copy')||box.textContent.trim();
+    function select(el){
+      try{
+        var r=document.createRange(); r.selectNodeContents(el);
+        var s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        flash('已选中，长按复制');
+      }catch(err){ flash('请手动复制'); }
+    }
+    function done(){
+      b.textContent='已复制'; b.classList.add('ok'); flash('已复制：'+text);
+      setTimeout(function(){b.textContent='复制'; b.classList.remove('ok')},1600);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done)['catch'](function(){select(box);});
+    } else { select(box); }
+  });
+
+  /* ---- checklist ---- */
+  Array.prototype.forEach.call(document.querySelectorAll('ul.check input'),function(cb){
+    if(safeGet(cb.id)==='1') cb.checked=true;
+    cb.addEventListener('change',function(){ safeSet(cb.id,cb.checked?'1':'0'); });
+  });
+})();
+</script>
+
+</body>
+</html>
