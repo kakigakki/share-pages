@@ -1,0 +1,659 @@
+{
+ "name": "trip_0924-0926",
+ "title": "3 天旅行 vlog",
+ "version": 5,
+ "style": "温馨高级：慢节奏、柔和转场、克制运镜、音乐渐进",
+ "bgm": {
+  "file": "C:/Users/57893/AppData/Local/CapCut/User Data/Cache/music/25ccf866dedf698497a070515427cffb.mp3",
+  "name": "MINI VLOG.",
+  "fadeIn": 2,
+  "fadeOut": 7,
+  "duckRamp": 2
+ },
+ "look": {
+  "push": 0.04,
+  "pan": 0.03,
+  "panScale": 1.06,
+  "clipAudioFade": 0.8
+ },
+ "titles": {
+  "corner": "top-left",
+  "size": 7,
+  "margin": 0.1,
+  "animDur": 0.8
+ },
+ "anchors": {
+  "A0": 0,
+  "A1": 14.28,
+  "A2": 52.94,
+  "A3": 62.81,
+  "A4": 83.7,
+  "END": 209.8,
+  "A5": 97.15,
+  "B1": 124.6,
+  "B2": 148.6,
+  "C0": 158.8,
+  "C1": 182.5,
+  "C2": 201.9
+ },
+ "acts": [
+  {
+   "id": "冷开场：隧道里",
+   "from": "A0",
+   "to": "A1",
+   "shots": [
+    {
+     "clip": "DJI_20260924090325_0003_D.MP4",
+     "in": 330,
+     "w": 7,
+     "move": "push",
+     "vol": 0.3,
+     "intro": "fade-in"
+    },
+    {
+     "clip": "DJI_20260924090325_0003_D.MP4",
+     "out": 511,
+     "w": 7.3,
+     "move": "push",
+     "vol": 0.3
+    }
+   ]
+  },
+  {
+   "id": "出隧道，一路往山里",
+   "from": "A1",
+   "to": "A2",
+   "shots": [
+    {
+     "clip": "DJI_20260924090325_0003_D.MP4",
+     "in": 511,
+     "w": 4.5,
+     "move": "pull",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260924092606_0004_D.MP4",
+     "in": 58,
+     "w": 4,
+     "speed": 1.5,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260924092606_0004_D.MP4",
+     "in": 848,
+     "w": 4.5,
+     "speed": 1.5,
+     "move": "panL"
+    },
+    {
+     "clip": "DJI_20260924092606_0004_D.MP4",
+     "in": 1874,
+     "w": 3.5,
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1.2
+     }
+    },
+    {
+     "clip": "DJI_20260924122902_0005_D.MP4",
+     "in": 3,
+     "w": 5,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260924122902_0005_D.MP4",
+     "in": 25.8,
+     "w": 4,
+     "move": "panR",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260924123620_0006_D.MP4",
+     "in": 6,
+     "w": 4.5,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260924123620_0006_D.MP4",
+     "in": 54,
+     "w": 4.5,
+     "move": "panL",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260924123620_0006_D.MP4",
+     "in": 114,
+     "w": 4.5,
+     "move": "push",
+     "transition": {
+      "name": "Black Fade",
+      "dur": 1.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "先吃口甜的",
+   "from": "A2",
+   "to": "A3",
+   "shots": [
+    {
+     "clip": "DJI_20260924125650_0007_D.MP4",
+     "in": 1,
+     "w": 4.5,
+     "move": "push",
+     "blurBg": 3,
+     "vol": 0.35
+    },
+    {
+     "clip": "DJI_20260924125943_0008_D.MP4",
+     "in": 1.5,
+     "w": 5.5,
+     "move": "push",
+     "blurBg": 3,
+     "vol": 0.45
+    }
+   ]
+  },
+  {
+   "id": "好吃到捂嘴 → 去森林",
+   "from": "A3",
+   "to": "A4",
+   "shots": [
+    {
+     "clip": "DJI_20260924125943_0008_D.MP4",
+     "in": 10.8,
+     "w": 3,
+     "blurBg": 3,
+     "vol": 0.8,
+     "duck": 0.6
+    },
+    {
+     "clip": "DJI_20260924125943_0008_D.MP4",
+     "in": 16.3,
+     "w": 3.2,
+     "blurBg": 3,
+     "vol": 0.8,
+     "duck": 0.6,
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260924131436_0009_D.MP4",
+     "in": 1.5,
+     "w": 4.5,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260924131436_0009_D.MP4",
+     "in": 65,
+     "w": 4.5,
+     "move": "pull"
+    },
+    {
+     "clip": "DJI_20260924131748_0010_D.MP4",
+     "in": 14,
+     "w": 4,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260924131436_0009_D.MP4",
+     "out": 103.25,
+     "w": 2.6,
+     "transition": {
+      "name": "转场-模糊",
+      "dur": 0.8
+     }
+    }
+   ]
+  },
+  {
+   "id": "听一会儿溪水",
+   "from": "A4",
+   "to": "A5",
+   "shots": [
+    {
+     "clip": "DJI_20260924132925_0011_D.MP4",
+     "in": 0.5,
+     "w": 5,
+     "move": "push",
+     "vol": 0.7,
+     "duck": 0.6,
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1.2
+     }
+    },
+    {
+     "clip": "DJI_20260924131436_0009_D.MP4",
+     "in": 86,
+     "w": 4,
+     "move": "panL",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1.2
+     }
+    },
+    {
+     "clip": "DJI_20260924132925_0011_D.MP4",
+     "in": 6,
+     "w": 5,
+     "move": "pull",
+     "vol": 0.6,
+     "duck": 0.6,
+     "transition": {
+      "name": "Black Fade",
+      "dur": 1.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "DAY2 早上出发，坐缆车上山",
+   "from": "A5",
+   "to": "B1",
+   "shots": [
+    {
+     "clip": "DJI_20260925072607_0013_D.MP4",
+     "in": 0,
+     "w": 4,
+     "move": "push",
+     "vol": 0.3
+    },
+    {
+     "clip": "DJI_20260925075228_0015_D.MP4",
+     "in": 32,
+     "w": 4.5,
+     "move": "panR",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260925090923_0018_D.MP4",
+     "in": 60,
+     "w": 4,
+     "vol": 0.4
+    },
+    {
+     "clip": "DJI_20260925092331_0019_D.MP4",
+     "in": 4,
+     "w": 5,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260925092331_0019_D.MP4",
+     "in": 56,
+     "w": 4,
+     "move": "panL",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260925093444_0020_D.MP4",
+     "in": 0,
+     "w": 5.5,
+     "move": "push"
+    }
+   ]
+  },
+  {
+   "id": "DAY2 山顶",
+   "from": "B1",
+   "to": "B2",
+   "shots": [
+    {
+     "clip": "DJI_20260925093444_0020_D.MP4",
+     "in": 136,
+     "w": 4.5,
+     "move": "pull"
+    },
+    {
+     "clip": "DJI_20260925094930_0022_D.MP4",
+     "in": 52,
+     "w": 4.5,
+     "move": "push",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260925095223_0024_D.MP4",
+     "in": 10,
+     "w": 4.5,
+     "speed": 2,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260925095908_0026_D.MP4",
+     "in": 2,
+     "w": 4,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260925095908_0026_D.MP4",
+     "in": 26,
+     "w": 5,
+     "move": "push"
+    },
+    {
+     "clip": "DJI_20260925100715_0029_D.MP4",
+     "in": 30,
+     "w": 3.5,
+     "speed": 6,
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260925101110_0030_D.MP4",
+     "in": 2,
+     "w": 4.5,
+     "move": "push",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "DAY2 坐一会儿",
+   "from": "B2",
+   "to": "C0",
+   "shots": [
+    {
+     "clip": "DJI_20260925100244_0027_D.MP4",
+     "in": 12,
+     "w": 5,
+     "move": "push",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1.2
+     }
+    },
+    {
+     "clip": "DJI_20260925112157_0033_D.MP4",
+     "in": 48,
+     "w": 5.2,
+     "move": "panR",
+     "transition": {
+      "name": "Black Fade",
+      "dur": 1.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "DAY3 雨天绕城",
+   "from": "C0",
+   "to": "C1",
+   "shots": [
+    {
+     "clip": "DJI_20260926091400_0044_D.MP4",
+     "in": 96,
+     "w": 5,
+     "move": "push",
+     "vol": 0.4
+    },
+    {
+     "clip": "DJI_20260926091400_0044_D.MP4",
+     "in": 136,
+     "w": 5,
+     "move": "push",
+     "vol": 0.3,
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260926091922_0045_D.MP4",
+     "in": 0,
+     "w": 6,
+     "move": "pull",
+     "vol": 0.3
+    },
+    {
+     "clip": "DJI_20260926091922_0045_D.MP4",
+     "in": 100,
+     "w": 4.5,
+     "move": "panL",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260926092744_0046_D.MP4",
+     "in": 0,
+     "w": 3.2,
+     "move": "push"
+    }
+   ]
+  },
+  {
+   "id": "DAY3 老街",
+   "from": "C1",
+   "to": "C2",
+   "shots": [
+    {
+     "clip": "DJI_20260926095357_0047_D.MP4",
+     "in": 135,
+     "w": 3.5,
+     "move": "push",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 0.8
+     }
+    },
+    {
+     "clip": "DJI_20260926095853_0048_D.MP4",
+     "in": 0,
+     "w": 4,
+     "move": "push",
+     "vol": 0.6,
+     "duck": 0.6
+    },
+    {
+     "clip": "DJI_20260926095955_0049_D.MP4",
+     "in": 4,
+     "w": 4,
+     "move": "push",
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1
+     }
+    },
+    {
+     "clip": "DJI_20260926100246_0050_D.MP4",
+     "in": 2,
+     "w": 4.5,
+     "rotation": 90,
+     "scale": 0.75,
+     "blurBg": 3,
+     "vol": 0.4,
+     "duck": 0.7
+    },
+    {
+     "clip": "DJI_20260926101941_0052_D.MP4",
+     "in": 0,
+     "w": 3.5,
+     "move": "panR"
+    },
+    {
+     "clip": "DJI_20260926102552_0053_D.MP4",
+     "in": 136,
+     "w": 4.5,
+     "vol": 0.4,
+     "transition": {
+      "name": "Dissolve",
+      "dur": 1.2
+     }
+    }
+   ]
+  },
+  {
+   "id": "结尾：走远",
+   "from": "C2",
+   "to": "END",
+   "shots": [
+    {
+     "clip": "DJI_20260926092744_0046_D.MP4",
+     "in": 36,
+     "w": 1,
+     "move": "pull",
+     "vol": 0.4,
+     "outro": "fade-out"
+    }
+   ]
+  }
+ ],
+ "texts": [
+  {
+   "text": "DAY 1",
+   "at": 1.5,
+   "dur": 4,
+   "size": 9,
+   "in": "typewriter",
+   "out": "fade-out"
+  },
+  {
+   "text": "出发，往山里开",
+   "at": "A1+0.8",
+   "dur": 3.5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "窗外一下子开阔了",
+   "at": "shot:出隧道，一路往山里#5+0.8",
+   "dur": 3.5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "先吃口甜的",
+   "at": "A2+1.0",
+   "dur": 3.5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "去森林里走走",
+   "at": "shot:好吃到捂嘴 → 去森林#3+0.8",
+   "dur": 3.5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "听一会儿溪水",
+   "at": "A4+1.2",
+   "dur": 3.5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "DAY 2",
+   "at": "A5+1.0",
+   "dur": 4,
+   "size": 9,
+   "in": "typewriter",
+   "out": "fade-out"
+  },
+  {
+   "text": "坐缆车，往云里去",
+   "at": "shot:DAY2 早上出发，坐缆车上山#3+0.6",
+   "dur": 3.5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "走在山的脊背上",
+   "at": "shot:DAY2 早上出发，坐缆车上山#6+0.6",
+   "dur": 3.5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "到山顶了，风很大",
+   "at": "shot:DAY2 山顶#2+0.6",
+   "dur": 3,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "坐一会儿，什么都不做",
+   "at": "B2+0.8",
+   "dur": 3.8,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "DAY 3",
+   "at": "C0+1.0",
+   "dur": 4,
+   "size": 9,
+   "in": "typewriter",
+   "out": "fade-out"
+  },
+  {
+   "text": "最后一天，下雨也要出门走走",
+   "at": "shot:DAY3 雨天绕城#2+0.6",
+   "dur": 3.8,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "在老街里东看看西看看",
+   "at": "C1+0.8",
+   "dur": 3.5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "边吃边聊",
+   "at": "shot:DAY3 老街#6+0.6",
+   "dur": 2.8,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "旅行就到这里啦",
+   "at": "C2+1.0",
+   "dur": 5,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "在山顶拜一拜",
+   "at": "shot:DAY2 山顶#3+1.4",
+   "dur": 3,
+   "in": "fade-in",
+   "out": "fade-out"
+  },
+  {
+   "text": "进神社拜一拜",
+   "at": "shot:DAY3 老街#4+0.6",
+   "dur": 3,
+   "in": "fade-in",
+   "out": "fade-out"
+  }
+ ]
+}
