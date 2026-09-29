@@ -532,42 +532,42 @@
    "dur": 4,
    "size": 9,
    "in": "typewriter",
-   "out": "fade-out"
+   "out": "blur"
   },
   {
    "text": "出发，往山里开",
    "at": "A1+0.8",
    "dur": 3.5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "窗外一下子开阔了",
    "at": "shot:出隧道，一路往山里#5+0.8",
    "dur": 3.5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "先吃口甜的",
    "at": "A2+1.0",
    "dur": 3.5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "去森林里走走",
    "at": "shot:好吃到捂嘴 → 去森林#3+0.8",
    "dur": 3.5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "听一会儿溪水",
    "at": "A4+1.2",
    "dur": 3.5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "DAY 2",
@@ -575,35 +575,35 @@
    "dur": 4,
    "size": 9,
    "in": "typewriter",
-   "out": "fade-out"
+   "out": "blur"
   },
   {
    "text": "坐缆车，往云里去",
    "at": "shot:DAY2 早上出发，坐缆车上山#3+0.6",
    "dur": 3.5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "走在山的脊背上",
    "at": "shot:DAY2 早上出发，坐缆车上山#6+0.6",
    "dur": 3.5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "到山顶了，风很大",
    "at": "shot:DAY2 山顶#2+0.6",
    "dur": 3,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "坐一会儿，什么都不做",
    "at": "B2+0.8",
    "dur": 3.8,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "DAY 3",
@@ -611,49 +611,49 @@
    "dur": 4,
    "size": 9,
    "in": "typewriter",
-   "out": "fade-out"
+   "out": "blur"
   },
   {
    "text": "最后一天，下雨也要出门走走",
    "at": "shot:DAY3 雨天绕城#2+0.6",
    "dur": 3.8,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "在老街里东看看西看看",
    "at": "C1+0.8",
    "dur": 3.5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "边吃边聊",
    "at": "shot:DAY3 老街#6+0.6",
    "dur": 2.8,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "旅行就到这里啦",
    "at": "C2+1.0",
    "dur": 5,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "在山顶拜一拜",
    "at": "shot:DAY2 山顶#3+1.4",
    "dur": 3,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   },
   {
    "text": "进神社拜一拜",
    "at": "shot:DAY3 老街#4+0.6",
    "dur": 3,
-   "in": "fade-in",
-   "out": "fade-out"
+   "in": "blur",
+   "out": "blur"
   }
  ]
 }

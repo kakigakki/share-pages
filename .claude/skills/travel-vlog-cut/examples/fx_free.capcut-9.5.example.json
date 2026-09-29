@@ -1,0 +1,2150 @@
+{
+ "checked_at": "2026-09-29T12:53:08.363Z",
+ "capcut_block_time": "2026-09-29T12:52:29.866Z",
+ "free": {
+  "video_intro": [
+   {
+    "slug": "fade-in",
+    "name": "Fade In",
+    "resource_id": "6798320778182922760",
+    "effect_id": "6798320778182922760"
+   },
+   {
+    "slug": "rotation-opening",
+    "name": "Rotation Opening",
+    "resource_id": "7197354677820723714",
+    "effect_id": "7197354677820723714"
+   },
+   {
+    "slug": "retro-fadein-2",
+    "name": "Retro Fade-in 2",
+    "resource_id": "7473710409103446545",
+    "effect_id": "7473710409103446545"
+   },
+   {
+    "slug": "retro-fadein",
+    "name": "Retro Fade-in",
+    "resource_id": "7473710410428846608",
+    "effect_id": "7473710410428846608"
+   },
+   {
+    "slug": "screen-wipe",
+    "name": "Screen Wipe",
+    "resource_id": "7450390477871780353",
+    "effect_id": "7450390477871780353"
+   },
+   {
+    "slug": "zoom-out",
+    "name": "Zoom Out",
+    "resource_id": "6798332584276267527",
+    "effect_id": "6798332584276267527"
+   },
+   {
+    "slug": "crt-bands",
+    "name": "CRT Bands",
+    "resource_id": "7473710408977617424",
+    "effect_id": "7473710408977617424"
+   },
+   {
+    "slug": "rock-horizontally",
+    "name": "Rock Horizontally",
+    "resource_id": "6739418540421419524",
+    "effect_id": "6739418540421419524"
+   },
+   {
+    "slug": "shake-1",
+    "name": "Shake 1",
+    "resource_id": "6739418227031413256",
+    "effect_id": "6739418227031413256"
+   },
+   {
+    "slug": "spin-up-2",
+    "name": "Spin Up 2",
+    "resource_id": "6818747060649464327",
+    "effect_id": "6818747060649464327"
+   },
+   {
+    "slug": "whirl",
+    "name": "Whirl",
+    "resource_id": "6782010677520241165",
+    "effect_id": "6782010677520241165"
+   },
+   {
+    "slug": "mini-zoom",
+    "name": "Mini Zoom",
+    "resource_id": "6800268825611735559",
+    "effect_id": "6800268825611735559"
+   },
+   {
+    "slug": "spin-up-1",
+    "name": "Spin Up 1",
+    "resource_id": "6808401616564130312",
+    "effect_id": "6808401616564130312"
+   },
+   {
+    "slug": "swing-bottom",
+    "name": "Swing Bottom",
+    "resource_id": "6739338374441603598",
+    "effect_id": "6739338374441603598"
+   },
+   {
+    "slug": "swing-right",
+    "name": "Swing Right",
+    "resource_id": "6739338727866241539",
+    "effect_id": "6739338727866241539"
+   },
+   {
+    "slug": "flip",
+    "name": "Flip",
+    "resource_id": "6797338697625768455",
+    "effect_id": "6797338697625768455"
+   },
+   {
+    "slug": "blinds",
+    "name": "Blinds",
+    "resource_id": "6782101071402635790",
+    "effect_id": "6782101071402635790"
+   },
+   {
+    "slug": "swing-bottom-right",
+    "name": "Swing Bottom Right",
+    "resource_id": "6739395718223499787",
+    "effect_id": "6739395718223499787"
+   },
+   {
+    "slug": "puzzle",
+    "name": "Puzzle",
+    "resource_id": "6778300107113632269",
+    "effect_id": "6778300107113632269"
+   },
+   {
+    "slug": "shake-down",
+    "name": "Shake Down",
+    "resource_id": "6995802540361126402",
+    "effect_id": "6995802540361126402"
+   },
+   {
+    "slug": "swing",
+    "name": "Swing",
+    "resource_id": "6803260897117606414",
+    "effect_id": "6803260897117606414"
+   },
+   {
+    "slug": "wiper",
+    "name": "Wiper",
+    "resource_id": "6802871256849846791",
+    "effect_id": "6802871256849846791"
+   },
+   {
+    "slug": "roll-right",
+    "name": "Roll Right",
+    "resource_id": "6805019065761927694",
+    "effect_id": "6805019065761927694"
+   },
+   {
+    "slug": "spin-left",
+    "name": "Spin Left",
+    "resource_id": "6816560956647150093",
+    "effect_id": "6816560956647150093"
+   }
+  ],
+  "video_outro": [
+   {
+    "slug": "fade-out",
+    "name": "Fade Out",
+    "resource_id": "6798320902548230669",
+    "effect_id": "6798320902548230669"
+   },
+   {
+    "slug": "rgb-scanlines",
+    "name": "RGB Scanlines",
+    "resource_id": "7480796062245014790",
+    "effect_id": "7480796062245014790"
+   },
+   {
+    "slug": "blurred-fadein",
+    "name": "Blurred Fade-in",
+    "resource_id": "7473710407329255953",
+    "effect_id": "7473710407329255953"
+   },
+   {
+    "slug": "slide-up",
+    "name": "Slide Up",
+    "resource_id": "6798333612958683656",
+    "effect_id": "6798333612958683656"
+   },
+   {
+    "slug": "slide-right",
+    "name": "Slide Right",
+    "resource_id": "6798333350487527950",
+    "effect_id": "6798333350487527950"
+   },
+   {
+    "slug": "blurred-fadein-1",
+    "name": "Blurred Fade-in",
+    "resource_id": "7473710410407875073",
+    "effect_id": "7473710410407875073"
+   },
+   {
+    "slug": "screen-wipe",
+    "name": "Screen Wipe",
+    "resource_id": "7450390477863408129",
+    "effect_id": "7450390477863408129"
+   },
+   {
+    "slug": "rotation-closing",
+    "name": "Rotation Closing",
+    "resource_id": "7197354764579901953",
+    "effect_id": "7197354764579901953"
+   },
+   {
+    "slug": "rotate",
+    "name": "Rotate",
+    "resource_id": "6798334141323547143",
+    "effect_id": "6798334141323547143"
+   },
+   {
+    "slug": "zoom-out",
+    "name": "Zoom Out",
+    "resource_id": "6798332648814023181",
+    "effect_id": "6798332648814023181"
+   },
+   {
+    "slug": "rotate-out-1",
+    "name": "Rotate Out 1",
+    "resource_id": "6818747115934585357",
+    "effect_id": "6818747115934585357"
+   },
+   {
+    "slug": "whirl",
+    "name": "Whirl",
+    "resource_id": "6778418947361346061",
+    "effect_id": "6778418947361346061"
+   },
+   {
+    "slug": "vibrating-panels",
+    "name": "Vibrating Panels",
+    "resource_id": "7473710409195721233",
+    "effect_id": "7473710409195721233"
+   },
+   {
+    "slug": "rotate-out-2",
+    "name": "Rotate Out 2",
+    "resource_id": "6818747169017696781",
+    "effect_id": "6818747169017696781"
+   },
+   {
+    "slug": "flip",
+    "name": "Flip",
+    "resource_id": "6738353628215513613",
+    "effect_id": "6738353628215513613"
+   }
+  ],
+  "transition": [
+   {
+    "slug": "montage-snippets",
+    "name": "Montage Snippets",
+    "resource_id": "7481553072678784311",
+    "effect_id": "460B9343-B792-4c38-B6F5-6886C031B8D2"
+   },
+   {
+    "slug": "mix",
+    "name": "Mix",
+    "resource_id": "6724845717472416269",
+    "effect_id": "CE454E9E-9C57-43c5-9E80-B46A6A495D10"
+   },
+   {
+    "slug": "mix-1",
+    "name": "Mix",
+    "resource_id": "6943605272933831169",
+    "effect_id": "2C1C4FD5-A421-43a1-8A0B-3A7AF421761F"
+   },
+   {
+    "slug": "mix-2",
+    "name": "Mix",
+    "resource_id": "6943605272933831169",
+    "effect_id": "3C343329-8D98-4429-A849-52F6567233DF"
+   },
+   {
+    "slug": "black-fade",
+    "name": "Black Fade",
+    "resource_id": "6724239388189921806",
+    "effect_id": "7CBE3442-7B48-4a73-9391-C74FB7580D30"
+   },
+   {
+    "slug": "then-and-now",
+    "name": "Then and Now",
+    "resource_id": "7012818976015127041",
+    "effect_id": "8811269D-67E1-4783-9E1C-14F27DE06021"
+   },
+   {
+    "slug": "white-flash",
+    "name": "White Flash",
+    "resource_id": "6724845376098013708",
+    "effect_id": "B5F63066-4B98-4c8a-B4AD-1398E1D313F2"
+   },
+   {
+    "slug": "dissolve",
+    "name": "Dissolve",
+    "resource_id": "6724846004274729480",
+    "effect_id": "392FD26E-A514-4d0f-8950-EA4A20CB407C"
+   },
+   {
+    "slug": "dissolve-1",
+    "name": "Dissolve",
+    "resource_id": "6724846004274729480",
+    "effect_id": "5B2D1EF0-E00B-43b5-8762-E85B5CC851A2"
+   },
+   {
+    "slug": "gradient-wipe",
+    "name": "Gradient Wipe",
+    "resource_id": "6923134021744464386",
+    "effect_id": "DDA0714D-730D-499d-AED1-05BA6455ED35"
+   },
+   {
+    "slug": "dissolve-ii",
+    "name": "Dissolve II",
+    "resource_id": "6724866927933526542",
+    "effect_id": "85592C7A-A74A-49fe-9ECD-8BD4707346D2"
+   },
+   {
+    "slug": "dissolve-iii",
+    "name": "Dissolve III",
+    "resource_id": "6724867032312975875",
+    "effect_id": "A020BA55-B7F4-4502-9BD4-AD0771812BD5"
+   },
+   {
+    "slug": "black-smoke",
+    "name": "Black smoke",
+    "resource_id": "6886275127743353346",
+    "effect_id": "90218FDB-E10B-4bb5-86B8-3E35CB4F14C1"
+   },
+   {
+    "slug": "white-smoke",
+    "name": "White smoke",
+    "resource_id": "6886274983962612226",
+    "effect_id": "ED48A507-B76C-409f-AF58-A0F6A79B1305"
+   },
+   {
+    "slug": "bw-flash",
+    "name": "B&W Flash",
+    "resource_id": "7481552579042774278",
+    "effect_id": "18AE2008-538B-40ca-8B3D-17B651213554"
+   },
+   {
+    "slug": "rainbow-warp",
+    "name": "Rainbow Warp",
+    "resource_id": "7480764852131155206",
+    "effect_id": "B69CCBDA-E788-41b7-9889-7085C31B5588"
+   },
+   {
+    "slug": "rgb-glitch",
+    "name": "RGB Glitch",
+    "resource_id": "7480389949041200390",
+    "effect_id": "7C44F868-52C9-4b15-9F96-E7316A9A3DE9"
+   },
+   {
+    "slug": "rainbow-filter",
+    "name": "Rainbow Filter",
+    "resource_id": "7480387198152379653",
+    "effect_id": "44E6A5E7-DA3D-4e95-BF5C-EB2078B68F03"
+   },
+   {
+    "slug": "urban-glitch",
+    "name": "Urban Glitch",
+    "resource_id": "7480387121325395255",
+    "effect_id": "CC8C88B9-DA60-46e1-AEFF-5907CE1FA557"
+   },
+   {
+    "slug": "camera-glow",
+    "name": "Camera Glow",
+    "resource_id": "7480386884728917254",
+    "effect_id": "EDA25C90-4EC3-43b5-B35A-02C253AACAB5"
+   },
+   {
+    "slug": "white-flash-1",
+    "name": "White Flash",
+    "resource_id": "7345079500327096833",
+    "effect_id": "91A17180-5C82-4807-9E1F-0F08CB68B16B"
+   },
+   {
+    "slug": "light-sweep-ii",
+    "name": "Light Sweep II",
+    "resource_id": "7224393850444321282",
+    "effect_id": "6A6EEB83-F8ED-4c18-8628-22F9276DF3DD"
+   },
+   {
+    "slug": "flash",
+    "name": "Flash",
+    "resource_id": "6987208055511323137",
+    "effect_id": "15F94905-7A39-4789-8285-92188260756B"
+   },
+   {
+    "slug": "light-beam",
+    "name": "Light Beam",
+    "resource_id": "6983988935890309634",
+    "effect_id": "6C2B6DA1-DDD0-4a27-9D87-15857C68B656"
+   },
+   {
+    "slug": "burn",
+    "name": "Burn",
+    "resource_id": "7091576396731912705",
+    "effect_id": "5F342C77-D6E5-4f9c-8B28-3236EA47CE38"
+   },
+   {
+    "slug": "blanch",
+    "name": "Blanch",
+    "resource_id": "6952697453275517442",
+    "effect_id": "3402A62F-694A-4844-97A1-01A1EBE672E6"
+   },
+   {
+    "slug": "fold-over",
+    "name": "Fold Over",
+    "resource_id": "7397628078492488209",
+    "effect_id": "B3084812-C914-4873-8E1F-C9C4AFFEE9F4"
+   },
+   {
+    "slug": "bottom-left-ii",
+    "name": "Bottom Left II",
+    "resource_id": "7291513615989871105",
+    "effect_id": "ED60780D-C6B9-4619-AFA3-4F1475D6D83A"
+   },
+   {
+    "slug": "vertical-blur-ii",
+    "name": "Vertical Blur II",
+    "resource_id": "7291574063514784257",
+    "effect_id": "27D567C6-A093-463a-A72F-1CDDAB2E2209"
+   },
+   {
+    "slug": "fold-over-1",
+    "name": "Fold Over",
+    "resource_id": "7397628078492488209",
+    "effect_id": "028BE63C-E232-49b9-AC89-7D52AD42B4D7"
+   },
+   {
+    "slug": "bottom-left-ii-1",
+    "name": "Bottom Left II",
+    "resource_id": "7291513615989871105",
+    "effect_id": "9CD97556-1602-497c-A22B-38F21A66853A"
+   },
+   {
+    "slug": "inhale",
+    "name": "Inhale",
+    "resource_id": "7259950322024452610",
+    "effect_id": "A319AE0A-56B0-418b-AF76-454BF6F87A13"
+   },
+   {
+    "slug": "shake-3",
+    "name": "Shake 3",
+    "resource_id": "7252670515926536705",
+    "effect_id": "33EED074-6860-488a-9C94-D5B8F07C1CA6"
+   },
+   {
+    "slug": "rotate-cw-ii",
+    "name": "Rotate CW II",
+    "resource_id": "7252989706198061569",
+    "effect_id": "7FDC0CB7-1EF6-4625-95E0-115626185F87"
+   },
+   {
+    "slug": "rotate-ccw-ii",
+    "name": "Rotate CCW II",
+    "resource_id": "7252989957319430658",
+    "effect_id": "B64D4180-9B0E-4b25-8602-4397D00557D6"
+   },
+   {
+    "slug": "pull-in",
+    "name": "Pull in",
+    "resource_id": "6724226861666144779",
+    "effect_id": "E27206B3-FFA0-4ea4-B6E7-44350CED4574"
+   },
+   {
+    "slug": "pull-out",
+    "name": "Pull Out",
+    "resource_id": "6724226338418332167",
+    "effect_id": "39411271-04D8-40f1-9DF9-1E0A7DA5CF64"
+   },
+   {
+    "slug": "cw-swirl",
+    "name": "CW Swirl",
+    "resource_id": "6941282502480761346",
+    "effect_id": "E5BF0039-EC93-4529-8D4C-6922E16246B4"
+   },
+   {
+    "slug": "right",
+    "name": "Right",
+    "resource_id": "6724227599616184836",
+    "effect_id": "C3D52822-B616-4e73-9588-AAED851B6CF9"
+   },
+   {
+    "slug": "anti-cw-swirl",
+    "name": "Anti-CW Swirl",
+    "resource_id": "6941282383836484098",
+    "effect_id": "B3E4C41E-A7F3-4463-8A7B-35D5CB32AB50"
+   },
+   {
+    "slug": "transform-shimmer",
+    "name": "Transform Shimmer",
+    "resource_id": "7452646287318454785",
+    "effect_id": "0CEA0FD6-E103-4982-8583-6C2087AB14DF"
+   },
+   {
+    "slug": "twinkle-zoom",
+    "name": "Twinkle Zoom",
+    "resource_id": "7452646287326843393",
+    "effect_id": "15C1A448-AB09-4867-8A9A-DDDD11A5AB27"
+   },
+   {
+    "slug": "horizontal-blur",
+    "name": "Horizontal Blur",
+    "resource_id": "7451535587812594193",
+    "effect_id": "63C1D344-D734-4945-A2D8-867AE7559ABC"
+   },
+   {
+    "slug": "horizontal-blur-1",
+    "name": "Horizontal Blur",
+    "resource_id": "7451535587812594193",
+    "effect_id": "1F8B47C7-9873-4a99-8005-CDCD3BB92475"
+   },
+   {
+    "slug": "horizontal-blur-2",
+    "name": "Horizontal Blur",
+    "resource_id": "7451535587812594193",
+    "effect_id": "BCC3D324-3D51-45bd-9887-5951024C6AF3"
+   },
+   {
+    "slug": "radial-blur",
+    "name": "Radial Blur",
+    "resource_id": "7215489792597824001",
+    "effect_id": "53E34B82-8CA8-483f-BBE9-EB36EFD0EE1B"
+   },
+   {
+    "slug": "blurred-highlight",
+    "name": "Blurred Highlight",
+    "resource_id": "7134999483762348545",
+    "effect_id": "A1C6E234-BAE9-4de6-B659-528933BABFE2"
+   },
+   {
+    "slug": "vertical-blur",
+    "name": "Vertical Blur",
+    "resource_id": "7140916992118100482",
+    "effect_id": "6A89818E-BB6F-4246-AE07-8AFE7313E55D"
+   },
+   {
+    "slug": "blur",
+    "name": "Blur",
+    "resource_id": "6916426617455645186",
+    "effect_id": "C5F81057-B249-4f1c-9F80-050CE6C2B25C"
+   },
+   {
+    "slug": "woosh",
+    "name": "Woosh",
+    "resource_id": "6724239584663704071",
+    "effect_id": "CD580815-D706-4c17-8DA1-D31CDD568A44"
+   },
+   {
+    "slug": "particles",
+    "name": "Particles",
+    "resource_id": "6873386344463208961",
+    "effect_id": "57FF7625-725F-42e5-B38B-46891069A35E"
+   },
+   {
+    "slug": "mosaic",
+    "name": "Mosaic",
+    "resource_id": "6724866519022440967",
+    "effect_id": "D3BFC8FC-0F55-4ff6-9424-BCE5740E4D2B"
+   },
+   {
+    "slug": "blink",
+    "name": "Blink",
+    "resource_id": "6864867302936941064",
+    "effect_id": "B57A7648-AE5E-420a-8072-1076AF79C58D"
+   },
+   {
+    "slug": "flip-ii",
+    "name": "Flip II",
+    "resource_id": "7049556888014295553",
+    "effect_id": "38215832-385B-4135-A874-7208224A0552"
+   },
+   {
+    "slug": "flip",
+    "name": "Flip",
+    "resource_id": "6848792278710882824",
+    "effect_id": "280B7887-CD12-466f-B32C-D3595AC99805"
+   },
+   {
+    "slug": "left",
+    "name": "Left",
+    "resource_id": "6726711499676455435",
+    "effect_id": "9CA0C177-8A1D-410c-9D37-7F6606CD5BB5"
+   },
+   {
+    "slug": "up",
+    "name": "Up",
+    "resource_id": "6724846395116753416",
+    "effect_id": "19845B95-29A4-46a4-9E8D-9863FBA84E01"
+   },
+   {
+    "slug": "wipe-right",
+    "name": "Wipe Right",
+    "resource_id": "6724849898857959950",
+    "effect_id": "0CF8046E-31BD-4b4e-94D0-13050511EE07"
+   },
+   {
+    "slug": "open-horizontally",
+    "name": "Open Horizontally",
+    "resource_id": "6724492948144132621",
+    "effect_id": "9A3770E3-2F40-479e-A344-09D9D7378362"
+   },
+   {
+    "slug": "right-1",
+    "name": "Right",
+    "resource_id": "6726711296063967748",
+    "effect_id": "C10E8EAA-41F8-49c4-86CE-BB4D65449A2C"
+   },
+   {
+    "slug": "slide",
+    "name": "Slide",
+    "resource_id": "6757982416649851399",
+    "effect_id": "AF0D3666-48D3-4ff0-B836-EB93B174A74A"
+   },
+   {
+    "slug": "slide-1",
+    "name": "Slide",
+    "resource_id": "6757982416649851399",
+    "effect_id": "D3AA4635-FE90-48d7-9B0D-FD6C7E42939A"
+   },
+   {
+    "slug": "wipe-up",
+    "name": "Wipe Up",
+    "resource_id": "6724849456891564557",
+    "effect_id": "07E81171-A3FE-42e7-B4CD-E44CC367D61D"
+   },
+   {
+    "slug": "wipe-left",
+    "name": "Wipe Left",
+    "resource_id": "6724849999336706573",
+    "effect_id": "954E4D5A-40DF-4b87-B4AA-F68DBA2657FA"
+   },
+   {
+    "slug": "wipe-left-1",
+    "name": "Wipe Left",
+    "resource_id": "6724849999336706573",
+    "effect_id": "592F8AA3-394C-4d61-908D-F3C09503CAFD"
+   },
+   {
+    "slug": "open-vertically",
+    "name": "Open Vertically",
+    "resource_id": "6726711903684399619",
+    "effect_id": "92F83B7A-AD64-4514-A75A-D1D36686DB9A"
+   },
+   {
+    "slug": "curling-wave",
+    "name": "Curling Wave",
+    "resource_id": "6858191497280360973",
+    "effect_id": "0873E31A-1DA7-48d1-9185-03E6F5AAAF79"
+   },
+   {
+    "slug": "flame",
+    "name": "Flame",
+    "resource_id": "6777178765643485709",
+    "effect_id": "439B818A-D20B-45a4-9D3F-0FAA3E74A6D6"
+   },
+   {
+    "slug": "cartoon-swirl",
+    "name": "Cartoon Swirl",
+    "resource_id": "6858191448827761160",
+    "effect_id": "4CDDADDB-5C4E-4523-8FD6-EA442A5284D8"
+   },
+   {
+    "slug": "blue-lines",
+    "name": "Blue Lines",
+    "resource_id": "6858191605384352263",
+    "effect_id": "456AA927-F3D0-4093-A043-5B600C23D44A"
+   },
+   {
+    "slug": "recorder",
+    "name": "Recorder",
+    "resource_id": "7071174465245155841",
+    "effect_id": "18B10157-8D51-4360-A35A-42008543438C"
+   },
+   {
+    "slug": "like",
+    "name": "Like",
+    "resource_id": "7071174465245172226",
+    "effect_id": "A1ADAF22-363E-47f4-8D73-4A2E8D91E890"
+   },
+   {
+    "slug": "little-devil",
+    "name": "Little Devil",
+    "resource_id": "7078647070499803649",
+    "effect_id": "CBD96057-053F-44f2-ABC8-9B34F37D6557"
+   },
+   {
+    "slug": "super-like",
+    "name": "Super Like",
+    "resource_id": "7071174465249350146",
+    "effect_id": "F4996065-6334-46a8-A4F2-34C86D8072B0"
+   },
+   {
+    "slug": "lightning",
+    "name": "Lightning",
+    "resource_id": "6777178696609436174",
+    "effect_id": "4159AED7-E464-4949-9D8A-518653D13F22"
+   },
+   {
+    "slug": "snow",
+    "name": "Snow",
+    "resource_id": "7171709546262434306",
+    "effect_id": "0170A589-AD1C-46c4-B195-9CE519FDFA18"
+   },
+   {
+    "slug": "white-ink",
+    "name": "White Ink",
+    "resource_id": "6858191556055142919",
+    "effect_id": "2A26CD9F-F91F-4f4f-AD1A-FB539C06C156"
+   },
+   {
+    "slug": "cloud",
+    "name": "Cloud",
+    "resource_id": "6777178865119793678",
+    "effect_id": "0A31EC48-C245-48ab-847C-EF25F17D8CA3"
+   },
+   {
+    "slug": "wave-right",
+    "name": "Wave Right",
+    "resource_id": "6858191510865711629",
+    "effect_id": "FDBBEE84-E35D-420c-8BE4-1662B76468CE"
+   },
+   {
+    "slug": "wave-left",
+    "name": "Wave Left",
+    "resource_id": "6858191524312650248",
+    "effect_id": "D55F1CE9-BAED-45b6-A319-95149730CE6C"
+   },
+   {
+    "slug": "dots-right",
+    "name": "Dots Right",
+    "resource_id": "6858191541706428941",
+    "effect_id": "CFE7F1A0-ED26-4ca7-93FA-E72E8B148E49"
+   },
+   {
+    "slug": "circular-slices-ii",
+    "name": "Circular Slices II",
+    "resource_id": "7320530650979635713",
+    "effect_id": "0B97966C-1F8F-4d87-BD53-22902ABFEE62"
+   },
+   {
+    "slug": "split-iii",
+    "name": "Split III",
+    "resource_id": "6973849570912506370",
+    "effect_id": "1D0F1EE8-EC62-4138-AF85-C3E1141A0733"
+   },
+   {
+    "slug": "horizontal-slice",
+    "name": "Horizontal Slice",
+    "resource_id": "7090080817849831938",
+    "effect_id": "8FA54E1C-722C-49d7-A47F-5CE5910D46AA"
+   },
+   {
+    "slug": "diagonal-slices",
+    "name": "Diagonal Slices",
+    "resource_id": "7090080734941024769",
+    "effect_id": "5FC9CD57-67FB-4c37-B648-3FA60B4E9DD4"
+   },
+   {
+    "slug": "split",
+    "name": "Split",
+    "resource_id": "6973849417468088833",
+    "effect_id": "648C5EF4-7516-4478-B5A5-84EDBF8605A6"
+   },
+   {
+    "slug": "vertical-slices",
+    "name": "Vertical Slices",
+    "resource_id": "7090080890201575938",
+    "effect_id": "DC0BFFDA-FF8D-4ace-B01D-E412DE76AE96"
+   },
+   {
+    "slug": "split-iv",
+    "name": "Split IV",
+    "resource_id": "6973849689107993090",
+    "effect_id": "FD4E4727-F7C9-446c-99CF-B8E6862352A4"
+   },
+   {
+    "slug": "vintage-screening",
+    "name": "Vintage Screening",
+    "resource_id": "7242576260310766082",
+    "effect_id": "8E23FB8D-17B8-4f6a-BE23-2EEE4D3F159D"
+   },
+   {
+    "slug": "vintage-screening-1",
+    "name": "Vintage Screening",
+    "resource_id": "7242576260310766082",
+    "effect_id": "1A596F3D-1CCF-41cb-9F07-1053C46D8343"
+   },
+   {
+    "slug": "cube",
+    "name": "Cube",
+    "resource_id": "7429600601161338117",
+    "effect_id": "BF8E9B01-A671-4a5a-B617-A1F18500B76A"
+   },
+   {
+    "slug": "switch",
+    "name": "Switch",
+    "resource_id": "6748313807031898627",
+    "effect_id": "1CD4B550-A634-40bf-9FD4-B513FAE603A6"
+   },
+   {
+    "slug": "open",
+    "name": "Open",
+    "resource_id": "6750893890712113677",
+    "effect_id": "AF82FDC0-9DDC-4a57-B947-BFA99B14A5B5"
+   },
+   {
+    "slug": "page-turning",
+    "name": "Page Turning",
+    "resource_id": "6747979085894390279",
+    "effect_id": "5E3BB33E-87AD-4b41-9222-C32D9A6D9D57"
+   },
+   {
+    "slug": "clock-wipe",
+    "name": "Clock wipe",
+    "resource_id": "6851775006418932238",
+    "effect_id": "2C82254C-9BDD-4190-9CA7-F2D2B7BB65D9"
+   },
+   {
+    "slug": "windmill",
+    "name": "Windmill",
+    "resource_id": "6748286529921094157",
+    "effect_id": "44AE658A-5AE8-495b-8EAA-60B7C38C8DF6"
+   },
+   {
+    "slug": "color-glitch",
+    "name": "Color Glitch",
+    "resource_id": "6724239785205961228",
+    "effect_id": "6D20B259-B8A7-4d6a-8EB0-84B5D5480061"
+   },
+   {
+    "slug": "strobe",
+    "name": "Strobe",
+    "resource_id": "7131930101599441410",
+    "effect_id": "B5CF94E0-3497-4523-9157-51740D3FB822"
+   },
+   {
+    "slug": "blocks",
+    "name": "Blocks",
+    "resource_id": "6724866346569437710",
+    "effect_id": "5509169E-345F-471c-AF3A-7E6B045BCA8D"
+   },
+   {
+    "slug": "glitch",
+    "name": "Glitch",
+    "resource_id": "6724866446842663431",
+    "effect_id": "E082978D-EAC4-49e3-A1FC-7BAB68290FA6"
+   },
+   {
+    "slug": "horizontal-lines",
+    "name": "Horizontal Lines",
+    "resource_id": "6724845810892149251",
+    "effect_id": "E50E5529-4184-4166-B6EC-2D29ABBB14C0"
+   },
+   {
+    "slug": "horizontal-lines-1",
+    "name": "Horizontal Lines",
+    "resource_id": "6724845810892149251",
+    "effect_id": "E97845C2-AC7A-418c-84CE-7ADC6F0C8BF6"
+   },
+   {
+    "slug": "cutout-flip",
+    "name": "Cutout Flip",
+    "resource_id": "7387771481670816257",
+    "effect_id": "49A3F710-11D3-4466-A046-80C3FF82C213"
+   },
+   {
+    "slug": "color-swirl",
+    "name": "Color Swirl",
+    "resource_id": "7480765113809620279",
+    "effect_id": "8DF1E594-FCB6-4744-8292-DCFC3C1E203F"
+   },
+   {
+    "slug": "shutter-ii",
+    "name": "Shutter II",
+    "resource_id": "7306783264209900034",
+    "effect_id": "79EE4136-73D9-4bfe-99FE-D116AA989729"
+   },
+   {
+    "slug": "stretch-ll",
+    "name": "Stretch ll",
+    "resource_id": "7260116495974273538",
+    "effect_id": "57594755-3485-4864-8C7F-A180195E053D"
+   },
+   {
+    "slug": "stretch",
+    "name": "Stretch",
+    "resource_id": "7250006074781078017",
+    "effect_id": "9BEE0F74-29E9-4ebe-A433-6C085B00451F"
+   },
+   {
+    "slug": "shutter",
+    "name": "Shutter",
+    "resource_id": "6885172292339372546",
+    "effect_id": "DD95C8CA-D8BB-4167-8FAA-94576CB16563"
+   },
+   {
+    "slug": "whirlpool",
+    "name": "Whirlpool",
+    "resource_id": "6851810799510360583",
+    "effect_id": "66915A1D-F523-4844-9573-4FDFC7FAA7CC"
+   },
+   {
+    "slug": "whirlpool-1",
+    "name": "Whirlpool",
+    "resource_id": "6851810799510360583",
+    "effect_id": "35B07B78-653B-48c8-8AF0-7ADFBB03F371"
+   },
+   {
+    "slug": "distortion",
+    "name": "Distortion",
+    "resource_id": "7169838836304843265",
+    "effect_id": "CC11E10F-A87D-442d-AD26-83C7037C728B"
+   },
+   {
+    "slug": "axis-rotation",
+    "name": "Axis Rotation",
+    "resource_id": "7237092761361453569",
+    "effect_id": "2F53B8F6-E9A8-4382-9B9A-B75D850DCD8D"
+   },
+   {
+    "slug": "stretch-right",
+    "name": "Stretch Right",
+    "resource_id": "6989922560506860033",
+    "effect_id": "4381E87C-4E8A-4bcc-BA0F-A429F852F7C2"
+   },
+   {
+    "slug": "stretch-left",
+    "name": "Stretch Left",
+    "resource_id": "6989922429980119554",
+    "effect_id": "02976636-1A8D-4181-870F-21339FD9CA38"
+   },
+   {
+    "slug": "squeeze",
+    "name": "Squeeze",
+    "resource_id": "6751618376780485133",
+    "effect_id": "22016FF4-FBC8-4844-9108-CFFBCFE4D590"
+   },
+   {
+    "slug": "squeeze-1",
+    "name": "Squeeze",
+    "resource_id": "6751618376780485133",
+    "effect_id": "FA59E619-C9AD-4c39-9205-9998FC6C9B48"
+   }
+  ],
+  "text_intro": [
+   {
+    "slug": "throw-out",
+    "name": "Throw Out",
+    "resource_id": "7233110260204966402",
+    "effect_id": "7233110260204966402"
+   },
+   {
+    "slug": "typewriter",
+    "name": "Typewriter",
+    "resource_id": "7210980292243231233",
+    "effect_id": "7210980292243231233"
+   },
+   {
+    "slug": "concentrate",
+    "name": "Concentrate",
+    "resource_id": "7044433622119485954",
+    "effect_id": "7044433622119485954"
+   },
+   {
+    "slug": "glitch",
+    "name": "Glitch",
+    "resource_id": "7077812383946641921",
+    "effect_id": "7077812383946641921"
+   },
+   {
+    "slug": "spin-in-2",
+    "name": "Spin In 2",
+    "resource_id": "6775803763652301326",
+    "effect_id": "6775803763652301326"
+   },
+   {
+    "slug": "spin-in-1",
+    "name": "Spin In 1",
+    "resource_id": "6763873859402732039",
+    "effect_id": "6763873859402732039"
+   },
+   {
+    "slug": "wave-in",
+    "name": "Wave in",
+    "resource_id": "6918927741362377218",
+    "effect_id": "6918927741362377218"
+   },
+   {
+    "slug": "faulty-text",
+    "name": "Faulty text",
+    "resource_id": "6870325507511030274",
+    "effect_id": "6870325507511030274"
+   },
+   {
+    "slug": "dissolve",
+    "name": "Dissolve",
+    "resource_id": "6873386253367120386",
+    "effect_id": "6873386253367120386"
+   },
+   {
+    "slug": "chroma-type",
+    "name": "Chroma Type",
+    "resource_id": "7402175560819937809",
+    "effect_id": "7402175560819937809"
+   },
+   {
+    "slug": "spiral",
+    "name": "Spiral",
+    "resource_id": "6799873891352187406",
+    "effect_id": "6799873891352187406"
+   },
+   {
+    "slug": "blur",
+    "name": "Blur",
+    "resource_id": "6923135604519604737",
+    "effect_id": "6923135604519604737"
+   },
+   {
+    "slug": "type-1",
+    "name": "Type 1",
+    "resource_id": "6724920249654710791",
+    "effect_id": "6724920249654710791"
+   },
+   {
+    "slug": "float-down",
+    "name": "Float Down",
+    "resource_id": "7094880375222047233",
+    "effect_id": "7094880375222047233"
+   },
+   {
+    "slug": "zoom-in",
+    "name": "Zoom In",
+    "resource_id": "6724919499042066958",
+    "effect_id": "6724919499042066958"
+   },
+   {
+    "slug": "open",
+    "name": "Open",
+    "resource_id": "6943606694240850434",
+    "effect_id": "6943606694240850434"
+   },
+   {
+    "slug": "blur-to-the-left",
+    "name": "Blur to the Left",
+    "resource_id": "7131932467698602497",
+    "effect_id": "7131932467698602497"
+   },
+   {
+    "slug": "karaoke",
+    "name": "Karaoke",
+    "resource_id": "6771294855785091588",
+    "effect_id": "6771294855785091588"
+   },
+   {
+    "slug": "flicker",
+    "name": "Flicker",
+    "resource_id": "7040020396136993282",
+    "effect_id": "7040020396136993282"
+   },
+   {
+    "slug": "flip-and-jump",
+    "name": "Flip and jump",
+    "resource_id": "6865175746420150792",
+    "effect_id": "6865175746420150792"
+   },
+   {
+    "slug": "flutter",
+    "name": "Flutter",
+    "resource_id": "7094880213590348290",
+    "effect_id": "7094880213590348290"
+   },
+   {
+    "slug": "dissolve-down",
+    "name": "Dissolve Down",
+    "resource_id": "7037028613287318018",
+    "effect_id": "7037028613287318018"
+   },
+   {
+    "slug": "wipe-right",
+    "name": "Wipe Right",
+    "resource_id": "6771288500240126478",
+    "effect_id": "6771288500240126478"
+   },
+   {
+    "slug": "slingshot",
+    "name": "Slingshot",
+    "resource_id": "6862897343176380942",
+    "effect_id": "6862897343176380942"
+   },
+   {
+    "slug": "blur-to-the-right",
+    "name": "Blur to the right",
+    "resource_id": "7203606035557257730",
+    "effect_id": "7203606035557257730"
+   },
+   {
+    "slug": "jolt-forward",
+    "name": "Jolt Forward",
+    "resource_id": "7086778010807833090",
+    "effect_id": "7086778010807833090"
+   },
+   {
+    "slug": "rotation-verbatim",
+    "name": "Rotation Verbatim",
+    "resource_id": "7131932250437849602",
+    "effect_id": "7131932250437849602"
+   },
+   {
+    "slug": "elastic-telescopic-ii",
+    "name": "Elastic Telescopic II",
+    "resource_id": "7161336180561154562",
+    "effect_id": "7161336180561154562"
+   },
+   {
+    "slug": "flip-verbatim",
+    "name": "Flip Verbatim",
+    "resource_id": "7131932337893282306",
+    "effect_id": "7131932337893282306"
+   },
+   {
+    "slug": "trail",
+    "name": "Trail",
+    "resource_id": "7231492571321602562",
+    "effect_id": "7231492571321602562"
+   },
+   {
+    "slug": "clock-wipe",
+    "name": "Clock wipe",
+    "resource_id": "6840689010034086407",
+    "effect_id": "6840689010034086407"
+   },
+   {
+    "slug": "flipping",
+    "name": "Flipping",
+    "resource_id": "7221379732166676993",
+    "effect_id": "7221379732166676993"
+   },
+   {
+    "slug": "squeeze",
+    "name": "Squeeze",
+    "resource_id": "6779879712261935619",
+    "effect_id": "6779879712261935619"
+   },
+   {
+    "slug": "fold",
+    "name": "Fold",
+    "resource_id": "7131933414189437441",
+    "effect_id": "7131933414189437441"
+   },
+   {
+    "slug": "roll-in",
+    "name": "Roll In",
+    "resource_id": "7037027812351414786",
+    "effect_id": "7037027812351414786"
+   },
+   {
+    "slug": "judder-up",
+    "name": "Judder Up",
+    "resource_id": "7086778112611979777",
+    "effect_id": "7086778112611979777"
+   },
+   {
+    "slug": "type-3",
+    "name": "Type 3",
+    "resource_id": "6724920521462387207",
+    "effect_id": "6724920521462387207"
+   },
+   {
+    "slug": "blow-in",
+    "name": "Blow In",
+    "resource_id": "6873386357952090626",
+    "effect_id": "6873386357952090626"
+   },
+   {
+    "slug": "wobble",
+    "name": "Wobble",
+    "resource_id": "7095603439912096258",
+    "effect_id": "7095603439912096258"
+   },
+   {
+    "slug": "bounce-from-tr",
+    "name": "Bounce from TR",
+    "resource_id": "7080126619364364801",
+    "effect_id": "7080126619364364801"
+   },
+   {
+    "slug": "showing-up",
+    "name": "Showing Up",
+    "resource_id": "7149113228788765186",
+    "effect_id": "7149113228788765186"
+   },
+   {
+    "slug": "mini-zoom",
+    "name": "Mini Zoom",
+    "resource_id": "6763469998330483213",
+    "effect_id": "6763469998330483213"
+   },
+   {
+    "slug": "set-to-the-right",
+    "name": "Set to the Right",
+    "resource_id": "7145435431297880577",
+    "effect_id": "7145435431297880577"
+   },
+   {
+    "slug": "slide-left",
+    "name": "Slide Left",
+    "resource_id": "7403255792146584081",
+    "effect_id": "7403255792146584081"
+   },
+   {
+    "slug": "bounce-in-tl",
+    "name": "Bounce In TL",
+    "resource_id": "7080126868136923650",
+    "effect_id": "7080126868136923650"
+   },
+   {
+    "slug": "wipe-up",
+    "name": "Wipe Up",
+    "resource_id": "6774625910067827212",
+    "effect_id": "6774625910067827212"
+   },
+   {
+    "slug": "random-bounce",
+    "name": "Random Bounce",
+    "resource_id": "7046650374005985793",
+    "effect_id": "7046650374005985793"
+   },
+   {
+    "slug": "blur-wipe-left",
+    "name": "Blur Wipe Left",
+    "resource_id": "6909714445518246401",
+    "effect_id": "6909714445518246401"
+   },
+   {
+    "slug": "sunrise",
+    "name": "Sunrise",
+    "resource_id": "6779084126457696776",
+    "effect_id": "6779084126457696776"
+   },
+   {
+    "slug": "wipe-down",
+    "name": "Wipe Down",
+    "resource_id": "6774626192990409224",
+    "effect_id": "6774626192990409224"
+   },
+   {
+    "slug": "wipe-in-lr",
+    "name": "Wipe In LR",
+    "resource_id": "7095603601355051521",
+    "effect_id": "7095603601355051521"
+   },
+   {
+    "slug": "wipe-left",
+    "name": "Wipe Left",
+    "resource_id": "6774626830038077960",
+    "effect_id": "6774626830038077960"
+   },
+   {
+    "slug": "slide-left-1",
+    "name": "Slide Left",
+    "resource_id": "6763470195894784525",
+    "effect_id": "6763470195894784525"
+   },
+   {
+    "slug": "slide-up-1",
+    "name": "Slide Up",
+    "resource_id": "7275682326678344193",
+    "effect_id": "7275682326678344193"
+   },
+   {
+    "slug": "boing",
+    "name": "Boing",
+    "resource_id": "6873386210002211330",
+    "effect_id": "6873386210002211330"
+   },
+   {
+    "slug": "ease-in-right",
+    "name": "Ease In Right",
+    "resource_id": "7054065145990877698",
+    "effect_id": "7054065145990877698"
+   },
+   {
+    "slug": "turn-horizontal",
+    "name": "Turn Horizontal",
+    "resource_id": "7063344665025581570",
+    "effect_id": "7063344665025581570"
+   },
+   {
+    "slug": "grow",
+    "name": "Grow",
+    "resource_id": "6873386301182185986",
+    "effect_id": "6873386301182185986"
+   },
+   {
+    "slug": "showing-down",
+    "name": "Showing Down",
+    "resource_id": "7149113292747706881",
+    "effect_id": "7149113292747706881"
+   },
+   {
+    "slug": "flip-up",
+    "name": "Flip up",
+    "resource_id": "7195849719673786882",
+    "effect_id": "7195849719673786882"
+   }
+  ],
+  "text_outro": [
+   {
+    "slug": "blur",
+    "name": "Blur",
+    "resource_id": "6923134492760609282",
+    "effect_id": "6923134492760609282"
+   },
+   {
+    "slug": "zoom-in",
+    "name": "Zoom In",
+    "resource_id": "6724919767200698884",
+    "effect_id": "6724919767200698884"
+   },
+   {
+    "slug": "typewriter",
+    "name": "Typewriter",
+    "resource_id": "7210980400984756738",
+    "effect_id": "7210980400984756738"
+   },
+   {
+    "slug": "zoom-in-2",
+    "name": "Zoom In 2",
+    "resource_id": "7054480833201050114",
+    "effect_id": "7054480833201050114"
+   },
+   {
+    "slug": "dissolve-up",
+    "name": "Dissolve Up",
+    "resource_id": "7037028782544261634",
+    "effect_id": "7037028782544261634"
+   },
+   {
+    "slug": "slide-down",
+    "name": "Slide Down",
+    "resource_id": "7403256664498901520",
+    "effect_id": "7403256664498901520"
+   },
+   {
+    "slug": "dissolve",
+    "name": "Dissolve",
+    "resource_id": "6873386286082691586",
+    "effect_id": "6873386286082691586"
+   },
+   {
+    "slug": "slide-up",
+    "name": "Slide Up",
+    "resource_id": "6763873533115240968",
+    "effect_id": "6763873533115240968"
+   },
+   {
+    "slug": "flicker",
+    "name": "Flicker",
+    "resource_id": "7040020559656129025",
+    "effect_id": "7040020559656129025"
+   },
+   {
+    "slug": "blur-to-the-left",
+    "name": "Blur to the Left",
+    "resource_id": "7131932497641738753",
+    "effect_id": "7131932497641738753"
+   },
+   {
+    "slug": "zoom-out",
+    "name": "Zoom Out",
+    "resource_id": "7428455252141100293",
+    "effect_id": "7428455252141100293"
+   },
+   {
+    "slug": "mini-zoom",
+    "name": "Mini Zoom",
+    "resource_id": "6763469915518145032",
+    "effect_id": "6763469915518145032"
+   },
+   {
+    "slug": "bounce-out",
+    "name": "Bounce Out",
+    "resource_id": "6887765964515971585",
+    "effect_id": "6887765964515971585"
+   },
+   {
+    "slug": "wipe-left",
+    "name": "Wipe Left",
+    "resource_id": "6774626748177846791",
+    "effect_id": "6774626748177846791"
+   },
+   {
+    "slug": "expand",
+    "name": "Expand",
+    "resource_id": "6779879836916650509",
+    "effect_id": "6779879836916650509"
+   },
+   {
+    "slug": "throw-back",
+    "name": "Throw Back",
+    "resource_id": "7233110388701663745",
+    "effect_id": "7233110388701663745"
+   },
+   {
+    "slug": "slide-left",
+    "name": "Slide Left",
+    "resource_id": "6763873602476446221",
+    "effect_id": "6763873602476446221"
+   },
+   {
+    "slug": "slide-up-1",
+    "name": "Slide Up",
+    "resource_id": "7403256763803243024",
+    "effect_id": "7403256763803243024"
+   },
+   {
+    "slug": "type-1",
+    "name": "Type 1",
+    "resource_id": "6763469696260903435",
+    "effect_id": "6763469696260903435"
+   },
+   {
+    "slug": "dilute",
+    "name": "Dilute",
+    "resource_id": "7044433705141539329",
+    "effect_id": "7044433705141539329"
+   },
+   {
+    "slug": "type-2",
+    "name": "Type 2",
+    "resource_id": "6763469767555682823",
+    "effect_id": "6763469767555682823"
+   },
+   {
+    "slug": "horizontal-close",
+    "name": "Horizontal Close",
+    "resource_id": "6943606672514355714",
+    "effect_id": "6943606672514355714"
+   },
+   {
+    "slug": "slide-right",
+    "name": "Slide Right",
+    "resource_id": "6724920744431587853",
+    "effect_id": "6724920744431587853"
+   },
+   {
+    "slug": "flutter",
+    "name": "Flutter",
+    "resource_id": "7094881109661454849",
+    "effect_id": "7094881109661454849"
+   },
+   {
+    "slug": "fold",
+    "name": "Fold",
+    "resource_id": "7131933395650613762",
+    "effect_id": "7131933395650613762"
+   },
+   {
+    "slug": "trail",
+    "name": "Trail",
+    "resource_id": "7231863704063578626",
+    "effect_id": "7231863704063578626"
+   },
+   {
+    "slug": "chromatic-aberration-tailing",
+    "name": "Chromatic Aberration Tailing",
+    "resource_id": "7161314207609131522",
+    "effect_id": "7161314207609131522"
+   },
+   {
+    "slug": "roll-out",
+    "name": "Roll Out",
+    "resource_id": "7037027990873575938",
+    "effect_id": "7037027990873575938"
+   },
+   {
+    "slug": "pop-down",
+    "name": "Pop Down",
+    "resource_id": "7145435533580177921",
+    "effect_id": "7145435533580177921"
+   },
+   {
+    "slug": "slingshot",
+    "name": "Slingshot",
+    "resource_id": "6862897350478664200",
+    "effect_id": "6862897350478664200"
+   },
+   {
+    "slug": "faulty-text",
+    "name": "Faulty text",
+    "resource_id": "6870325383217025538",
+    "effect_id": "6870325383217025538"
+   },
+   {
+    "slug": "sunset",
+    "name": "Sunset",
+    "resource_id": "6779084194392838670",
+    "effect_id": "6779084194392838670"
+   },
+   {
+    "slug": "wipe-right",
+    "name": "Wipe Right",
+    "resource_id": "6783908820176343566",
+    "effect_id": "6783908820176343566"
+   },
+   {
+    "slug": "bounce-out-tr",
+    "name": "Bounce Out TR",
+    "resource_id": "7080126748129497601",
+    "effect_id": "7080126748129497601"
+   },
+   {
+    "slug": "glitch",
+    "name": "Glitch",
+    "resource_id": "7077812264559972865",
+    "effect_id": "7077812264559972865"
+   },
+   {
+    "slug": "stroke-fill",
+    "name": "Stroke Fill",
+    "resource_id": "7239696026389451266",
+    "effect_id": "7239696026389451266"
+   },
+   {
+    "slug": "wipe-down",
+    "name": "Wipe Down",
+    "resource_id": "6774626081791021576",
+    "effect_id": "6774626081791021576"
+   },
+   {
+    "slug": "flip-down",
+    "name": "Flip Down",
+    "resource_id": "7198418239955669506",
+    "effect_id": "7198418239955669506"
+   },
+   {
+    "slug": "blur-erase-right",
+    "name": "Blur Erase Right",
+    "resource_id": "6909715076459008514",
+    "effect_id": "6909715076459008514"
+   },
+   {
+    "slug": "turn-horizontal",
+    "name": "Turn Horizontal",
+    "resource_id": "7063344803768963585",
+    "effect_id": "7063344803768963585"
+   },
+   {
+    "slug": "flipping",
+    "name": "Flipping",
+    "resource_id": "7221823093847626241",
+    "effect_id": "7221823093847626241"
+   },
+   {
+    "slug": "grow",
+    "name": "Grow",
+    "resource_id": "6873386318026510850",
+    "effect_id": "6873386318026510850"
+   },
+   {
+    "slug": "ease-out-right",
+    "name": "Ease Out Right",
+    "resource_id": "7054065225024147969",
+    "effect_id": "7054065225024147969"
+   },
+   {
+    "slug": "spring",
+    "name": "Spring",
+    "resource_id": "6887766592759796225",
+    "effect_id": "6887766592759796225"
+   },
+   {
+    "slug": "blur-erase-left",
+    "name": "Blur Erase Left",
+    "resource_id": "6909714891058188801",
+    "effect_id": "6909714891058188801"
+   },
+   {
+    "slug": "wipe-up",
+    "name": "Wipe Up",
+    "resource_id": "6774625752794010115",
+    "effect_id": "6774625752794010115"
+   },
+   {
+    "slug": "vrille",
+    "name": "Vrille",
+    "resource_id": "6799874105710481927",
+    "effect_id": "6799874105710481927"
+   },
+   {
+    "slug": "blow-away",
+    "name": "Blow Away",
+    "resource_id": "6873386371508081154",
+    "effect_id": "6873386371508081154"
+   },
+   {
+    "slug": "type-3",
+    "name": "Type 3",
+    "resource_id": "6763469838368117256",
+    "effect_id": "6763469838368117256"
+   },
+   {
+    "slug": "rotation-verbatim",
+    "name": "Rotation Verbatim",
+    "resource_id": "7131932325171958273",
+    "effect_id": "7131932325171958273"
+   },
+   {
+    "slug": "fly-out",
+    "name": "Fly Out",
+    "resource_id": "7037028379068994050",
+    "effect_id": "7037028379068994050"
+   },
+   {
+    "slug": "float-up",
+    "name": "Float Up",
+    "resource_id": "7094881236941804033",
+    "effect_id": "7094881236941804033"
+   },
+   {
+    "slug": "spin-out-1",
+    "name": "Spin Out 1",
+    "resource_id": "6763873732143354376",
+    "effect_id": "6763873732143354376"
+   },
+   {
+    "slug": "spin-out-2",
+    "name": "Spin Out 2",
+    "resource_id": "6775804032318444045",
+    "effect_id": "6775804032318444045"
+   },
+   {
+    "slug": "slide-down-2",
+    "name": "Slide Down",
+    "resource_id": "7275978484902531585",
+    "effect_id": "7275978484902531585"
+   },
+   {
+    "slug": "flip-verbatim",
+    "name": "Flip Verbatim",
+    "resource_id": "7131932349456978433",
+    "effect_id": "7131932349456978433"
+   },
+   {
+    "slug": "wave-out",
+    "name": "Wave out",
+    "resource_id": "6918927254676312578",
+    "effect_id": "6918927254676312578"
+   },
+   {
+    "slug": "elastic-telescopic-ii",
+    "name": "Elastic Telescopic II",
+    "resource_id": "7163958556784333313",
+    "effect_id": "7163958556784333313"
+   },
+   {
+    "slug": "clock-wipe",
+    "name": "Clock wipe",
+    "resource_id": "6840698265277567496",
+    "effect_id": "6840698265277567496"
+   },
+   {
+    "slug": "jump-and-flip",
+    "name": "Jump and flip",
+    "resource_id": "6865176065514410503",
+    "effect_id": "6865176065514410503"
+   }
+  ],
+  "music": [
+   {
+    "name": "daydream",
+    "resource_id": "7610709961920284673"
+   },
+   {
+    "name": "MINI VLOG.",
+    "resource_id": "7558755583353030673"
+   },
+   {
+    "name": "MINI VLOG.",
+    "resource_id": "7558755583353030673"
+   },
+   {
+    "name": "daydream",
+    "resource_id": "7610709961920284673"
+   },
+   {
+    "name": "MINI VLOG.",
+    "resource_id": "7558755583353030673"
+   }
+  ]
+ },
+ "paid": {
+  "video_intro": [
+   {
+    "slug": "zoom-1",
+    "name": "Zoom 1",
+    "resource_id": "6740868384637850120",
+    "effect_id": "6740868384637850120",
+    "capcut_name": "动感缩小"
+   },
+   {
+    "slug": "rock-vertically",
+    "name": "Rock Vertically",
+    "resource_id": "6739418390030455300",
+    "effect_id": "6739418390030455300",
+    "capcut_name": "上下抖动"
+   },
+   {
+    "slug": "slide-down",
+    "name": "Slide Down",
+    "resource_id": "6798333705401143816",
+    "effect_id": "6798333705401143816",
+    "capcut_name": "向下滑动"
+   },
+   {
+    "slug": "slide-up",
+    "name": "Slide Up",
+    "resource_id": "6798333487523828238",
+    "effect_id": "6798333487523828238",
+    "capcut_name": "向上滑动"
+   },
+   {
+    "slug": "slide-right",
+    "name": "Slide Right",
+    "resource_id": "6798333076469453320",
+    "effect_id": "6798333076469453320",
+    "capcut_name": "向右滑动"
+   },
+   {
+    "slug": "slide-left",
+    "name": "Slide Left",
+    "resource_id": "6798332871267324423",
+    "effect_id": "6798332871267324423",
+    "capcut_name": "向左滑动"
+   },
+   {
+    "slug": "rotate",
+    "name": "Rotate",
+    "resource_id": "6798334070653719054",
+    "effect_id": "6798334070653719054",
+    "capcut_name": "旋转"
+   },
+   {
+    "slug": "flame-risen",
+    "name": "Flame Risen",
+    "resource_id": "7447086181751198224",
+    "effect_id": "7447086181751198224",
+    "capcut_name": "灼烧出现"
+   },
+   {
+    "slug": "rgb-scanlines",
+    "name": "RGB Scanlines",
+    "resource_id": "7480796814837304581",
+    "effect_id": "7480796814837304581",
+    "capcut_name": "光效拉丝"
+   },
+   {
+    "slug": "zoom-2",
+    "name": "Zoom 2",
+    "resource_id": "6740867832570974733",
+    "effect_id": "6740867832570974733",
+    "capcut_name": "动感放大"
+   },
+   {
+    "slug": "zoom-in",
+    "name": "Zoom In",
+    "resource_id": "6798332733694153230",
+    "effect_id": "6798332733694153230",
+    "capcut_name": "放大"
+   },
+   {
+    "slug": "shake-3",
+    "name": "Shake 3",
+    "resource_id": "6781683302672634382",
+    "effect_id": "6781683302672634382",
+    "capcut_name": "轻微抖动 III"
+   },
+   {
+    "slug": "vibrating-panels",
+    "name": "Vibrating Panels",
+    "resource_id": "7473710409023754753",
+    "effect_id": "7473710409023754753",
+    "capcut_name": "分屏震动"
+   },
+   {
+    "slug": "swing-top-right",
+    "name": "Swing Top Right",
+    "resource_id": "6740122731418751495",
+    "effect_id": "6740122731418751495",
+    "capcut_name": "向右上甩入"
+   },
+   {
+    "slug": "anime-frame",
+    "name": "Anime Frame",
+    "resource_id": "7460018714935562769",
+    "effect_id": "7460018714935562769",
+    "capcut_name": "跳动边框"
+   },
+   {
+    "slug": "gray-mask",
+    "name": "Gray Mask",
+    "resource_id": "7473710409040531985",
+    "effect_id": "7473710409040531985",
+    "capcut_name": "灰色蒙层"
+   },
+   {
+    "slug": "swing-bottom-left",
+    "name": "Swing Bottom Left",
+    "resource_id": "6739395445346275853",
+    "effect_id": "6739395445346275853",
+    "capcut_name": "向左下甩入"
+   },
+   {
+    "slug": "shake-2",
+    "name": "Shake 2",
+    "resource_id": "6739418677910704651",
+    "effect_id": "6739418677910704651",
+    "capcut_name": "轻微抖动 II"
+   },
+   {
+    "slug": "swing-top-left",
+    "name": "Swing Top Left",
+    "resource_id": "6740122563692728844",
+    "effect_id": "6740122563692728844",
+    "capcut_name": "向左上甩入"
+   }
+  ],
+  "video_outro": [
+   {
+    "slug": "slide-down",
+    "name": "Slide Down",
+    "resource_id": "6798333787986989576",
+    "effect_id": "6798333787986989576",
+    "capcut_name": "向下滑动"
+   },
+   {
+    "slug": "slide-left",
+    "name": "Slide Left",
+    "resource_id": "6798332972098392584",
+    "effect_id": "6798332972098392584",
+    "capcut_name": "向左滑动"
+   },
+   {
+    "slug": "zoom-in",
+    "name": "Zoom In",
+    "resource_id": "6798332801864176142",
+    "effect_id": "6798332801864176142",
+    "capcut_name": "放大"
+   },
+   {
+    "slug": "crt-bands",
+    "name": "CRT Bands",
+    "resource_id": "7473710409145389585",
+    "effect_id": "7473710409145389585",
+    "capcut_name": "电视屏扫光"
+   },
+   {
+    "slug": "flame-risen",
+    "name": "Flame Risen",
+    "resource_id": "7447086181742825985",
+    "effect_id": "7447086181742825985",
+    "capcut_name": "灼烧出现"
+   },
+   {
+    "slug": "anime-frame",
+    "name": "Anime Frame",
+    "resource_id": "7460018714935579152",
+    "effect_id": "7460018714935579152",
+    "capcut_name": "跳动边框"
+   },
+   {
+    "slug": "mini-zoom",
+    "name": "Mini Zoom",
+    "resource_id": "6800268611807089166",
+    "effect_id": "6800268611807089166",
+    "capcut_name": "轻微放大"
+   },
+   {
+    "slug": "gray-mask",
+    "name": "Gray Mask",
+    "resource_id": "7473710410357543425",
+    "effect_id": "7473710410357543425",
+    "capcut_name": "灰色蒙层"
+   }
+  ],
+  "text_outro": [
+   {
+    "slug": "fade-out",
+    "name": "Fade Out",
+    "resource_id": "6724919382104871427",
+    "effect_id": "6724919382104871427",
+    "capcut_name": "渐隐"
+   },
+   {
+    "slug": "slide-down-1",
+    "name": "Slide Down",
+    "resource_id": "6724919284893487619",
+    "effect_id": "6724919284893487619",
+    "capcut_name": "向下滑动"
+   },
+   {
+    "slug": "disband-to-the-left",
+    "name": "Disband to the Left",
+    "resource_id": "7145435368777585153",
+    "effect_id": "7145435368777585153",
+    "capcut_name": "向左解散"
+   },
+   {
+    "slug": "ink-print",
+    "name": "Ink Print",
+    "resource_id": "7131933235000381953",
+    "effect_id": "7131933235000381953",
+    "capcut_name": "喷绘"
+   },
+   {
+    "slug": "bounce-out-tl",
+    "name": "Bounce Out TL",
+    "resource_id": "7080126963121132033",
+    "effect_id": "7080126963121132033",
+    "capcut_name": "左上弹出"
+   },
+   {
+    "slug": "boing",
+    "name": "Boing",
+    "resource_id": "6873386227546984961",
+    "effect_id": "6873386227546984961",
+    "capcut_name": "弹性伸缩（出场）"
+   },
+   {
+    "slug": "random-bounce",
+    "name": "Random Bounce",
+    "resource_id": "7047418513429893633",
+    "effect_id": "7047418513429893633",
+    "capcut_name": "随机弹跳 "
+   }
+  ],
+  "text_intro": [
+   {
+    "slug": "fade-in",
+    "name": "Fade In",
+    "resource_id": "6724916044072227332",
+    "effect_id": "6724916044072227332",
+    "capcut_name": "渐显"
+   },
+   {
+    "slug": "zoom-out-2",
+    "name": "Zoom Out 2",
+    "resource_id": "7054480742507614722",
+    "effect_id": "7054480742507614722",
+    "capcut_name": "缩小 II"
+   },
+   {
+    "slug": "pop-up",
+    "name": "Pop Up",
+    "resource_id": "7145435451946439170",
+    "effect_id": "7145435451946439170",
+    "capcut_name": "向上弹入"
+   },
+   {
+    "slug": "random-typewriter",
+    "name": "Random Typewriter",
+    "resource_id": "7145435525799744002",
+    "effect_id": "7145435525799744002",
+    "capcut_name": "随机打字机"
+   },
+   {
+    "slug": "fly-in",
+    "name": "Fly In",
+    "resource_id": "7037028196277031425",
+    "effect_id": "7037028196277031425",
+    "capcut_name": "飞入"
+   },
+   {
+    "slug": "type-2",
+    "name": "Type 2",
+    "resource_id": "6724920636403094028",
+    "effect_id": "6724920636403094028",
+    "capcut_name": "打字机 II"
+   },
+   {
+    "slug": "blur-wipe-right",
+    "name": "Blur Wipe Right",
+    "resource_id": "6909714649797628417",
+    "effect_id": "6909714649797628417",
+    "capcut_name": "羽化向右擦开"
+   },
+   {
+    "slug": "zoom-out",
+    "name": "Zoom Out",
+    "resource_id": "6724921217721045515",
+    "effect_id": "6724921217721045515",
+    "capcut_name": "缩小"
+   },
+   {
+    "slug": "slide-right",
+    "name": "Slide Right",
+    "resource_id": "6724920136056181256",
+    "effect_id": "6724920136056181256",
+    "capcut_name": "向右滑动"
+   },
+   {
+    "slug": "bounce-in",
+    "name": "Bounce In",
+    "resource_id": "6887766069587481090",
+    "effect_id": "6887766069587481090",
+    "capcut_name": "弹入"
+   },
+   {
+    "slug": "slide-up",
+    "name": "Slide Up",
+    "resource_id": "6763470111253729803",
+    "effect_id": "6763470111253729803",
+    "capcut_name": "向上滑动"
+   },
+   {
+    "slug": "showing-right",
+    "name": "Showing Right",
+    "resource_id": "7149113362096329217",
+    "effect_id": "7149113362096329217",
+    "capcut_name": "向右露出"
+   },
+   {
+    "slug": "slide-down",
+    "name": "Slide Down",
+    "resource_id": "7403256520537805329",
+    "effect_id": "7403256520537805329",
+    "capcut_name": "向下滑动"
+   },
+   {
+    "slug": "showing-left",
+    "name": "Showing Left",
+    "resource_id": "7149113444279521793",
+    "effect_id": "7149113444279521793",
+    "capcut_name": "向左露出"
+   },
+   {
+    "slug": "slide-down-1",
+    "name": "Slide Down",
+    "resource_id": "6724921985282871816",
+    "effect_id": "6724921985282871816",
+    "capcut_name": "向下滑动"
+   },
+   {
+    "slug": "spring",
+    "name": "Spring",
+    "resource_id": "6887766363436225025",
+    "effect_id": "6887766363436225025",
+    "capcut_name": "弹簧"
+   }
+  ]
+ },
+ "unknown": {
+  "text_outro": [
+   {
+    "slug": "random-typewriter",
+    "name": "Random Typewriter",
+    "resource_id": "7145435491129627137",
+    "effect_id": "7145435491129627137"
+   }
+  ],
+  "audio_effect": [
+   {
+    "slug": "big-house",
+    "name": "Big House",
+    "resource_id": "7350559836590838274",
+    "effect_id": "8954C5C2-A0BB-4915-8CB2-B422445DCB71"
+   },
+   {
+    "slug": "low",
+    "name": "Low",
+    "resource_id": "7021052731091587586",
+    "effect_id": "4D23A0EA-5E4B-4B6A-8CE7-E3B0ADAFBCE1"
+   },
+   {
+    "slug": "energetic",
+    "name": "Energetic",
+    "resource_id": "7320193885114733057",
+    "effect_id": "FA559CAA-D9AA-443B-9D39-392B43D2DB02"
+   },
+   {
+    "slug": "high",
+    "name": "High",
+    "resource_id": "7021052551755731457",
+    "effect_id": "E663A5D0-A024-4DED-8F0D-DA6D70A9F50C"
+   },
+   {
+    "slug": "low-battery",
+    "name": "Low Battery",
+    "resource_id": "7021052694370456065",
+    "effect_id": "3FB0AA17-B7E8-4820-86A2-0A34E3F2F881"
+   },
+   {
+    "slug": "tremble",
+    "name": "Tremble",
+    "resource_id": "7021052770924892674",
+    "effect_id": "4AEE9A06-71E0-4188-A87E-A161DDB80F4A"
+   },
+   {
+    "slug": "electronic",
+    "name": "Electronic",
+    "resource_id": "7021052717204247042",
+    "effect_id": "0285BDC4-794F-48D0-A8BD-78B248FDE822"
+   },
+   {
+    "slug": "sweet",
+    "name": "Sweet",
+    "resource_id": "7320193577613529602",
+    "effect_id": "2CD71FC4-7B4E-4E53-B337-32173184F480"
+   },
+   {
+    "slug": "vinyl",
+    "name": "Vinyl",
+    "resource_id": "7025484451710767618",
+    "effect_id": "6D42DEB5-D9DE-479F-955C-9F63C3B88F06"
+   },
+   {
+    "slug": "mic-hog",
+    "name": "Mic Hog",
+    "resource_id": "7021052785101640194",
+    "effect_id": "9A48AB2D-B527-4DF0-8512-058819047877"
+   },
+   {
+    "slug": "lo-fi",
+    "name": "Lo-Fi",
+    "resource_id": "7025484400313766402",
+    "effect_id": "1C8426BF-AC3B-4F90-B145-CA712BD486D3"
+   },
+   {
+    "slug": "megaphone",
+    "name": "Megaphone",
+    "resource_id": "7021052620592648705",
+    "effect_id": "8A5CF5B8-0959-4E8A-8CC5-AD17BA176D89"
+   },
+   {
+    "slug": "echo",
+    "name": "Echo",
+    "resource_id": "7021052523762946561",
+    "effect_id": "83B7B5D7-B539-4FAA-8CF3-3318394C9278"
+   },
+   {
+    "slug": "synth",
+    "name": "Synth",
+    "resource_id": "7021052503919694337",
+    "effect_id": "450DE367-AD03-4D06-B635-C947161AAA8E"
+   },
+   {
+    "slug": "deep",
+    "name": "Deep",
+    "resource_id": "7021052537344102913",
+    "effect_id": "188C5140-E4AC-41A5-B42A-901ACAEF1B62"
+   }
+  ]
+ }
+}

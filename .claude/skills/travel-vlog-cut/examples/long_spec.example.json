@@ -122,46 +122,46 @@
      "dur": 4,
      "size": 9,
      "in": "typewriter",
-     "out": "fade-out"
+     "out": "blur"
     },
     {
      "text": "出发，往山里开",
      "at": "P?_start+20",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "出隧道|驶出隧道"
     },
     {
      "text": "窗外一下子开阔了",
      "at": "P?_d1+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "高原|平野|稻田"
     },
     {
      "text": "先吃口甜的",
      "at": "P?_d2+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "咖啡馆"
     },
     {
      "text": "去森林里走走",
      "at": "P?_d3+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "森林|绿树|石墙"
     },
     {
      "text": "听一会儿溪水",
      "at": "P?_d5+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "溪流"
     }
    ]
@@ -186,14 +186,14 @@
      "dur": 4,
      "size": 9,
      "in": "typewriter",
-     "out": "fade-out"
+     "out": "blur"
     },
     {
      "text": "先好好吃顿早饭",
      "at": "P?_start+7.5",
      "dur": 3.2,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "早餐|餐厅",
      "offset": 5.6
     },
@@ -201,40 +201,40 @@
      "text": "出门走走，湖边空气很好",
      "at": "P?_s1+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "湖|草坪|草地步道"
     },
     {
      "text": "坐缆车，往云里去",
      "at": "P?_s3+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "吊椅"
     },
     {
      "text": "走在山的脊背上",
      "at": "P?_s5+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "山脊|砂石路|碎石路"
     },
     {
      "text": "到山顶了，风很大",
      "at": "P?_s7+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "鸟居|山顶"
     },
     {
      "text": "在山顶拜一拜",
      "at": "P?_s9+4",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "参拜"
     }
    ],
@@ -253,40 +253,40 @@
      "text": "站在云的边上",
      "at": "P?_s1+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "观景台"
     },
     {
      "text": "坐一会儿，什么都不做",
      "at": "P?_s2+0.8",
      "dur": 3.8,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "长椅"
     },
     {
      "text": "慢慢下山",
      "at": "P?_s6+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "下山"
     },
     {
      "text": "开车穿过金色的高原",
      "at": "P?_s8+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "高原.*公路|草甸公路"
     },
     {
      "text": "去湿原散个步",
      "at": "P?_s9+2",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "湿原|栈道"
     }
    ]
@@ -302,40 +302,40 @@
      "text": "天阴下来了",
      "at": "P?_start+3",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "阴天"
     },
     {
      "text": "找张桌子吃午饭",
      "at": "P?_d1+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "午餐|面包"
     },
     {
      "text": "顺便给车充个电",
      "at": "P?_d2-7",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "充电"
     },
     {
      "text": "去牧场看牛",
      "at": "P?_d3+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "牧场|牛"
     },
     {
      "text": "第二天，就这样过去了",
      "at": "P?_d5+1",
      "dur": 4,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "空旷|小路延伸"
     }
    ],
@@ -369,62 +369,62 @@
      "dur": 4,
      "size": 9,
      "in": "typewriter",
-     "out": "fade-out"
+     "out": "blur"
     },
     {
      "text": "最后一天，下雨也要出门走走",
      "at": "P?_s1+0.8",
      "dur": 3.8,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "天守|护城河"
     },
     {
      "text": "在老街里东看看西看看",
      "at": "P?_s3+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "老街|商店街|城下町"
     },
     {
      "text": "接一捧泉水，凉凉的",
      "at": "P?_s4+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "泉水"
     },
     {
      "text": "路过一座神社",
      "at": "P?_s5+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "鸟居|参道"
     },
     {
      "text": "进去拜一拜",
      "at": "P?_s6+0.8",
      "dur": 3.5,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "参拜"
     },
     {
      "text": "边吃边聊",
      "at": "P?_s9-8",
      "dur": 3,
-     "in": "fade-in",
-     "out": "fade-out",
+     "in": "blur",
+     "out": "blur",
      "match": "吃"
     },
     {
      "text": "旅行就到这里啦",
      "at": "P?_s10+1",
      "dur": 5,
-     "in": "fade-in",
-     "out": "fade-out"
+     "in": "blur",
+     "out": "blur"
     }
    ]
   }

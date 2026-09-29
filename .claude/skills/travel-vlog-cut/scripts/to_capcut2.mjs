@@ -179,14 +179,22 @@ const animContainer = seg => {
 const libPath = path.join(WORK, 'out', 'fx_library.json');
 const lib = fs.existsSync(libPath) ? JSON.parse(fs.readFileSync(libPath, 'utf8')) : { transitions: [], anims: {} };
 const ANIM_NAMES = { 'fade-in': 'Fade In', 'fade-out': 'Fade Out', typewriter: 'Typewriter' };
-const findTransition = ({ name, slug }) => {
+// out/fx_free.json (from fx_test.mjs + fx_classify.mjs): effects CapCut blocked at export are refused here,
+// so a draft never ends up needing Pro
+const freePath = path.join(WORK, 'out', 'fx_free.json');
+const PAID = new Set();
+if (fs.existsSync(freePath)) for (const list of Object.values(JSON.parse(fs.readFileSync(freePath, 'utf8')).paid)) for (const x of list) PAID.add(String(x.resource_id));
+const noPaid = (m, what) => { if (PAID.has(String(m.resource_id))) throw new Error(`${what} is a paid (Pro) effect in CapCut; pick a free one from out/fx_free.json`); return m; };
+const findTransition = ({ name, slug }) => noPaid(findTransition0({ name, slug }), `transition ${name ?? slug}`);
+const findTransition0 = ({ name, slug }) => {
   const app = lib.transitions.find(t => t.name === name);
   if (app) return structuredClone(app);
   const m = enums.transitions.find(x => (slug && x.slug === slug) || (name && x.name === name));
   if (!m) throw new Error(`unknown transition ${name ?? slug}`);
   return { category_id: '', category_name: '', effect_id: m.effect_id, is_overlap: m.is_overlap ?? false, name: m.name, platform: 'all', resource_id: m.resource_id, type: 'transition' };
 };
-const findAnim = (materialType, type, slug) => {
+const findAnim = (materialType, type, slug) => noPaid(findAnim0(materialType, type, slug), `${materialType} ${type} animation ${slug}`);
+const findAnim0 = (materialType, type, slug) => {
   const app = lib.anims[`${materialType}:${type}:${ANIM_NAMES[slug] ?? slug}`];
   if (app) return structuredClone(app);
   if (materialType === 'video') {
