@@ -1,6 +1,6 @@
 {
- "checked_at": "2026-09-29T12:53:08.363Z",
- "capcut_block_time": "2026-09-29T12:52:29.866Z",
+ "note": "CapCut 9.5.0 (Windows). transitions: run 1 (all recognized, none blocked); animations/music/audio effects: run 2; scene effects: run 3 effects-only (all recognized, no block record)",
+ "checked_at": "2026-09-29T13:12:33.774Z",
  "free": {
   "video_intro": [
    {
@@ -238,6 +238,758 @@
     "name": "Flip",
     "resource_id": "6738353628215513613",
     "effect_id": "6738353628215513613"
+   }
+  ],
+  "text_intro": [
+   {
+    "slug": "throw-out",
+    "name": "Throw Out",
+    "resource_id": "7233110260204966402",
+    "effect_id": "7233110260204966402"
+   },
+   {
+    "slug": "typewriter",
+    "name": "Typewriter",
+    "resource_id": "7210980292243231233",
+    "effect_id": "7210980292243231233"
+   },
+   {
+    "slug": "concentrate",
+    "name": "Concentrate",
+    "resource_id": "7044433622119485954",
+    "effect_id": "7044433622119485954"
+   },
+   {
+    "slug": "glitch",
+    "name": "Glitch",
+    "resource_id": "7077812383946641921",
+    "effect_id": "7077812383946641921"
+   },
+   {
+    "slug": "spin-in-2",
+    "name": "Spin In 2",
+    "resource_id": "6775803763652301326",
+    "effect_id": "6775803763652301326"
+   },
+   {
+    "slug": "spin-in-1",
+    "name": "Spin In 1",
+    "resource_id": "6763873859402732039",
+    "effect_id": "6763873859402732039"
+   },
+   {
+    "slug": "wave-in",
+    "name": "Wave in",
+    "resource_id": "6918927741362377218",
+    "effect_id": "6918927741362377218"
+   },
+   {
+    "slug": "faulty-text",
+    "name": "Faulty text",
+    "resource_id": "6870325507511030274",
+    "effect_id": "6870325507511030274"
+   },
+   {
+    "slug": "dissolve",
+    "name": "Dissolve",
+    "resource_id": "6873386253367120386",
+    "effect_id": "6873386253367120386"
+   },
+   {
+    "slug": "chroma-type",
+    "name": "Chroma Type",
+    "resource_id": "7402175560819937809",
+    "effect_id": "7402175560819937809"
+   },
+   {
+    "slug": "spiral",
+    "name": "Spiral",
+    "resource_id": "6799873891352187406",
+    "effect_id": "6799873891352187406"
+   },
+   {
+    "slug": "blur",
+    "name": "Blur",
+    "resource_id": "6923135604519604737",
+    "effect_id": "6923135604519604737"
+   },
+   {
+    "slug": "type-1",
+    "name": "Type 1",
+    "resource_id": "6724920249654710791",
+    "effect_id": "6724920249654710791"
+   },
+   {
+    "slug": "float-down",
+    "name": "Float Down",
+    "resource_id": "7094880375222047233",
+    "effect_id": "7094880375222047233"
+   },
+   {
+    "slug": "zoom-in",
+    "name": "Zoom In",
+    "resource_id": "6724919499042066958",
+    "effect_id": "6724919499042066958"
+   },
+   {
+    "slug": "open",
+    "name": "Open",
+    "resource_id": "6943606694240850434",
+    "effect_id": "6943606694240850434"
+   },
+   {
+    "slug": "blur-to-the-left",
+    "name": "Blur to the Left",
+    "resource_id": "7131932467698602497",
+    "effect_id": "7131932467698602497"
+   },
+   {
+    "slug": "karaoke",
+    "name": "Karaoke",
+    "resource_id": "6771294855785091588",
+    "effect_id": "6771294855785091588"
+   },
+   {
+    "slug": "flicker",
+    "name": "Flicker",
+    "resource_id": "7040020396136993282",
+    "effect_id": "7040020396136993282"
+   },
+   {
+    "slug": "flip-and-jump",
+    "name": "Flip and jump",
+    "resource_id": "6865175746420150792",
+    "effect_id": "6865175746420150792"
+   },
+   {
+    "slug": "flutter",
+    "name": "Flutter",
+    "resource_id": "7094880213590348290",
+    "effect_id": "7094880213590348290"
+   },
+   {
+    "slug": "dissolve-down",
+    "name": "Dissolve Down",
+    "resource_id": "7037028613287318018",
+    "effect_id": "7037028613287318018"
+   },
+   {
+    "slug": "wipe-right",
+    "name": "Wipe Right",
+    "resource_id": "6771288500240126478",
+    "effect_id": "6771288500240126478"
+   },
+   {
+    "slug": "slingshot",
+    "name": "Slingshot",
+    "resource_id": "6862897343176380942",
+    "effect_id": "6862897343176380942"
+   },
+   {
+    "slug": "blur-to-the-right",
+    "name": "Blur to the right",
+    "resource_id": "7203606035557257730",
+    "effect_id": "7203606035557257730"
+   },
+   {
+    "slug": "jolt-forward",
+    "name": "Jolt Forward",
+    "resource_id": "7086778010807833090",
+    "effect_id": "7086778010807833090"
+   },
+   {
+    "slug": "rotation-verbatim",
+    "name": "Rotation Verbatim",
+    "resource_id": "7131932250437849602",
+    "effect_id": "7131932250437849602"
+   },
+   {
+    "slug": "elastic-telescopic-ii",
+    "name": "Elastic Telescopic II",
+    "resource_id": "7161336180561154562",
+    "effect_id": "7161336180561154562"
+   },
+   {
+    "slug": "flip-verbatim",
+    "name": "Flip Verbatim",
+    "resource_id": "7131932337893282306",
+    "effect_id": "7131932337893282306"
+   },
+   {
+    "slug": "trail",
+    "name": "Trail",
+    "resource_id": "7231492571321602562",
+    "effect_id": "7231492571321602562"
+   },
+   {
+    "slug": "clock-wipe",
+    "name": "Clock wipe",
+    "resource_id": "6840689010034086407",
+    "effect_id": "6840689010034086407"
+   },
+   {
+    "slug": "flipping",
+    "name": "Flipping",
+    "resource_id": "7221379732166676993",
+    "effect_id": "7221379732166676993"
+   },
+   {
+    "slug": "squeeze",
+    "name": "Squeeze",
+    "resource_id": "6779879712261935619",
+    "effect_id": "6779879712261935619"
+   },
+   {
+    "slug": "fold",
+    "name": "Fold",
+    "resource_id": "7131933414189437441",
+    "effect_id": "7131933414189437441"
+   },
+   {
+    "slug": "roll-in",
+    "name": "Roll In",
+    "resource_id": "7037027812351414786",
+    "effect_id": "7037027812351414786"
+   },
+   {
+    "slug": "judder-up",
+    "name": "Judder Up",
+    "resource_id": "7086778112611979777",
+    "effect_id": "7086778112611979777"
+   },
+   {
+    "slug": "type-3",
+    "name": "Type 3",
+    "resource_id": "6724920521462387207",
+    "effect_id": "6724920521462387207"
+   },
+   {
+    "slug": "blow-in",
+    "name": "Blow In",
+    "resource_id": "6873386357952090626",
+    "effect_id": "6873386357952090626"
+   },
+   {
+    "slug": "wobble",
+    "name": "Wobble",
+    "resource_id": "7095603439912096258",
+    "effect_id": "7095603439912096258"
+   },
+   {
+    "slug": "bounce-from-tr",
+    "name": "Bounce from TR",
+    "resource_id": "7080126619364364801",
+    "effect_id": "7080126619364364801"
+   },
+   {
+    "slug": "showing-up",
+    "name": "Showing Up",
+    "resource_id": "7149113228788765186",
+    "effect_id": "7149113228788765186"
+   },
+   {
+    "slug": "mini-zoom",
+    "name": "Mini Zoom",
+    "resource_id": "6763469998330483213",
+    "effect_id": "6763469998330483213"
+   },
+   {
+    "slug": "set-to-the-right",
+    "name": "Set to the Right",
+    "resource_id": "7145435431297880577",
+    "effect_id": "7145435431297880577"
+   },
+   {
+    "slug": "slide-left",
+    "name": "Slide Left",
+    "resource_id": "7403255792146584081",
+    "effect_id": "7403255792146584081"
+   },
+   {
+    "slug": "bounce-in-tl",
+    "name": "Bounce In TL",
+    "resource_id": "7080126868136923650",
+    "effect_id": "7080126868136923650"
+   },
+   {
+    "slug": "wipe-up",
+    "name": "Wipe Up",
+    "resource_id": "6774625910067827212",
+    "effect_id": "6774625910067827212"
+   },
+   {
+    "slug": "random-bounce",
+    "name": "Random Bounce",
+    "resource_id": "7046650374005985793",
+    "effect_id": "7046650374005985793"
+   },
+   {
+    "slug": "blur-wipe-left",
+    "name": "Blur Wipe Left",
+    "resource_id": "6909714445518246401",
+    "effect_id": "6909714445518246401"
+   },
+   {
+    "slug": "sunrise",
+    "name": "Sunrise",
+    "resource_id": "6779084126457696776",
+    "effect_id": "6779084126457696776"
+   },
+   {
+    "slug": "wipe-down",
+    "name": "Wipe Down",
+    "resource_id": "6774626192990409224",
+    "effect_id": "6774626192990409224"
+   },
+   {
+    "slug": "wipe-in-lr",
+    "name": "Wipe In LR",
+    "resource_id": "7095603601355051521",
+    "effect_id": "7095603601355051521"
+   },
+   {
+    "slug": "wipe-left",
+    "name": "Wipe Left",
+    "resource_id": "6774626830038077960",
+    "effect_id": "6774626830038077960"
+   },
+   {
+    "slug": "slide-left-1",
+    "name": "Slide Left",
+    "resource_id": "6763470195894784525",
+    "effect_id": "6763470195894784525"
+   },
+   {
+    "slug": "slide-up-1",
+    "name": "Slide Up",
+    "resource_id": "7275682326678344193",
+    "effect_id": "7275682326678344193"
+   },
+   {
+    "slug": "boing",
+    "name": "Boing",
+    "resource_id": "6873386210002211330",
+    "effect_id": "6873386210002211330"
+   },
+   {
+    "slug": "ease-in-right",
+    "name": "Ease In Right",
+    "resource_id": "7054065145990877698",
+    "effect_id": "7054065145990877698"
+   },
+   {
+    "slug": "turn-horizontal",
+    "name": "Turn Horizontal",
+    "resource_id": "7063344665025581570",
+    "effect_id": "7063344665025581570"
+   },
+   {
+    "slug": "grow",
+    "name": "Grow",
+    "resource_id": "6873386301182185986",
+    "effect_id": "6873386301182185986"
+   },
+   {
+    "slug": "showing-down",
+    "name": "Showing Down",
+    "resource_id": "7149113292747706881",
+    "effect_id": "7149113292747706881"
+   },
+   {
+    "slug": "flip-up",
+    "name": "Flip up",
+    "resource_id": "7195849719673786882",
+    "effect_id": "7195849719673786882"
+   }
+  ],
+  "text_outro": [
+   {
+    "slug": "blur",
+    "name": "Blur",
+    "resource_id": "6923134492760609282",
+    "effect_id": "6923134492760609282"
+   },
+   {
+    "slug": "zoom-in",
+    "name": "Zoom In",
+    "resource_id": "6724919767200698884",
+    "effect_id": "6724919767200698884"
+   },
+   {
+    "slug": "typewriter",
+    "name": "Typewriter",
+    "resource_id": "7210980400984756738",
+    "effect_id": "7210980400984756738"
+   },
+   {
+    "slug": "zoom-in-2",
+    "name": "Zoom In 2",
+    "resource_id": "7054480833201050114",
+    "effect_id": "7054480833201050114"
+   },
+   {
+    "slug": "dissolve-up",
+    "name": "Dissolve Up",
+    "resource_id": "7037028782544261634",
+    "effect_id": "7037028782544261634"
+   },
+   {
+    "slug": "slide-down",
+    "name": "Slide Down",
+    "resource_id": "7403256664498901520",
+    "effect_id": "7403256664498901520"
+   },
+   {
+    "slug": "dissolve",
+    "name": "Dissolve",
+    "resource_id": "6873386286082691586",
+    "effect_id": "6873386286082691586"
+   },
+   {
+    "slug": "slide-up",
+    "name": "Slide Up",
+    "resource_id": "6763873533115240968",
+    "effect_id": "6763873533115240968"
+   },
+   {
+    "slug": "flicker",
+    "name": "Flicker",
+    "resource_id": "7040020559656129025",
+    "effect_id": "7040020559656129025"
+   },
+   {
+    "slug": "blur-to-the-left",
+    "name": "Blur to the Left",
+    "resource_id": "7131932497641738753",
+    "effect_id": "7131932497641738753"
+   },
+   {
+    "slug": "zoom-out",
+    "name": "Zoom Out",
+    "resource_id": "7428455252141100293",
+    "effect_id": "7428455252141100293"
+   },
+   {
+    "slug": "mini-zoom",
+    "name": "Mini Zoom",
+    "resource_id": "6763469915518145032",
+    "effect_id": "6763469915518145032"
+   },
+   {
+    "slug": "bounce-out",
+    "name": "Bounce Out",
+    "resource_id": "6887765964515971585",
+    "effect_id": "6887765964515971585"
+   },
+   {
+    "slug": "wipe-left",
+    "name": "Wipe Left",
+    "resource_id": "6774626748177846791",
+    "effect_id": "6774626748177846791"
+   },
+   {
+    "slug": "expand",
+    "name": "Expand",
+    "resource_id": "6779879836916650509",
+    "effect_id": "6779879836916650509"
+   },
+   {
+    "slug": "throw-back",
+    "name": "Throw Back",
+    "resource_id": "7233110388701663745",
+    "effect_id": "7233110388701663745"
+   },
+   {
+    "slug": "slide-left",
+    "name": "Slide Left",
+    "resource_id": "6763873602476446221",
+    "effect_id": "6763873602476446221"
+   },
+   {
+    "slug": "slide-up-1",
+    "name": "Slide Up",
+    "resource_id": "7403256763803243024",
+    "effect_id": "7403256763803243024"
+   },
+   {
+    "slug": "type-1",
+    "name": "Type 1",
+    "resource_id": "6763469696260903435",
+    "effect_id": "6763469696260903435"
+   },
+   {
+    "slug": "dilute",
+    "name": "Dilute",
+    "resource_id": "7044433705141539329",
+    "effect_id": "7044433705141539329"
+   },
+   {
+    "slug": "type-2",
+    "name": "Type 2",
+    "resource_id": "6763469767555682823",
+    "effect_id": "6763469767555682823"
+   },
+   {
+    "slug": "horizontal-close",
+    "name": "Horizontal Close",
+    "resource_id": "6943606672514355714",
+    "effect_id": "6943606672514355714"
+   },
+   {
+    "slug": "slide-right",
+    "name": "Slide Right",
+    "resource_id": "6724920744431587853",
+    "effect_id": "6724920744431587853"
+   },
+   {
+    "slug": "random-typewriter",
+    "name": "Random Typewriter",
+    "resource_id": "7145435491129627137",
+    "effect_id": "7145435491129627137"
+   },
+   {
+    "slug": "flutter",
+    "name": "Flutter",
+    "resource_id": "7094881109661454849",
+    "effect_id": "7094881109661454849"
+   },
+   {
+    "slug": "fold",
+    "name": "Fold",
+    "resource_id": "7131933395650613762",
+    "effect_id": "7131933395650613762"
+   },
+   {
+    "slug": "trail",
+    "name": "Trail",
+    "resource_id": "7231863704063578626",
+    "effect_id": "7231863704063578626"
+   },
+   {
+    "slug": "chromatic-aberration-tailing",
+    "name": "Chromatic Aberration Tailing",
+    "resource_id": "7161314207609131522",
+    "effect_id": "7161314207609131522"
+   },
+   {
+    "slug": "roll-out",
+    "name": "Roll Out",
+    "resource_id": "7037027990873575938",
+    "effect_id": "7037027990873575938"
+   },
+   {
+    "slug": "pop-down",
+    "name": "Pop Down",
+    "resource_id": "7145435533580177921",
+    "effect_id": "7145435533580177921"
+   },
+   {
+    "slug": "slingshot",
+    "name": "Slingshot",
+    "resource_id": "6862897350478664200",
+    "effect_id": "6862897350478664200"
+   },
+   {
+    "slug": "faulty-text",
+    "name": "Faulty text",
+    "resource_id": "6870325383217025538",
+    "effect_id": "6870325383217025538"
+   },
+   {
+    "slug": "sunset",
+    "name": "Sunset",
+    "resource_id": "6779084194392838670",
+    "effect_id": "6779084194392838670"
+   },
+   {
+    "slug": "wipe-right",
+    "name": "Wipe Right",
+    "resource_id": "6783908820176343566",
+    "effect_id": "6783908820176343566"
+   },
+   {
+    "slug": "bounce-out-tr",
+    "name": "Bounce Out TR",
+    "resource_id": "7080126748129497601",
+    "effect_id": "7080126748129497601"
+   },
+   {
+    "slug": "glitch",
+    "name": "Glitch",
+    "resource_id": "7077812264559972865",
+    "effect_id": "7077812264559972865"
+   },
+   {
+    "slug": "stroke-fill",
+    "name": "Stroke Fill",
+    "resource_id": "7239696026389451266",
+    "effect_id": "7239696026389451266"
+   },
+   {
+    "slug": "wipe-down",
+    "name": "Wipe Down",
+    "resource_id": "6774626081791021576",
+    "effect_id": "6774626081791021576"
+   },
+   {
+    "slug": "flip-down",
+    "name": "Flip Down",
+    "resource_id": "7198418239955669506",
+    "effect_id": "7198418239955669506"
+   },
+   {
+    "slug": "blur-erase-right",
+    "name": "Blur Erase Right",
+    "resource_id": "6909715076459008514",
+    "effect_id": "6909715076459008514"
+   },
+   {
+    "slug": "turn-horizontal",
+    "name": "Turn Horizontal",
+    "resource_id": "7063344803768963585",
+    "effect_id": "7063344803768963585"
+   },
+   {
+    "slug": "flipping",
+    "name": "Flipping",
+    "resource_id": "7221823093847626241",
+    "effect_id": "7221823093847626241"
+   },
+   {
+    "slug": "grow",
+    "name": "Grow",
+    "resource_id": "6873386318026510850",
+    "effect_id": "6873386318026510850"
+   },
+   {
+    "slug": "ease-out-right",
+    "name": "Ease Out Right",
+    "resource_id": "7054065225024147969",
+    "effect_id": "7054065225024147969"
+   },
+   {
+    "slug": "spring",
+    "name": "Spring",
+    "resource_id": "6887766592759796225",
+    "effect_id": "6887766592759796225"
+   },
+   {
+    "slug": "blur-erase-left",
+    "name": "Blur Erase Left",
+    "resource_id": "6909714891058188801",
+    "effect_id": "6909714891058188801"
+   },
+   {
+    "slug": "wipe-up",
+    "name": "Wipe Up",
+    "resource_id": "6774625752794010115",
+    "effect_id": "6774625752794010115"
+   },
+   {
+    "slug": "vrille",
+    "name": "Vrille",
+    "resource_id": "6799874105710481927",
+    "effect_id": "6799874105710481927"
+   },
+   {
+    "slug": "blow-away",
+    "name": "Blow Away",
+    "resource_id": "6873386371508081154",
+    "effect_id": "6873386371508081154"
+   },
+   {
+    "slug": "type-3",
+    "name": "Type 3",
+    "resource_id": "6763469838368117256",
+    "effect_id": "6763469838368117256"
+   },
+   {
+    "slug": "rotation-verbatim",
+    "name": "Rotation Verbatim",
+    "resource_id": "7131932325171958273",
+    "effect_id": "7131932325171958273"
+   },
+   {
+    "slug": "fly-out",
+    "name": "Fly Out",
+    "resource_id": "7037028379068994050",
+    "effect_id": "7037028379068994050"
+   },
+   {
+    "slug": "float-up",
+    "name": "Float Up",
+    "resource_id": "7094881236941804033",
+    "effect_id": "7094881236941804033"
+   },
+   {
+    "slug": "spin-out-1",
+    "name": "Spin Out 1",
+    "resource_id": "6763873732143354376",
+    "effect_id": "6763873732143354376"
+   },
+   {
+    "slug": "spin-out-2",
+    "name": "Spin Out 2",
+    "resource_id": "6775804032318444045",
+    "effect_id": "6775804032318444045"
+   },
+   {
+    "slug": "slide-down-2",
+    "name": "Slide Down",
+    "resource_id": "7275978484902531585",
+    "effect_id": "7275978484902531585"
+   },
+   {
+    "slug": "flip-verbatim",
+    "name": "Flip Verbatim",
+    "resource_id": "7131932349456978433",
+    "effect_id": "7131932349456978433"
+   },
+   {
+    "slug": "wave-out",
+    "name": "Wave out",
+    "resource_id": "6918927254676312578",
+    "effect_id": "6918927254676312578"
+   },
+   {
+    "slug": "elastic-telescopic-ii",
+    "name": "Elastic Telescopic II",
+    "resource_id": "7163958556784333313",
+    "effect_id": "7163958556784333313"
+   },
+   {
+    "slug": "clock-wipe",
+    "name": "Clock wipe",
+    "resource_id": "6840698265277567496",
+    "effect_id": "6840698265277567496"
+   },
+   {
+    "slug": "jump-and-flip",
+    "name": "Jump and flip",
+    "resource_id": "6865176065514410503",
+    "effect_id": "6865176065514410503"
+   }
+  ],
+  "music": [
+   {
+    "name": "daydream",
+    "resource_id": "7610709961920284673"
+   },
+   {
+    "name": "MINI VLOG.",
+    "resource_id": "7558755583353030673"
+   },
+   {
+    "name": "MINI VLOG.",
+    "resource_id": "7558755583353030673"
+   },
+   {
+    "name": "daydream",
+    "resource_id": "7610709961920284673"
+   },
+   {
+    "name": "MINI VLOG.",
+    "resource_id": "7558755583353030673"
    }
   ],
   "transition": [
@@ -938,750 +1690,324 @@
     "effect_id": "FA59E619-C9AD-4c39-9205-9998FC6C9B48"
    }
   ],
-  "text_intro": [
+  "scene_effect": [
    {
-    "slug": "throw-out",
-    "name": "Throw Out",
-    "resource_id": "7233110260204966402",
-    "effect_id": "7233110260204966402"
+    "slug": "shake",
+    "name": "shake",
+    "resource_id": "7061205058364788270",
+    "effect_id": "7061205058364788270"
    },
    {
-    "slug": "typewriter",
-    "name": "Typewriter",
-    "resource_id": "7210980292243231233",
-    "effect_id": "7210980292243231233"
+    "slug": "vhs",
+    "name": "vhs",
+    "resource_id": "6706773500257242119",
+    "effect_id": "6706773500257242119"
    },
    {
-    "slug": "concentrate",
-    "name": "Concentrate",
-    "resource_id": "7044433622119485954",
-    "effect_id": "7044433622119485954"
+    "slug": "cinematic",
+    "name": "cinematic",
+    "resource_id": "7102283971168211981",
+    "effect_id": "7102283971168211981"
    },
    {
-    "slug": "glitch",
-    "name": "Glitch",
-    "resource_id": "7077812383946641921",
-    "effect_id": "7077812383946641921"
+    "slug": "light-leak-v",
+    "name": "light-leak-v",
+    "resource_id": "7039726019823718926",
+    "effect_id": "7039726019823718926"
    },
    {
-    "slug": "spin-in-2",
-    "name": "Spin In 2",
-    "resource_id": "6775803763652301326",
-    "effect_id": "6775803763652301326"
+    "slug": "film-grain",
+    "name": "film-grain",
+    "resource_id": "6921123676029981197",
+    "effect_id": "6921123676029981197"
    },
    {
-    "slug": "spin-in-1",
-    "name": "Spin In 1",
-    "resource_id": "6763873859402732039",
-    "effect_id": "6763873859402732039"
+    "slug": "chromatic",
+    "name": "chromatic",
+    "resource_id": "7069620856462184973",
+    "effect_id": "7069620856462184973"
    },
    {
-    "slug": "wave-in",
-    "name": "Wave in",
-    "resource_id": "6918927741362377218",
-    "effect_id": "6918927741362377218"
+    "slug": "vignette-v",
+    "name": "vignette-v",
+    "resource_id": "6710812571147752967",
+    "effect_id": "6710812571147752967"
    },
    {
-    "slug": "faulty-text",
-    "name": "Faulty text",
-    "resource_id": "6870325507511030274",
-    "effect_id": "6870325507511030274"
+    "slug": "zoom-lens",
+    "name": "Zoom Lens",
+    "resource_id": "6868546663607177736",
+    "effect_id": "15206420"
    },
    {
-    "slug": "dissolve",
-    "name": "Dissolve",
-    "resource_id": "6873386253367120386",
-    "effect_id": "6873386253367120386"
+    "slug": "rolling-film",
+    "name": "Rolling Film",
+    "resource_id": "7088226690396066305",
+    "effect_id": "15206743"
    },
    {
-    "slug": "chroma-type",
-    "name": "Chroma Type",
-    "resource_id": "7402175560819937809",
-    "effect_id": "7402175560819937809"
+    "slug": "edge-glow",
+    "name": "Edge Glow",
+    "resource_id": "6769065553207235086",
+    "effect_id": "15206415"
    },
    {
-    "slug": "spiral",
-    "name": "Spiral",
-    "resource_id": "6799873891352187406",
-    "effect_id": "6799873891352187406"
+    "slug": "vignette",
+    "name": "Vignette",
+    "resource_id": "6723086142658318860",
+    "effect_id": "15206403"
    },
    {
-    "slug": "blur",
-    "name": "Blur",
-    "resource_id": "6923135604519604737",
-    "effect_id": "6923135604519604737"
+    "slug": "noise-2",
+    "name": "Noise 2",
+    "resource_id": "6803161742789579277",
+    "effect_id": "15206730"
    },
    {
-    "slug": "type-1",
-    "name": "Type 1",
-    "resource_id": "6724920249654710791",
-    "effect_id": "6724920249654710791"
+    "slug": "leak-1",
+    "name": "Leak 1",
+    "resource_id": "6815093106841489934",
+    "effect_id": "15206864"
    },
    {
-    "slug": "float-down",
-    "name": "Float Down",
-    "resource_id": "7094880375222047233",
-    "effect_id": "7094880375222047233"
+    "slug": "black-noise",
+    "name": "Black Noise",
+    "resource_id": "6888643828492800514",
+    "effect_id": "15206732"
    },
    {
-    "slug": "zoom-in",
-    "name": "Zoom In",
-    "resource_id": "6724919499042066958",
-    "effect_id": "6724919499042066958"
+    "slug": "lightning-crack",
+    "name": "Lightning Crack",
+    "resource_id": "7111576355736654337",
+    "effect_id": "15207138"
    },
    {
-    "slug": "open",
-    "name": "Open",
-    "resource_id": "6943606694240850434",
-    "effect_id": "6943606694240850434"
+    "slug": "lightning",
+    "name": "Lightning",
+    "resource_id": "7104581530567053825",
+    "effect_id": "15207206"
    },
    {
-    "slug": "blur-to-the-left",
-    "name": "Blur to the Left",
-    "resource_id": "7131932467698602497",
-    "effect_id": "7131932467698602497"
+    "slug": "leak-2",
+    "name": "Leak 2",
+    "resource_id": "6814743838964322829",
+    "effect_id": "15206869"
    },
    {
-    "slug": "karaoke",
-    "name": "Karaoke",
-    "resource_id": "6771294855785091588",
-    "effect_id": "6771294855785091588"
+    "slug": "rainbow-neon",
+    "name": "Rainbow Neon",
+    "resource_id": "7197323104480137729",
+    "effect_id": "12379624"
    },
    {
-    "slug": "flicker",
-    "name": "Flicker",
-    "resource_id": "7040020396136993282",
-    "effect_id": "7040020396136993282"
+    "slug": "halo-2",
+    "name": "Halo 2",
+    "resource_id": "6709701759398318604",
+    "effect_id": "15206860"
    },
    {
-    "slug": "flip-and-jump",
-    "name": "Flip and jump",
-    "resource_id": "6865175746420150792",
-    "effect_id": "6865175746420150792"
+    "slug": "leak-2-1",
+    "name": "Leak 2",
+    "resource_id": "7190317638709416449",
+    "effect_id": "9361407"
    },
    {
-    "slug": "flutter",
-    "name": "Flutter",
-    "resource_id": "7094880213590348290",
-    "effect_id": "7094880213590348290"
+    "slug": "rainbow-haze",
+    "name": "Rainbow Haze",
+    "resource_id": "6756845151630397960",
+    "effect_id": "15206535"
    },
    {
-    "slug": "dissolve-down",
-    "name": "Dissolve Down",
-    "resource_id": "7037028613287318018",
-    "effect_id": "7037028613287318018"
+    "slug": "zoom-lens-1",
+    "name": "Zoom Lens",
+    "resource_id": "6868546663607177736",
+    "effect_id": "15206420"
    },
    {
-    "slug": "wipe-right",
-    "name": "Wipe Right",
-    "resource_id": "6771288500240126478",
-    "effect_id": "6771288500240126478"
+    "slug": "cinema",
+    "name": "Cinema",
+    "resource_id": "6719333680713568771",
+    "effect_id": "15206416"
    },
    {
-    "slug": "slingshot",
-    "name": "Slingshot",
-    "resource_id": "6862897343176380942",
-    "effect_id": "6862897343176380942"
+    "slug": "leak-1-1",
+    "name": "Leak 1",
+    "resource_id": "6815093106841489934",
+    "effect_id": "15206864"
    },
    {
-    "slug": "blur-to-the-right",
-    "name": "Blur to the right",
-    "resource_id": "7203606035557257730",
-    "effect_id": "7203606035557257730"
+    "slug": "sunset-4",
+    "name": "Sunset 4",
+    "resource_id": "6834008866137575950",
+    "effect_id": "15206861"
    },
    {
-    "slug": "jolt-forward",
-    "name": "Jolt Forward",
-    "resource_id": "7086778010807833090",
-    "effect_id": "7086778010807833090"
+    "slug": "leak-2-2",
+    "name": "Leak 2",
+    "resource_id": "6814743838964322829",
+    "effect_id": "15206869"
    },
    {
-    "slug": "rotation-verbatim",
-    "name": "Rotation Verbatim",
-    "resource_id": "7131932250437849602",
-    "effect_id": "7131932250437849602"
+    "slug": "halo",
+    "name": "Halo",
+    "resource_id": "6714239617916211716",
+    "effect_id": "15206863"
    },
    {
-    "slug": "elastic-telescopic-ii",
-    "name": "Elastic Telescopic II",
-    "resource_id": "7161336180561154562",
-    "effect_id": "7161336180561154562"
+    "slug": "rainbow-sparkle",
+    "name": "Rainbow Sparkle",
+    "resource_id": "6717434470128947725",
+    "effect_id": "15206870"
    },
    {
-    "slug": "flip-verbatim",
-    "name": "Flip Verbatim",
-    "resource_id": "7131932337893282306",
-    "effect_id": "7131932337893282306"
+    "slug": "halo-2-1",
+    "name": "Halo 2",
+    "resource_id": "6709701759398318604",
+    "effect_id": "15206860"
    },
    {
-    "slug": "trail",
-    "name": "Trail",
-    "resource_id": "7231492571321602562",
-    "effect_id": "7231492571321602562"
+    "slug": "light-leak",
+    "name": "Light leak",
+    "resource_id": "6810944598874001934",
+    "effect_id": "15206876"
    },
    {
-    "slug": "clock-wipe",
-    "name": "Clock wipe",
-    "resource_id": "6840689010034086407",
-    "effect_id": "6840689010034086407"
+    "slug": "glowburst",
+    "name": "Glowburst",
+    "resource_id": "6753169731617821191",
+    "effect_id": "15206859"
    },
    {
-    "slug": "flipping",
-    "name": "Flipping",
-    "resource_id": "7221379732166676993",
-    "effect_id": "7221379732166676993"
+    "slug": "train-window",
+    "name": "Train Window",
+    "resource_id": "6834006887415943694",
+    "effect_id": "15206871"
    },
    {
-    "slug": "squeeze",
-    "name": "Squeeze",
-    "resource_id": "6779879712261935619",
-    "effect_id": "6779879712261935619"
+    "slug": "film-frame",
+    "name": "Film Frame",
+    "resource_id": "7008413768564609538",
+    "effect_id": "15206745"
    },
    {
-    "slug": "fold",
-    "name": "Fold",
-    "resource_id": "7131933414189437441",
-    "effect_id": "7131933414189437441"
+    "slug": "noise-1",
+    "name": "Noise 1",
+    "resource_id": "6706773534066086413",
+    "effect_id": "15206735"
    },
    {
-    "slug": "roll-in",
-    "name": "Roll In",
-    "resource_id": "7037027812351414786",
-    "effect_id": "7037027812351414786"
+    "slug": "noise-2-1",
+    "name": "Noise 2",
+    "resource_id": "6803161742789579277",
+    "effect_id": "15206730"
    },
    {
-    "slug": "judder-up",
-    "name": "Judder Up",
-    "resource_id": "7086778112611979777",
-    "effect_id": "7086778112611979777"
+    "slug": "black-noise-1",
+    "name": "Black Noise",
+    "resource_id": "6888643828492800514",
+    "effect_id": "15206732"
    },
    {
-    "slug": "type-3",
-    "name": "Type 3",
-    "resource_id": "6724920521462387207",
-    "effect_id": "6724920521462387207"
+    "slug": "retro-film",
+    "name": "Retro Film",
+    "resource_id": "7034407144908657154",
+    "effect_id": "15206723"
    },
    {
-    "slug": "blow-in",
-    "name": "Blow In",
-    "resource_id": "6873386357952090626",
-    "effect_id": "6873386357952090626"
+    "slug": "film-frame-2",
+    "name": "Film Frame 2",
+    "resource_id": "7008413857894896130",
+    "effect_id": "15206722"
    },
    {
-    "slug": "wobble",
-    "name": "Wobble",
-    "resource_id": "7095603439912096258",
-    "effect_id": "7095603439912096258"
+    "slug": "rolling-film-1",
+    "name": "Rolling Film",
+    "resource_id": "7088226690396066305",
+    "effect_id": "15206743"
    },
    {
-    "slug": "bounce-from-tr",
-    "name": "Bounce from TR",
-    "resource_id": "7080126619364364801",
-    "effect_id": "7080126619364364801"
+    "slug": "reversal-film",
+    "name": "Reversal Film",
+    "resource_id": "7156065656100622849",
+    "effect_id": "15206740"
    },
    {
-    "slug": "showing-up",
-    "name": "Showing Up",
-    "resource_id": "7149113228788765186",
-    "effect_id": "7149113228788765186"
+    "slug": "leak-2-3",
+    "name": "Leak 2",
+    "resource_id": "7190317638709416449",
+    "effect_id": "9361407"
    },
    {
-    "slug": "mini-zoom",
-    "name": "Mini Zoom",
-    "resource_id": "6763469998330483213",
-    "effect_id": "6763469998330483213"
+    "slug": "film-2",
+    "name": "Film 2",
+    "resource_id": "6710090540643258891",
+    "effect_id": "15206737"
    },
    {
-    "slug": "set-to-the-right",
-    "name": "Set to the Right",
-    "resource_id": "7145435431297880577",
-    "effect_id": "7145435431297880577"
+    "slug": "sun",
+    "name": "Sun",
+    "resource_id": "6740540037563159047",
+    "effect_id": "15207136"
    },
    {
-    "slug": "slide-left",
-    "name": "Slide Left",
-    "resource_id": "7403255792146584081",
-    "effect_id": "7403255792146584081"
+    "slug": "rain",
+    "name": "Rain",
+    "resource_id": "6734619419890160131",
+    "effect_id": "15207143"
    },
    {
-    "slug": "bounce-in-tl",
-    "name": "Bounce In TL",
-    "resource_id": "7080126868136923650",
-    "effect_id": "7080126868136923650"
+    "slug": "lightning-1",
+    "name": "Lightning",
+    "resource_id": "7104581530567053825",
+    "effect_id": "15207206"
    },
    {
-    "slug": "wipe-up",
-    "name": "Wipe Up",
-    "resource_id": "6774625910067827212",
-    "effect_id": "6774625910067827212"
+    "slug": "lightning-crack-1",
+    "name": "Lightning Crack",
+    "resource_id": "7111576355736654337",
+    "effect_id": "15207138"
    },
    {
-    "slug": "random-bounce",
-    "name": "Random Bounce",
-    "resource_id": "7046650374005985793",
-    "effect_id": "7046650374005985793"
+    "slug": "bw-vhs",
+    "name": "B&W VHS",
+    "resource_id": "7023733702773445122",
+    "effect_id": "15206997"
    },
    {
-    "slug": "blur-wipe-left",
-    "name": "Blur Wipe Left",
-    "resource_id": "6909714445518246401",
-    "effect_id": "6909714445518246401"
+    "slug": "retro-cam",
+    "name": "Retro Cam",
+    "resource_id": "6804357689859117581",
+    "effect_id": "15206782"
    },
    {
-    "slug": "sunrise",
-    "name": "Sunrise",
-    "resource_id": "6779084126457696776",
-    "effect_id": "6779084126457696776"
+    "slug": "noise",
+    "name": "Noise",
+    "resource_id": "6706773498510971404",
+    "effect_id": "15206769"
    },
    {
-    "slug": "wipe-down",
-    "name": "Wipe Down",
-    "resource_id": "6774626192990409224",
-    "effect_id": "6774626192990409224"
+    "slug": "star-rain",
+    "name": "Star Rain",
+    "resource_id": "6839514681044898311",
+    "effect_id": "15206648"
    },
    {
-    "slug": "wipe-in-lr",
-    "name": "Wipe In LR",
-    "resource_id": "7095603601355051521",
-    "effect_id": "7095603601355051521"
+    "slug": "star-rain-2",
+    "name": "Star Rain 2",
+    "resource_id": "6849588023714124295",
+    "effect_id": "15206634"
    },
    {
-    "slug": "wipe-left",
-    "name": "Wipe Left",
-    "resource_id": "6774626830038077960",
-    "effect_id": "6774626830038077960"
+    "slug": "grain",
+    "name": "Grain",
+    "resource_id": "6732693826135134734",
+    "effect_id": "15207311"
    },
    {
-    "slug": "slide-left-1",
-    "name": "Slide Left",
-    "resource_id": "6763470195894784525",
-    "effect_id": "6763470195894784525"
-   },
-   {
-    "slug": "slide-up-1",
-    "name": "Slide Up",
-    "resource_id": "7275682326678344193",
-    "effect_id": "7275682326678344193"
-   },
-   {
-    "slug": "boing",
-    "name": "Boing",
-    "resource_id": "6873386210002211330",
-    "effect_id": "6873386210002211330"
-   },
-   {
-    "slug": "ease-in-right",
-    "name": "Ease In Right",
-    "resource_id": "7054065145990877698",
-    "effect_id": "7054065145990877698"
-   },
-   {
-    "slug": "turn-horizontal",
-    "name": "Turn Horizontal",
-    "resource_id": "7063344665025581570",
-    "effect_id": "7063344665025581570"
-   },
-   {
-    "slug": "grow",
-    "name": "Grow",
-    "resource_id": "6873386301182185986",
-    "effect_id": "6873386301182185986"
-   },
-   {
-    "slug": "showing-down",
-    "name": "Showing Down",
-    "resource_id": "7149113292747706881",
-    "effect_id": "7149113292747706881"
-   },
-   {
-    "slug": "flip-up",
-    "name": "Flip up",
-    "resource_id": "7195849719673786882",
-    "effect_id": "7195849719673786882"
-   }
-  ],
-  "text_outro": [
-   {
-    "slug": "blur",
-    "name": "Blur",
-    "resource_id": "6923134492760609282",
-    "effect_id": "6923134492760609282"
-   },
-   {
-    "slug": "zoom-in",
-    "name": "Zoom In",
-    "resource_id": "6724919767200698884",
-    "effect_id": "6724919767200698884"
-   },
-   {
-    "slug": "typewriter",
-    "name": "Typewriter",
-    "resource_id": "7210980400984756738",
-    "effect_id": "7210980400984756738"
-   },
-   {
-    "slug": "zoom-in-2",
-    "name": "Zoom In 2",
-    "resource_id": "7054480833201050114",
-    "effect_id": "7054480833201050114"
-   },
-   {
-    "slug": "dissolve-up",
-    "name": "Dissolve Up",
-    "resource_id": "7037028782544261634",
-    "effect_id": "7037028782544261634"
-   },
-   {
-    "slug": "slide-down",
-    "name": "Slide Down",
-    "resource_id": "7403256664498901520",
-    "effect_id": "7403256664498901520"
-   },
-   {
-    "slug": "dissolve",
-    "name": "Dissolve",
-    "resource_id": "6873386286082691586",
-    "effect_id": "6873386286082691586"
-   },
-   {
-    "slug": "slide-up",
-    "name": "Slide Up",
-    "resource_id": "6763873533115240968",
-    "effect_id": "6763873533115240968"
-   },
-   {
-    "slug": "flicker",
-    "name": "Flicker",
-    "resource_id": "7040020559656129025",
-    "effect_id": "7040020559656129025"
-   },
-   {
-    "slug": "blur-to-the-left",
-    "name": "Blur to the Left",
-    "resource_id": "7131932497641738753",
-    "effect_id": "7131932497641738753"
-   },
-   {
-    "slug": "zoom-out",
-    "name": "Zoom Out",
-    "resource_id": "7428455252141100293",
-    "effect_id": "7428455252141100293"
-   },
-   {
-    "slug": "mini-zoom",
-    "name": "Mini Zoom",
-    "resource_id": "6763469915518145032",
-    "effect_id": "6763469915518145032"
-   },
-   {
-    "slug": "bounce-out",
-    "name": "Bounce Out",
-    "resource_id": "6887765964515971585",
-    "effect_id": "6887765964515971585"
-   },
-   {
-    "slug": "wipe-left",
-    "name": "Wipe Left",
-    "resource_id": "6774626748177846791",
-    "effect_id": "6774626748177846791"
-   },
-   {
-    "slug": "expand",
-    "name": "Expand",
-    "resource_id": "6779879836916650509",
-    "effect_id": "6779879836916650509"
-   },
-   {
-    "slug": "throw-back",
-    "name": "Throw Back",
-    "resource_id": "7233110388701663745",
-    "effect_id": "7233110388701663745"
-   },
-   {
-    "slug": "slide-left",
-    "name": "Slide Left",
-    "resource_id": "6763873602476446221",
-    "effect_id": "6763873602476446221"
-   },
-   {
-    "slug": "slide-up-1",
-    "name": "Slide Up",
-    "resource_id": "7403256763803243024",
-    "effect_id": "7403256763803243024"
-   },
-   {
-    "slug": "type-1",
-    "name": "Type 1",
-    "resource_id": "6763469696260903435",
-    "effect_id": "6763469696260903435"
-   },
-   {
-    "slug": "dilute",
-    "name": "Dilute",
-    "resource_id": "7044433705141539329",
-    "effect_id": "7044433705141539329"
-   },
-   {
-    "slug": "type-2",
-    "name": "Type 2",
-    "resource_id": "6763469767555682823",
-    "effect_id": "6763469767555682823"
-   },
-   {
-    "slug": "horizontal-close",
-    "name": "Horizontal Close",
-    "resource_id": "6943606672514355714",
-    "effect_id": "6943606672514355714"
-   },
-   {
-    "slug": "slide-right",
-    "name": "Slide Right",
-    "resource_id": "6724920744431587853",
-    "effect_id": "6724920744431587853"
-   },
-   {
-    "slug": "flutter",
-    "name": "Flutter",
-    "resource_id": "7094881109661454849",
-    "effect_id": "7094881109661454849"
-   },
-   {
-    "slug": "fold",
-    "name": "Fold",
-    "resource_id": "7131933395650613762",
-    "effect_id": "7131933395650613762"
-   },
-   {
-    "slug": "trail",
-    "name": "Trail",
-    "resource_id": "7231863704063578626",
-    "effect_id": "7231863704063578626"
-   },
-   {
-    "slug": "chromatic-aberration-tailing",
-    "name": "Chromatic Aberration Tailing",
-    "resource_id": "7161314207609131522",
-    "effect_id": "7161314207609131522"
-   },
-   {
-    "slug": "roll-out",
-    "name": "Roll Out",
-    "resource_id": "7037027990873575938",
-    "effect_id": "7037027990873575938"
-   },
-   {
-    "slug": "pop-down",
-    "name": "Pop Down",
-    "resource_id": "7145435533580177921",
-    "effect_id": "7145435533580177921"
-   },
-   {
-    "slug": "slingshot",
-    "name": "Slingshot",
-    "resource_id": "6862897350478664200",
-    "effect_id": "6862897350478664200"
-   },
-   {
-    "slug": "faulty-text",
-    "name": "Faulty text",
-    "resource_id": "6870325383217025538",
-    "effect_id": "6870325383217025538"
-   },
-   {
-    "slug": "sunset",
-    "name": "Sunset",
-    "resource_id": "6779084194392838670",
-    "effect_id": "6779084194392838670"
-   },
-   {
-    "slug": "wipe-right",
-    "name": "Wipe Right",
-    "resource_id": "6783908820176343566",
-    "effect_id": "6783908820176343566"
-   },
-   {
-    "slug": "bounce-out-tr",
-    "name": "Bounce Out TR",
-    "resource_id": "7080126748129497601",
-    "effect_id": "7080126748129497601"
-   },
-   {
-    "slug": "glitch",
-    "name": "Glitch",
-    "resource_id": "7077812264559972865",
-    "effect_id": "7077812264559972865"
-   },
-   {
-    "slug": "stroke-fill",
-    "name": "Stroke Fill",
-    "resource_id": "7239696026389451266",
-    "effect_id": "7239696026389451266"
-   },
-   {
-    "slug": "wipe-down",
-    "name": "Wipe Down",
-    "resource_id": "6774626081791021576",
-    "effect_id": "6774626081791021576"
-   },
-   {
-    "slug": "flip-down",
-    "name": "Flip Down",
-    "resource_id": "7198418239955669506",
-    "effect_id": "7198418239955669506"
-   },
-   {
-    "slug": "blur-erase-right",
-    "name": "Blur Erase Right",
-    "resource_id": "6909715076459008514",
-    "effect_id": "6909715076459008514"
-   },
-   {
-    "slug": "turn-horizontal",
-    "name": "Turn Horizontal",
-    "resource_id": "7063344803768963585",
-    "effect_id": "7063344803768963585"
-   },
-   {
-    "slug": "flipping",
-    "name": "Flipping",
-    "resource_id": "7221823093847626241",
-    "effect_id": "7221823093847626241"
-   },
-   {
-    "slug": "grow",
-    "name": "Grow",
-    "resource_id": "6873386318026510850",
-    "effect_id": "6873386318026510850"
-   },
-   {
-    "slug": "ease-out-right",
-    "name": "Ease Out Right",
-    "resource_id": "7054065225024147969",
-    "effect_id": "7054065225024147969"
-   },
-   {
-    "slug": "spring",
-    "name": "Spring",
-    "resource_id": "6887766592759796225",
-    "effect_id": "6887766592759796225"
-   },
-   {
-    "slug": "blur-erase-left",
-    "name": "Blur Erase Left",
-    "resource_id": "6909714891058188801",
-    "effect_id": "6909714891058188801"
-   },
-   {
-    "slug": "wipe-up",
-    "name": "Wipe Up",
-    "resource_id": "6774625752794010115",
-    "effect_id": "6774625752794010115"
-   },
-   {
-    "slug": "vrille",
-    "name": "Vrille",
-    "resource_id": "6799874105710481927",
-    "effect_id": "6799874105710481927"
-   },
-   {
-    "slug": "blow-away",
-    "name": "Blow Away",
-    "resource_id": "6873386371508081154",
-    "effect_id": "6873386371508081154"
-   },
-   {
-    "slug": "type-3",
-    "name": "Type 3",
-    "resource_id": "6763469838368117256",
-    "effect_id": "6763469838368117256"
-   },
-   {
-    "slug": "rotation-verbatim",
-    "name": "Rotation Verbatim",
-    "resource_id": "7131932325171958273",
-    "effect_id": "7131932325171958273"
-   },
-   {
-    "slug": "fly-out",
-    "name": "Fly Out",
-    "resource_id": "7037028379068994050",
-    "effect_id": "7037028379068994050"
-   },
-   {
-    "slug": "float-up",
-    "name": "Float Up",
-    "resource_id": "7094881236941804033",
-    "effect_id": "7094881236941804033"
-   },
-   {
-    "slug": "spin-out-1",
-    "name": "Spin Out 1",
-    "resource_id": "6763873732143354376",
-    "effect_id": "6763873732143354376"
-   },
-   {
-    "slug": "spin-out-2",
-    "name": "Spin Out 2",
-    "resource_id": "6775804032318444045",
-    "effect_id": "6775804032318444045"
-   },
-   {
-    "slug": "slide-down-2",
-    "name": "Slide Down",
-    "resource_id": "7275978484902531585",
-    "effect_id": "7275978484902531585"
-   },
-   {
-    "slug": "flip-verbatim",
-    "name": "Flip Verbatim",
-    "resource_id": "7131932349456978433",
-    "effect_id": "7131932349456978433"
-   },
-   {
-    "slug": "wave-out",
-    "name": "Wave out",
-    "resource_id": "6918927254676312578",
-    "effect_id": "6918927254676312578"
-   },
-   {
-    "slug": "elastic-telescopic-ii",
-    "name": "Elastic Telescopic II",
-    "resource_id": "7163958556784333313",
-    "effect_id": "7163958556784333313"
-   },
-   {
-    "slug": "clock-wipe",
-    "name": "Clock wipe",
-    "resource_id": "6840698265277567496",
-    "effect_id": "6840698265277567496"
-   },
-   {
-    "slug": "jump-and-flip",
-    "name": "Jump and flip",
-    "resource_id": "6865176065514410503",
-    "effect_id": "6865176065514410503"
-   }
-  ],
-  "music": [
-   {
-    "name": "daydream",
-    "resource_id": "7610709961920284673"
-   },
-   {
-    "name": "MINI VLOG.",
-    "resource_id": "7558755583353030673"
-   },
-   {
-    "name": "MINI VLOG.",
-    "resource_id": "7558755583353030673"
-   },
-   {
-    "name": "daydream",
-    "resource_id": "7610709961920284673"
-   },
-   {
-    "name": "MINI VLOG.",
-    "resource_id": "7558755583353030673"
+    "slug": "gold-dust",
+    "name": "Gold Dust",
+    "resource_id": "6709706378702754312",
+    "effect_id": "15207165"
    }
   ]
  },
@@ -2046,14 +2372,6 @@
   ]
  },
  "unknown": {
-  "text_outro": [
-   {
-    "slug": "random-typewriter",
-    "name": "Random Typewriter",
-    "resource_id": "7145435491129627137",
-    "effect_id": "7145435491129627137"
-   }
-  ],
   "audio_effect": [
    {
     "slug": "big-house",

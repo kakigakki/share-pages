@@ -20,6 +20,7 @@ const recognized = new Set();
 for (const t of c.materials.transitions ?? []) if (t.path) recognized.add(t.resource_id);
 for (const m of c.materials.material_animations ?? []) for (const a of m.animations) if (a.path) recognized.add(a.resource_id);
 for (const a of c.materials.audio_effects ?? []) if (a.path) recognized.add(a.resource_id);
+for (const a of c.materials.video_effects ?? []) if (a.path) recognized.add(a.resource_id);
 for (const a of c.materials.audios ?? []) recognized.add(a.music_id ?? a.id);
 
 const out = { checked_at: new Date().toISOString(), capcut_block_time: block.time ? new Date(block.time).toISOString() : null, free: {}, paid: {}, unknown: {} };

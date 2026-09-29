@@ -1,7 +1,7 @@
 {
  "name": "long",
  "title": "3 天旅行 vlog 长版",
- "version": 2,
+ "version": 3,
  "style": "温馨高级：慢节奏、柔和转场、克制运镜、音乐渐进",
  "canvas": {
   "ratio": "4:3",
@@ -89,11 +89,33 @@
    "to": "15:00",
    "pins": [
     {
+     "clip": "0026",
+     "in": 29.5,
+     "w": 2.6,
+     "first": true,
+     "intro": "fade-in"
+    },
+    {
+     "clip": "0045",
+     "in": 1,
+     "w": 2.6,
+     "first": true
+    },
+    {
+     "clip": "0020",
+     "in": 1,
+     "w": 2.6,
+     "first": true,
+     "transition": {
+      "name": "Black Fade",
+      "dur": 1
+     }
+    },
+    {
      "clip": "0003",
      "in": 330,
      "w": 6,
-     "vol": 0.3,
-     "intro": "fade-in"
+     "vol": 0.3
     },
     {
      "clip": "0003",
@@ -122,7 +144,9 @@
      "dur": 4,
      "size": 9,
      "in": "typewriter",
-     "out": "blur"
+     "out": "blur",
+     "match": "隧道",
+     "offset": 1
     },
     {
      "text": "出发，往山里开",
@@ -164,7 +188,8 @@
      "out": "blur",
      "match": "溪流"
     }
-   ]
+   ],
+   "minScore": 2
   },
   {
    "id": "DAY2 清晨",
@@ -296,7 +321,7 @@
    "day": "2026-09-25",
    "from": "11:30",
    "to": "15:00",
-   "minScore": 3,
+   "minScore": 2,
    "texts": [
     {
      "text": "天阴下来了",
@@ -339,7 +364,8 @@
      "match": "空旷|小路延伸"
     }
    ],
-   "maxPerClip": 2
+   "maxPerClip": 2,
+   "maxCar": 5
   },
   {
    "id": "DAY3",
@@ -435,6 +461,16 @@
   "0024@0",
   "0038@28",
   "0039@28",
-  "0039@36"
- ]
+  "0039@36",
+  "0042@16",
+  "0008@20"
+ ],
+ "maxCar": 3,
+ "rainSound": 0.3,
+ "levelHorizon": true,
+ "speech": {
+  "threshold": 0.18,
+  "vol": 0.9,
+  "duck": 0.35
+ }
 }

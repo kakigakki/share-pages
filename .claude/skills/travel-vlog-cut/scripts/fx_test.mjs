@@ -7,7 +7,10 @@ import path from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { CapCutDraft, DRAFTS_DIR } from '../capcut-mcp/src/core.js';
 
-const [draftName, songDraft] = process.argv.slice(2);
+const [draftName, songDraft, ...flags] = process.argv.slice(2);
+// --effects-only: just the scene effects, so paid effects are not crowded out of CapCut's block record
+// (the record seems to keep at most 50 items)
+const ONLY_FX = flags.includes('--effects-only');
 const WORK = path.join(import.meta.dirname, '..');
 const E = JSON.parse(fs.readFileSync(path.join(WORK, 'capcut-cli', 'src', 'enums.json'), 'utf8')).capcut;
 const manifest = JSON.parse(fs.readFileSync(path.join(WORK, 'out', 'manifest.json'), 'utf8'));
@@ -48,13 +51,14 @@ const anim = (m, type, materialType, segDur) => {
 };
 
 // video: one transition between every pair of clips, plus intro/outro anims on the first clips
-const nV = Math.max(E.transitions.length + 1, E.image_intros.length, E.image_outros.length);
+const nV = ONLY_FX ? 60 : Math.max(E.transitions.length + 1, E.image_intros.length, E.image_outros.length);
 const VD = 2.0;
 for (let i = 0; i < nV; i++) {
   const { segmentId } = d.addVideo(SRC.path, { atUs: us(i * VD), durUs: us(VD), srcStartUs: us((i * 0.7) % (SRC.duration - VD - 1)), trackIndex: vIdx });
   const seg = segById(segmentId);
   seg.volume = 0; seg.common_keyframes = [];
   seg.extra_material_refs = seg.extra_material_refs.filter(r => !mats('material_animations').some(m => m.id === r));
+  if (ONLY_FX) continue;
   const box = (E.image_intros[i] || E.image_outros[i]) ? animBox(seg) : null;
   if (E.image_intros[i]) { box.animations.push(anim(E.image_intros[i], 'in', 'video', VD)); map.push({ kind: 'video_intro', ...pick(E.image_intros[i]), at: i * VD }); }
   if (E.image_outros[i]) { box.animations.push(anim(E.image_outros[i], 'out', 'video', VD)); map.push({ kind: 'video_outro', ...pick(E.image_outros[i]), at: i * VD }); }
@@ -69,7 +73,7 @@ for (let i = 0; i < nV; i++) {
 for (const m of mats('videos')) m.duration = us(SRC.duration);
 
 // text: one caption per text intro (paired with an outro); the caption shows the slugs being tested
-const nT = Math.max(E.text_intros.length, E.text_outros.length);
+const nT = ONLY_FX ? 0 : Math.max(E.text_intros.length, E.text_outros.length);
 const TD = 2.5;
 for (let i = 0; i < nT; i++) {
   const a = E.text_intros[i], b = E.text_outros[i];
@@ -82,7 +86,7 @@ for (let i = 0; i < nT; i++) {
 }
 
 // audio: a few seconds of each song in use, then every catalogued audio effect (capcut-cli sfx shape, unverified)
-if (musicTpl) {
+if (musicTpl && !ONLY_FX) {
   const aIdx = c.tracks.length;
   d.addTrack('audio', 'songs');
   let at = 0;
@@ -94,13 +98,33 @@ if (musicTpl) {
     at += 10;
   }
 }
-const sfxTrack = c.tracks[d.addTrack('audio', 'sfx')];
-E.audio_effects.forEach((x, i) => {
+const sfxTrack = ONLY_FX ? null : c.tracks[d.addTrack('audio', 'sfx')];
+(ONLY_FX ? [] : E.audio_effects).forEach((x, i) => {
   const matId = randomUUID();
   mats('audio_effects').push({ id: matId, name: x.name, effect_id: x.effect_id, resource_id: x.resource_id, formula_id: '', is_vip: false, md5: x.md5 ?? '', type: 'sound_effect', category_id: '', category_name: '', path: '', platform: 'all', source_platform: 0, version: '' });
   sfxTrack.segments.push({ id: randomUUID(), material_id: matId, target_timerange: { start: us(30 + i * 3), duration: us(2.5) }, source_timerange: { start: 0, duration: us(2.5) }, speed: 1, volume: 1, visible: true, clip: null, extra_material_refs: [], render_index: 0 });
   map.push({ kind: 'audio_effect', ...pick(x), at: 30 + i * 3 });
 });
+
+// scene effects on their own "effect" track (capcut-cli factory.ts shape): the verified inline starter set
+// plus catalogue entries matching cinematic keywords (grain, vignette, leak, film, rain, ...)
+{
+  const VERIFIED = [['shake', '7061205058364788270'], ['vhs', '6706773500257242119'], ['cinematic', '7102283971168211981'], ['light-leak-v', '7039726019823718926'],
+    ['film-grain', '6921123676029981197'], ['chromatic', '7069620856462184973'], ['vignette-v', '6710812571147752967']].map(([slug, id]) => ({ slug, name: slug, effect_id: id, resource_id: id }));
+  const re = /grain|noise|film|vignette|leak|light|flare|glow|rain|drop|dust|cinema|vintage|retro|haze|sun|lens|halo|vhs/i;
+  const effects = [...VERIFIED, ...E.scene_effects.filter(x => re.test(`${x.slug} ${x.name}`))];
+  const track = { id: randomUUID(), type: 'effect', name: 'effects', attribute: 0, segments: [], is_default_name: false, flag: 0 };
+  c.tracks.push(track);
+  effects.forEach((x, i) => {
+    const matId = randomUUID(), at = i * 4, dur = 3.5;
+    mats('video_effects').push({ adjust_params: [], apply_target_type: 2, apply_time_range: null, category_id: '', category_name: '', common_keyframes: [], disable_effect_faces: [],
+      effect_id: x.effect_id, formula_id: '', id: matId, name: x.name, platform: 'all', render_index: 11000, resource_id: x.resource_id, source_platform: 0,
+      time_range: null, track_render_index: 0, type: 'video_effect', value: 1.0, version: '' });
+    track.segments.push({ id: randomUUID(), material_id: matId, raw_segment_id: track.id, target_timerange: { start: us(at), duration: us(dur) }, source_timerange: { start: 0, duration: us(dur) },
+      speed: 1, volume: 1, visible: true, reverse: false, clip: null, render_index: 11000, track_render_index: 0, track_attribute: 0, extra_material_refs: [], common_keyframes: [], keyframe_refs: [] });
+    map.push({ kind: 'scene_effect', ...pick(x), at });
+  });
+}
 
 function pick(m) { return { slug: m.slug, name: m.title ?? m.name, effect_id: m.effect_id, resource_id: m.resource_id }; }
 
@@ -111,4 +135,4 @@ const tl = path.join(dir, 'Timelines', c.id);
 for (const m of [path.join(dir, 'template-2.tmp'), path.join(dir, 'draft_content.json.bak'), path.join(tl, 'draft_content.json'), path.join(tl, 'template-2.tmp'), path.join(tl, 'draft_content.json.bak')]) fs.copyFileSync(content, m);
 fs.writeFileSync(path.join(WORK, 'out', 'fx_test_map.json'), JSON.stringify(map, null, 1));
 const count = k => map.filter(x => x.kind === k).length;
-console.log(`saved ${r.saved}: ${r.durationSec}s | transitions ${count('transition')}, video in ${count('video_intro')}/out ${count('video_outro')}, text in ${count('text_intro')}/out ${count('text_outro')}, music ${count('music')}, audio effects ${count('audio_effect')}`);
+console.log(`saved ${r.saved}: ${r.durationSec}s | transitions ${count('transition')}, video in ${count('video_intro')}/out ${count('video_outro')}, text in ${count('text_intro')}/out ${count('text_outro')}, music ${count('music')}, audio effects ${count('audio_effect')}, scene effects ${count('scene_effect')}`);

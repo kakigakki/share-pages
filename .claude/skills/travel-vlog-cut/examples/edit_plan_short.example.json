@@ -330,7 +330,8 @@
      "transition": {
       "name": "Dissolve",
       "dur": 1
-     }
+     },
+     "level": -4.5
     },
     {
      "clip": "DJI_20260925095223_0024_D.MP4",
@@ -655,5 +656,10 @@
    "in": "blur",
    "out": "blur"
   }
- ]
+ ],
+ "speech": {
+  "threshold": 0.18,
+  "vol": 0.9,
+  "duck": 0.35
+ }
 }

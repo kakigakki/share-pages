@@ -62,6 +62,12 @@ const snap = t => {
   return best;
 };
 const shots = [], overruns = [];
+// plan.speech: keep voices. Shots whose indexed moment has voicing >= threshold (scripts/speech.mjs) get their
+// live sound up and the music ducked under them.
+const SPEECH = plan.speech ? { threshold: 0.18, vol: 0.9, duck: 0.35, ...plan.speech } : null;
+const INDEX = SPEECH ? JSON.parse(fs.readFileSync(path.join(WORK, 'out', 'index', 'all.json'), 'utf8')) : [];
+const voicingOf = (file, a, b) => Math.max(0, ...INDEX.filter(m => m.file === file && m.start < b && m.end > a && m.speech).map(m => m.speech.score));
+let talking = 0;
 for (const act of plan.acts) {
   const a = A[act.from], b = A[act.to];
   const W = act.shots.reduce((s, x) => s + x.w, 0);
@@ -91,7 +97,9 @@ for (const act of plan.acts) {
     const outS = inS + dur * speed;
     if (dur < 1.2) throw new Error(`${act.id}#${i + 1} too short after snapping: ${dur.toFixed(2)}s`);
     if (inS < 0 || outS > src.duration) throw new Error(`${act.id}#${i + 1} ${s.clip} ${inS.toFixed(2)}-${outS.toFixed(2)} outside 0-${src.duration}`);
-    shots.push({ ...s, act: act.id, idx: i + 1, at, dur, speed, inS, outS, src });
+    const talk = SPEECH && voicingOf(s.clip, inS, inS + dur * speed) >= SPEECH.threshold;
+    if (talk) talking++;
+    shots.push({ ...s, ...(talk ? { vol: Math.max(s.vol ?? 0, SPEECH.vol), duck: Math.min(s.duck ?? 1, SPEECH.duck), talk: true } : {}), act: act.id, idx: i + 1, at, dur, speed, inS, outS, src });
   });
 }
 const END = A.END;
@@ -118,6 +126,7 @@ for (const act of plan.acts) {
 md.push('## 字幕', '', ...plan.texts.map(t => `- ${hms(resolveAt(t.at))} 「${t.text}」 ${t.dur}s（${t.in} / ${t.out}）`));
 fs.writeFileSync(path.join(WORK, 'out', `edit_plan_${day}_v${plan.version ?? 2}.md`), md.join('\n'));
 console.log(`${shots.length} shots, ${END}s -> out/edit_plan_${day}_v${plan.version ?? 2}.md`);
+if (SPEECH) console.log(`voices kept on ${talking} shots (voicing >= ${SPEECH.threshold}): live sound ${SPEECH.vol}, music ducked to ${SPEECH.duck}`);
 if (overruns.length) console.log(`shots running past their indexed moment (>1s): ${overruns.join(", ")}`);
 if (dry) process.exit(0);
 
@@ -225,12 +234,21 @@ for (const s of shots) {
     seg.volume = 1;
     kf(seg, 'KFTypeVolume', [[0, 0], [f, vol], [T - f, vol], [T, 0]]);
   }
-  // slow camera moves
-  if (s.move === 'push') kf(seg, 'UNIFORM_SCALE', [[0, 1.0], [T, 1 + LOOK.push]]);
-  if (s.move === 'pull') kf(seg, 'UNIFORM_SCALE', [[0, 1 + LOOK.push], [T, 1.0]]);
+  // horizon levelling: `level` = degrees to rotate clockwise (the moment's measured tilt, scripts/tilt.mjs);
+  // zoom in just enough that the rotated 4:3 frame still covers the canvas corners
+  let base = 1;
+  if (s.level) {
+    const r = (Math.abs(s.level) * Math.PI) / 180;
+    base = Math.cos(r) + (c.canvas_config.width / c.canvas_config.height) * Math.sin(r);
+    seg.clip.rotation = s.level;
+    seg.clip.scale = { x: base, y: base };
+  }
+  // slow camera moves (relative to the levelling zoom)
+  if (s.move === 'push') kf(seg, 'UNIFORM_SCALE', [[0, base], [T, base * (1 + LOOK.push)]]);
+  if (s.move === 'pull') kf(seg, 'UNIFORM_SCALE', [[0, base * (1 + LOOK.push)], [T, base]]);
   if (s.move === 'panL' || s.move === 'panR') {
     const dx = s.move === 'panR' ? LOOK.pan : -LOOK.pan;
-    kf(seg, 'UNIFORM_SCALE', [[0, LOOK.panScale], [T, LOOK.panScale]]);
+    kf(seg, 'UNIFORM_SCALE', [[0, base * LOOK.panScale], [T, base * LOOK.panScale]]);
     kf(seg, 'KFTypePositionX', [[0, -dx], [T, dx]]);
   }
   // static fixes, e.g. a clip shot with the camera on its side: rotation in degrees clockwise, scale to fit
@@ -301,6 +319,32 @@ for (const m of mats('videos')) {
     // drop points that sit on a straight line between their neighbours
     const keep = pts.filter((p, i) => i === 0 || i === pts.length - 1 || Math.abs(p[1] - (pts[i - 1][1] + pts[i + 1][1]) / 2) > 1e-3);
     kf(seg, 'KFTypeVolume', keep);
+  }
+}
+
+// ---------- 4b. scene effects (grain, vignette, light leak, rain ...) ----------
+// plan.effects: [{ slug, from, to, intensity, track }]; from/to take the same forms as caption `at`.
+// Ids: capcut-cli's live-captured starter set first, then its scene_effects catalogue. Shape: capcut-cli factory.ts.
+{
+  const VERIFIED = { shake: '7061205058364788270', vhs: '6706773500257242119', cinematic: '7102283971168211981', 'light-leak-v': '7039726019823718926',
+    'film-grain': '6921123676029981197', chromatic: '7069620856462184973', 'vignette-v': '6710812571147752967' };
+  const tracks = {};
+  let layer = 11000; // one render_index per effect: overlapping effects must not share a layer
+  for (const fx of plan.effects ?? []) {
+    layer++;
+    const meta = VERIFIED[fx.slug] ? { name: fx.slug, effect_id: VERIFIED[fx.slug], resource_id: VERIFIED[fx.slug] } : enums.scene_effects.find(x => x.slug === fx.slug);
+    if (!meta) throw new Error(`unknown scene effect ${fx.slug}`);
+    noPaid(meta, `scene effect ${fx.slug}`);
+    const a = Math.max(0, resolveAt(fx.from)), b = Math.min(END, resolveAt(fx.to));
+    if (b - a < 0.2) throw new Error(`effect ${fx.slug}: empty range ${a}-${b}`);
+    const key = fx.track ?? fx.slug;
+    const track = (tracks[key] ??= (() => { const t = { id: randomUUID(), type: 'effect', name: key, attribute: 0, segments: [], is_default_name: false, flag: 0 }; c.tracks.push(t); return t; })());
+    const matId = randomUUID();
+    mats('video_effects').push({ adjust_params: [], apply_target_type: 2, apply_time_range: null, category_id: '', category_name: '', common_keyframes: [], disable_effect_faces: [],
+      effect_id: meta.effect_id, formula_id: '', id: matId, name: meta.name, platform: 'all', render_index: layer, resource_id: meta.resource_id, source_platform: 0,
+      time_range: null, track_render_index: 0, type: 'video_effect', value: fx.intensity ?? 1.0, version: '' });
+    track.segments.push({ id: randomUUID(), material_id: matId, raw_segment_id: track.id, target_timerange: { start: us(a), duration: us(b - a) }, source_timerange: { start: 0, duration: us(b - a) },
+      speed: 1, volume: 1, visible: true, reverse: false, clip: null, render_index: layer, track_render_index: 0, track_attribute: 0, extra_material_refs: [], common_keyframes: [], keyframe_refs: [] });
   }
 }
 

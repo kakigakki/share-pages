@@ -18,8 +18,8 @@ const WATER = /溪|泉|水流|瀑/;
 
 const plan = {
   name: spec.name, title: spec.title, version: spec.version, style: spec.style,
-  canvas: spec.canvas, bgm: spec.bgm, look: spec.look, titles: spec.titles,
-  songAnchors: spec.songAnchors, anchors: {}, acts: [], texts: [],
+  canvas: spec.canvas, bgm: spec.bgm, look: spec.look, titles: spec.titles, speech: spec.speech,
+  songAnchors: spec.songAnchors, anchors: {}, acts: [], texts: [], effects: [],
 };
 let off = 0, mv = 0;
 const report = [];
@@ -53,6 +53,8 @@ spec.songs.forEach((song, si) => {
     if (chosen.length >= Math.max(0, nTarget - pins.length)) break;
     const n = (perClip[m.clip] ?? 0) + pins.filter(p => p.clip === m.clip).length;
     if (m.score < 5 && n >= (song.maxPerClip ?? spec.maxPerClip ?? 3)) continue;
+    // repetitive in-car footage: at most maxCar shots per song
+    if (m.camera === '车内固定' && chosen.filter(c => c.camera === '车内固定').length >= (song.maxCar ?? spec.maxCar ?? 99)) continue;
     perClip[m.clip] = (perClip[m.clip] ?? 0) + 1;
     chosen.push(m);
   }
@@ -61,7 +63,7 @@ spec.songs.forEach((song, si) => {
     ...pins.map(p => {
       const m = index.find(x => x.clip === p.clip && x.start <= (p.in ?? p.out - 1) && x.end > (p.in ?? p.out - 1));
       // last: true forces a pin to close the song regardless of when it was shot
-      return { m, pin: p, clip: p.clip, t: p.last ? '~' : m.day + m.time_local + String(p.in ?? 0).padStart(6, '0') };
+      return { m, pin: p, clip: p.clip, t: p.last ? '~' : p.first ? '!' + String(pins.indexOf(p)).padStart(3, '0') : m.day + m.time_local + String(p.in ?? 0).padStart(6, '0') };
     }),
   ].sort((a, b) => (a.t < b.t ? -1 : a.t > b.t ? 1 : 0)); // plain code-unit order: "~" (last pins) sorts after digits
 
@@ -86,9 +88,14 @@ spec.songs.forEach((song, si) => {
       if (m.orientation === '侧转90度') Object.assign(shot, { rotation: 90, scale: 0.75, blurBg: 3 });
       else shot.move = s.pin?.move ?? (m.camera === '固定' || m.camera === '车内固定' ? 'push' : MOVES[mv++ % MOVES.length]);
       if (LIVE.test((m.actions ?? []).join()) || WATER.test(m.desc)) Object.assign(shot, { vol: 0.5, duck: 0.65 });
+      else if (spec.rainSound && m.light === '雨') Object.assign(shot, { vol: spec.rainSound, duck: 0.8 }); // a little rain under the music
+      // level a confidently measured horizon tilt (scripts/tilt.mjs); in-car shots follow the dashboard, not the horizon
+      if (spec.levelHorizon && m.tilt?.confident && Math.abs(m.tilt.deg) >= 1.5 && Math.abs(m.tilt.deg) <= 8 && m.camera !== '车内固定' && !shot.rotation) shot.level = m.tilt.deg;
       if (s.pin?.vol != null) shot.vol = s.pin.vol;
       if (s.pin?.intro) shot.intro = s.pin.intro;
       if (s.pin?.outro) shot.outro = s.pin.outro;
+      if (s.pin?.transition) shot.transition = s.pin.transition;
+      if (s.pin?.level != null) shot.level = s.pin.level;
       if (!s.pin) { shot._min = m.start; shot._max = s.max; } // planner-only: bounds of the indexed moment
       shot._desc = m.desc;
       shot._actions = m.actions;
@@ -121,6 +128,16 @@ spec.songs.forEach((song, si) => {
   off += len;
 });
 plan.anchors.END = +off.toFixed(3);
+// effects: "@after:<clip>@<out>+x" = x seconds after the pinned shot of <clip> that ends at <out> (e.g. the tunnel exit)
+const allShots = plan.acts.flatMap(a => a.shots.map((s, i) => ({ act: a.id, i, s })));
+const resolveRef = v => {
+  const m = typeof v === 'string' && v.match(/^@after:(\d{4})@(\d+(?:\.\d+)?)([+-][\d.]+)?$/);
+  if (!m) return v;
+  const k = allShots.findIndex(x => x.s.clip.includes(`_${m[1]}_D`) && x.s.out === +m[2]);
+  if (k < 0 || !allShots[k + 1]) throw new Error(`no pinned shot ${m[1]} ending at ${m[2]}`);
+  return `shot:${allShots[k + 1].act}#${allShots[k + 1].i + 1}${m[3] ?? ''}`;
+};
+for (const fx of spec.effects ?? []) plan.effects.push({ ...fx, from: resolveRef(fx.from), to: resolveRef(fx.to) });
 fs.writeFileSync(outPath, JSON.stringify(plan, null, 1));
 console.log(report.join('\n'));
 console.log(`total ${off.toFixed(1)}s, ${plan.acts.reduce((n, a) => n + a.shots.length, 0)} shots, ${plan.acts.length} acts -> ${outPath}`);
