@@ -15,13 +15,15 @@ const rows = files.map(f => {
   const j = JSON.parse(execFileSync('ffprobe', ['-v', 'error', '-show_format', '-show_streams', '-of', 'json', p]));
   const v = j.streams.find(s => s.codec_type === 'video' && s.codec_name !== 'mjpeg');
   const [n, d] = v.r_frame_rate.split('/').map(Number);
-  const lrf = p.replace(/\.mp4$/i, '.LRF');
+  // proxy next to the MP4 (DCIM layout) or in the trip folder's 02_代理 (01_原片/camera -> ../../02_代理)
+  const lrfName = f.replace(/\.mp4$/i, '.LRF');
+  const lrf = [path.join(src, lrfName), path.join(src, '..', '..', '02_代理', lrfName)].find(x => fs.existsSync(x)) ?? null;
   // DJI filenames carry local capture time: DJI_YYYYMMDDhhmmss_NNNN_D
   const m = f.match(/_(\d{8})(\d{6})_(\d{4})_/);
   return {
     file: f,
     path: p,
-    proxy: fs.existsSync(lrf) ? lrf : null,
+    proxy: lrf,
     shot_local: m ? `${m[1].slice(0, 4)}-${m[1].slice(4, 6)}-${m[1].slice(6)}T${m[2].slice(0, 2)}:${m[2].slice(2, 4)}:${m[2].slice(4)}` : null,
     creation_utc: j.format.tags?.creation_time ?? null,
     camera: j.format.tags?.encoder ?? null,
