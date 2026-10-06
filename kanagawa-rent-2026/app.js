@@ -9,7 +9,7 @@
     encodeURIComponent(d.address + (d.anon ? "" : " " + d.name));
 
   const MUNIS = [...new Set(DATA.map(d => d.municipality))];
-  const state = { m: new Set(), t: new Set(), sort: "total" };
+  const state = { m: new Set(), t: new Set(), sort: "total", amin: 0, amax: Infinity };
 
   const munBox = document.getElementById("munis");
   if (munBox && MUNIS.length > 1) {
@@ -29,6 +29,9 @@
     b.setAttribute("aria-pressed", state.t.has(t)); render();
   }));
   document.getElementById("sort").addEventListener("change", e => { state.sort = e.target.value; render(); });
+  const amin = document.getElementById("amin"), amax = document.getElementById("amax");
+  if (amin) amin.addEventListener("change", () => { state.amin = +amin.value || 0; render(); });
+  if (amax) amax.addEventListener("change", () => { state.amax = +amax.value || Infinity; render(); });
 
   const NEAR = [["school", "小学"], ["nursery", "保育/幼儿园"], ["super", "超市"], ["clinic", "医院"], ["park", "公园"], ["conv", "便利店"]];
   const bar = (label, v) => `<div class="bar"><small>${label}<b>${v.toFixed(1)}</b></small><i><u style="width:${v * 10}%"></u></i></div>`;
@@ -114,6 +117,7 @@
   function render() {
     let xs = DATA.filter(d =>
       (state.m.size === 0 || state.m.has(d.municipality)) &&
+      d.area_m2 >= state.amin && d.area_m2 <= state.amax &&
       (!state.t.has("3ldk") || /3S?LDK/.test(d.layout)) &&
       (!state.t.has("walk") || d.walk <= 15) &&
       (!state.t.has("freepark") || d.parkingFee === 0) &&
