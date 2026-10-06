@@ -164,8 +164,33 @@ footer p{font-size:.72rem;color:var(--ink3);margin:0;padding-top:16px;border-top
 }
 @media (max-width:560px){
   h1{font-size:1.45rem}
+  .toolbar{position:static}
   .nums{grid-template-columns:repeat(2,minmax(0,1fr))}
   .bars{grid-template-columns:repeat(2,minmax(0,1fr))}
   .top{grid-template-columns:48px 1fr}
   .score b{font-size:1.35rem}
 }
+
+/* memo / reject */
+.memo{margin-top:11px;border-top:1px dashed var(--rule);padding-top:9px}
+.memo-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rejbtn{font-size:.76rem;border:1px solid var(--rule);border-radius:6px;background:var(--panel);padding:4px 10px;cursor:pointer;color:var(--ink2)}
+.rejbtn[aria-pressed="true"]{background:#fbeee8;border-color:var(--sun);color:var(--sun);font-weight:700}
+.linkbtn{font-size:.76rem;border:0;background:none;color:var(--ai);cursor:pointer;padding:4px 2px}
+.memo-sum{margin-top:7px;background:#fbf6ef;border:1px solid #efdcc4;border-radius:7px;padding:7px 10px;font-size:.8rem}
+.memo-sum p{margin:3px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.rchip{display:inline-block;font-size:.7rem;color:var(--sun);border:1px solid var(--sun);border-radius:99px;padding:1px 8px;margin:0 4px 3px 0}
+.memo-panel{margin-top:8px}
+.reasons{display:flex;flex-wrap:wrap;gap:5px}
+.rbtn{font-size:.72rem;border:1px solid var(--rule);border-radius:99px;background:var(--panel);padding:2px 9px;cursor:pointer;color:var(--ink2)}
+.rbtn[aria-pressed="true"]{background:var(--sun);border-color:var(--sun);color:#fff}
+.memo-panel textarea{display:block;width:100%;margin-top:8px;font:inherit;font-size:.84rem;padding:7px 9px;border:1px solid var(--rule);border-radius:7px;background:#fff;resize:vertical;min-height:58px}
+.memo-foot{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+.memo-foot .saved{font-size:.68rem;color:var(--ink3)}
+.card.rejected{background:#f7f5f2;border-color:#e6d6c8}
+.card.rejected > :not(.memo):not(.favbtn){opacity:.55}
+.card.rejected .nm{text-decoration:line-through;text-decoration-color:var(--sun)}
+.f.rejf[aria-pressed="true"]{background:var(--sun);border-color:var(--sun)}
+.rejlist .mrow{grid-template-columns:44px 1fr auto}
+.rejlist .why{grid-column:2 / -1;font-size:.78rem;color:var(--ink2);margin-top:-2px}
+.rstats{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}

@@ -38,6 +38,33 @@
     const seen = {};
     return d.sources.map(s => { seen[s.site] = (seen[s.site] || 0) + 1; return seen[s.site] > 1 ? `${s.site} ${seen[s.site]}` : s.site; });
   }
+  const isRej = id => !!(Notes.get(id) && Notes.get(id).rejected);
+  const openMemo = new Set();
+  function memoInner(d) {
+    const n = Notes.get(d.id) || { reasons: [], text: "", rejected: false };
+    const open = openMemo.has(d.id);
+    const sum = (n.reasons.length || n.text) && !open
+      ? `<div class="memo-sum">${n.reasons.map(r => `<span class="rchip">${esc(r)}</span>`).join("")}${n.text ? `<p>${esc(n.text)}</p>` : ""}</div>` : "";
+    const panel = open ? `<div class="memo-panel">
+      <div class="reasons">${Notes.REASONS.map(r => `<button type="button" class="rbtn" data-reason="${esc(r)}" aria-pressed="${n.reasons.includes(r)}">${esc(r)}</button>`).join("")}</div>
+      <textarea data-text rows="2" placeholder="为什么不选它？例如：看了照片厨房太小、晚上路太暗……">${esc(n.text)}</textarea>
+      <div class="memo-foot"><span class="saved">自动保存在本机浏览器</span><button type="button" class="linkbtn" data-memo>收起</button></div>
+    </div>` : "";
+    return `<div class="memo-bar">
+      <button type="button" class="rejbtn" data-rej aria-pressed="${n.rejected}">${n.rejected ? "✕ 不考虑（点击撤销）" : "✕ 不考虑"}</button>
+      ${open ? "" : `<button type="button" class="linkbtn" data-memo>✎ ${n.text || n.reasons.length ? "编辑理由" : "写理由 / 备注"}</button>`}
+    </div>${sum}${panel}`;
+  }
+  function refreshMemo(id) {
+    const box = document.querySelector(`[data-memo-for="${CSS.escape(id)}"]`); if (!box) return;
+    box.innerHTML = memoInner(BY_ID.get(id));
+    box.closest(".card").classList.toggle("rejected", isRej(id));
+    rejCount();
+  }
+  function rejCount() {
+    const n = DATA.filter(d => isRej(d.id)).length;
+    const el = document.getElementById("rejcount"); if (el) el.textContent = n ? ` ${n}` : "";
+  }
   function card(d) {
     const pf = d.parkingFee;
     const real = pf == null ? `${yen(d.total_yen)}<em>停车另计</em>` : `${yen(d.total_yen + pf)}<em>含停车 ${pf ? pf.toLocaleString() + " 円" : "免费"}</em>`;
@@ -49,7 +76,8 @@
     const sur = Array.isArray(d.surroundings) && d.surroundings.length ? d.surroundings.join("、") : "页面未记载";
     const labels = linkLabels(d);
     const links = d.sources.map((s, i) => `<a class="${i ? "" : "main"}" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(labels[i])} ↗</a>`).join("");
-    return `<article class="card" id="${esc(d.id)}">
+    const rej = isRej(d.id);
+    return `<article class="card${rej ? " rejected" : ""}" id="${esc(d.id)}">
   <button class="favbtn" type="button" data-fav="${esc(d.id)}" aria-pressed="${Favs.has(d.id)}" aria-label="收藏">${Favs.has(d.id) ? "★" : "☆"}</button>
   <div class="top">
     <div class="score"><b style="color:${scoreColor(d.total)}">${d.total}</b><span>/ 100</span><div class="rk">#${d.rank}</div></div>
@@ -70,6 +98,7 @@
   <div class="acc">🚉 ${(d.access || []).slice(0, 2).map(esc).join(" ／ ")}</div>
   <div class="near">${NEAR.map(([k, l]) => `<span class="${d.near[k] == null ? "na" : d.near[k] <= 500 ? "ok" : d.near[k] > 1000 ? "far" : ""}">${l} <b>${d.near[k] == null ? "—" : d.near[k] >= 1000 ? (d.near[k] / 1000).toFixed(1) + "km" : d.near[k] + "m"}</b></span>`).join("")}</div>
   <div class="links">${links}<a href="${gmap(d)}" target="_blank" rel="noopener">Google 地图 ↗</a></div>
+  <div class="memo" data-memo-for="${esc(d.id)}">${memoInner(d)}</div>
   <details class="more"><summary>押金・设备・周边</summary><dl>
     <dt>押金 / 礼金</dt><dd>${esc(d.deposit)} / ${esc(d.key)}</dd>
     <dt>停车位</dt><dd>${esc(d.parking)}</dd>
@@ -91,6 +120,8 @@
       (!state.t.has("onsite") || !d.offsite) &&
       (!state.t.has("multi") || siteCount(d) > 1) &&
       (!state.t.has("fav") || Favs.has(d.id)) &&
+      (!state.t.has("hiderej") || !isRej(d.id)) &&
+      (!state.t.has("onlyrej") || isRej(d.id)) &&
       (!state.t.has("now") || (moveYm(d) === 0 ? /即|相談/.test(d.move_in || "") : moveYm(d) <= 202612)));
     const k = state.sort, asc = k === "monthly";
     const val = d => k === "monthly" ? d.total_yen + (d.parkingFee ?? 10000) : d[k];
@@ -98,10 +129,29 @@
     document.getElementById("count").textContent = `${xs.length} / ${DATA.length} 套`;
     document.getElementById("list").innerHTML = xs.length ? xs.map(card).join("") :
       `<div class="empty">${state.t.has("fav") ? "这一区还没有收藏。点卡片右上角的 ☆ 收藏。" : "没有符合的房源，减少筛选条件试试。"}</div>`;
-    favCount();
+    favCount(); rejCount();
   }
   const BY_ID = new Map(DATA.map(d => [d.id, d]));
-  document.getElementById("list").addEventListener("click", e => {
+  const LIST = document.getElementById("list");
+  const idOfEl = el => el.closest("[data-memo-for]")?.dataset.memoFor;
+  LIST.addEventListener("click", e => {
+    const mb = e.target.closest("[data-rej],[data-memo],[data-reason]");
+    if (mb) {
+      const id = idOfEl(mb), d = BY_ID.get(id); if (!d) return;
+      if (mb.hasAttribute("data-rej")) {
+        const on = !isRej(id);
+        Notes.setRejected(d, on);
+        if (on) openMemo.add(id); else openMemo.delete(id);
+        if (state.t.has("hiderej") || state.t.has("onlyrej")) { if (!on || state.t.has("hiderej")) { render(); return; } }
+      } else if (mb.hasAttribute("data-memo")) {
+        openMemo.has(id) ? openMemo.delete(id) : openMemo.add(id);
+      } else {
+        Notes.toggleReason(d, mb.dataset.reason);
+      }
+      refreshMemo(id);
+      if (openMemo.has(id) && mb.hasAttribute("data-memo")) document.querySelector(`[data-memo-for="${CSS.escape(id)}"] textarea`)?.focus();
+      return;
+    }
     const b = e.target.closest("[data-fav]"); if (!b) return;
     const on = Favs.toggle(BY_ID.get(b.dataset.fav));
     b.setAttribute("aria-pressed", on); b.textContent = on ? "★" : "☆";
@@ -113,6 +163,18 @@
     const hub = document.getElementById("favhub"); if (hub) hub.textContent = all ? `· 全县收藏 ${all} 套 →` : "";
   }
   Favs.onChange(() => { render(); });
+  const timers = {};
+  LIST.addEventListener("input", e => {
+    const ta = e.target.closest("[data-text]"); if (!ta) return;
+    const id = idOfEl(ta), d = BY_ID.get(id);
+    clearTimeout(timers[id]);
+    timers[id] = setTimeout(() => { Notes.setText(d, ta.value.trim()); rejCount(); }, 400);
+  });
+  LIST.addEventListener("focusout", e => {
+    const ta = e.target.closest("[data-text]"); if (!ta) return;
+    const id = idOfEl(ta); clearTimeout(timers[id]); Notes.setText(BY_ID.get(id), ta.value.trim());
+  });
+  Notes.onChange(kind => { if (kind === "external") render(); });
   render();
   if (location.hash) setTimeout(() => document.getElementById(location.hash.slice(1))?.scrollIntoView(), 50);
 })();
