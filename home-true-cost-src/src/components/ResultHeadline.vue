@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import type { HomeCostCalculator } from '../composables/useHomeCostCalculator'
-import { formatPercent, formatYen } from '../utils/formatCurrency'
+import { formatMan, formatPercent, formatYen } from '../utils/formatCurrency'
 
 const props = defineProps<{ calc: HomeCostCalculator }>()
 const r = computed(() => props.calc.result.value)
@@ -42,7 +42,7 @@ const affColor = computed(
       {{ formatYen(shown) }}<span class="ml-1 text-xl font-medium text-white/70">/ 月</span>
     </p>
     <p class="mt-1 text-xs text-white/60">
-      保有{{ calc.home.value.holdingYears }}年で売却した場合の実質コスト ÷ 居住月数（機会費用込み）
+      {{ calc.home.value.holdingYears }}年住み続けた総支出＋頭金・諸費用の機会費用 ÷ 居住月数（売却しない前提）
     </p>
 
     <div class="mt-6 space-y-2 text-sm">
@@ -55,7 +55,7 @@ const affColor = computed(
         <span class="num text-lg font-bold">{{ formatYen(r.firstYearCashMonthly) }}</span>
       </div>
       <div class="flex items-baseline justify-between">
-        <span class="text-white/70">機会費用・資産価値まで含めた実質月額</span>
+        <span class="text-white/70">機会費用まで含めた実質月額</span>
         <span class="num text-lg font-bold text-amber-300">{{ formatYen(r.effectiveMonthly) }}</span>
       </div>
     </div>
@@ -63,8 +63,14 @@ const affColor = computed(
     <p class="mt-4 rounded-xl bg-white/10 px-4 py-3 text-sm leading-relaxed">
       ローン返済に対して
       <b class="num">{{ other >= 0 ? '+' : '-' }}{{ formatYen(Math.abs(other)) }} / 月</b>
-      {{ other >= 0 ? 'の追加コスト' : '分、実質コストが低い（資産価値の上昇などによる）' }}。
-      ローン以外にも、毎月これだけのお金が動いています。
+      {{ other >= 0 ? '' : '少ない（ローン完済後の期間を含めて平均しているため）' }}
+      {{ other >= 0 ? 'の追加コストがかかっています。ローン以外にも、毎月これだけのお金が動いています。' : '。' }}
+    </p>
+
+    <p class="mt-3 text-xs leading-relaxed text-white/60">
+      参考：{{ calc.home.value.holdingYears }}年後も手元に残る土地・建物の評価額は約
+      <b class="num text-white/90">{{ formatMan(r.holding.propertyValue) }}</b>
+      （売却しないため上の月額からは差し引いていません。建物は年数とともに価値が下がる前提）。
     </p>
 
     <div class="mt-4 rounded-xl px-4 py-3 text-sm" :class="affColor">

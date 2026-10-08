@@ -25,6 +25,8 @@ export type OverrideKey =
   | 'parkingFee'
   | 'mgmtGrowthRate'
   | 'initialCosts'
+  | 'landRatio'
+  | 'buildingLifeYears'
   | 'expectedPropertyGrowthRate'
   | 'investmentReturnRate'
   | 'monthlyIncome'
@@ -74,6 +76,8 @@ export function useHomeCostCalculator() {
       parkingFee: condo ? 10_000 : 0,
       mgmtGrowthRate: 1,
       initialCosts: initialItems.value.reduce((s, i) => s + i.value, 0),
+      landRatio: condo ? 30 : 50,
+      buildingLifeYears: condo ? 50 : 30,
       expectedPropertyGrowthRate: 0,
       investmentReturnRate: 5,
       monthlyIncome: 600_000,
@@ -121,6 +125,8 @@ export function useHomeCostCalculator() {
     parkingFee: value('parkingFee'),
     mgmtGrowthRate: value('mgmtGrowthRate'),
     initialCosts: overrides.initialCosts ?? initialItems.value.reduce((s, i) => s + i.value, 0),
+    landRatio: value('landRatio'),
+    buildingLifeYears: value('buildingLifeYears'),
     expectedPropertyGrowthRate: value('expectedPropertyGrowthRate'),
     investmentReturnRate: value('investmentReturnRate'),
     monthlyIncome: value('monthlyIncome'),
@@ -141,7 +147,7 @@ export function useHomeCostCalculator() {
   const buyVsRent = computed(() => calculateBuyVsRent(result.value))
   const affordability = computed(() => judgeAffordability(result.value.firstYearCashMonthly, home.value.monthlyIncome))
 
-  /** 房価変化率の3情景（悲観/中立/楽観）。各情景で同じ他条件を使う */
+  /** 土地の価格変化率の3情景（悲観/中立/楽観）。各情景で同じ他条件を使う */
   const scenarios = computed(() =>
     [-1, 0, 1].map((g) => {
       const r = simulate({ ...home.value, expectedPropertyGrowthRate: g }, rent.value)

@@ -134,7 +134,9 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
           <h3 class="text-sm font-bold">前提条件</h3>
           <OverrideField :calc="c" k="holdingYears" label="保有年数" unit="年" />
           <OverrideField :calc="c" k="investmentReturnRate" label="資金の投資利回り（機会費用）" unit="%" tag="仮定" decimal hint="頭金などを投資に回した場合の年率。将来の運用成果を保証するものではありません。" />
-          <OverrideField :calc="c" k="expectedPropertyGrowthRate" label="房価の年変化率" unit="%" tag="情景" decimal hint="予測ではなく、条件を変えて見るための設定です。" />
+          <OverrideField :calc="c" k="landRatio" label="土地の割合（物件価格に占める）" unit="%" tag="概算" decimal hint="建物は年数とともに価値が下がり、残るのは主に土地という前提で評価額を出します。" />
+          <OverrideField :calc="c" k="buildingLifeYears" label="建物の評価がゼロになる年数" unit="年" tag="概算" hint="木造戸建ては30年前後が目安（税務上の耐用年数は22年）。" />
+          <OverrideField :calc="c" k="expectedPropertyGrowthRate" label="土地の年変化率" unit="%" tag="情景" decimal hint="予測ではなく、条件を変えて見るための設定です。" />
         </section>
 
         <section class="space-y-4 rounded-2xl border border-line bg-white p-5">

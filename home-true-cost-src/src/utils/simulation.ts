@@ -6,12 +6,12 @@ import {
   calculateTotalPayment,
 } from './mortgage'
 import {
+  calculateBuildingValue,
   calculateFuturePropertyValue,
   calculateInvestmentFutureValue,
   calculateOpportunityCost,
   monthlyRateFromAnnual,
 } from './investment'
-import { calculateNetSaleProceeds, calculateSellingCost } from './japaneseTaxes'
 
 export const CHECKPOINT_YEARS = [1, 5, 10, 15, 20, 25, 30, 35]
 
@@ -24,6 +24,7 @@ export function simulate(home: HomePurchaseInput, rent: RentInput): SimulationRe
   const schedule = buildLoanSchedule(loanAmount, home.interestRate, home.loanYears, home.loanType)
 
   const upfront = home.downPayment + home.initialCosts
+  const land = Math.min(1, Math.max(0, home.landRatio / 100))
   const rm = monthlyRateFromAnnual(home.investmentReturnRate)
   const gm = home.mgmtGrowthRate / 100
   const gr = rent.rentGrowthRate / 100
@@ -48,22 +49,23 @@ export function simulate(home: HomePurchaseInput, rent: RentInput): SimulationRe
   const rows: YearRow[] = []
   const makeRow = (year: number): YearRow => {
     const m = year * 12
-    const propertyValue = calculateFuturePropertyValue(home.price, home.expectedPropertyGrowthRate, year)
+    const landValue = calculateFuturePropertyValue(home.price * land, home.expectedPropertyGrowthRate, year)
+    const buildingValue = calculateBuildingValue(home.price * (1 - land), home.buildingLifeYears, year)
+    const propertyValue = landValue + buildingValue
     const loanBalance = calculateRemainingLoan(schedule, loanAmount, m)
-    const sellingCost = calculateSellingCost(propertyValue)
-    const netSaleProceeds = calculateNetSaleProceeds(propertyValue, sellingCost, loanBalance)
     const opportunityCost = calculateOpportunityCost(upfront, home.investmentReturnRate, year)
     return {
       year,
       buyCashCum: buyCash,
+      landValue,
+      buildingValue,
       propertyValue,
       loanBalance,
-      sellingCost,
-      netSaleProceeds,
       opportunityCost,
-      buyNetCost: buyCash - netSaleProceeds + opportunityCost,
+      buyNetCost: buyCash + opportunityCost,
+      buyNetCostAfterAsset: buyCash + opportunityCost - (propertyValue - loanBalance),
       rentNetCost: rentCash + rentUpfrontOpp(year),
-      buyWealth: netSaleProceeds + investBuy,
+      buyWealth: propertyValue - loanBalance + investBuy,
       rentWealth: investRent,
       downInvestFV: calculateInvestmentFutureValue(upfront, home.investmentReturnRate, year),
       diffInvestFV: diffInvest,
@@ -127,9 +129,9 @@ export function simulate(home: HomePurchaseInput, rent: RentInput): SimulationRe
 
 export type Verdict = 'buy' | 'rent' | 'even'
 
-/** 購入 vs 賃貸（保有期間時点の純コスト差。正なら購入のほうが安い） */
+/** 購入 vs 賃貸（保有期間時点の差。購入側は残る土地・建物の評価額を考慮。正なら購入のほうが安い） */
 export function calculateBuyVsRent(result: SimulationResult): { diff: number; verdict: Verdict } {
-  const { buyNetCost, rentNetCost } = result.holding
+  const { buyNetCostAfterAsset: buyNetCost, rentNetCost } = result.holding
   const diff = rentNetCost - buyNetCost
   const base = Math.max(Math.abs(buyNetCost), Math.abs(rentNetCost), 1)
   if (Math.abs(diff) / base < 0.03) return { diff, verdict: 'even' }

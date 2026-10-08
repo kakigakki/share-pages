@@ -26,7 +26,9 @@ export interface HomePurchaseInput {
 
   initialCosts: number // 購入時の諸費用合計
 
-  expectedPropertyGrowthRate: number // %/年（情景シミュレーション）
+  landRatio: number // 物件価格に占める土地の割合 %（概算）
+  buildingLifeYears: number // 建物の評価がゼロになるまでの年数（概算）
+  expectedPropertyGrowthRate: number // %/年（土地のみに適用する情景シミュレーション）
   investmentReturnRate: number // %/年（仮定）
 
   monthlyIncome: number
@@ -46,12 +48,13 @@ export interface RentInput {
 export interface YearRow {
   year: number
   buyCashCum: number // 累計現金支出（頭金・諸費用含む）
-  propertyValue: number
+  landValue: number
+  buildingValue: number
+  propertyValue: number // 土地＋建物の評価額（売却しない前提の参考値）
   loanBalance: number
-  sellingCost: number
-  netSaleProceeds: number
   opportunityCost: number
-  buyNetCost: number
+  buyNetCost: number // 累計現金支出＋機会費用（資産評価額は差し引かない）
+  buyNetCostAfterAsset: number // 上記 − (評価額 − ローン残高)
   rentNetCost: number
   buyWealth: number
   rentWealth: number

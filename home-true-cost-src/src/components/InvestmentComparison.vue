@@ -59,7 +59,7 @@ const upfront = computed(() => h.value.downPayment + h.value.initialCosts)
       30年後： 買う <b>{{ formatMan(at.buyWealth) }}</b> ／ 借りる <b>{{ formatMan(at.rentWealth) }}</b>
     </p>
     <p class="mt-2 text-xs leading-relaxed text-mute">
-      買う側の不動産は「売却価格 − 売却費用 − ローン残高」で評価。投資額は、月収−生活費−住居費の余剰を毎月積み立てる単純モデルです。
+      買う側の不動産は「土地＋建物の評価額 − ローン残高」で評価（売却はしない前提）。投資額は、月収−生活費−住居費の余剰を毎月積み立てる単純モデルです。
       房価・利回りの設定次第で結果は大きく変わります。家は唯一の資産形成手段ではない、という確認のための試算です。
     </p>
   </section>

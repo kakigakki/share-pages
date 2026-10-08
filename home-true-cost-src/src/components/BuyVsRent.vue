@@ -22,7 +22,7 @@ const verdictColor = computed(() =>
 )
 
 const series = computed(() => [
-  { name: '買う（純コスト）', color: '#1f6f5c', values: r.value.rows.map((x) => x.buyNetCost) },
+  { name: '買う（残る資産を差し引き後）', color: '#1f6f5c', values: r.value.rows.map((x) => x.buyNetCostAfterAsset) },
   { name: '借りる', color: '#64748b', values: r.value.rows.map((x) => x.rentNetCost) },
 ])
 const table = computed(() =>
@@ -31,7 +31,7 @@ const table = computed(() =>
     .sort((a, b) => a - b)
     .map((y) => {
       const row = r.value.rows[y]
-      return { year: y, buy: row.buyNetCost, rent: row.rentNetCost, diff: row.rentNetCost - row.buyNetCost }
+      return { year: y, buy: row.buyNetCost, asset: row.propertyValue - row.loanBalance, rent: row.rentNetCost, diff: row.rentNetCost - row.buyNetCostAfterAsset }
     }),
 )
 </script>
@@ -43,11 +43,12 @@ const table = computed(() =>
 
     <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
       <div class="rounded-xl bg-slate-50 p-4">
-        <div class="text-mute">買う：総純コスト</div>
+        <div class="text-mute">買う：総支出＋機会費用</div>
         <div class="num text-xl font-bold">{{ formatMan(r.holding.buyNetCost) }}</div>
+        <div class="num mt-1 text-xs text-mute">残る資産 {{ formatMan(r.holding.propertyValue - r.holding.loanBalance) }}</div>
       </div>
       <div class="rounded-xl bg-slate-50 p-4">
-        <div class="text-mute">借りる：総コスト</div>
+        <div class="text-mute">借りる：総支出＋機会費用</div>
         <div class="num text-xl font-bold">{{ formatMan(r.holding.rentNetCost) }}</div>
       </div>
     </div>
@@ -63,11 +64,12 @@ const table = computed(() =>
     <CostChart :series="series" :marker="years" />
 
     <div class="mt-4 overflow-x-auto">
-      <table class="num w-full min-w-[420px] text-sm">
+      <table class="num w-full min-w-[520px] text-sm">
         <thead class="text-left text-xs text-mute">
           <tr>
             <th class="py-2 font-medium">期間</th>
-            <th class="py-2 text-right font-medium">買う</th>
+            <th class="py-2 text-right font-medium">買う（総支出）</th>
+            <th class="py-2 text-right font-medium">残る資産</th>
             <th class="py-2 text-right font-medium">借りる</th>
             <th class="py-2 text-right font-medium">差額（賃貸−購入）</th>
           </tr>
@@ -76,6 +78,7 @@ const table = computed(() =>
           <tr v-for="t in table" :key="t.year" class="border-t border-line" :class="t.year === years ? 'bg-amber-50/60 font-semibold' : ''">
             <td class="py-2">{{ t.year }}年</td>
             <td class="py-2 text-right">{{ formatMan(t.buy) }}</td>
+            <td class="py-2 text-right">{{ formatMan(t.asset) }}</td>
             <td class="py-2 text-right">{{ formatMan(t.rent) }}</td>
             <td class="py-2 text-right" :class="t.diff >= 0 ? 'text-emerald-700' : 'text-amber-700'">
               {{ t.diff >= 0 ? '+' : '' }}{{ formatMan(t.diff) }}
@@ -85,8 +88,8 @@ const table = computed(() =>
       </table>
     </div>
     <p class="mt-3 text-xs leading-relaxed text-mute">
-      買う場合の純コスト ＝ 累計の現金支出（頭金・諸費用含む）＋ 頭金・諸費用の機会費用 − 売却後に手元に残る金額（売却価格 − 売却費用 − ローン残高）。
-      その時点で売却した場合を想定した比較で、早期ほど諸費用や売却費用の影響が大きく出ます。
+      買う側の総支出 ＝ 累計の現金支出（頭金・諸費用含む）＋ 頭金・諸費用の機会費用。売却はしない前提です。
+      差額は、買う側から「残る資産（土地・建物の評価額 − ローン残高）」を差し引いて賃貸と比べたものです。評価額は概算で、建物は年数とともにゼロへ向かいます。
     </p>
   </section>
 </template>

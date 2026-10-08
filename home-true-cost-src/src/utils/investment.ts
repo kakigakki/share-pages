@@ -17,3 +17,9 @@ export function monthlyRateFromAnnual(annualPct: number): number {
 export function calculateFuturePropertyValue(price: number, growthPct: number, years: number): number {
   return price * Math.pow(1 + growthPct / 100, years)
 }
+
+/** 建物の評価額：購入時の建物価格から、耐用年数に向けて線形にゼロへ（概算） */
+export function calculateBuildingValue(buildingPrice: number, lifeYears: number, years: number): number {
+  if (lifeYears <= 0) return 0
+  return buildingPrice * Math.max(0, 1 - years / lifeYears)
+}

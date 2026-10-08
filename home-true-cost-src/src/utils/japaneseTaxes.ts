@@ -35,12 +35,3 @@ export function estimateInitialCostItems(price: number, age: BuildingAge): Initi
     { key: 'renovation', label: '装修', value: age === 'used' ? 1_000_000 : 0 },
   ]
 }
-
-/** 売却時の費用（仲介手数料＋その他）の概算 */
-export function calculateSellingCost(salePrice: number): number {
-  if (salePrice <= 0) return 0
-  return Math.round((salePrice * 0.03 + 60_000) * 1.1 + 100_000)
-}
-
-export const calculateNetSaleProceeds = (salePrice: number, sellingCost: number, remainingLoan: number) =>
-  salePrice - sellingCost - remainingLoan
