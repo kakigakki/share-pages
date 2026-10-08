@@ -13,10 +13,9 @@ const invest = computed(() => [
   { name: '借りて毎月浮く分を投資', color: '#0891b2', values: r.value.rows.map((x) => x.diffInvestFV) },
 ])
 const wealth = computed(() => [
-  { name: '買う：不動産純資産＋金融資産', color: '#1f6f5c', values: r.value.rows.map((x) => x.buyWealth) },
-  { name: '借りる：金融資産', color: '#64748b', values: r.value.rows.map((x) => x.rentWealth) },
+  { name: '買う：家の純資産＋投資', color: '#1f6f5c', values: r.value.rows.map((x) => x.buyWealth) },
+  { name: '借りる：投資のみ', color: '#64748b', values: r.value.rows.map((x) => x.rentWealth) },
 ])
-const at = computed(() => r.value.rows[Math.min(30, r.value.rows.length - 1)])
 const upfront = computed(() => h.value.downPayment + h.value.initialCosts)
 </script>
 
@@ -39,28 +38,66 @@ const upfront = computed(() => h.value.downPayment + h.value.initialCosts)
     <div class="mt-3"><CostChart :series="invest" :marker="h.holdingYears" /></div>
 
     <h3 class="mt-6 text-sm font-bold">家計から見た資産の積み上がり</h3>
-    <div class="mt-2 grid grid-cols-2 gap-3 text-sm">
+    <p class="mt-1 text-sm text-mute">
+      毎月の手取りから、生活費と住居費を払った<b>残り</b>を投資に回し続けたら、{{ h.holdingYears }}年後の手元の資産はいくら？
+    </p>
+
+    <div class="mt-3 grid gap-3 text-sm sm:grid-cols-2">
       <div class="rounded-xl bg-slate-50 p-3">
-        <div class="text-mute">買う：毎月投資に回せる額</div>
+        <div class="font-semibold">買う場合</div>
+        <div class="num mt-1 text-xs leading-relaxed text-mute">
+          手取り {{ formatYen(h.monthlyIncome) }}<br />
+          − 生活費 {{ formatYen(h.monthlyLivingCost) }}<br />
+          − 住居費 {{ formatYen(r.firstYearCashMonthly) }}（ローン・税・保険・修繕・管理費）
+        </div>
+        <div class="mt-1 text-xs text-mute">＝ 毎月投資に回せる額</div>
         <div class="num text-lg font-bold" :class="r.shortfallBuy ? 'text-opp' : ''">
           {{ formatYen(r.surplusBuyMonthly) }}
         </div>
       </div>
       <div class="rounded-xl bg-slate-50 p-3">
-        <div class="text-mute">借りる：毎月投資に回せる額</div>
+        <div class="font-semibold">借りる場合</div>
+        <div class="num mt-1 text-xs leading-relaxed text-mute">
+          手取り {{ formatYen(h.monthlyIncome) }}<br />
+          − 生活費 {{ formatYen(h.monthlyLivingCost) }}<br />
+          − 住居費 {{ formatYen(r.rentMonthlyFirst) }}（家賃・管理費・駐車場など）
+        </div>
+        <div class="mt-1 text-xs text-mute">＝ 毎月投資に回せる額</div>
         <div class="num text-lg font-bold">{{ formatYen(r.surplusRentMonthly) }}</div>
       </div>
     </div>
     <p v-if="r.shortfallBuy" class="mt-2 text-xs text-opp">
       この条件では、月収から生活費と住居費を引くと赤字になります。
     </p>
+
     <div class="mt-3"><CostChart :series="wealth" :marker="h.holdingYears" /></div>
-    <p class="num mt-2 text-sm">
-      30年後： 買う <b>{{ formatMan(at.buyWealth) }}</b> ／ 借りる <b>{{ formatMan(at.rentWealth) }}</b>
-    </p>
-    <p class="mt-2 text-xs leading-relaxed text-mute">
-      買う側の不動産は「土地＋建物の評価額 − ローン残高」で評価（売却はしない前提）。投資額は、月収−生活費−住居費の余剰を毎月積み立てる単純モデルです。
-      房価・利回りの設定次第で結果は大きく変わります。家は唯一の資産形成手段ではない、という確認のための試算です。
-    </p>
+
+    <div class="mt-3 grid gap-3 text-sm sm:grid-cols-2">
+      <div class="rounded-xl bg-slate-50 p-3">
+        <div class="text-mute">買う：{{ h.holdingYears }}年後の資産合計</div>
+        <div class="num text-lg font-bold">{{ formatMan(r.holding.buyWealth) }}</div>
+        <div class="num text-xs text-mute">
+          家（土地・建物の評価額 − ローン残高）{{ formatMan(r.holding.propertyValue - r.holding.loanBalance) }}<br />
+          ＋ 投資 {{ formatMan(r.holding.buyWealth - (r.holding.propertyValue - r.holding.loanBalance)) }}
+        </div>
+      </div>
+      <div class="rounded-xl bg-slate-50 p-3">
+        <div class="text-mute">借りる：{{ h.holdingYears }}年後の資産合計</div>
+        <div class="num text-lg font-bold">{{ formatMan(r.holding.rentWealth) }}</div>
+        <div class="num text-xs text-mute">すべて投資（家は持たない）</div>
+      </div>
+    </div>
+
+    <div class="mt-3 space-y-1 rounded-xl bg-slate-50 p-3 text-xs leading-relaxed text-mute">
+      <p class="font-semibold text-ink">この試算の前提</p>
+      <ul class="list-disc space-y-1 pl-4">
+        <li>買う場合：手持ち資金は頭金と諸費用に使うので、投資は0円からスタート。</li>
+        <li>借りる場合：頭金と諸費用に使うはずだった額から、賃貸の初期費用を引いた残りを最初に一括投資。</li>
+        <li>上の住居費は初年度の金額です。計算では、金利上昇や管理費の上昇、家賃の上昇に応じて毎年の余りを変えています。</li>
+        <li>どちらも毎月の余りを同じ利回り（{{ h.investmentReturnRate }}%・仮定）で積み立てて運用。</li>
+        <li>買う側の家は売却しない前提で、土地・建物の評価額（建物は年数とともに価値が下がる）からローン残高を引いて計上。</li>
+        <li>利回りや土地の価格の設定次第で結果は大きく変わります。「家だけが資産形成の方法ではない」ことを確認するための試算で、どちらが得かを断定するものではありません。</li>
+      </ul>
+    </div>
   </section>
 </template>
