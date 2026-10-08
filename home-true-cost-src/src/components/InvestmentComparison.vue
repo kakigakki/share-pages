@@ -9,8 +9,8 @@ const r = computed(() => props.calc.result.value)
 const h = computed(() => props.calc.home.value)
 
 const invest = computed(() => [
-  { name: '頭金・諸費用を投資', color: '#dc2626', values: r.value.rows.map((x) => x.downInvestFV) },
-  { name: '毎月の差額を投資', color: '#0891b2', values: r.value.rows.map((x) => x.diffInvestFV) },
+  { name: '買わずに頭金・諸費用を投資', color: '#dc2626', values: r.value.rows.map((x) => x.downInvestFV) },
+  { name: '借りて毎月浮く分を投資', color: '#0891b2', values: r.value.rows.map((x) => x.diffInvestFV) },
 ])
 const wealth = computed(() => [
   { name: '買う：不動産純資産＋金融資産', color: '#1f6f5c', values: r.value.rows.map((x) => x.buyWealth) },
@@ -28,11 +28,11 @@ const upfront = computed(() => h.value.downPayment + h.value.initialCosts)
     </p>
     <div class="mt-3 grid grid-cols-2 gap-3 text-sm">
       <div class="rounded-xl bg-slate-50 p-3">
-        <div class="text-mute">頭金＋諸費用 {{ formatMan(upfront) }} の{{ h.holdingYears }}年後</div>
+        <div class="text-mute">買わずに頭金＋諸費用 {{ formatMan(upfront) }} を投資 → {{ h.holdingYears }}年後</div>
         <div class="num text-lg font-bold">{{ formatMan(r.holding.downInvestFV) }}</div>
       </div>
       <div class="rounded-xl bg-slate-50 p-3">
-        <div class="text-mute">買うほうが毎月高い分を投資</div>
+        <div class="text-mute">借りて毎月浮く分（買うより安い差額）を投資 → 積み上がり</div>
         <div class="num text-lg font-bold">{{ formatMan(r.holding.diffInvestFV) }}</div>
       </div>
     </div>
