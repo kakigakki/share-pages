@@ -1,6 +1,7 @@
 import type { HomePurchaseInput, RentInput, SimulationResult, YearRow } from '../types/calculator'
 import {
   buildLoanSchedule,
+  makeRiseRatePath,
   calculateRemainingLoan,
   calculateTotalInterest,
   calculateTotalPayment,
@@ -21,7 +22,12 @@ export const horizonYears = (holdingYears: number) => Math.min(50, Math.max(35, 
 export function simulate(home: HomePurchaseInput, rent: RentInput): SimulationResult {
   const H = horizonYears(home.holdingYears)
   const loanAmount = Math.max(0, home.price - home.downPayment)
-  const schedule = buildLoanSchedule(loanAmount, home.interestRate, home.loanYears, home.loanType)
+  const schedule = buildLoanSchedule(
+    loanAmount,
+    home.rateRiseCap > 0 ? makeRiseRatePath(home.interestRate, home.rateRiseCap, home.rateRisePace) : home.interestRate,
+    home.loanYears,
+    home.loanType,
+  )
 
   const upfront = home.downPayment + home.initialCosts
   const land = Math.min(1, Math.max(0, home.landRatio / 100))
@@ -102,6 +108,8 @@ export function simulate(home: HomePurchaseInput, rent: RentInput): SimulationRe
   return {
     rows,
     loanFirstPayment,
+    loanPeakPayment: schedule.reduce((m, x) => Math.max(m, x.payment), 0),
+    loanPeakRate: schedule.reduce((m, x) => Math.max(m, x.rate), home.interestRate),
     loanTotalPayment: calculateTotalPayment(schedule),
     loanTotalInterest: calculateTotalInterest(schedule),
     loanFirstInterest: schedule[0]?.interest ?? 0,

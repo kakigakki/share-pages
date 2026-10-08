@@ -1,5 +1,5 @@
 import { computed, reactive, ref } from 'vue'
-import type { BuildingAge, HomePurchaseInput, LoanType, PropertyType, RentInput } from '../types/calculator'
+import type { BuildingAge, HomePurchaseInput, LoanType, PropertyType, RateMode, RentInput } from '../types/calculator'
 import {
   estimateCityPlanningTax,
   estimateEarthquakeInsurance,
@@ -14,6 +14,9 @@ import { calculateBuyVsRent, judgeAffordability, simulate } from '../utils/simul
 export type EstimateKind = '概算' | '仮定' | '情景'
 
 export type OverrideKey =
+  | 'rateRiseConservative'
+  | 'rateRiseAggressive'
+  | 'rateRisePace'
   | 'holdingYears'
   | 'fixedAssetTax'
   | 'cityPlanningTax'
@@ -42,7 +45,9 @@ export function useHomeCostCalculator() {
   const base = reactive({
     price: 50_000_000,
     downPayment: 5_000_000,
-    interestRate: 1.0,
+    rateMode: 'variable_conservative' as RateMode,
+    fixedRate: 3.8, // 2026年10月 フラット35の最多金利 3.83% を参考
+    variableRate: 1.2, // 2026年9月 新規借入の変動金利の平均 約1.2% を参考
     loanYears: 35,
     loanType: 'equal_payment' as LoanType,
     propertyType: 'condo' as PropertyType,
@@ -66,6 +71,9 @@ export function useHomeCostCalculator() {
     const condo = base.propertyType === 'condo'
     return {
       holdingYears: 35,
+      rateRiseConservative: 2.0,
+      rateRiseAggressive: 0.5,
+      rateRisePace: 0.25,
       fixedAssetTax: estimateFixedAssetTax(base.price, base.propertyType),
       cityPlanningTax: estimateCityPlanningTax(base.price),
       fireInsurance: estimateFireInsurance(base.propertyType),
@@ -106,10 +114,25 @@ export function useHomeCostCalculator() {
     delete overrides.initialCosts
   }
 
+  const riseCap = (m: RateMode) =>
+    m === 'fixed' ? 0 : m === 'variable_conservative' ? value('rateRiseConservative') : value('rateRiseAggressive')
+
+  /** 画面の「年利」入力欄が編集する対象（選択中の金利タイプの当初年利） */
+  const currentRate = computed({
+    get: () => (base.rateMode === 'fixed' ? base.fixedRate : base.variableRate),
+    set: (v: number) => {
+      if (base.rateMode === 'fixed') base.fixedRate = v
+      else base.variableRate = v
+    },
+  })
+
   const home = computed<HomePurchaseInput>(() => ({
     price: base.price,
     downPayment: Math.min(base.downPayment, base.price),
-    interestRate: base.interestRate,
+    interestRate: base.rateMode === 'fixed' ? base.fixedRate : base.variableRate,
+    rateMode: base.rateMode,
+    rateRiseCap: riseCap(base.rateMode),
+    rateRisePace: value('rateRisePace'),
     loanYears: base.loanYears,
     loanType: base.loanType,
     propertyType: base.propertyType,
@@ -148,6 +171,20 @@ export function useHomeCostCalculator() {
   const affordability = computed(() => judgeAffordability(result.value.firstYearCashMonthly, home.value.monthlyIncome))
 
   /** 土地の価格変化率の3情景（悲観/中立/楽観）。各情景で同じ他条件を使う */
+  /** 固定 / 変動（慎重） / 変動（積極）を同じ条件で並べて比較 */
+  const rateComparison = computed(() =>
+    (['fixed', 'variable_conservative', 'variable_aggressive'] as RateMode[]).map((mode) => {
+      const h: HomePurchaseInput = {
+        ...home.value,
+        rateMode: mode,
+        interestRate: mode === 'fixed' ? base.fixedRate : base.variableRate,
+        rateRiseCap: riseCap(mode),
+      }
+      const res = simulate(h, rent.value)
+      return { mode, home: h, result: res }
+    }),
+  )
+
   const scenarios = computed(() =>
     [-1, 0, 1].map((g) => {
       const r = simulate({ ...home.value, expectedPropertyGrowthRate: g }, rent.value)
@@ -172,6 +209,8 @@ export function useHomeCostCalculator() {
     buyVsRent,
     affordability,
     scenarios,
+    currentRate,
+    rateComparison,
   }
 }
 

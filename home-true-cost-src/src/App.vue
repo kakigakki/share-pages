@@ -8,6 +8,7 @@ import CostBreakdown from './components/CostBreakdown.vue'
 import BuyVsRent from './components/BuyVsRent.vue'
 import InvestmentComparison from './components/InvestmentComparison.vue'
 import ScenarioTable from './components/ScenarioTable.vue'
+import RateComparison from './components/RateComparison.vue'
 
 const calc = useHomeCostCalculator()
 
@@ -48,6 +49,7 @@ watch(calc.calculated, async (on) => {
       <div v-if="calc.calculated.value" id="results" class="min-w-0 scroll-mt-4 space-y-5">
         <ResultHeadline :calc="calc" />
         <LoanSummary :calc="calc" />
+        <RateComparison :calc="calc" />
         <CostBreakdown :calc="calc" />
         <BuyVsRent :calc="calc" />
         <InvestmentComparison :calc="calc" />

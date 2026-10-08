@@ -37,8 +37,25 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
       </div>
       <NumberField v-model="c.base.price" label="物件価格" unit="円" :hint="formatMan(c.base.price)" />
       <NumberField v-model="c.base.downPayment" label="頭金" unit="円" :hint="`借入額 ${formatYen(loanAmount)}`" />
+      <SegToggle
+        v-model="c.base.rateMode"
+        label="金利タイプ"
+        :options="[
+          { value: 'fixed', label: '固定' },
+          { value: 'variable_conservative', label: '変動・慎重' },
+          { value: 'variable_aggressive', label: '変動・積極' },
+        ]"
+      />
+      <p class="-mt-2 text-[11px] leading-relaxed text-mute">
+        目安（2026年9〜10月）：変動 約1.2%／フラット35 最多 3.83%。慎重は金利が大きく上がる前提、積極は小幅な上昇で止まる前提。
+      </p>
       <div class="grid grid-cols-2 gap-3">
-        <NumberField v-model="c.base.interestRate" label="年利" unit="%" decimal />
+        <NumberField
+          v-model="c.currentRate.value"
+          :label="c.base.rateMode === 'fixed' ? '年利（固定）' : '当初年利（変動）'"
+          unit="%"
+          decimal
+        />
         <NumberField v-model="c.base.loanYears" label="返済期間" unit="年" />
       </div>
       <NumberField
@@ -134,6 +151,9 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
           <h3 class="text-sm font-bold">前提条件</h3>
           <OverrideField :calc="c" k="holdingYears" label="保有年数" unit="年" />
           <OverrideField :calc="c" k="investmentReturnRate" label="資金の投資利回り（機会費用）" unit="%" tag="仮定" decimal hint="頭金などを投資に回した場合の年率。将来の運用成果を保証するものではありません。" />
+                      <OverrideField :calc="c" k="rateRiseConservative" label="慎重シナリオ：金利の最大上昇幅" unit="pt" tag="仮定" decimal hint="当初年利からこの幅まで段階的に上がる前提。" />
+            <OverrideField :calc="c" k="rateRiseAggressive" label="積極シナリオ：金利の最大上昇幅" unit="pt" tag="仮定" decimal />
+            <OverrideField :calc="c" k="rateRisePace" label="上昇ペース" unit="pt/年" tag="仮定" decimal hint="半年ごとの見直しで反映。実際の5年ルール・125%ルールは考慮していません。" />
           <OverrideField :calc="c" k="landRatio" label="土地の割合（物件価格に占める）" unit="%" tag="概算" decimal hint="建物は年数とともに価値が下がり、残るのは主に土地という前提で評価額を出します。" />
           <OverrideField :calc="c" k="buildingLifeYears" label="建物の評価がゼロになる年数" unit="年" tag="概算" hint="木造戸建ては30年前後が目安（税務上の耐用年数は22年）。" />
           <OverrideField :calc="c" k="expectedPropertyGrowthRate" label="土地の年変化率" unit="%" tag="情景" decimal hint="予測ではなく、条件を変えて見るための設定です。" />

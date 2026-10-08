@@ -1,12 +1,16 @@
 export type PropertyType = 'house' | 'condo'
 export type LoanType = 'equal_payment' | 'equal_principal'
 export type BuildingAge = 'new' | 'used'
+export type RateMode = 'fixed' | 'variable_conservative' | 'variable_aggressive'
 
 /** 金額は円、期間は年/月、率は % 表記（例: 1.0 = 1.0%） */
 export interface HomePurchaseInput {
   price: number
   downPayment: number
-  interestRate: number
+  interestRate: number // 当初年利 %
+  rateMode: RateMode
+  rateRiseCap: number // 変動時：当初からの最大上昇幅 pt（固定は0）
+  rateRisePace: number // 変動時：上昇ペース pt/年
   loanYears: number
   loanType: LoanType
   propertyType: PropertyType
@@ -74,6 +78,8 @@ export interface MonthlyBreakdown {
 export interface SimulationResult {
   rows: YearRow[] // index = year
   loanFirstPayment: number
+  loanPeakPayment: number // 返済期間中の最大の月返済額
+  loanPeakRate: number // 返済期間中の最高年利 %
   loanTotalPayment: number
   loanTotalInterest: number
   loanFirstInterest: number
