@@ -47,15 +47,15 @@ const affColor = computed(
 
     <div class="mt-6 space-y-2 text-sm">
       <div class="flex items-baseline justify-between border-t border-white/15 pt-3">
-        <span class="text-white/70">広告のローン返済額（当初）</span>
+        <span class="text-white/70">広告にデカデカと載っている「月々○万円」（当初・いちばん安く見える瞬間）</span>
         <span class="num text-lg font-bold">{{ formatYen(r.loanFirstPayment) }}</span>
       </div>
       <div v-if="calc.home.value.rateRiseCap > 0" class="flex items-baseline justify-between">
-        <span class="text-white/70">金利上昇後の最大返済額（年利 {{ r.loanPeakRate.toFixed(2) }}%）</span>
+        <span class="text-white/70">広告には載らない、金利が上がった後の「月々」（年利 {{ r.loanPeakRate.toFixed(2) }}%）</span>
         <span class="num text-lg font-bold text-amber-300">{{ formatYen(r.loanPeakPayment) }}</span>
       </div>
       <div class="flex items-baseline justify-between">
-        <span class="text-white/70">実際の毎月支出（税・保険・修繕・管理費込み）</span>
+        <span class="text-white/70">実際に毎月出ていくお金（税・保険・修繕・管理費という小さな文字の分）</span>
         <span class="num text-lg font-bold">{{ formatYen(r.firstYearCashMonthly) }}</span>
       </div>
       <div class="flex items-baseline justify-between">
