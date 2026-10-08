@@ -71,9 +71,9 @@ export function useHomeCostCalculator() {
     const condo = base.propertyType === 'condo'
     return {
       holdingYears: 35,
-      rateRiseConservative: 2.0,
+      rateRiseConservative: 3.5,
       rateRiseAggressive: 0.5,
-      rateRisePace: 0.25,
+      rateRisePace: 0.5,
       fixedAssetTax: estimateFixedAssetTax(base.price, base.propertyType),
       cityPlanningTax: estimateCityPlanningTax(base.price),
       fireInsurance: estimateFireInsurance(base.propertyType),
