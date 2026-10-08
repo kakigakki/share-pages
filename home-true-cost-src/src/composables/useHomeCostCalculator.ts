@@ -72,7 +72,7 @@ export function useHomeCostCalculator() {
     return {
       holdingYears: 35,
       rateRiseConservative: 3.5,
-      rateRiseAggressive: 0.5,
+      rateRiseAggressive: 1.0,
       rateRisePace: 0.5,
       fixedAssetTax: estimateFixedAssetTax(base.price, base.propertyType),
       cityPlanningTax: estimateCityPlanningTax(base.price),
