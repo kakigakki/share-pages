@@ -9,7 +9,7 @@ import BuyVsRent from './components/BuyVsRent.vue'
 import InvestmentComparison from './components/InvestmentComparison.vue'
 import ScenarioTable from './components/ScenarioTable.vue'
 import RateComparison from './components/RateComparison.vue'
-import { locale, setLocale, t } from './i18n'
+import { LANGUAGE_SWITCH_ENABLED, locale, setLocale, t } from './i18n'
 
 const calc = useHomeCostCalculator()
 
@@ -22,7 +22,7 @@ watch(calc.calculated, async (on) => {
 
 <template>
   <header class="mx-auto max-w-5xl px-5 pt-6 pb-8 sm:pt-8">
-    <div class="flex justify-end">
+    <div v-if="LANGUAGE_SWITCH_ENABLED" class="flex justify-end">
       <div class="inline-flex rounded-lg bg-slate-200/70 p-0.5 text-xs" role="group" aria-label="Language">
         <button
           type="button"

@@ -5,7 +5,11 @@ export type Locale = 'ja' | 'zh'
 
 const STORAGE_KEY = 'home-true-cost.locale'
 
+/** 言語切替ボタンを表示するか。false の間は常に日本語（保存済みの言語設定や端末の言語も無視する） */
+export const LANGUAGE_SWITCH_ENABLED = false
+
 function initialLocale(): Locale {
+  if (!LANGUAGE_SWITCH_ENABLED) return 'ja'
   try {
     const saved = localStorage.getItem(STORAGE_KEY)
     if (saved === 'ja' || saved === 'zh') return saved
