@@ -58,6 +58,7 @@ export interface YearRow {
   loanBalance: number
   opportunityCost: number
   buyNetCost: number // 累計現金支出＋機会費用（資産評価額は差し引かない）
+  buyNetCostIfSold: number // 保有期間末に売却した場合：上記 − (評価額 − 売却費用 − ローン残高)
   buyNetCostAfterAsset: number // 上記 − (評価額 − ローン残高)
   rentNetCost: number
   buyWealth: number
@@ -88,6 +89,7 @@ export interface SimulationResult {
   firstYearCashMonthly: number // ② 実際の毎月支出（初年度平均）
   firstYearHoldingMonthly: number
   rentMonthlyFirst: number
+  effectiveMonthlyIfSold: number // 期間末に売却した場合の実質月額
   effectiveMonthly: number // ③ 実質月額（保有期間平均）
   holding: YearRow
   breakdown: MonthlyBreakdown

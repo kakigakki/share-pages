@@ -13,6 +13,7 @@ import {
   calculateOpportunityCost,
   monthlyRateFromAnnual,
 } from './investment'
+import { calculateSellingCost } from './japaneseTaxes'
 
 export const CHECKPOINT_YEARS = [1, 5, 10, 15, 20, 25, 30, 35]
 
@@ -69,6 +70,7 @@ export function simulate(home: HomePurchaseInput, rent: RentInput): SimulationRe
       loanBalance,
       opportunityCost,
       buyNetCost: buyCash + opportunityCost,
+      buyNetCostIfSold: buyCash + opportunityCost - (propertyValue - calculateSellingCost(propertyValue) - loanBalance),
       buyNetCostAfterAsset: buyCash + opportunityCost - (propertyValue - loanBalance),
       rentNetCost: rentCash + rentUpfrontOpp(year),
       buyWealth: propertyValue - loanBalance + investBuy,
@@ -118,6 +120,7 @@ export function simulate(home: HomePurchaseInput, rent: RentInput): SimulationRe
     firstYearCashMonthly,
     firstYearHoldingMonthly: hold1,
     rentMonthlyFirst,
+    effectiveMonthlyIfSold: holding.buyNetCostIfSold / monthsHeld,
     effectiveMonthly: holding.buyNetCost / monthsHeld,
     holding,
     breakdown: {

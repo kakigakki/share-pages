@@ -71,6 +71,14 @@ const affColor = computed(
       {{ other >= 0 ? 'の追加コストがかかっています。ローン以外にも、毎月これだけのお金が動いています。' : '。' }}
     </p>
 
+    <div class="mt-3 flex items-baseline justify-between text-sm">
+      <span class="text-white/70">
+        もし{{ calc.home.value.holdingYears }}年後に売却した場合の実質月額
+        <span class="block text-[11px] text-white/50">評価額 − 売却費用 − ローン残高 を差し引いた場合</span>
+      </span>
+      <span class="num text-lg font-bold text-emerald-300">{{ formatYen(r.effectiveMonthlyIfSold) }}</span>
+    </div>
+
     <p class="mt-3 text-xs leading-relaxed text-white/60">
       参考：{{ calc.home.value.holdingYears }}年後も手元に残る土地・建物の評価額は約
       <b class="num text-white/90">{{ formatMan(r.holding.propertyValue) }}</b>
