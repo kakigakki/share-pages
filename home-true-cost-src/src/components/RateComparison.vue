@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import type { HomeCostCalculator } from '../composables/useHomeCostCalculator'
 import { formatMan, formatYen } from '../utils/formatCurrency'
+import { t } from '../i18n'
 
 const props = defineProps<{ calc: HomeCostCalculator }>()
 const labels = {
@@ -13,7 +14,7 @@ const labels = {
 const rows = computed(() =>
   props.calc.rateComparison.value.map((x) => ({
     mode: x.mode,
-    label: labels[x.mode],
+    label: t(labels[x.mode]),
     initialRate: x.home.interestRate,
     peakRate: x.result.loanPeakRate,
     first: x.result.loanFirstPayment,
@@ -27,19 +28,19 @@ const rows = computed(() =>
 
 <template>
   <section class="rounded-2xl border border-line bg-white p-5">
-    <h2 class="text-base font-bold">固定 vs 変動：金利タイプ別の比較</h2>
-    <p class="mt-1 text-sm text-mute">同じ物件・同じ借入額で、金利タイプだけを変えた場合です。</p>
+    <h2 class="text-base font-bold">{{ t('固定 vs 変動：金利タイプ別の比較') }}</h2>
+    <p class="mt-1 text-sm text-mute">{{ t('同じ物件・同じ借入額で、金利タイプだけを変えた場合です。') }}</p>
 
     <div class="mt-4 overflow-x-auto">
       <table class="num w-full min-w-[560px] text-sm">
         <thead class="text-left text-xs text-mute">
           <tr>
-            <th class="py-2 font-medium">タイプ</th>
-            <th class="py-2 text-right font-medium">年利（当初→最高）</th>
-            <th class="py-2 text-right font-medium">当初返済</th>
-            <th class="py-2 text-right font-medium">最大返済</th>
-            <th class="py-2 text-right font-medium">総利息</th>
-            <th class="py-2 text-right font-medium">実質月額</th>
+            <th class="py-2 font-medium">{{ t('タイプ') }}</th>
+            <th class="py-2 text-right font-medium">{{ t('年利（当初→最高）') }}</th>
+            <th class="py-2 text-right font-medium">{{ t('当初返済') }}</th>
+            <th class="py-2 text-right font-medium">{{ t('最大返済') }}</th>
+            <th class="py-2 text-right font-medium">{{ t('総利息') }}</th>
+            <th class="py-2 text-right font-medium">{{ t('実質月額') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -59,15 +60,15 @@ const rows = computed(() =>
     </div>
 
     <div class="mt-4 space-y-2 rounded-xl bg-slate-50 p-4 text-xs leading-relaxed text-mute">
-      <p class="font-semibold text-ink">この前提の根拠（2026年9〜10月時点の報道ベース。仮定であり予測ではありません）</p>
+      <p class="font-semibold text-ink">{{ t('この前提の根拠（2026年9〜10月時点の報道ベース。仮定であり予測ではありません）') }}</p>
       <ul class="list-disc space-y-1 pl-4">
-        <li>日銀は2026年9月に政策金利を1.25%へ引き上げ（1995年以来の水準）。変動金利の新規借入平均は約1.2%、フラット35の最多金利は3.83%（10月）。</li>
-        <li>海外の政策金利（2026年10月）：米 3.75〜4.00%、英 3.75%、ユーロ圏 2.50%、カナダ 2.25%、豪 4.60%。日本の1.25%は主要国で最も低く、米・ユーロ圏・豪は2026年に利上げ済み。</li>
-        <li>日銀の中立金利は1〜2.5%程度との推計があり、政策金利の着地を1〜2%台とみる見方が多い。</li>
-        <li><b>積極</b>：政策金利が2%台前半（日銀の推計レンジの中ほど、ユーロ圏の水準）で止まり、変動金利が当初から +1.0pt（約2.2%）上がる前提。</li>
-        <li><b>慎重</b>：固定金利を上回るストレス想定。段階的に利上げが進み、当初から +3.5pt（約4.7%）まで上がる前提。1990年の日本の政策金利は約6%、海外では2022〜23年に米・英が約1年半で5pt前後引き上げた例があり、起こりえない水準ではありません。</li>
-        <li>簡略化：金利は半年ごとに反映し、見直しのたびに返済額を再計算します。実際の5年ルール・125%ルール（返済額の急増を抑える仕組み）は考慮していません。</li>
-        <li>固定は、変動より当初の返済が高い代わりに、期間中の金利変動リスクを負いません。</li>
+        <li>{{ t('日銀は2026年9月に政策金利を1.25%へ引き上げ（1995年以来の水準）。変動金利の新規借入平均は約1.2%、フラット35の最多金利は3.83%（10月）。') }}</li>
+        <li>{{ t('海外の政策金利（2026年10月）：米 3.75〜4.00%、英 3.75%、ユーロ圏 2.50%、カナダ 2.25%、豪 4.60%。日本の1.25%は主要国で最も低く、米・ユーロ圏・豪は2026年に利上げ済み。') }}</li>
+        <li>{{ t('日銀の中立金利は1〜2.5%程度との推計があり、政策金利の着地を1〜2%台とみる見方が多い。') }}</li>
+        <li><b>{{ t('積極') }}</b>：{{ t('政策金利が2%台前半（日銀の推計レンジの中ほど、ユーロ圏の水準）で止まり、変動金利が当初から +1.0pt（約2.2%）上がる前提。') }}</li>
+        <li><b>{{ t('慎重') }}</b>：{{ t('固定金利を上回るストレス想定。段階的に利上げが進み、当初から +3.5pt（約4.7%）まで上がる前提。1990年の日本の政策金利は約6%、海外では2022〜23年に米・英が約1年半で5pt前後引き上げた例があり、起こりえない水準ではありません。') }}</li>
+        <li>{{ t('簡略化：金利は半年ごとに反映し、見直しのたびに返済額を再計算します。実際の5年ルール・125%ルール（返済額の急増を抑える仕組み）は考慮していません。') }}</li>
+        <li>{{ t('固定は、変動より当初の返済が高い代わりに、期間中の金利変動リスクを負いません。') }}</li>
       </ul>
     </div>
   </section>

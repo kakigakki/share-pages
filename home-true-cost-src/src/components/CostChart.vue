@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { formatMan } from '../utils/formatCurrency'
+import { t } from '../i18n'
 
 export interface ChartSeries {
   name: string
@@ -62,7 +63,7 @@ function onMove(e: PointerEvent) {
   <div>
     <div class="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
       <span v-for="s in series" :key="s.name" class="flex items-center gap-1.5">
-        <span class="inline-block h-0.5 w-4" :style="{ background: s.color }" />{{ s.name }}
+        <span class="inline-block h-0.5 w-4" :style="{ background: s.color }" />{{ t(s.name) }}
       </span>
     </div>
     <svg
@@ -76,8 +77,8 @@ function onMove(e: PointerEvent) {
         <line :x1="pad.l" :x2="W - pad.r" :y1="y(t)" :y2="y(t)" stroke="#e2e7e4" />
         <text :x="pad.l - 6" :y="y(t) + 4" text-anchor="end" font-size="11" fill="#66736e">{{ formatMan(t) }}</text>
       </g>
-      <text v-for="t in xTicks" :key="'x' + t" :x="x(t)" :y="H - 8" text-anchor="middle" font-size="11" fill="#66736e">
-        {{ t }}年
+      <text v-for="tick in xTicks" :key="'x' + tick" :x="x(tick)" :y="H - 8" text-anchor="middle" font-size="11" fill="#66736e">
+        {{ tick }}{{ t('年') }}
       </text>
       <line
         v-if="marker !== undefined && marker <= years"
@@ -106,12 +107,12 @@ function onMove(e: PointerEvent) {
     </svg>
     <div class="num mt-1 min-h-[2.5rem] text-xs text-mute">
       <template v-if="hover !== null">
-        <b class="text-ink">{{ hover }}年目</b>
+        <b class="text-ink">{{ t('{n}年目', { n: hover }) }}</b>
         <span v-for="s in series" :key="s.name" class="ml-3">
-          <span :style="{ color: s.color }">●</span> {{ s.name }} {{ formatMan(s.values[hover] ?? 0) }}
+          <span :style="{ color: s.color }">●</span> {{ t(s.name) }} {{ formatMan(s.values[hover] ?? 0) }}
         </span>
       </template>
-      <template v-else>グラフ上をなぞると各年の値が表示されます。</template>
+      <template v-else>{{ t('グラフ上をなぞると各年の値が表示されます。') }}</template>
     </div>
   </div>
 </template>

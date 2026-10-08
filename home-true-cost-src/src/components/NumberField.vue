@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import type { EstimateKind } from '../composables/useHomeCostCalculator'
+import { t } from '../i18n'
 
 const props = defineProps<{
   modelValue: number
@@ -55,15 +56,15 @@ const tagClass = computed(() =>
 <template>
   <label class="block">
     <span class="mb-1 flex items-center gap-2 text-[13px] font-medium text-ink">
-      {{ label }}
-      <span v-if="tag" class="rounded px-1.5 py-0.5 text-[10px] font-semibold" :class="tagClass">{{ tag }}</span>
+      {{ t(label) }}
+      <span v-if="tag" class="rounded px-1.5 py-0.5 text-[10px] font-semibold" :class="tagClass">{{ t(tag) }}</span>
       <button
         v-if="overridden"
         type="button"
         class="ml-auto text-[11px] font-normal text-accent underline"
         @click.prevent="emit('reset')"
       >
-        初期値に戻す
+        {{ t('初期値に戻す') }}
       </button>
     </span>
     <span
@@ -78,8 +79,8 @@ const tagClass = computed(() =>
         @focus="onFocus"
         @blur="onBlur"
       />
-      <span v-if="suffix" class="whitespace-nowrap pr-3 text-xs text-mute">{{ suffix }}</span>
+      <span v-if="suffix" class="whitespace-nowrap pr-3 text-xs text-mute">{{ t(suffix) }}</span>
     </span>
-    <span v-if="hint" class="mt-1 block text-[11px] text-mute">{{ hint }}</span>
+    <span v-if="hint" class="mt-1 block text-[11px] text-mute">{{ t(hint) }}</span>
   </label>
 </template>

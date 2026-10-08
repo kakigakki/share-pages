@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import type { HomeCostCalculator } from '../composables/useHomeCostCalculator'
 import { formatMan, formatYen } from '../utils/formatCurrency'
+import { t } from '../i18n'
 
 const props = defineProps<{ calc: HomeCostCalculator }>()
 const r = computed(() => props.calc.result.value)
@@ -12,22 +13,22 @@ const principalShare = computed(() =>
 
 <template>
   <section class="rounded-2xl border border-line bg-white p-5">
-    <h2 class="text-base font-bold">① ローンの中身</h2>
+    <h2 class="text-base font-bold">{{ t('① ローンの中身') }}</h2>
     <dl class="mt-4 grid grid-cols-2 gap-4 text-sm sm:grid-cols-4">
       <div>
-        <dt class="text-mute">借入額</dt>
+        <dt class="text-mute">{{ t('借入額') }}</dt>
         <dd class="num text-lg font-bold">{{ formatMan(r.loanAmount) }}</dd>
       </div>
       <div>
-        <dt class="text-mute">{{ calc.base.loanType === 'equal_payment' ? '毎月返済' : '初月返済' }}</dt>
+        <dt class="text-mute">{{ calc.base.loanType === 'equal_payment' ? t('毎月返済') : t('初月返済') }}</dt>
         <dd class="num text-lg font-bold">{{ formatYen(r.loanFirstPayment) }}</dd>
       </div>
       <div>
-        <dt class="text-mute">総返済額</dt>
+        <dt class="text-mute">{{ t('総返済額') }}</dt>
         <dd class="num text-lg font-bold">{{ formatMan(r.loanTotalPayment) }}</dd>
       </div>
       <div>
-        <dt class="text-mute">総利息</dt>
+        <dt class="text-mute">{{ t('総利息') }}</dt>
         <dd class="num text-lg font-bold text-opp">{{ formatMan(r.loanTotalInterest) }}</dd>
       </div>
     </dl>
@@ -37,8 +38,7 @@ const principalShare = computed(() =>
         <div class="bg-opp/70" :style="{ width: (1 - principalShare) * 100 + '%' }" />
       </div>
       <p class="mt-2 text-xs leading-relaxed text-mute">
-        初月の返済のうち、元本 {{ formatYen(r.loanFirstPrincipal) }}（資産の購入に充てられる部分）、利息
-        {{ formatYen(r.loanFirstInterest) }}（純粋なコスト）。返済額＝住居費ではありません。
+        {{ t('初月の返済のうち、元本 {principal}（資産の購入に充てられる部分）、利息 {interest}（純粋なコスト）。返済額＝住居費ではありません。', { principal: formatYen(r.loanFirstPrincipal), interest: formatYen(r.loanFirstInterest) }) }}
       </p>
     </div>
   </section>

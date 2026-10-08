@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import type { HomeCostCalculator } from '../composables/useHomeCostCalculator'
 import { formatMan, formatYen } from '../utils/formatCurrency'
+import { t } from '../i18n'
 import NumberField from './NumberField.vue'
 import OverrideField from './OverrideField.vue'
 import SegToggle from './SegToggle.vue'
@@ -18,7 +19,7 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
 <template>
   <div class="space-y-5">
     <section class="space-y-4 rounded-2xl border border-line bg-white p-5">
-      <h2 class="text-sm font-bold text-mute">まず、この6つだけ</h2>
+      <h2 class="text-sm font-bold text-mute">{{ t('まず、この6つだけ') }}</h2>
       <div class="grid grid-cols-2 gap-3">
         <SegToggle
           v-model="c.base.propertyType"
@@ -36,7 +37,7 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
         />
       </div>
       <NumberField v-model="c.base.price" label="物件価格" unit="万円" :scale="10000" :hint="formatYen(c.base.price)" />
-      <NumberField v-model="c.base.downPayment" label="頭金" unit="万円" :scale="10000" :hint="`借入額 ${formatMan(loanAmount)}（${formatYen(loanAmount)}）`" />
+      <NumberField v-model="c.base.downPayment" label="頭金" unit="万円" :scale="10000" :hint="t('借入額 {man}（{yen}）', { man: formatMan(loanAmount), yen: formatYen(loanAmount) })" />
       <SegToggle
         v-model="c.base.rateMode"
         label="金利タイプ"
@@ -47,7 +48,7 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
         ]"
       />
       <p class="-mt-2 text-[11px] leading-relaxed text-mute">
-        目安（2026年9〜10月）：変動 約1.2%／フラット35 最多 3.83%。慎重は金利が大きく上がる前提、積極は小幅な上昇で止まる前提。
+        {{ t('目安（2026年9〜10月）：変動 約1.2%／フラット35 最多 3.83%。慎重は金利が大きく上がる前提、積極は小幅な上昇で止まる前提。') }}
       </p>
       <div class="grid grid-cols-2 gap-3">
         <NumberField
@@ -70,7 +71,7 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
         class="w-full rounded-xl bg-accent py-3.5 text-[15px] font-bold text-white transition active:scale-[0.99]"
         @click="c.calculated.value = true"
       >
-        まず計算する
+        {{ t('まず計算する') }}
       </button>
     </section>
 
@@ -81,8 +82,8 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
         @click="showDetail = !showDetail"
       >
         <span>
-          <span class="block text-sm font-bold">さらに精度を上げる</span>
-          <span class="text-xs text-mute">税・保険・修繕・管理費・機会費用・家計</span>
+          <span class="block text-sm font-bold">{{ t('さらに精度を上げる') }}</span>
+          <span class="text-xs text-mute">{{ t('税・保険・修繕・管理費・機会費用・家計') }}</span>
         </span>
         <span class="text-mute">{{ showDetail ? '▲' : '▼' }}</span>
       </button>
@@ -99,16 +100,16 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
           />
           <div class="space-y-2 rounded-xl bg-slate-50 p-3 text-xs leading-relaxed text-mute">
             <p :class="c.base.loanType === 'equal_payment' ? 'text-ink' : ''">
-              <b>元利均等</b>：毎月の返済額（元本＋利息の合計）が同じ。返済計画を立てやすく、日本では主流。最初は利息の割合が大きく、元本がなかなか減らないため、総利息は元金均等より多くなる。
+              <b>{{ t('元利均等') }}</b>：{{ t('毎月の返済額（元本＋利息の合計）が同じ。返済計画を立てやすく、日本では主流。最初は利息の割合が大きく、元本がなかなか減らないため、総利息は元金均等より多くなる。') }}
             </p>
             <p :class="c.base.loanType === 'equal_principal' ? 'text-ink' : ''">
-              <b>元金均等</b>：毎月返す元本が同じで、利息は残高に応じて減っていく。返済額は最初が一番高く、だんだん下がる。総利息は少なく済むが、始めの数年の負担が重い。
+              <b>{{ t('元金均等') }}</b>：{{ t('毎月返す元本が同じで、利息は残高に応じて減っていく。返済額は最初が一番高く、だんだん下がる。総利息は少なく済むが、始めの数年の負担が重い。') }}
             </p>
           </div>
         </section>
 
         <section class="space-y-4 rounded-2xl border border-line bg-white p-5">
-          <h3 class="text-sm font-bold">保有コスト</h3>
+          <h3 class="text-sm font-bold">{{ t('保有コスト') }}</h3>
           <OverrideField :calc="c" k="fixedAssetTax" label="固定資産税" unit="円/年" tag="概算" hint="これは税務計算ではなく概算です。実際の税額が分かれば入力してください。" />
           <OverrideField :calc="c" k="cityPlanningTax" label="都市計画税" unit="円/年" tag="概算" />
           <OverrideField :calc="c" k="fireInsurance" label="火災保険" unit="円/年" tag="概算" />
@@ -125,11 +126,11 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
         <section class="space-y-4 rounded-2xl border border-line bg-white p-5">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold">
-              購入時の諸費用
-              <span class="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] text-amber-700">概算</span>
+              {{ t('購入時の諸費用') }}
+              <span class="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] text-amber-700">{{ t('概算') }}</span>
             </h3>
             <button type="button" class="text-xs text-accent underline" @click="initialDetail = !initialDetail">
-              {{ initialDetail ? '簡易設定' : '詳細設定' }}
+              {{ initialDetail ? t('簡易設定') : t('詳細設定') }}
             </button>
           </div>
           <NumberField
@@ -150,13 +151,13 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
               unit="円"
               @update:model-value="(v) => c.setInitialItem(i.key, v)"
             />
-            <div class="num text-right text-sm font-semibold">合計 {{ formatYen(c.home.value.initialCosts) }}</div>
+            <div class="num text-right text-sm font-semibold">{{ t('合計') }} {{ formatYen(c.home.value.initialCosts) }}</div>
           </template>
-          <p class="text-[11px] text-mute">概算値です。実際の金額は物件・地域・契約条件によって異なります。</p>
+          <p class="text-[11px] text-mute">{{ t('概算値です。実際の金額は物件・地域・契約条件によって異なります。') }}</p>
         </section>
 
         <section class="space-y-4 rounded-2xl border border-line bg-white p-5">
-          <h3 class="text-sm font-bold">前提条件</h3>
+          <h3 class="text-sm font-bold">{{ t('前提条件') }}</h3>
           <OverrideField :calc="c" k="holdingYears" label="保有年数" unit="年" />
           <OverrideField :calc="c" k="investmentReturnRate" label="資金の投資利回り（機会費用）" unit="%" tag="仮定" decimal hint="頭金などを投資に回した場合の年率。将来の運用成果を保証するものではありません。" />
                       <OverrideField :calc="c" k="rateRiseConservative" label="慎重シナリオ：金利の最大上昇幅" unit="pt" tag="仮定" decimal hint="当初年利からこの幅まで段階的に上がる前提。" />
@@ -168,13 +169,13 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
         </section>
 
         <section class="space-y-4 rounded-2xl border border-line bg-white p-5">
-          <h3 class="text-sm font-bold">家計（買えるか・投資に回せるか）</h3>
+          <h3 class="text-sm font-bold">{{ t('家計（買えるか・投資に回せるか）') }}</h3>
           <OverrideField :calc="c" k="monthlyIncome" label="世帯月収（手取り）" unit="円/月" />
           <OverrideField :calc="c" k="monthlyLivingCost" label="住居費を除く月の生活費" unit="円/月" />
         </section>
 
         <section class="space-y-4 rounded-2xl border border-line bg-white p-5">
-          <h3 class="text-sm font-bold">賃貸の条件</h3>
+          <h3 class="text-sm font-bold">{{ t('賃貸の条件') }}</h3>
           <OverrideField :calc="c" k="rentManagementFee" label="管理費・共益費" unit="円/月" />
           <OverrideField :calc="c" k="rentParkingFee" label="駐車場" unit="円/月" />
           <OverrideField :calc="c" k="renewalCostPerYear" label="更新費用（年平均）" unit="円/年" tag="概算" />
