@@ -35,8 +35,8 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
           ]"
         />
       </div>
-      <NumberField v-model="c.base.price" label="物件価格" unit="円" :hint="formatMan(c.base.price)" />
-      <NumberField v-model="c.base.downPayment" label="頭金" unit="円" :hint="`借入額 ${formatYen(loanAmount)}`" />
+      <NumberField v-model="c.base.price" label="物件価格" unit="万円" :scale="10000" :hint="formatYen(c.base.price)" />
+      <NumberField v-model="c.base.downPayment" label="頭金" unit="万円" :scale="10000" :hint="`借入額 ${formatMan(loanAmount)}（${formatYen(loanAmount)}）`" />
       <SegToggle
         v-model="c.base.rateMode"
         label="金利タイプ"

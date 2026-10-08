@@ -10,17 +10,19 @@ const props = defineProps<{
   tag?: EstimateKind
   overridden?: boolean
   hint?: string
+  scale?: number // 表示単位（万円なら 10000）。modelValue は常に元の単位
 }>()
 const emit = defineEmits<{ 'update:modelValue': [number]; reset: [] }>()
 
 const nf = new Intl.NumberFormat('ja-JP', { maximumFractionDigits: 2 })
-const text = ref(nf.format(props.modelValue))
+const sc = computed(() => props.scale ?? 1)
+const text = ref(nf.format(props.modelValue / sc.value))
 const focused = ref(false)
 
 watch(
   () => props.modelValue,
   (v) => {
-    if (!focused.value) text.value = nf.format(v)
+    if (!focused.value) text.value = nf.format(v / sc.value)
   },
 )
 
@@ -29,16 +31,18 @@ function onInput(e: Event) {
   const half = raw.replace(/[０-９．]/g, (c) => (c === '．' ? '.' : String.fromCharCode(c.charCodeAt(0) - 0xfee0)))
   const num = parseFloat(half.replace(props.decimal ? /[^\d.-]/g : /[^\d-]/g, ''))
   text.value = raw
-  if (!Number.isNaN(num)) emit('update:modelValue', num)
+  if (!Number.isNaN(num)) emit('update:modelValue', Math.round(num * sc.value))
 }
 const onFocus = () => (focused.value = true)
 function onBlur() {
   focused.value = false
-  text.value = nf.format(props.modelValue)
+  text.value = nf.format(props.modelValue / sc.value)
 }
 
 const isYen = computed(() => props.unit?.startsWith('円'))
-const suffix = computed(() => (props.unit === '円' ? '' : (props.unit ?? '').replace('円', '')))
+const suffix = computed(() =>
+  props.unit === '円' ? '' : props.unit?.startsWith('万') ? props.unit : (props.unit ?? '').replace('円', ''),
+)
 const tagClass = computed(() =>
   props.tag === '概算'
     ? 'bg-amber-50 text-amber-700'
