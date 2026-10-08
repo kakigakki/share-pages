@@ -97,6 +97,14 @@ const loanAmount = computed(() => Math.max(0, c.base.price - c.base.downPayment)
               { value: 'equal_principal', label: '元金均等' },
             ]"
           />
+          <div class="space-y-2 rounded-xl bg-slate-50 p-3 text-xs leading-relaxed text-mute">
+            <p :class="c.base.loanType === 'equal_payment' ? 'text-ink' : ''">
+              <b>元利均等</b>：毎月の返済額（元本＋利息の合計）が同じ。返済計画を立てやすく、日本では主流。最初は利息の割合が大きく、元本がなかなか減らないため、総利息は元金均等より多くなる。
+            </p>
+            <p :class="c.base.loanType === 'equal_principal' ? 'text-ink' : ''">
+              <b>元金均等</b>：毎月返す元本が同じで、利息は残高に応じて減っていく。返済額は最初が一番高く、だんだん下がる。総利息は少なく済むが、始めの数年の負担が重い。
+            </p>
+          </div>
         </section>
 
         <section class="space-y-4 rounded-2xl border border-line bg-white p-5">
