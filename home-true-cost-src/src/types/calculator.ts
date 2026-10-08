@@ -1,0 +1,89 @@
+export type PropertyType = 'house' | 'condo'
+export type LoanType = 'equal_payment' | 'equal_principal'
+export type BuildingAge = 'new' | 'used'
+
+/** 金額は円、期間は年/月、率は % 表記（例: 1.0 = 1.0%） */
+export interface HomePurchaseInput {
+  price: number
+  downPayment: number
+  interestRate: number
+  loanYears: number
+  loanType: LoanType
+  propertyType: PropertyType
+  buildingAge: BuildingAge
+  holdingYears: number
+
+  fixedAssetTax: number // 円/年
+  cityPlanningTax: number // 円/年
+  fireInsurance: number // 円/年
+  earthquakeInsurance: number // 円/年
+  repairCostPerYear: number // 円/年（年度修繕準備金）
+
+  managementFee: number // 円/月（マンション）
+  repairReserve: number // 円/月（マンション）
+  parkingFee: number // 円/月
+  mgmtGrowthRate: number // %/年（管理費・修繕積立金の上昇率）
+
+  initialCosts: number // 購入時の諸費用合計
+
+  expectedPropertyGrowthRate: number // %/年（情景シミュレーション）
+  investmentReturnRate: number // %/年（仮定）
+
+  monthlyIncome: number
+  monthlyLivingCost: number // 住居費を除く生活費
+}
+
+export interface RentInput {
+  monthlyRent: number
+  managementFee: number
+  parkingFee: number
+  renewalCostPerYear: number
+  insurancePerYear: number
+  initialCost: number
+  rentGrowthRate: number // %/年
+}
+
+export interface YearRow {
+  year: number
+  buyCashCum: number // 累計現金支出（頭金・諸費用含む）
+  propertyValue: number
+  loanBalance: number
+  sellingCost: number
+  netSaleProceeds: number
+  opportunityCost: number
+  buyNetCost: number
+  rentNetCost: number
+  buyWealth: number
+  rentWealth: number
+  downInvestFV: number
+  diffInvestFV: number
+}
+
+export interface MonthlyBreakdown {
+  loan: number
+  tax: number
+  insurance: number
+  repair: number
+  management: number // 管理費・修繕積立金・駐車場
+  opportunity: number
+}
+
+export interface SimulationResult {
+  rows: YearRow[] // index = year
+  loanFirstPayment: number
+  loanTotalPayment: number
+  loanTotalInterest: number
+  loanFirstInterest: number
+  loanFirstPrincipal: number
+  loanAmount: number
+  firstYearCashMonthly: number // ② 実際の毎月支出（初年度平均）
+  firstYearHoldingMonthly: number
+  rentMonthlyFirst: number
+  effectiveMonthly: number // ③ 実質月額（保有期間平均）
+  holding: YearRow
+  breakdown: MonthlyBreakdown
+  rentBreakdownMonthly: number
+  surplusBuyMonthly: number
+  surplusRentMonthly: number
+  shortfallBuy: boolean
+}
