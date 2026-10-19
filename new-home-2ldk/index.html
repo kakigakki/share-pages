@@ -1,0 +1,3024 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>新家 2LDK 布置</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&display=swap">
+<style>
+/* Layout: model stage on the left, a narrow spec sheet on the right (stacks under the model on phones). */
+:root {
+  --bg: #eceeea;
+  --panel: #f7f8f5;
+  --fg: #1d2624;
+  --muted: #5f6b67;
+  --line: #d3d8d2;
+  --accent: #2e6b5e;
+  --accent-weak: #dbe8e3;
+  --scene: #e3e6e1;
+  --ground: #d6dad3;
+  --edge: #8e9690;
+  --chip: rgba(247, 248, 245, 0.92);
+  --font-display: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Consolas", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121715; --panel: #18201d; --fg: #e3eae6; --muted: #97a39e; --line: #2a3430;
+    --accent: #79c2ad; --accent-weak: #1f3530; --scene: #1a211e; --ground: #222b27; --edge: #56625d;
+    --chip: rgba(24, 32, 29, 0.92);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121715; --panel: #18201d; --fg: #e3eae6; --muted: #97a39e; --line: #2a3430;
+  --accent: #79c2ad; --accent-weak: #1f3530; --scene: #1a211e; --ground: #222b27; --edge: #56625d;
+  --chip: rgba(24, 32, 29, 0.92);
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14px; line-height: 1.6; }
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding-block: 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+.stage { position: relative; min-width: 0; min-height: 0; border-radius: 10px; overflow: hidden; background: var(--scene); border: 1px solid var(--line); }
+.stage canvas { display: block; touch-action: none; }
+.labels { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.tag {
+  font-family: var(--font-body); font-size: 12px; font-weight: 500; white-space: nowrap;
+  padding: 2px 8px; border-radius: 4px; background: var(--chip); color: var(--fg);
+  border: 1px solid var(--line);
+}
+.tag small { font-family: var(--font-mono); color: var(--muted); font-size: 11px; margin-left: 4px; }
+.views {
+  position: absolute; top: 12px; left: 12px; right: 12px;
+  display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none;
+}
+.views button, .toggles button {
+  pointer-events: auto; font: 500 13px/1 var(--font-body); color: var(--fg);
+  background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 8px 11px; cursor: pointer;
+}
+.views button[aria-pressed="true"], .toggles button[aria-pressed="true"] { background: var(--accent); color: var(--panel); border-color: var(--accent); }
+.views button:focus-visible, .toggles button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ver {
+  position: absolute; left: 12px; bottom: 12px; display: flex; align-items: center; gap: 8px;
+  background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px 6px 12px; font-size: 13px;
+}
+.ver label { color: var(--muted); }
+.ver select { font: 500 13px/1.2 var(--font-body); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 5px 8px; }
+.ver select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.info {
+  position: absolute; left: 12px; bottom: 104px; max-width: min(620px, calc(100% - 24px));
+  background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; font-size: 13px;
+}
+.info b { font-weight: 700; }
+.info .mono { font-family: var(--font-mono); color: var(--muted); margin-left: 6px; }
+aside {
+  position: fixed; z-index: 50; top: calc(16px + env(safe-area-inset-top, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px)); width: min(380px, calc(100vw - 32px));
+  overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px;
+  display: flex; flex-direction: column; gap: 20px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18); box-sizing: border-box;
+}
+aside header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.icon-btn { font: 500 13px/1 var(--font-body); color: var(--fg); background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; cursor: pointer; }
+.icon-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.panel-btn { position: absolute; right: 12px; bottom: 12px; }
+.views .spacer { flex: 1 1 auto; }
+.views .disp { display: flex; flex-wrap: wrap; gap: 6px; }
+h1 { font-family: var(--font-display); font-size: 24px; line-height: 1.25; margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); font-family: var(--font-mono); font-size: 12px; margin-top: 4px; }
+h2 { font-size: 12px; letter-spacing: 0.08em; color: var(--muted); font-weight: 500; margin: 0 0 8px; }
+.toggles { display: flex; flex-wrap: wrap; gap: 6px; }
+.room { display: flex; flex-direction: column; gap: 4px; padding-top: 12px; border-top: 1px solid var(--line); }
+.room:first-of-type { border-top: 0; padding-top: 0; }
+.room h3 { margin: 0; font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
+.room h3 span { font-family: var(--font-mono); font-weight: 400; color: var(--muted); font-size: 12px; }
+.room p { margin: 0; color: var(--fg); }
+.rooms { display: flex; flex-direction: column; gap: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+td { padding: 5px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--muted); padding-left: 12px; }
+.note { font-size: 13px; color: var(--muted); }
+.note ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+.views button[aria-expanded="true"] { background: var(--accent); color: var(--panel); border-color: var(--accent); }
+.toolbar2 {
+  position: absolute; top: 56px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 13px;
+}
+.toolbar2 #tool-msg { flex: 1 1 220px; min-width: 0; color: var(--muted); }
+.lightbox {
+  position: absolute; right: 12px; bottom: 56px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px 8px;
+  max-width: calc(100% - 24px); background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 13px;
+}
+.lightbox label { color: var(--muted); }
+.lightbox select { font: 500 13px/1.2 var(--font-body); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 4px 6px; }
+.lightbox .sunctl { display: inline-flex; align-items: center; gap: 6px; }
+.lightbox input[type=range] { width: 120px; accent-color: var(--accent); }
+.lightbox output { font-family: var(--font-mono); font-variant-numeric: tabular-nums; min-width: 3em; }
+.minimap { position: absolute; right: 12px; top: 110px; width: 110px; height: 220px; border-radius: 6px; border: 1px solid var(--line); background: var(--chip); }
+.tag.dim { background: var(--accent); color: var(--panel); border-color: var(--accent); font-family: var(--font-mono); font-size: 11px; }
+.tag.measure { background: #d9822b; color: #fff; border-color: #d9822b; font-family: var(--font-mono); }
+.walk-hud {
+  position: absolute; top: 56px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; font-size: 13px;
+}
+.walk-hud b { font-weight: 700; color: var(--accent); }
+.walk-hud .walk-keys { color: var(--muted); flex: 1 1 240px; min-width: 0; }
+.walk-hud button { font: 500 13px/1 var(--font-body); color: var(--panel); background: var(--accent); border: 0; border-radius: 6px; padding: 8px 11px; cursor: pointer; }
+.crosshair { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: rgba(255,255,255,0.9); box-shadow: 0 0 0 1px rgba(0,0,0,0.35); pointer-events: none; }
+.joy {
+  position: absolute; left: 20px; bottom: 64px; width: 120px; height: 120px; border-radius: 50%;
+  background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.6); touch-action: none;
+}
+.joy .knob { position: absolute; left: 40px; top: 40px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.85); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+.err { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--muted); }
+@media (max-width: 820px) {
+  .views .spacer { display: none; }
+}
+</style>
+</head>
+<body>
+
+
+<div class="app">
+  <div class="stage" id="stage">
+    <div class="views" id="views">
+      <button type="button" id="v-overview" data-view="overview" aria-pressed="false">全景</button>
+      <button type="button" id="v-top" data-view="top" aria-pressed="true">俯视</button>
+      <button type="button" id="v-walk" aria-pressed="false">第一人称漫游</button>
+      <button type="button" id="v-labels" aria-pressed="true">房间名</button>
+      <span class="spacer"></span>
+      <div class="disp" role="group" aria-label="显示">
+        <button type="button" id="t-furn" aria-pressed="true">家具</button>
+        <button type="button" id="t-loft" aria-pressed="true">阁楼</button>
+        <button type="button" id="t-ladder" aria-pressed="true">梯子收起</button>
+        <button type="button" id="t-cut" aria-pressed="false">墙体剖开</button>
+        <button type="button" id="t-dims" aria-pressed="false">尺寸</button>
+        <button type="button" id="t-doorvis" aria-pressed="false">门</button>
+        <button type="button" id="t-doors" aria-pressed="false">关门</button>
+        <button type="button" id="t-arcs" aria-pressed="false">开门范围</button>
+        <button type="button" id="t-measure" aria-pressed="false">测距</button>
+        <button type="button" id="t-edit" aria-pressed="false">编辑布局</button>
+      </div>
+    </div>
+    <div class="walk-hud" id="walk-hud" hidden>
+      <b id="walk-room">客厅</b>
+      <span class="walk-keys">WASD / 方向键走 · 点画面锁定鼠标看四周（或按住拖动）· Shift 快走 · 显示门时 E 开 / 关门 · Esc 解锁鼠标</span>
+      <button type="button" id="walk-door" hidden>开门（E）</button>
+      <button type="button" id="walk-exit">退出漫游</button>
+    </div>
+    <div class="crosshair" id="crosshair" hidden></div>
+    <div class="joy" id="joy" hidden><div class="knob" id="knob"></div></div>
+    <div class="ver">
+      <label for="ver-select">版本</label>
+      <select id="ver-select">
+        <option value="v1">现有家具（第一版）</option>
+        <option value="v2">装饰 &amp; 实用摆件版</option>
+      </select>
+    </div>
+    <div class="toolbar2" id="toolbar2" hidden>
+      <span id="tool-msg"></span>
+      <button type="button" class="icon-btn" id="ed-rot" hidden>↻ 旋转 90°</button>
+      <button type="button" class="icon-btn" id="ed-reset" hidden>复位这件</button>
+      <button type="button" class="icon-btn" id="ed-reset-all" hidden>本版本全部复位</button>
+      <button type="button" class="icon-btn" id="ms-clear" hidden>清除测量</button>
+    </div>
+    <div class="lightbox">
+      <label for="light-mode">光照</label>
+      <select id="light-mode">
+        <option value="day">白天（日照模拟）</option>
+        <option value="white">夜晚 · 白光</option>
+        <option value="warm">夜晚 · 暖黄光</option>
+      </select>
+      <span class="sunctl" id="sunctl">
+        <select id="season" aria-label="季节">
+          <option value="w">冬至（12月）</option>
+          <option value="e" selected>春分 / 秋分</option>
+          <option value="s">夏至（6月）</option>
+        </select>
+        <input type="range" id="sun-time" min="6" max="18" step="0.25" value="12" aria-label="时间">
+        <output id="sun-label" for="sun-time">12:00</output>
+      </span>
+    </div>
+    <canvas class="minimap" id="minimap" width="150" height="300" hidden></canvas>
+    <button type="button" class="icon-btn panel-btn" id="panel-open" aria-controls="panel" aria-expanded="false">说明 / 日志</button>
+    <div class="info" id="info">左键拖动旋转 · 右键拖动平移 · 滚轮朝鼠标处缩放 · 双击放大到那里 · 单击家具看尺寸</div>
+  </div>
+
+  <aside id="panel" hidden>
+    <header>
+      <div>
+        <h1>新家 2LDK 布置</h1>
+        <div class="sub">约 57㎡ · 2楼跃层 · 阁楼 3畳 · 朝南</div>
+      </div>
+      <button type="button" class="icon-btn" id="panel-close" aria-label="关闭说明">✕</button>
+    </header>
+
+    <section>
+      <h2>布置思路</h2>
+      <div class="rooms">
+        <div class="room">
+          <h3>客厅 LDK <span>11.5畳 · 宽约2.7m</span></h3>
+          <p>电视靠南墙放，朝北。厨房是对面式的，做饭时隔着吧台窗口正好看到电视（用第一人称漫游走到灶台前可以看效果）。沙发朝南放在中间，离电视约 1.9m，靠背不高，不会挡住餐桌那边的视线。</p>
+          <p>你们现在用的矮桌（80×45）放在沙发正前方，伸手就能放东西。沙发斜前方的东南角空着，以后需要时可以铺爬行垫。厨房里微波炉放在冰箱上面，窄柜子靠西墙。窄柜子和冰箱之间放 Amazon 的置物架（90×40×132），从上往下：左边主台面放咖啡机和磨豆机、右边放电水壶和煮蛋机；左边中层放烤箱、右边中层放无印良品款的电饭煲；最下层先空着。架子前面到台面还留约 95cm 走道。落地灯没放：会被拉倒，电线也绊脚。矮桌的角建议贴上防撞角。</p>
+        </div>
+        <div class="room">
+          <h3>餐区 <span>建议 120×75</span></h3>
+          <p>两把椅子背靠吧台、并排朝南坐，吃饭时正对电视。从厨房递菜也是隔着吧台就能放上桌。东侧过道约 1.3m，进儿童房和厨房都不挡路。以后的宝宝餐椅放在桌子东端。</p>
+        </div>
+        <div class="room">
+          <h3>主卧 <span>6.1畳 · 北侧，厕所旁</span></h3>
+          <p>床头靠东墙（有挂钩条的那面），床放在房间正中。婴儿床贴着大床南侧放，靠内墙，比窗下暖和，夜里伸手就能抱到。主卧旁边的 WIC 里放开放式衣架（靠北墙）和抽屉收纳柜（靠南），抽屉朝门口拉。木柜子（85×45×90）靠南墙放在西南角，上面放台灯，插南墙的插座，夜里喂奶可以开这盏灯。床尾离西墙约 75cm，房门和壁橱门都能完全打开。北侧的床头柜是建议新买的，可以不要。</p>
+        </div>
+        <div class="room">
+          <h3>儿童房 + 电脑 <span>6.1畳 · 南侧，有阳台</span></h3>
+          <p>插座都在西墙（门边一个、窗边一个），所以电脑放西墙：置物架和主机靠门边的插座，电脑桌接在它南边，面朝客厅那面墙。推拉门打开时门板停在门南边那段墙上，置物架正好从门板停的位置之后开始放。</p>
+          <p>头一两年孩子跟父母睡主卧，这间先当电脑房兼放东西的地方，尿布和衣服放进壁橱。东墙梯子南边那块空着，以后放儿童床。中间留出约 90cm 宽的通道直通阳台（地上的绿色带子），晾衣服不用绕。</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="v2-notes" hidden>
+      <h2>装饰 &amp; 实用版 新增了什么</h2>
+      <div class="rooms">
+        <div class="room">
+          <h3>客厅 <span>宝宝相关优先</span></h3>
+          <p>沙发前铺一块可水洗的地毯，宝宝趴着玩不凉，脏了能直接洗。东南角那块没人走的地方放婴儿摇椅，新生儿白天放这里，坐在沙发上就能看到；旁边放一个藤编篮装尿布、湿巾和玩具。窗边角落放一盆大叶绿植，用重一点的盆，不容易被拉倒。东墙挂两幅装饰画，吧台台面上放一小盆绿植（孩子够不到），窗口上方挂一个挂钟，从客厅和餐桌都看得到。</p>
+        </div>
+        <div class="room">
+          <h3>餐区 &amp; 电视 <span></span></h3>
+          <p>餐桌上方加一盏暖光吊灯（墙体不剖开时才显示），桌上放花瓶和果盘。餐桌东端预留宝宝餐椅的位置，半年后开始吃辅食时用，过道还剩约 90cm。电视柜上加一个回音壁音箱和小相框。</p>
+        </div>
+        <div class="room">
+          <h3>厨房 &amp; 洗面所 &amp; 浴室 <span></span></h3>
+          <p>灶台前铺一条防水地垫，台面上放厨具筒和沥水架。浴室门口放脚垫，洗身区放浴凳和洗面盆。厕所放脚垫和一个小置物架。</p>
+        </div>
+        <div class="room">
+          <h3>卧室 &amp; 其他 <span></span></h3>
+          <p>主卧西墙斜靠一面落地镜，婴儿床旁边放加湿器（2 月正是干燥的时候），木柜上放尿布收纳盒，半夜换尿布顺手，床边铺一块小地毯。电脑角加台灯和小绿植，房间中间铺圆形地毯。阁楼放几个收纳箱装季节用品。阳台加晾衣架和木纹地板砖。玄关台阶上放地垫，鞋柜上放钥匙盘和小绿植。</p>
+        </div>
+      </div>
+    </section>
+    <section id="shop">
+      <h2 id="shop-title">本版本清单</h2>
+      <table><tbody id="shop-list"></tbody></table>
+    </section>
+
+    <section id="theme-notes" hidden>
+      <h2></h2>
+      <div class="rooms"></div>
+    </section>
+
+    <section>
+      <h2>家具尺寸（cm）</h2>
+      <table>
+        <tbody>
+          <tr><td>双人床 Double</td><td class="num">140 × 195</td></tr>
+          <tr><td>电脑桌（现有）</td><td class="num">100 × 48 × 70</td></tr>
+          <tr><td>置物架（估计）</td><td class="num">42 × 40 × 100</td></tr>
+          <tr><td>矮桌（现有）</td><td class="num">80 × 45 × 40</td></tr>
+          <tr><td>床头柜</td><td class="num">38 × 38</td></tr>          <tr><td>双人沙发</td><td class="num">170 × 80</td></tr>
+          <tr><td>电视柜</td><td class="num">120 × 50 × 50</td></tr>
+          <tr><td>50 寸电视</td><td class="num">112 × 65</td></tr>
+          <tr><td>餐桌（建议）</td><td class="num">120 × 75</td></tr>
+          <tr><td>婴儿床（外尺寸）</td><td class="num">78 × 126</td></tr>
+          <tr><td>冰箱（现有）</td><td class="num">60 × 65 × 140</td></tr>
+          <tr><td>衣架（现有）</td><td class="num">75 × 45 × 145</td></tr>
+          <tr><td>木柜子（现有）</td><td class="num">85 × 45 × 90</td></tr>
+          <tr><td>抽屉收纳柜（现有）</td><td class="num">60 × 40 × 100</td></tr>
+          <tr><td>窄柜子（现有）</td><td class="num">20 × 30 × 185</td></tr>
+          <tr><td>厨房置物架（Amazon）</td><td class="num">90 × 40 × 132</td></tr>
+          <tr><td>煮蛋机（现有，估计）</td><td class="num">Φ16 × 20</td></tr>
+          <tr><td>洗衣机上方置物架（现有）</td><td class="num">70 × 180</td></tr>
+          <tr><td>台灯（现有）</td><td class="num">20 × 12 × 40</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="note">
+      <h2>哪些是推算的</h2>
+      <ul>
+        <li>墙、门、窗的位置是按平面图比例（约 49px = 1m）和照片推出来的，可能有几十厘米的误差。</li>
+        <li>客厅一侧比走廊高出约 1.1m（6 级台阶），这个高度差是估计值。</li>
+        <li>阁楼按 3畳 估算，放在儿童房壁橱上方，深约 1.8m。</li>
+        <li>客厅南窗按照片改成了腰窗（离地约 90cm，西边留约 70cm 实墙）。电视会挡住窗户西端下面约 45 × 35cm 的一块。</li>
+        <li>儿童房北窗是磨砂玻璃，按照片放在离东墙约 70cm 的位置。</li>
+        <li>南侧房间的插座位置是按你说的“门边、窗边”估的。北侧房间的插座是从你拍的照片里看到的。推拉门的停放位置是从房源照片判断的。</li>
+        <li>电脑旁边的置物架尺寸是我从照片估的，主机画在了架子顶层。</li>
+      </ul>
+    </section>
+  </aside>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+// Units: meters. x = east, z = south, y = up. Origin = outer NW corner of the 2F plan.
+// Levels: hall / kids room / toilet = 0, LDK side = +1.1 (6 steps up), 1F entrance = -2.64.
+const L1 = 1.1, GND = -2.64, LF = -2.49, TOPN = 2.45, TOPS = 3.55, CUT = 1.15, LOFT = 3.3;
+const state = { furn: true, loft: true, cut: false, labels: true };
+
+const stage = document.getElementById('stage');
+const infoEl = document.getElementById('info');
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.78;
+stage.prepend(renderer.domElement);
+
+const labelR = new CSS2DRenderer();
+labelR.domElement.className = 'labels';
+stage.insertBefore(labelR.domElement, document.getElementById('views'));
+
+const scene = new THREE.Scene();
+// soft indoor reflections / ambient light from a generic room environment
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+
+const camera = new THREE.PerspectiveCamera(45, 1, 0.05, 80);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.zoomToCursor = true;        // wheel zooms toward the point under the mouse
+controls.screenSpacePanning = true;
+controls.minDistance = 0.3;
+controls.maxDistance = 40;
+controls.listenToKeyEvents(window); // arrow keys pan
+
+const hemi = new THREE.HemisphereLight(0xfff8ee, 0xb9a58f, 0.55);
+scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xfff1dc, 2.4);
+sun.position.set(9, 20, 24);
+sun.target.position.set(2.9, 0, 5.6);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -11, right: 11, top: 11, bottom: -11, near: 1, far: 70 });
+sun.shadow.bias = -0.0004;
+sun.shadow.normalBias = 0.02;
+scene.add(sun, sun.target);
+
+// ---------- textures (drawn on canvas, colours sampled from the photos) ----------
+let seed = 11;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+function canvasTex(px, meters, draw) {
+  const c = document.createElement('canvas');
+  c.width = c.height = px;
+  draw(c.getContext('2d'), px);
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return { t, meters };
+}
+function speckle(g, n, count, dark, light) {
+  for (let i = 0; i < count; i++) {
+    g.fillStyle = rnd() < 0.5 ? `rgba(${dark},${0.03 + rnd() * 0.05})` : `rgba(${light},${0.04 + rnd() * 0.06})`;
+    g.fillRect(rnd() * n, rnd() * n, 1 + rnd() * 2, 1 + rnd() * 2);
+  }
+}
+// glossy reddish-brown flooring with wavy grain, 30cm boards (from the user's photos)
+const floorT = canvasTex(1024, 2.4, (g, n) => {
+  const pw = n / 8;
+  for (let i = 0; i < 8; i++) {
+    let y = -rnd() * n * 0.6;
+    while (y < n) {
+      const len = n * (0.45 + rnd() * 0.35);
+      g.fillStyle = `hsl(${21 + rnd() * 6}, ${44 + rnd() * 12}%, ${38 + rnd() * 9}%)`;
+      g.fillRect(i * pw, y, pw, len);
+      g.save(); g.beginPath(); g.rect(i * pw, y, pw, len); g.clip();
+      const ph = rnd() * 10;
+      for (let k = 0; k < 24; k++) {
+        g.strokeStyle = `rgba(70,28,8,${0.05 + rnd() * 0.09})`;
+        g.lineWidth = 1 + rnd() * 1.6;
+        g.beginPath();
+        const x0 = i * pw + (k / 24) * pw;
+        for (let yy = y; yy <= y + len + 8; yy += 8) {
+          const xx = x0 + Math.sin(yy * 0.018 + ph + k * 0.35) * 7 * Math.sin(k * 0.4 + ph);
+          if (yy === y) g.moveTo(xx, yy); else g.lineTo(xx, yy);
+        }
+        g.stroke();
+      }
+      for (let a = 1; a <= 5; a++) {
+        g.strokeStyle = 'rgba(80,32,10,0.13)'; g.lineWidth = 2;
+        g.beginPath();
+        g.ellipse(i * pw + pw / 2 + (rnd() - 0.5) * 16, y + len * (0.3 + rnd() * 0.4), pw * 0.08 * a, len * 0.05 * a, 0, 0, Math.PI * 2);
+        g.stroke();
+      }
+      g.restore();
+      g.fillStyle = 'rgba(35,15,5,0.55)'; g.fillRect(i * pw, y, pw, 2);
+      y += len;
+    }
+    g.fillStyle = 'rgba(35,15,5,0.5)'; g.fillRect(i * pw, 0, 2, n);
+  }
+});
+// white vinyl wallpaper with a fine texture
+const wallT = canvasTex(512, 1, (g, n) => { g.fillStyle = '#f3f0ea'; g.fillRect(0, 0, n, n); speckle(g, n, 9000, '120,110,95', '255,255,255'); });
+// striped accent wallpaper on the east walls (bedroom photos)
+const stripeT = canvasTex(512, 1, (g, n) => {
+  g.fillStyle = '#f2f0ec'; g.fillRect(0, 0, n, n);
+  for (let x = 0; x < n; x += 3 + rnd() * 9) { g.fillStyle = `rgba(150,140,125,${0.03 + rnd() * 0.07})`; g.fillRect(x, 0, 1 + rnd() * 2, n); }
+  speckle(g, n, 3000, '120,110,95', '255,255,255');
+});
+// beige leaf-pattern accent wallpaper behind the kitchen counter
+const floralT = canvasTex(512, 0.6, (g, n) => {
+  g.fillStyle = '#eee6d7'; g.fillRect(0, 0, n, n);
+  speckle(g, n, 3000, '140,120,90', '255,255,250');
+  for (let i = 0; i < 70; i++) {
+    const x = rnd() * n, y = rnd() * n, r = 5 + rnd() * 8, a = rnd() * Math.PI;
+    g.fillStyle = `rgba(${170 + rnd() * 30},${150 + rnd() * 25},${115 + rnd() * 20},0.45)`;
+    for (let p = 0; p < 5; p++) {
+      g.beginPath();
+      g.ellipse(x + Math.cos(a + p * 1.257) * r, y + Math.sin(a + p * 1.257) * r, r * 0.7, r * 0.35, a + p * 1.257, 0, Math.PI * 2);
+      g.fill();
+    }
+  }
+});
+// greyish "sonoma oak" print used by the user's cabinets, desk, TV stand and low table
+const oakT = canvasTex(512, 1, (g, n) => {
+  g.fillStyle = '#cbb698'; g.fillRect(0, 0, n, n);
+  for (let y = 0; y < n; y += 2 + rnd() * 5) { g.fillStyle = `rgba(${rnd() < 0.5 ? '90,70,45' : '240,230,210'},${0.05 + rnd() * 0.1})`; g.fillRect(0, y, n, 1 + rnd() * 2); }
+  for (let i = 0; i < 160; i++) { g.fillStyle = 'rgba(245,238,225,0.18)'; g.fillRect(rnd() * n, rnd() * n, 1 + rnd() * 2, 6 + rnd() * 18); }
+});
+// stair treads/risers: reddish-brown wood, straight grain along the tread (stair photos)
+const stairT = canvasTex(512, 1, (g, n) => {
+  g.fillStyle = 'hsl(22, 52%, 41%)'; g.fillRect(0, 0, n, n);
+  for (let y = 0; y < n; y += 1 + rnd() * 4) { g.fillStyle = `rgba(${rnd() < 0.55 ? '80,35,12' : '220,150,100'},${0.04 + rnd() * 0.09})`; g.fillRect(0, y, n, 1 + rnd() * 2); }
+  for (let i = 0; i < 40; i++) { g.strokeStyle = 'rgba(70,30,10,0.1)'; g.lineWidth = 1.5; g.beginPath(); const y = rnd() * n; g.moveTo(0, y); for (let x = 0; x <= n; x += 16) g.lineTo(x, y + Math.sin(x * 0.02 + i) * 4); g.stroke(); }
+});
+// interior door wood (casings, leaves): honey-cherry veneer, vertical grain (matches the toilet / kids-room door photos)
+const doorT = canvasTex(512, 1, (g, n) => {
+  g.fillStyle = '#ad7746'; g.fillRect(0, 0, n, n);
+  for (let x = 0; x < n; x += 1 + rnd() * 4) { g.fillStyle = `rgba(${rnd() < 0.55 ? '110,55,20' : '240,190,140'},${0.04 + rnd() * 0.09})`; g.fillRect(x, 0, 1 + rnd() * 2, n); }
+});
+// beige woven sofa fabric
+const fabricT = canvasTex(256, 0.25, (g, n) => {
+  g.fillStyle = '#c8b699'; g.fillRect(0, 0, n, n);
+  for (let y = 0; y < n; y += 2) for (let x = 0; x < n; x += 2) { const v = rnd(); if (v < 0.35) { g.fillStyle = `rgba(${v < 0.17 ? '120,100,70' : '245,235,215'},0.18)`; g.fillRect(x, y, 2, 2); } }
+});
+const linenT = canvasTex(256, 0.4, (g, n) => { g.fillStyle = '#f6f3ee'; g.fillRect(0, 0, n, n); speckle(g, n, 5000, '150,140,125', '255,255,255'); });
+// beige marble-look cushion floor (toilet / washroom)
+const cushionT = canvasTex(512, 1, (g, n) => {
+  g.fillStyle = '#e9dfcb'; g.fillRect(0, 0, n, n);
+  speckle(g, n, 4000, '160,140,110', '255,250,240');
+  for (let i = 0; i < 14; i++) { g.strokeStyle = 'rgba(170,150,120,0.18)'; g.lineWidth = 1 + rnd() * 2; g.beginPath(); let x = rnd() * n, y = rnd() * n; g.moveTo(x, y); for (let k = 0; k < 8; k++) { x += (rnd() - 0.5) * 120; y += (rnd() - 0.3) * 80; g.lineTo(x, y); } g.stroke(); }
+});
+// grey stone tiles in the entrance
+const tileT = canvasTex(512, 0.6, (g, n) => {
+  g.fillStyle = '#5f6462'; g.fillRect(0, 0, n, n);
+  for (const [x, y] of [[0, 0], [n / 2, 0], [0, n / 2], [n / 2, n / 2]]) { g.fillStyle = `hsl(150, 3%, ${46 + rnd() * 6}%)`; g.fillRect(x + 3, y + 3, n / 2 - 6, n / 2 - 6); }
+  speckle(g, n, 6000, '40,40,40', '200,200,200');
+});
+const bathT = canvasTex(256, 0.3, (g, n) => {
+  g.fillStyle = '#eef0f0'; g.fillRect(0, 0, n, n);
+  for (let y = 4; y < n; y += 12) for (let x = 4; x < n; x += 12) { g.fillStyle = 'rgba(160,170,170,0.25)'; g.beginPath(); g.arc(x, y, 2, 0, Math.PI * 2); g.fill(); }
+});
+// puzzle play mat
+const matT = canvasTex(256, 0.6, (g, n) => {
+  const c = ['#d5e6db', '#f0e4c8', '#e6d8e8', '#d8e4ef'];
+  for (let i = 0; i < 4; i++) { g.fillStyle = c[i]; g.fillRect((i % 2) * n / 2, Math.floor(i / 2) * n / 2, n / 2, n / 2); }
+  g.strokeStyle = 'rgba(0,0,0,0.08)'; g.lineWidth = 2; g.strokeRect(1, 1, n - 2, n - 2); g.beginPath(); g.moveTo(n / 2, 0); g.lineTo(n / 2, n); g.moveTo(0, n / 2); g.lineTo(n, n / 2); g.stroke();
+});
+// sheer curtain folds
+const curtainT = canvasTex(256, 0.3, (g, n) => {
+  const grd = g.createLinearGradient(0, 0, n, 0);
+  for (let i = 0; i <= 6; i++) grd.addColorStop(i / 6, i % 2 ? '#ffffff' : '#e7e3dc');
+  g.fillStyle = grd; g.fillRect(0, 0, n, n);
+});
+
+// ---------- materials ----------
+const M = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.85, metalness: 0, ...o });
+const TM = (ti, o = {}, Ctor = THREE.MeshStandardMaterial) => {
+  const m = new Ctor({ map: ti.t, roughness: 0.85, metalness: 0, ...o });
+  m.userData.meters = ti.meters;
+  return m;
+};
+const mat = {
+  wall: TM(wallT, { roughness: 0.95 }), accentWall: TM(floralT, { roughness: 0.95 }), stripeWall: TM(stripeT, { roughness: 0.95 }),
+  ghost: M(0xc9ccc8, { transparent: true, opacity: 0.16, depthWrite: false }),
+  wood: TM(floorT, { roughness: 0.32, clearcoat: 0.5, clearcoatRoughness: 0.2 }, THREE.MeshPhysicalMaterial),
+  woodDark: TM(oakT, { color: 0x9a8670, roughness: 0.7 }), woodPale: TM(oakT, { roughness: 0.7 }), oak: TM(oakT, { color: 0xd3c7b8, roughness: 0.7 }),
+  door: TM(doorT, { roughness: 0.6 }),
+  stair: TM(stairT, { roughness: 0.55, envMapIntensity: 0.6 }),
+  rail: M(0xa8683b, { roughness: 0.4 }),
+  cushion: TM(cushionT, { roughness: 0.45 }), tile: TM(tileT, { roughness: 0.8 }), bathFloor: TM(bathT, { roughness: 0.5 }),
+  white: M(0xf8f8f6, { roughness: 0.4 }),
+  steel: M(0xc8cbcd, { metalness: 0.8, roughness: 0.3 }), black: M(0x26282a, { roughness: 0.4 }),
+  navy: M(0x2b3546), podium: M(0xd6d1c6), sofa: TM(fabricT, { roughness: 1 }),
+  duvet: TM(linenT, { roughness: 1 }), pillow: TM(linenT, { roughness: 1 }),
+  throw: M(0xc48f6a, { roughness: 1 }), mat: TM(matT, { roughness: 0.9 }), rug: M(0xbfb4a4), rugKid: M(0xe8d9c4), plant: M(0x4f7d4b, { roughness: 0.7 }),
+  pot: M(0xb57c5a), fridge: M(0xf3f2ee, { roughness: 0.3 }), glass: M(0xbcd6e6, { transparent: true, opacity: 0.28, roughness: 0.05, metalness: 0.1 }),
+  mirror: M(0xdfe8ec, { roughness: 0.05, metalness: 0.9 }), balcony: M(0xa8aca9),
+  frame: M(0xece8df, { roughness: 0.5 }), cap: M(0x3d4240, { roughness: 0.9 }),
+  curtain: TM(curtainT, { roughness: 1, transparent: true, opacity: 0.88, side: THREE.DoubleSide }),
+};
+const edgeMat = new THREE.LineBasicMaterial({ color: 0x8e9690, transparent: true, opacity: 0.55 });
+
+// Box UVs in world metres, so a texture keeps its real-world scale on every face.
+function worldUV(mesh) {
+  const m = mesh.material;
+  if (!m.map) return;
+  const s = 1 / (m.userData.meters || 1);
+  const g = mesh.geometry, p = g.attributes.position, n = g.attributes.normal, uv = g.attributes.uv, o = mesh.position;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i) + o.x, y = p.getY(i) + o.y, z = p.getZ(i) + o.z;
+    const ax = Math.abs(n.getX(i)), ay = Math.abs(n.getY(i)), az = Math.abs(n.getZ(i));
+    if (ay >= ax && ay >= az) uv.setXY(i, x * s, z * s);
+    else if (ax >= az) uv.setXY(i, z * s, y * s);
+    else uv.setXY(i, x * s, y * s);
+  }
+  uv.needsUpdate = true;
+}
+
+// ---------- helpers ----------
+function box(parent, x0, x1, y0, y1, z0, z1, m, edges = false) {
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, y1 - y0, z1 - z0), m);
+  mesh.position.set((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2);
+  mesh.castShadow = !m.transparent;
+  mesh.receiveShadow = true;
+  worldUV(mesh);
+  parent.add(mesh);
+  return mesh;
+}
+function rb(parent, x0, x1, y0, y1, z0, z1, m, r = 0.025, seg = 2) {
+  const w = x1 - x0, h = y1 - y0, d = z1 - z0;
+  r = Math.min(r, w / 2 - 0.002, h / 2 - 0.002, d / 2 - 0.002);
+  const geo = r > 0.004 ? new RoundedBoxGeometry(w, h, d, seg, r) : new THREE.BoxGeometry(w, h, d);
+  const mesh = new THREE.Mesh(geo, m);
+  mesh.position.set((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  worldUV(mesh);
+  parent.add(mesh);
+  return mesh;
+}
+function cyl(parent, x, y0, y1, z, r, m, rTop = r) {
+  const mesh = new THREE.Mesh(new THREE.CylinderGeometry(rTop, r, y1 - y0, 24), m);
+  mesh.position.set(x, (y0 + y1) / 2, z);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  parent.add(mesh);
+  return mesh;
+}
+const pickables = [];
+function item(parent, name, size) {
+  const g = new THREE.Group();
+  g.userData.info = { name, size };
+  g.userData.uid = pickables.length;
+  parent.add(g);
+  pickables.push(g);
+  return g;
+}
+// every label is registered under a key so each one can be switched on/off from the panel
+const labelReg = new Map();
+function label(parent, text, size, x, y, z, key = text) {
+  const el = document.createElement('div');
+  el.className = 'tag';
+  el.textContent = text;
+  if (size) { const s = document.createElement('small'); s.textContent = size; el.appendChild(s); }
+  const o = new CSS2DObject(el);
+  o.position.set(x, y, z);
+  parent.add(o);
+  if (!labelReg.has(key)) labelReg.set(key, []);
+  labelReg.get(key).push(o);
+  return o;
+}
+
+const statics = new THREE.Group(), wallsG = new THREE.Group(), furnG = new THREE.Group(), loftG = new THREE.Group(), labelsG = new THREE.Group();
+scene.add(statics, wallsG, furnG, loftG, labelsG);
+
+// ---------- ground + 1F volume ----------
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), M(0xd6dad3, { roughness: 1 }));
+ground.rotation.x = -Math.PI / 2;
+ground.position.set(2.9, GND - 0.06, 5.6);
+ground.receiveShadow = true;
+scene.add(ground);
+{
+  const g = new THREE.BoxGeometry(5.8, -GND, 11.22);
+  const l = new THREE.LineSegments(new THREE.EdgesGeometry(g), new THREE.LineDashedMaterial({ color: 0x9aa19c, dashSize: 0.25, gapSize: 0.18, transparent: true, opacity: 0.6 }));
+  l.position.set(2.9, GND / 2, 5.61);
+  l.computeLineDistances();
+  statics.add(l);
+  label(labelsG, '1F 是别的住户', '', 4.4, GND + 0.2, 2.0, '1F');
+}
+
+// ---------- floors ----------
+function floor(x0, x1, z0, z1, top, m, th = 0.04) { return box(statics, x0, x1, top - th, top, z0, z1, m); }
+// raised LDK side
+box(statics, 0.18, 2.84, -0.12, L1 - 0.03, 4.05, 11.02, mat.podium);
+box(statics, 2.84, 5.65, -0.12, L1 - 0.03, 3.98, 10.57, mat.podium);
+floor(0.18, 2.9, 4.05, 11.02, L1, mat.wood);
+floor(2.96, 3.8, 3.98, 6.75, L1, mat.cushion);
+floor(3.9, 5.65, 3.98, 5.6, L1, mat.bathFloor);
+floor(3.9, 5.65, 5.7, 6.75, L1, mat.wood);
+floor(2.96, 5.65, 6.85, 10.57, L1, mat.wood);
+// lower 2F (hall level)
+floor(0.18, 0.96, 0.16, 1.45, 0, mat.cushion, 0.12);
+floor(1.06, 1.88, 0.16, 1.55, 0, mat.wood, 0.12);
+floor(1.08, 1.88, 1.55, 2.67, 0, mat.wood, 0.12);
+floor(1.88, 2.84, 1.45, 2.4, 0, mat.wood, 0.12);
+floor(1.98, 2.84, 0.16, 1.45, 0, mat.wood, 0.12);
+floor(2.96, 5.65, 0.16, 3.84, 0, mat.wood, 0.12);
+// door thresholds under the hall-level openings (otherwise walk mode sees a gap and stops)
+floor(0.96, 1.06, 0.65, 1.35, 0, mat.wood, 0.12);
+floor(2.84, 2.96, 0.25, 1.4, 0, mat.wood, 0.12);
+floor(2.84, 2.96, 1.6, 2.35, 0, mat.wood, 0.12);
+// 1F entrance
+floor(0.18, 1.0, 0.16, 0.9, GND, mat.tile, 0.06);
+box(statics, 0.18, 1.0, GND, LF, 0.9, 1.55, mat.wood);
+// balcony
+box(statics, 2.96, 5.8, L1 - 0.28, L1 - 0.06, 10.75, 11.55, mat.balcony);
+box(statics, 2.84, 5.8, L1 - 0.06, L1 + 0.95, 11.45, 11.55, mat.balcony);
+box(statics, 5.7, 5.8, L1 - 0.06, L1 + 0.95, 10.75, 11.45, mat.balcony);
+
+// ---------- stairs ----------
+{
+  const r = (0 - LF) / 15;
+  const groove = M(0x4a2a12, { roughness: 0.6 });
+  // one solid step in stair wood; two non-slip grooves along the nosing edge ('n' = north edge, 's' = south edge)
+  const step = (x0, x1, z0, z1, top, base, nose) => {
+    box(statics, x0, x1, base, top, z0, z1, mat.stair);
+    if (!nose) return;
+    for (const d of [0.025, 0.045]) {
+      const zc = nose === 'n' ? z0 + d : z1 - d;
+      box(statics, x0 + 0.03, x1 - 0.03, top, top + 0.002, zc - 0.003, zc + 0.003, groove);
+    }
+  };
+  // white stepped skirting board against a side wall, one piece per step (the zigzag in the photos)
+  const skirt = (x0, x1, z0, z1, top) => box(statics, x0, x1, top, top + 0.08, z0, z1, mat.white);
+  // lower flight, from the entrance going south
+  for (let i = 1; i <= 8; i++) {
+    const z0 = 1.55 + (i - 1) * 0.205, top = LF + i * r;
+    step(0.18, 1.0, z0, z0 + 0.205, top, GND, 'n');
+    skirt(0.18, 0.192, z0, z0 + 0.205, top);
+    skirt(0.988, 1.0, z0, z0 + 0.205, top);
+  }
+  // winders at the south end, turning east then north
+  step(0.18, 1.0, 3.19, 3.57, LF + 9 * r, GND, 'n');
+  step(0.18, 1.0, 3.57, 3.95, LF + 10 * r, GND, 'n');
+  step(1.0, 1.44, 3.19, 3.95, LF + 11 * r, GND);
+  step(1.44, 1.88, 3.19, 3.95, LF + 12 * r, GND);
+  skirt(0.18, 0.192, 3.19, 3.57, LF + 9 * r);
+  skirt(0.18, 0.192, 3.57, 3.95, LF + 10 * r);
+  // short flight going north up to the hall
+  step(1.08, 1.88, 2.93, 3.19, LF + 13 * r, GND, 's');
+  step(1.08, 1.88, 2.67, 2.93, LF + 14 * r, GND, 's');
+  // 6 steps from the hall up to the LDK
+  for (let i = 1; i <= 6; i++) {
+    const z0 = 2.4 + (i - 1) * 0.26, z1 = i === 6 ? 4.05 : z0 + 0.26, top = (L1 / 6) * i;
+    step(1.98, 2.84, z0, z1, top, -0.12, 'n');
+    skirt(1.98, 1.992, z0, z1, top);
+    skirt(2.828, 2.84, z0, z1, top);
+  }
+
+  // Parapet between the 6-step flight and the stair void: its top follows the steps (0.9m above the nosings),
+  // capped with a wood board, like in the photo taken from the top of the stairs.
+  const ny = z => 0.183 + (z - 2.4) * 0.705;  // nosing line of the 6-step flight
+  const sh = new THREE.Shape();
+  sh.moveTo(2.4, 0.9); sh.lineTo(3.95, 0.9); sh.lineTo(3.95, L1 + 0.9); sh.lineTo(3.7, L1 + 0.9); sh.lineTo(2.4, ny(2.4) + 0.9); sh.closePath();
+  const pg = new THREE.ExtrudeGeometry(sh, { depth: 0.1, bevelEnabled: false });
+  pg.rotateY(-Math.PI / 2);
+  const par = new THREE.Mesh(pg, mat.wall);
+  par.position.set(1.98, 0, 0);
+  par.castShadow = par.receiveShadow = true;
+  statics.add(par);
+  const slab = (x0, x1, za, ya, zb, yb, th, m) => {
+    const L = Math.hypot(zb - za, yb - ya);
+    const g = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, th, L), m);
+    g.position.set((x0 + x1) / 2, (ya + yb) / 2 + th / 2, (za + zb) / 2);
+    g.rotation.x = -Math.atan2(yb - ya, zb - za);
+    g.castShadow = g.receiveShadow = true;
+    statics.add(g);
+  };
+  slab(1.865, 1.995, 2.4, ny(2.4) + 0.9, 3.7, L1 + 0.9, 0.025, mat.rail);
+  box(statics, 1.865, 1.995, L1 + 0.9, L1 + 0.925, 3.7, 3.95, mat.rail);
+  box(statics, 0.97, 1.11, 0.9, 0.925, 1.55, 3.19, mat.rail);   // cap on the hall-level parapet around the void
+
+  // round wooden handrails on silver brackets
+  const tube = (a, b) => {
+    const v = new THREE.Vector3().subVectors(b, a);
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.0175, 0.0175, v.length(), 18), mat.rail);
+    m.position.copy(a).addScaledVector(v, 0.5);
+    m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v.clone().normalize());
+    m.castShadow = true;
+    statics.add(m);
+    for (const t of [0.12, 0.5, 0.88]) {
+      const p = a.clone().lerp(b, t), wx = p.x < 1 ? 0.18 : 1.98;
+      box(statics, Math.min(p.x, wx), Math.max(p.x, wx), p.y - 0.03, p.y - 0.018, p.z - 0.012, p.z + 0.012, mat.steel);
+    }
+    for (const p of [a, b]) { const c = new THREE.Mesh(new THREE.SphereGeometry(0.02, 12, 8), mat.steel); c.position.copy(p); statics.add(c); }
+  };
+  tube(new THREE.Vector3(2.04, ny(2.5) + 0.8, 2.5), new THREE.Vector3(2.04, ny(3.65) + 0.8, 3.65));
+  const ly = z => LF + r + (z - 1.55) * (r / 0.205);  // nosing line of the lower flight
+  tube(new THREE.Vector3(0.24, ly(1.65) + 0.8, 1.65), new THREE.Vector3(0.24, ly(3.15) + 0.8, 3.15));
+}
+
+// ---------- walls ----------
+// y = absolute height range, lvl = floor level used for the cut-away height (99 = never cut).
+// open: f..t along the wall's long axis, y0..y1 absolute; glass marks a window.
+const W = [
+  { x: [0, 0.18], z: [0, 3.98], y: [GND, 0], lvl: 99, ghost: true },
+  { x: [0, 0.18], z: [0, 3.98], y: [0, TOPN], lvl: 0 },
+  { x: [0, 0.18], z: [3.98, 11.22], y: [-0.12, TOPS], lvl: L1 },
+  { x: [0, 1.18], z: [0, 0.16], y: [GND, 0], lvl: 99, ghost: true, open: [{ f: 0.25, t: 0.95, y0: GND, y1: GND + 2.0 }] },
+  { x: [0, 5.8], z: [0, 0.16], y: [0, TOPN], lvl: 0, open: [
+    { f: 0.4, t: 0.7, y0: 1.3, y1: 1.7, glass: true },
+    { f: 1.2, t: 1.7, y0: 1.2, y1: 1.6, glass: true },
+    { f: 4.15, t: 4.95, y0: 1.0, y1: 1.9, glass: true }] },
+  { x: [5.65, 5.8], z: [0, 3.98], y: [0, TOPN], lvl: 0, stripe: true },
+  { x: [5.65, 5.8], z: [3.98, 10.75], y: [-0.12, TOPS], lvl: L1, stripe: true },
+  { x: [0, 2.96], z: [11.02, 11.22], y: [-0.12, TOPS], lvl: L1, open: [{ f: 0.9, t: 2.64, y0: L1 + 0.9, y1: L1 + 2.0, glass: true }] },
+  { x: [2.84, 5.8], z: [10.57, 10.75], y: [-0.12, TOPS], lvl: L1, open: [{ f: 3.9, t: 5.55, y0: L1 + 0.1, y1: L1 + 2.0, glass: true }] },
+  // toilet + hall closet
+  { x: [0.96, 1.06], z: [0.16, 1.55], y: [0, TOPN], lvl: 0, open: [{ f: 0.65, t: 1.35, y0: 0, y1: 2.0 }] },
+  { x: [0.18, 1.06], z: [1.45, 1.55], y: [-0.4, TOPN], lvl: 0 },
+  { x: [1.88, 1.98], z: [0.16, 1.55], y: [0, TOPN], lvl: 0 },
+  { x: [1.88, 2.9], z: [1.45, 1.55], y: [0, TOPN], lvl: 0 },
+  // kids room
+  { x: [2.84, 2.96], z: [0.16, 2.4], y: [0, TOPN], lvl: 0, open: [{ f: 0.25, t: 1.4, y0: 0, y1: 2.0 }, { f: 1.6, t: 2.35, y0: 0, y1: 2.0 }] },
+  { x: [2.84, 2.96], z: [2.4, 3.98], y: [-0.12, TOPS], lvl: 0 },
+  { x: [2.84, 5.8], z: [3.84, 3.98], y: [-0.12, TOPS], lvl: L1 },
+  // stair well
+  { x: [0, 2.9], z: [3.95, 4.05], y: [GND, TOPS], lvl: L1, open: [{ f: 2.0, t: 2.82, y0: L1, y1: L1 + 2.0 }] },
+  { x: [1.0, 1.08], z: [1.55, 3.19], y: [GND, 0.9], lvl: 99 },
+  { x: [1.88, 1.98], z: [2.4, 3.95], y: [GND, 0.9], lvl: 99 }, // lower part of the stair parapet; sloped top is built with the stairs
+  { x: [1.0, 1.08], z: [0.16, 1.55], y: [GND, 0], lvl: 99, ghost: true },
+  { x: [1.08, 1.98], z: [1.45, 1.55], y: [GND, -0.12], lvl: 99, ghost: true },
+  { x: [1.88, 1.98], z: [1.55, 2.4], y: [GND, -0.12], lvl: 99, ghost: true },
+  // LDK side
+  { x: [2.84, 2.96], z: [3.98, 11.22], y: [-0.12, TOPS], lvl: L1, open: [{ f: 5.0, t: 5.75, y0: L1, y1: L1 + 2.0 }, { f: 6.95, t: 7.8, y0: L1, y1: L1 + 2.0 }] },
+  { x: [3.8, 3.9], z: [3.98, 6.85], y: [L1, TOPS], lvl: L1, open: [{ f: 4.95, t: 5.6, y0: L1, y1: L1 + 2.0 }] },
+  { x: [3.9, 5.65], z: [5.6, 5.7], y: [L1, 4.4], lvl: L1 },
+  { x: [2.96, 5.65], z: [6.75, 6.85], y: [L1, LOFT - 0.15], lvl: L1, open: [{ f: 4.0, t: 5.55, y0: L1, y1: L1 + 1.95 }] },
+  // kitchen pass-through wall: white on the kitchen side, leaf wallpaper on the LDK side.
+  // The opening only covers the east ~60%; the part behind the IH is solid (photos: listing LDK + kitchen).
+  { x: [0.18, 1.88], z: [6.05, 6.1], y: [L1, TOPS], lvl: L1, open: [{ f: 0.8, t: 1.88, y0: L1 + 1.15, y1: L1 + 1.69 }] },
+  { x: [0.18, 1.88], z: [6.1, 6.15], y: [L1, TOPS], lvl: L1, accent: true, open: [{ f: 0.8, t: 1.88, y0: L1 + 1.15, y1: L1 + 1.69 }] },
+  // loft enclosure (sloped roof simplified to a 1.1m knee wall)
+  { x: [2.84, 2.96], z: [5.6, 7.6], y: [TOPS, 4.4], lvl: LOFT, loft: true },
+  { x: [5.65, 5.8], z: [5.6, 7.6], y: [TOPS, 4.4], lvl: LOFT, loft: true },
+];
+
+function buildWall(w) {
+  if (w.loft && !state.loft) return;
+  const top = state.cut ? Math.min(w.y[1], w.lvl + CUT) : w.y[1];
+  const isCut = top < w.y[1] - 0.005;
+  const base = w.y[0];
+  if (top <= base + 0.01) return;
+  const m = w.ghost ? mat.ghost : w.accent ? mat.accentWall : w.stripe ? mat.stripeWall : mat.wall;
+  const alongX = (w.x[1] - w.x[0]) >= (w.z[1] - w.z[0]);
+  const [a0, a1] = alongX ? w.x : w.z;
+  // a piece spanning s..e along the wall, y0..y1 high, d metres thicker than the wall on each side
+  const piece = (s, e, y0, y1, mm, d = 0) => {
+    if (e - s < 0.005 || y1 - y0 < 0.005) return;
+    if (alongX) box(wallsG, s, e, y0, y1, w.z[0] - d, w.z[1] + d, mm);
+    else box(wallsG, w.x[0] - d, w.x[1] + d, y0, y1, s, e, mm);
+  };
+  const seg = (s, e, y0, y1) => {
+    piece(s, e, y0, y1, m);
+    // dark section cap where the wall is cut, like an architectural cut-away
+    if (isCut && !w.ghost && Math.abs(y1 - top) < 1e-6) piece(s, e, top, top + 0.012, mat.cap, 0.001);
+  };
+  const opens = (w.open || []).slice().sort((p, q) => p.f - q.f);
+  const solid = buildWallSolid(w, m, alongX, a0, a1, base, top, isCut, opens);
+  let cur = a0;
+  for (const o of opens) {
+    if (!solid) {
+      seg(cur, o.f, base, top);
+      seg(o.f, o.t, base, Math.min(o.y0, top));
+      if (o.y1 < top) seg(o.f, o.t, o.y1, top);
+    }
+    if (!w.ghost && o.y0 < top) {
+      const g1 = Math.min(o.y1, top), fw = 0.045;
+      if (o.glass) {
+        // window: glass + off-white aluminium frame with a centre meeting rail
+        const c0 = (alongX ? w.z : w.x).reduce((a, b) => a + b) / 2;
+        if (alongX) box(wallsG, o.f, o.t, o.y0, g1, c0 - 0.006, c0 + 0.006, mat.glass);
+        else box(wallsG, c0 - 0.006, c0 + 0.006, o.y0, g1, o.f, o.t, mat.glass);
+        piece(o.f, o.f + fw, o.y0, g1, mat.frame, -0.02);
+        piece(o.t - fw, o.t, o.y0, g1, mat.frame, -0.02);
+        piece(o.f, o.t, o.y0, o.y0 + fw, mat.frame, -0.02);
+        if (o.y1 <= top) piece(o.f, o.t, o.y1 - fw, o.y1, mat.frame, -0.02);
+        if (o.t - o.f > 0.6) piece((o.f + o.t) / 2 - 0.02, (o.f + o.t) / 2 + 0.02, o.y0, g1, mat.frame, -0.03);
+      } else if (o.y0 <= base + 0.15 && o.y1 - o.y0 > 1.5) {
+        // door opening: wooden casing on both faces
+        piece(o.f - 0.05, o.f, o.y0, g1, mat.door, 0.012);
+        piece(o.t, o.t + 0.05, o.y0, g1, mat.door, 0.012);
+        if (o.y1 < top) piece(o.f - 0.05, o.t + 0.05, o.y1, o.y1 + 0.05, mat.door, 0.012);
+      }
+    }
+    cur = o.t;
+  }
+  if (!solid) seg(cur, a1, base, top);
+}
+
+// Build a wall as ONE extruded panel with its openings cut out (no box seams around windows/doors).
+// Openings may touch one edge of the panel (a door touching the floor, the kitchen opening running out
+// to the wall's end); if an opening splits the panel (touches two edges) we fall back to boxes.
+function buildWallSolid(w, m, alongX, a0, a1, base, top, isCut, opens) {
+  const E = 1e-3, sh = new THREE.Shape(), holes = [];
+  const cl = opens.map(o => ({ f: Math.max(o.f, a0), t: Math.min(o.t, a1), y0: Math.max(o.y0, base), y1: Math.min(o.y1, top) }))
+    .filter(o => o.t - o.f > E && o.y1 - o.y0 > E);
+  const edge = o => ({ b: o.y0 <= base + E, tp: o.y1 >= top - E, s: o.f <= a0 + E, e: o.t >= a1 - E });
+  for (const o of cl) { const g = edge(o); if (g.b + g.tp + g.s + g.e > 1) return false; }
+  const B = cl.filter(o => edge(o).b), R = cl.filter(o => edge(o).e), T = cl.filter(o => edge(o).tp), L = cl.filter(o => edge(o).s);
+  sh.moveTo(a0, base);
+  for (const o of B.sort((p, q) => p.f - q.f)) { sh.lineTo(o.f, base); sh.lineTo(o.f, o.y1); sh.lineTo(o.t, o.y1); sh.lineTo(o.t, base); }
+  sh.lineTo(a1, base);
+  for (const o of R.sort((p, q) => p.y0 - q.y0)) { sh.lineTo(a1, o.y0); sh.lineTo(o.f, o.y0); sh.lineTo(o.f, o.y1); sh.lineTo(a1, o.y1); }
+  sh.lineTo(a1, top);
+  for (const o of T.sort((p, q) => q.t - p.t)) { sh.lineTo(o.t, top); sh.lineTo(o.t, o.y0); sh.lineTo(o.f, o.y0); sh.lineTo(o.f, top); }
+  sh.lineTo(a0, top);
+  for (const o of L.sort((p, q) => q.y1 - p.y1)) { sh.lineTo(a0, o.y1); sh.lineTo(o.t, o.y1); sh.lineTo(o.t, o.y0); sh.lineTo(a0, o.y0); }
+  sh.closePath();
+  for (const o of cl) {
+    const g = edge(o);
+    if (g.b || g.tp || g.s || g.e) continue;
+    const h = new THREE.Path();
+    h.moveTo(o.f, o.y0); h.lineTo(o.f, o.y1); h.lineTo(o.t, o.y1); h.lineTo(o.t, o.y0); h.closePath();
+    sh.holes.push(h);
+  }
+  const d = alongX ? w.z[1] - w.z[0] : w.x[1] - w.x[0];
+  const geo = new THREE.ExtrudeGeometry(sh, { depth: d, bevelEnabled: false, curveSegments: 1 });
+  const mesh = new THREE.Mesh(geo, m);
+  if (alongX) mesh.position.set(0, 0, w.z[0]);
+  else { geo.rotateY(-Math.PI / 2); mesh.position.set(w.x[1], 0, 0); }
+  mesh.castShadow = !m.transparent;
+  mesh.receiveShadow = true;
+  worldUV(mesh);
+  wallsG.add(mesh);
+  // section cap along the cut top, skipping openings that reach the top
+  if (isCut && !w.ghost) {
+    let c = a0;
+    const capSeg = (s, e) => {
+      if (e - s < E) return;
+      if (alongX) box(wallsG, s, e, top, top + 0.012, w.z[0] - 0.001, w.z[1] + 0.001, mat.cap);
+      else box(wallsG, w.x[0] - 0.001, w.x[1] + 0.001, top, top + 0.012, s, e, mat.cap);
+    };
+    for (const o of T.sort((p, q) => p.f - q.f)) { capSeg(c, o.f); c = o.t; }
+    capSeg(c, a1);
+  }
+  return true;
+}
+function rebuildWalls() {
+  for (const c of [...wallsG.children]) { wallsG.remove(c); c.geometry?.dispose(); }
+  W.forEach(buildWall);
+}
+
+// ---------- fixed equipment ----------
+{
+  // kitchen: sink on the east, 2-burner IH on the west, cook faces south into the LDK
+  const k = item(statics, '对面式厨房（固定）', '约 165 × 65cm，西端靠墙，水槽 + 2口 IH');
+  const K1 = 1.83, seam = M(0xcfcfcb);
+  // white gloss cabinet body, hollowed around the sink bowl so the bowl stays visible
+  const gloss = M(0xf7f7f4, { roughness: 0.18 });
+  rb(k, 0.19, K1, L1 + 0.1, L1 + 0.65, 5.43, 6.05, gloss, 0.006);
+  box(k, 0.19, 1.12, L1 + 0.65, L1 + 0.85, 5.43, 6.05, gloss);
+  box(k, 1.62, K1, L1 + 0.65, L1 + 0.85, 5.43, 6.05, gloss);
+  box(k, 1.12, 1.62, L1 + 0.65, L1 + 0.85, 5.43, 5.5, gloss);
+  box(k, 1.12, 1.62, L1 + 0.65, L1 + 0.85, 5.92, 6.05, gloss);
+  box(k, 0.19, K1, L1, L1 + 0.1, 5.5, 6.05, M(0x55585a));                        // recessed toe kick
+  // stainless worktop as one plate with the sink cut out, plus a raised back upstand
+  const brushed = M(0xc4c8cb, { metalness: 0.85, roughness: 0.32 });
+  {
+    const rr = (sh, x0, y0, x1, y1, r) => {
+      sh.moveTo(x0 + r, y0); sh.lineTo(x1 - r, y0); sh.quadraticCurveTo(x1, y0, x1, y0 + r); sh.lineTo(x1, y1 - r);
+      sh.quadraticCurveTo(x1, y1, x1 - r, y1); sh.lineTo(x0 + r, y1); sh.quadraticCurveTo(x0, y1, x0, y1 - r); sh.lineTo(x0, y0 + r);
+      sh.quadraticCurveTo(x0, y0, x0 + r, y0);
+    };
+    const top = new THREE.Shape(); top.moveTo(0.19, 5.4); top.lineTo(K1, 5.4); top.lineTo(K1, 6.05); top.lineTo(0.19, 6.05); top.closePath();
+    const hole = new THREE.Path(); rr(hole, 1.12, 5.5, 1.62, 5.92, 0.06); top.holes.push(hole);
+    const tg = new THREE.ExtrudeGeometry(top, { depth: 0.03, bevelEnabled: false, curveSegments: 6 });
+    tg.rotateX(Math.PI / 2);
+    const tm = new THREE.Mesh(tg, brushed); tm.position.y = L1 + 0.88; tm.castShadow = tm.receiveShadow = true; k.add(tm);
+    box(k, 0.19, K1, L1 + 0.88, L1 + 0.92, 6.0, 6.05, brushed);                    // back upstand
+    // sink bowl: floor + 4 walls, darker brushed steel, drain
+    const bowl = M(0xa9aeb2, { metalness: 0.85, roughness: 0.38 });
+    box(k, 1.12, 1.62, L1 + 0.66, L1 + 0.67, 5.5, 5.92, bowl);
+    box(k, 1.12, 1.62, L1 + 0.67, L1 + 0.88, 5.5, 5.505, bowl); box(k, 1.12, 1.62, L1 + 0.67, L1 + 0.88, 5.915, 5.92, bowl);
+    box(k, 1.12, 1.125, L1 + 0.67, L1 + 0.88, 5.5, 5.92, bowl); box(k, 1.615, 1.62, L1 + 0.67, L1 + 0.88, 5.5, 5.92, bowl);
+    cyl(k, 1.37, L1 + 0.67, L1 + 0.673, 5.71, 0.045, M(0x55595c, { metalness: 0.6 }));
+    // single-lever faucet with a curved spout
+    cyl(k, 1.37, L1 + 0.92, L1 + 1.04, 5.98, 0.022, mat.steel);
+    const sp = new THREE.CatmullRomCurve3([new THREE.Vector3(1.37, L1 + 1.02, 5.975), new THREE.Vector3(1.37, L1 + 1.1, 5.93), new THREE.Vector3(1.37, L1 + 1.09, 5.82), new THREE.Vector3(1.37, L1 + 1.02, 5.76)]);
+    const spm = new THREE.Mesh(new THREE.TubeGeometry(sp, 24, 0.012, 10, false), mat.steel); spm.castShadow = true; k.add(spm);
+    box(k, 1.36, 1.38, L1 + 1.045, L1 + 1.06, 5.92, 6.0, mat.steel);              // lever
+  }
+  // IH hob: light silver-grey glass with two white rings and a control strip (kitchen photos)
+  box(k, 0.3, 0.86, L1 + 0.88, L1 + 0.888, 5.47, 5.96, M(0xb9bdc0, { roughness: 0.12, metalness: 0.3 }));
+  for (const x of [0.44, 0.7]) {
+    const rg = new THREE.Mesh(new THREE.RingGeometry(0.075, 0.095, 40), M(0xf4f4f2, { side: THREE.DoubleSide }));
+    rg.rotation.x = -Math.PI / 2; rg.position.set(x, L1 + 0.889, 5.73); k.add(rg);
+  }
+  box(k, 0.36, 0.8, L1 + 0.888, L1 + 0.89, 5.49, 5.54, M(0x8c9195));
+  // white gloss fronts: door / drawers / door, with recessed grey handle grooves along the top edges
+  for (const x of [0.62, 1.1, 1.6]) box(k, x, x + 0.004, L1 + 0.12, L1 + 0.83, 5.425, 5.43, seam);
+  box(k, 0.62, 1.1, L1 + 0.5, L1 + 0.504, 5.425, 5.43, seam);
+  const groove = M(0x9a9c9e, { metalness: 0.4, roughness: 0.4 });
+  for (const [x0, x1, y] of [[0.2, 0.62, 0.8], [0.62, 1.1, 0.8], [0.62, 1.1, 0.47], [1.1, 1.6, 0.8], [1.6, 1.83, 0.8]])
+    box(k, x0 + 0.02, x1 - 0.02, L1 + y, L1 + y + 0.012, 5.424, 5.432, groove);
+  box(k, K1, K1 + 0.05, L1, L1 + 1.15, 5.4, 6.05, mat.door);                     // wood end panel on the counter's open east end
+  // serving ledge + wood frame around the pass-through opening
+  // The opening runs out to the wall's east end (no jamb there): wood cap on the low wall, wood underside on the bulkhead
+  box(k, 0.8, 1.88, L1 + 1.15, L1 + 1.18, 6.02, 6.2, mat.door);
+  box(k, 0.8, 1.88, L1 + 1.66, L1 + 1.69, 6.04, 6.16, mat.door);
+  box(k, 0.77, 0.8, L1 + 1.15, L1 + 1.69, 6.04, 6.16, mat.door);
+  // light-grey kitchen panel behind and beside the IH
+  const kp = M(0xd9dad8, { roughness: 0.3 });
+  box(k, 0.19, 0.8, L1 + 0.88, L1 + 1.63, 6.04, 6.05, kp);
+  box(k, 0.18, 0.19, L1 + 0.88, L1 + 2.0, 5.43, 6.05, kp);
+
+  // Unit bath (listing photo): white panel walls, a light wood-grain accent wall at the far end with the
+  // thermostatic mixer, shower slide bar, tall mirror and a small counter; acrylic tub along the north wall.
+  const bath = item(statics, '浴室（整体浴室）', '约 1616 尺寸，浴缸 + 洗身区');
+  {
+    const ub = M(0xf3f2ee, { roughness: 0.28 }), tubM = M(0xfbfbf9, { roughness: 0.18 });
+    const BH = L1 + 2.1;
+    // west panel, leaving the door opening (z 4.95–5.6) free
+    box(bath, 3.9, 3.915, L1, BH, 3.98, 4.93, ub);
+    box(bath, 3.9, 3.915, L1 + 2.02, BH, 4.93, 5.6, ub);
+    box(bath, 3.9, 5.65, L1, BH, 3.98, 3.995, ub);          // north panel
+    box(bath, 3.9, 5.65, L1, BH, 5.585, 5.6, ub);           // south panel
+    // light, desaturated wood-grain accent panel (as in the listing photo)
+    const accT = canvasTex(512, 1, (g, n) => {
+      g.fillStyle = '#cfae8a'; g.fillRect(0, 0, n, n);
+      for (let x = 0; x < n; x += 2 + rnd() * 5) { g.fillStyle = `rgba(${rnd() < 0.5 ? '140,100,60' : '245,225,200'},${0.06 + rnd() * 0.1})`; g.fillRect(x, 0, 1 + rnd() * 2, n); }
+    });
+    box(bath, 5.62, 5.65, L1, BH, 3.995, 5.585, TM(accT, { roughness: 0.35 }));
+    // tub: rim + apron + basin, rounded
+    rb(bath, 3.92, 5.6, L1, L1 + 0.5, 4.0, 4.1, tubM, 0.04, 3);
+    rb(bath, 3.92, 5.6, L1, L1 + 0.52, 4.7, 4.82, tubM, 0.05, 3);
+    rb(bath, 3.92, 4.08, L1, L1 + 0.5, 4.0, 4.82, tubM, 0.05, 3);
+    rb(bath, 5.42, 5.6, L1, L1 + 0.5, 4.0, 4.82, tubM, 0.05, 3);
+    rb(bath, 4.06, 5.44, L1, L1 + 0.12, 4.08, 4.72, M(0xeef0f0, { roughness: 0.2 }), 0.08, 4);
+    cyl(bath, 5.3, L1 + 0.12, L1 + 0.124, 4.4, 0.025, mat.steel);
+    // wash area fittings on the accent wall
+    rb(bath, 5.44, 5.62, L1 + 0.58, L1 + 0.63, 4.9, 5.5, tubM, 0.02, 3);                       // counter
+    rb(bath, 5.57, 5.62, L1 + 0.72, L1 + 0.8, 5.0, 5.36, mat.steel, 0.02, 3);                  // mixer bar
+    for (const z of [5.02, 5.34]) { const kn = cyl(bath, 0, -0.02, 0.02, 0, 0.03, mat.steel); kn.rotation.z = Math.PI / 2; kn.position.set(5.56, L1 + 0.76, z); }
+    box(bath, 5.6, 5.615, L1 + 0.9, L1 + 1.85, 5.42, 5.44, mat.steel);                         // slide bar
+    rb(bath, 5.54, 5.6, L1 + 1.55, L1 + 1.62, 5.4, 5.46, M(0xf2f2f0, { roughness: 0.3 }), 0.02); // shower head
+    const hose = new THREE.CatmullRomCurve3([new THREE.Vector3(5.57, L1 + 0.74, 5.3), new THREE.Vector3(5.5, L1 + 0.55, 5.33), new THREE.Vector3(5.52, L1 + 0.9, 5.42), new THREE.Vector3(5.56, L1 + 1.55, 5.43)]);
+    const hm = new THREE.Mesh(new THREE.TubeGeometry(hose, 40, 0.008, 8, false), M(0xe8e8e6, { roughness: 0.4 })); bath.add(hm);
+    box(bath, 5.605, 5.62, L1 + 0.95, L1 + 1.7, 4.95, 5.3, mat.mirror);                        // tall mirror
+    box(bath, 5.6, 5.62, L1 + 0.93, L1 + 0.95, 4.94, 5.31, mat.steel);
+    box(bath, 5.58, 5.62, L1 + 1.1, L1 + 1.12, 5.38, 5.5, mat.steel);                          // small shelf bar
+    // folding door frame on the washroom side
+    box(bath, 3.88, 3.92, L1, L1 + 2.0, 4.93, 4.96, M(0xe2e2de)); box(bath, 3.88, 3.92, L1, L1 + 2.0, 5.59, 5.62, M(0xe2e2de));
+    box(bath, 3.88, 3.92, L1 + 1.97, L1 + 2.02, 4.93, 5.62, M(0xe2e2de));
+  }
+
+  const v = item(statics, '洗面台（固定）', '约 75 × 50cm，三面镜柜 + 顶灯');
+  {
+    const g = M(0xf8f8f5, { roughness: 0.2 });
+    box(v, 3.03, 3.72, L1, L1 + 0.08, 6.28, 6.73, M(0xd8d6cf));                              // recessed plinth
+    rb(v, 3.0, 3.75, L1 + 0.08, L1 + 0.79, 6.24, 6.73, g, 0.008);                            // cabinet
+    box(v, 3.28, 3.284, L1 + 0.1, L1 + 0.77, 6.235, 6.24, M(0xd2d2ce));                      // drawer / door joints
+    box(v, 3.0, 3.28, L1 + 0.42, L1 + 0.424, 6.235, 6.24, M(0xd2d2ce));
+    rb(v, 2.99, 3.76, L1 + 0.79, L1 + 0.86, 6.2, 6.73, g, 0.03, 3);                          // counter + bowl
+    const bowl = new THREE.Mesh(new THREE.CircleGeometry(0.2, 40), M(0xeceeef, { roughness: 0.15 }));
+    bowl.scale.set(1.25, 0.8, 1); bowl.rotation.x = -Math.PI / 2; bowl.position.set(3.375, L1 + 0.861, 6.42); v.add(bowl);
+    cyl(v, 3.375, L1 + 0.86, L1 + 0.862, 6.42, 0.02, M(0x8a8e91, { metalness: 0.7 }));
+    cyl(v, 3.375, L1 + 0.86, L1 + 0.95, 6.62, 0.016, mat.steel);                              // faucet
+    box(v, 3.367, 3.383, L1 + 0.93, L1 + 0.95, 6.52, 6.62, mat.steel);
+    // three-panel mirror cabinet with a light on top
+    box(v, 3.03, 3.72, L1 + 1.0, L1 + 1.86, 6.62, 6.73, g);
+    for (const [x0, x1] of [[3.04, 3.26], [3.27, 3.48], [3.49, 3.71]]) box(v, x0, x1, L1 + 1.02, L1 + 1.82, 6.615, 6.62, mat.mirror);
+    box(v, 3.03, 3.72, L1 + 0.97, L1 + 1.0, 6.6, 6.73, g);                                   // bottom shelf
+    box(v, 3.05, 3.7, L1 + 1.86, L1 + 1.92, 6.62, 6.73, M(0xffffff, { emissive: 0xfff4e0, emissiveIntensity: 0.9 }));
+  }
+
+  const t = item(statics, '马桶（带温水洗净）', '');
+  {
+    const por = M(0xfbfbf9, { roughness: 0.12 });
+    rb(t, 0.4, 0.76, 0.42, 0.8, 0.18, 0.37, por, 0.05, 4);                     // tank
+    rb(t, 0.39, 0.77, 0.8, 0.83, 0.17, 0.38, por, 0.012, 3);                   // tank lid
+    cyl(t, 0.58, 0.83, 0.86, 0.3, 0.035, por);                                 // spout on the lid
+    box(t, 0.37, 0.4, 0.68, 0.7, 0.24, 0.3, mat.steel);                        // flush lever
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.12, 0.38, 32), por);
+    base.scale.z = 1.45; base.position.set(0.58, 0.19, 0.6); base.castShadow = base.receiveShadow = true; t.add(base);
+    const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.185, 0.185, 0.05, 40), M(0xf4f3ef, { roughness: 0.3 }));
+    seat.scale.z = 1.4; seat.position.set(0.58, 0.405, 0.62); seat.castShadow = true; t.add(seat);
+    rb(t, 0.42, 0.74, 0.38, 0.44, 0.33, 0.43, M(0xf0efeb, { roughness: 0.3 }), 0.02, 3);   // washlet body
+    rb(t, 0.76, 0.81, 0.39, 0.45, 0.42, 0.64, M(0xf0efeb, { roughness: 0.3 }), 0.015, 3);  // side control panel
+    for (const z of [0.47, 0.52, 0.57]) box(t, 0.775, 0.795, 0.45, 0.452, z - 0.012, z + 0.012, M(z < 0.5 ? 0x5aa0d0 : 0xd0d0cc));
+    // paper holder on the west wall, towel ring on the back wall
+    box(t, 0.18, 0.2, 0.68, 0.72, 0.85, 1.0, mat.steel);
+    const roll = cyl(t, 0, -0.05, 0.05, 0, 0.055, M(0xfafaf7, { roughness: 1 })); roll.rotation.x = Math.PI / 2; roll.position.set(0.25, 0.66, 0.925);
+    const tr = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.006, 8, 30), mat.steel); tr.position.set(0.58, 1.25, 0.175); t.add(tr);
+  }
+
+  const hc = item(statics, '走廊收纳（固定）', '约 80 × 45 × 85cm，矮柜，上面是小窗');
+  rb(hc, 1.06, 1.88, 0, 0.85, 0.16, 0.6, mat.white, 0.01);
+  box(hc, 1.465, 1.475, 0.05, 0.8, 0.6, 0.605, M(0xcfcfcb));
+
+  // range hood + wall cabinet above the IH
+  // One continuous white unit runs along the whole pass-through wall from the hood to the east end,
+  // up to the ceiling: the west section houses the range hood, the east part holds two storage cabinets.
+  const hood = item(statics, '吊柜一体（固定）', '吧台上方一整排：西端是抽油烟机，东边两格收纳柜');
+  rb(hood, 0.8, 1.86, L1 + 1.69, TOPS, 5.68, 6.05, mat.white, 0.004);              // cabinet run east of the hood
+  box(hood, 1.33 - 0.002, 1.33 + 0.002, L1 + 1.7, TOPS - 0.01, 5.675, 5.68, seam);   // joint between the two doors
+  // Slanted stainless hood over the IH (side profile from the kitchen photo): shallow at the top,
+  // sloping out to a short vertical lip at the front, black intake underneath, white cover above.
+  {
+    const p = new THREE.Shape();
+    const zb = 6.05, zf = 5.55, yb = L1 + 1.63, yt = L1 + 2.35;
+    p.moveTo(zb, yb); p.lineTo(zf, yb); p.lineTo(zf, yb + 0.07); p.lineTo(zb - 0.13, yt); p.lineTo(zb, yt); p.closePath();
+    const g = new THREE.ExtrudeGeometry(p, { depth: 0.6, bevelEnabled: false });
+    g.rotateY(-Math.PI / 2);
+    const h = new THREE.Mesh(g, M(0xc9ccce, { metalness: 0.85, roughness: 0.28 }));
+    h.position.set(0.8, 0, 0);
+    h.castShadow = h.receiveShadow = true;
+    hood.add(h);
+    box(hood, 0.21, 0.79, yb - 0.006, yb, zf + 0.01, zb - 0.01, M(0x232527, { roughness: 0.6 }));  // intake
+    box(hood, 0.2, 0.8, yt, TOPS, zb - 0.13, zb, mat.white);                                       // cover to the ceiling
+  }
+  for (const [x0, x1] of [[0.86, 1.28], [1.39, 1.8]]) box(hood, x0, x1, L1 + 1.695, L1 + 1.705, 5.672, 5.68, mat.steel); // pulls
+
+  // master sliding door, drawn in its open (parked) position against the west wall
+  const sd = item(statics, '儿童房推拉门', '打开时停在这段墙上，前面不能贴墙放家具');
+  box(sd, 2.97, 3.01, L1, L1 + 2.0, 7.8, 8.65, mat.door);
+
+  // outlets in the master bedroom (west wall, by the door and by the window)
+  const outletMat = M(0xffffff, { emissive: 0x2e6b5e, emissiveIntensity: 0.6 });
+  box(statics, 2.96, 2.98, L1 + 0.2, L1 + 0.3, 8.7, 8.78, outletMat);
+  box(statics, 2.96, 2.98, L1 + 0.2, L1 + 0.3, 10.35, 10.43, outletMat);
+  label(statics, '插座', '', 2.98, L1 + 0.35, 8.74);
+  label(statics, '插座', '', 2.98, L1 + 0.35, 10.39);
+  // outlets in the north room (low, near both east corners)
+  box(statics, 5.25, 5.33, 0.2, 0.3, 0.16, 0.18, outletMat);
+  box(statics, 5.35, 5.43, 0.2, 0.3, 3.82, 3.84, outletMat);
+  label(statics, '插座', '', 5.29, 0.35, 0.2);
+  label(statics, '插座', '', 5.39, 0.35, 3.8);
+
+  // picture rails with hooks on the accent walls
+  box(statics, 5.62, 5.65, L1 + 1.78, L1 + 1.82, 7.9, 9.4, mat.white);
+  box(statics, 5.62, 5.65, 1.73, 1.77, 0.6, 3.3, mat.white);
+
+  const sb = item(statics, '鞋柜（固定）', '约 38 × 65cm');
+  rb(sb, 0.62, 1.0, GND, GND + 0.9, 0.2, 0.85, mat.white, 0.01);
+  rb(sb, 0.62, 1.0, GND + 1.5, GND + 2.3, 0.2, 0.85, mat.white, 0.01);
+
+  const ac = item(statics, '空调（客厅）', '');
+  rb(ac, 0.18, 0.42, L1 + 2.0, L1 + 2.3, 10.2, 11.0, mat.white, 0.05);
+
+  // front door
+  box(statics, 0.25, 0.95, GND, GND + 2.0, 0.02, 0.07, M(0x4a4e52));
+}
+
+// ---------- loft ----------
+{
+  box(loftG, 2.96, 5.65, LOFT - 0.15, LOFT - 0.02, 5.7, 7.6, mat.navy);
+  box(loftG, 2.96, 5.65, LOFT - 0.02, LOFT, 5.7, 7.6, mat.wood);
+  box(loftG, 2.96, 5.0, LOFT, LOFT + 0.45, 7.5, 7.6, mat.wall, true);
+  box(loftG, 5.45, 5.65, LOFT, LOFT + 0.45, 7.5, 7.6, mat.wall, true);
+  label(loftG, '阁楼', '3畳', 4.3, LOFT + 0.1, 6.6);
+
+  var lad = item(loftG, '阁楼梯子', '展开时架在阁楼边上');
+  var ladderSub = new THREE.Group();
+  const sub = ladderSub;
+  const len = Math.hypot(LOFT + 0.45 - L1, 0.7);
+  sub.position.set(5.22, L1, 8.3);
+  sub.rotation.x = -Math.atan2(0.7, LOFT + 0.45 - L1);
+  for (const x of [-0.17, 0.17]) box(sub, x - 0.02, x + 0.02, 0, len, -0.02, 0.02, mat.white);
+  for (let y = 0.3; y < len - 0.1; y += 0.3) box(sub, -0.17, 0.17, y - 0.015, y + 0.015, -0.02, 0.02, mat.white);
+  lad.add(sub);
+}
+
+// ---------- furniture ----------
+function legs(g, x0, x1, z0, z1, y0, y1, m, inset = 0.04, s = 0.04) {
+  for (const x of [x0 + inset, x1 - inset - s]) for (const z of [z0 + inset, z1 - inset - s]) box(g, x, x + s, y0, y1, z, z + s, m);
+}
+function chair(parent, x0, x1, z0, z1, backSide, y = L1) {
+  const g = item(parent, '餐椅', '约 42 × 42cm');
+  legs(g, x0, x1, z0, z1, y, y + 0.43, mat.woodDark, 0.02, 0.03);
+  rb(g, x0, x1, y + 0.43, y + 0.47, z0, z1, mat.woodPale, 0.01);
+  if (backSide === 'e') box(g, x1 - 0.03, x1, y + 0.47, y + 0.85, z0, z1, mat.woodPale);
+  if (backSide === 'w') box(g, x0, x0 + 0.03, y + 0.47, y + 0.85, z0, z1, mat.woodPale);
+  if (backSide === 'n') box(g, x0, x1, y + 0.47, y + 0.85, z0, z0 + 0.03, mat.woodPale);
+}
+{
+  // kitchen side
+  // existing fridge (photo): white 3-door, big top door with a brushed-steel bar handle, two drawers with lip pulls
+  const f = item(furnG, '冰箱（现有）', '60 × 65 × 140cm，三门，放 R 位');
+  {
+    const fw = M(0xf5f4f0, { roughness: 0.22, metalness: 0.02 }), lip = M(0xe4e4df, { roughness: 0.3 });
+    rb(f, 1.33, 1.91, L1 + 0.03, L1 + 1.395, 4.1, 4.7, fw, 0.02);                     // cabinet
+    box(f, 1.35, 1.89, L1, L1 + 0.03, 4.14, 4.66, M(0x3a3c3e));                        // feet / toe
+    rb(f, 1.32, 1.92, L1 + 0.64, L1 + 1.4, 4.695, 4.75, fw, 0.014, 3);                 // top door
+    rb(f, 1.32, 1.92, L1 + 0.335, L1 + 0.625, 4.695, 4.75, fw, 0.014, 3);              // drawer 1
+    rb(f, 1.32, 1.92, L1 + 0.035, L1 + 0.32, 4.695, 4.75, fw, 0.014, 3);               // drawer 2
+    rb(f, 1.4, 1.62, L1 + 0.86, L1 + 0.895, 4.75, 4.785, mat.steel, 0.012, 3);         // bar handle
+    for (const y of [0.61, 0.305]) rb(f, 1.34, 1.9, L1 + y - 0.02, L1 + y, 4.745, 4.765, lip, 0.006);
+    // a few fridge magnets, as on the photo
+    [[0x7fb8d8, 1.66, 1.25], [0xd85a6a, 1.74, 1.24], [0xf2c94c, 1.82, 1.26], [0xe8e0d0, 1.4, 1.3], [0xc0392b, 1.84, 1.1]]
+      .forEach(([c, x, y]) => rb(f, x - 0.025, x + 0.025, L1 + y - 0.03, L1 + y + 0.03, 4.75, 4.758, M(c, { roughness: 0.4 }), 0.003));
+  }
+
+  // Kitchen rack from Amazon (90 W × 40 D × 132 H): white steel frame, light-oak shelves.
+  // Left bay 52cm with a 20cm-deep hutch shelf on top, right bay 39cm with a wire basket under the worktop.
+  // Placed at the west end of the kitchen against the north wall, facing the counter.
+  {
+    const rk = item(furnG, '厨房置物架（Amazon）', '90 × 40 × 132cm，在窄柜子和冰箱之间');
+    rk.position.x = 0.22;   // sits between the narrow cabinet (west wall) and the fridge
+    const steel = M(0xf4f4f2, { roughness: 0.35, metalness: 0.2 });
+    const shelf = TM(oakT, { color: 0xf3e3c8, roughness: 0.6 });
+    const X0 = 0.19, XM = 0.71, X1 = 1.09, Z0 = 4.06, Z1 = 4.46, ZH = 4.26, Y = h => L1 + h;
+    const post = (x, z, h) => box(rk, x, x + 0.02, Y(0), Y(h), z, z + 0.02, steel);
+    for (const x of [X0, XM - 0.02, X1 - 0.02]) for (const z of [Z0, Z1 - 0.02]) post(x, z, 0.895);
+    for (const x of [X0, XM - 0.02]) { post(x, Z0, 1.32); post(x, ZH - 0.02, 1.32); }
+    const sh = (x0, x1, h, z1 = Z1) => box(rk, x0, x1, Y(h - 0.018), Y(h), Z0, z1, shelf);
+    sh(X0, X1, 0.12); sh(X0 + 0.02, XM - 0.02, 0.545); sh(XM, X1 - 0.02, 0.415); sh(X0, X1, 0.895); sh(X0, XM, 1.32, ZH);
+    for (const h of [0.08, 0.855]) box(rk, X0, X1, Y(h), Y(h + 0.02), Z1 - 0.02, Z1, steel);      // front rails
+    // cross braces on the west side
+    for (const [a, b] of [[0.14, 0.52], [0.52, 0.14]]) {
+      const v = new THREE.Vector3(0, b - a, Z1 - Z0 - 0.04), L = v.length();
+      const br = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, L, 6), steel);
+      br.position.set(X0 + 0.01, Y((a + b) / 2), (Z0 + Z1) / 2); br.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v.normalize()); rk.add(br);
+    }
+    // wire basket under the right half of the worktop
+    for (let x = XM + 0.03; x < X1 - 0.03; x += 0.035) box(rk, x, x + 0.004, Y(0.76), Y(0.762), Z0 + 0.03, Z1 - 0.03, steel);
+    box(rk, XM + 0.02, X1 - 0.04, Y(0.762), Y(0.82), Z1 - 0.035, Z1 - 0.03, steel);
+    box(rk, XM + 0.02, X1 - 0.04, Y(0.762), Y(0.82), Z0 + 0.03, Z0 + 0.035, steel);
+
+    const cream = M(0xf2eee5, { roughness: 0.3 }), chrome = M(0xdfe2e4, { metalness: 0.95, roughness: 0.15 }), dark = M(0x1e2022, { roughness: 0.3 });
+    const T = 0.895;
+    // espresso machine (Tuni): cream body, chrome band + group head, round pressure gauge, four buttons, steam wand
+    {
+      const x0 = 0.37, x1 = 0.62, z0 = 4.1, z1 = 4.4;
+      rb(rk, x0, x1, Y(T), Y(T + 0.03), z0, z1, cream, 0.01);                       // base / drip tray
+      box(rk, x0 + 0.02, x1 - 0.02, Y(T + 0.03), Y(T + 0.035), z1 - 0.12, z1, chrome);
+      rb(rk, x0, x1, Y(T + 0.03), Y(T + 0.2), z0, z0 + 0.16, cream, 0.01);          // lower body
+      rb(rk, x0, x1, Y(T + 0.2), Y(T + 0.33), z0, z1 - 0.02, cream, 0.015, 3);       // head
+      box(rk, x0, x1, Y(T + 0.2), Y(T + 0.215), z0, z1 - 0.019, chrome);             // chrome band
+      cyl(rk, (x0 + x1) / 2, Y(T + 0.16), Y(T + 0.2), z1 - 0.1, 0.04, chrome);       // group head / portafilter
+      box(rk, (x0 + x1) / 2 - 0.01, (x0 + x1) / 2 + 0.01, Y(T + 0.165), Y(T + 0.18), z1 - 0.06, z1 + 0.04, dark);
+      const g = cyl(rk, 0, -0.005, 0.005, 0, 0.035, M(0x2a2c2e)); g.rotation.x = Math.PI / 2; g.position.set((x0 + x1) / 2, Y(T + 0.29), z1 - 0.015);
+      const gr = new THREE.Mesh(new THREE.TorusGeometry(0.036, 0.004, 6, 24), chrome); gr.position.set((x0 + x1) / 2, Y(T + 0.29), z1 - 0.012); rk.add(gr);
+      for (let i = 0; i < 4; i++) { const b = cyl(rk, 0, -0.003, 0.003, 0, 0.011, M(0xfafaf8)); b.rotation.x = Math.PI / 2; b.position.set(x0 + 0.04 + i * 0.057, Y(T + 0.24), z1 - 0.017); }
+      const wand = cyl(rk, x1 + 0.02, Y(T + 0.08), Y(T + 0.22), z1 - 0.05, 0.006, chrome);
+    }
+    // burr grinder: cream base, smoked hopper, black lid
+    cyl(rk, 0.28, Y(T), Y(T + 0.2), 4.24, 0.065, cream, 0.06);
+    cyl(rk, 0.28, Y(T + 0.2), Y(T + 0.33), 4.24, 0.055, new THREE.MeshStandardMaterial({ color: 0x30343a, transparent: true, opacity: 0.6, roughness: 0.1 }), 0.065);
+    cyl(rk, 0.28, Y(T + 0.33), Y(T + 0.37), 4.24, 0.07, dark, 0.068);
+    box(rk, 0.255, 0.305, Y(T + 0.1), Y(T + 0.16), 4.3, 4.31, dark);
+    // electric kettle (white) on the right half of the worktop
+    cyl(rk, 0.8, Y(T), Y(T + 0.2), 4.27, 0.08, M(0xf7f7f5, { roughness: 0.25 }), 0.075);
+    rb(rk, 0.865, 0.895, Y(T + 0.04), Y(T + 0.19), 4.25, 4.29, M(0xf7f7f5, { roughness: 0.25 }), 0.01);
+    cyl(rk, 0.8, Y(T + 0.2), Y(T + 0.215), 4.27, 0.06, M(0xeeeeec));
+    // egg cooker (café anabas, photo): yellow base with a steel band and timer dial, clear dome, yellow knob
+    {
+      const eg = item(rk, '煮蛋机（现有）', '约 Φ16 × 20cm，放在电水壶旁边');
+      const yel = M(0xf2c21b, { roughness: 0.35 }), ex = 0.99, ez = 4.27;
+      cyl(eg, ex, Y(T), Y(T + 0.085), ez, 0.07, yel, 0.078);
+      cyl(eg, ex, Y(T + 0.085), Y(T + 0.095), ez, 0.08, M(0xc9ccce, { metalness: 0.85, roughness: 0.25 }));
+      cyl(eg, ex, Y(T + 0.095), Y(T + 0.11), ez, 0.082, yel);
+      for (const s2 of [-1, 1]) rb(eg, ex - 0.025, ex + 0.025, Y(T + 0.095), Y(T + 0.11), ez + s2 * 0.08 - 0.015, ez + s2 * 0.08 + 0.015, yel, 0.006);
+      const domeM = new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.3, roughness: 0.05, depthWrite: false });
+      cyl(eg, ex, Y(T + 0.11), Y(T + 0.16), ez, 0.072, domeM, 0.07);
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(0.07, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), domeM);
+      cap.scale.y = 0.45; cap.position.set(ex, Y(T + 0.16), ez); eg.add(cap);
+      cyl(eg, ex, Y(T + 0.11), Y(T + 0.115), ez, 0.065, yel);                                   // egg tray
+      cyl(eg, ex, Y(T + 0.19), Y(T + 0.205), ez, 0.022, yel, 0.02);                              // knob
+      const dial = cyl(eg, 0, -0.008, 0.008, 0, 0.018, yel); dial.rotation.x = Math.PI / 2; dial.position.set(ex, Y(T + 0.035), ez + 0.075);
+    }
+    // toaster oven (MAXZEN, white) on the left middle shelf
+    {
+      const x0 = 0.24, x1 = 0.61, z0 = 4.1, z1 = 4.4, b = 0.545;
+      rb(rk, x0, x1, Y(b + 0.015), Y(b + 0.245), z0, z1, M(0xf6f6f3, { roughness: 0.25 }), 0.02, 3);
+      rb(rk, x0 + 0.03, x1 - 0.03, Y(b + 0.08), Y(b + 0.19), z1 - 0.004, z1 + 0.002, M(0x23272a, { roughness: 0.08, metalness: 0.3 }), 0.025, 3);
+      box(rk, x0 + 0.12, x1 - 0.12, Y(b + 0.205), Y(b + 0.225), z1, z1 + 0.012, M(0xb5b8ba));
+      for (const x of [x0 + 0.08, x1 - 0.08]) { const k = cyl(rk, 0, -0.008, 0.008, 0, 0.02, M(0xf0f0ee)); k.rotation.x = Math.PI / 2; k.position.set(x, Y(b + 0.045), z1 + 0.008); }
+      for (const x of [x0 + 0.03, x1 - 0.03]) box(rk, x - 0.015, x + 0.015, Y(b), Y(b + 0.015), z0 + 0.03, z1 - 0.03, dark);
+    }
+    // MUJI-style 3-cup rice cooker: matte white soft-square body, a domed lid split by a fine seam,
+    // a rectangular open button at the front of the lid, and a pale grey control panel on the front
+    // (LCD + round buttons), as in the photo.
+    {
+      const b = 0.415, cx = 0.89, cz = 4.27, W = 0.23, D = 0.26;
+      const matte = M(0xf3f2ee, { roughness: 0.75 }), lidM = M(0xf6f5f1, { roughness: 0.7 });
+      const sq = (w, d, r) => {
+        const s2 = new THREE.Shape(), x0 = -w / 2, x1 = w / 2, y0 = -d / 2, y1 = d / 2;
+        s2.moveTo(x0 + r, y0); s2.lineTo(x1 - r, y0); s2.quadraticCurveTo(x1, y0, x1, y0 + r); s2.lineTo(x1, y1 - r);
+        s2.quadraticCurveTo(x1, y1, x1 - r, y1); s2.lineTo(x0 + r, y1); s2.quadraticCurveTo(x0, y1, x0, y1 - r); s2.lineTo(x0, y0 + r);
+        s2.quadraticCurveTo(x0, y0, x0 + r, y0);
+        return s2;
+      };
+      const soft = (w, d, r, h, bev, m, y) => {
+        const g = new THREE.ExtrudeGeometry(sq(w, d, r), { depth: h, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 5, curveSegments: 12 });
+        g.rotateX(-Math.PI / 2);
+        const ms = new THREE.Mesh(g, m); ms.position.set(cx, Y(y + bev), cz); ms.castShadow = ms.receiveShadow = true; rk.add(ms);
+        return ms;
+      };
+      soft(W - 0.02, D - 0.02, 0.06, 0.11, 0.01, matte, b);                       // body
+      soft(W - 0.03, D - 0.03, 0.06, 0.03, 0.03, lidM, b + 0.135);                 // domed lid
+      box(rk, cx - 0.1, cx + 0.1, Y(b + 0.13), Y(b + 0.134), cz - 0.12, cz + 0.12, M(0xd9d8d3));   // seam shadow
+      rb(rk, cx - 0.03, cx + 0.03, Y(b + 0.222), Y(b + 0.23), cz + 0.03, cz + 0.07, M(0xeceae5, { roughness: 0.6 }), 0.008); // open button
+      for (let i = 0; i < 3; i++) box(rk, cx - 0.085, cx - 0.06, Y(b + 0.222), Y(b + 0.224), cz - 0.09 + i * 0.012, cz - 0.085 + i * 0.012, M(0xc9b88f)); // steam vent marks
+      // front control panel
+      const zf = cz + D / 2 + 0.001;
+      rb(rk, cx - 0.085, cx + 0.085, Y(b + 0.025), Y(b + 0.1), zf - 0.004, zf + 0.002, M(0xebebe7, { roughness: 0.5 }), 0.012, 3);
+      box(rk, cx - 0.03, cx + 0.035, Y(b + 0.05), Y(b + 0.085), zf + 0.002, zf + 0.004, M(0xd8dad6));
+      box(rk, cx - 0.022, cx + 0.03, Y(b + 0.055), Y(b + 0.075), zf + 0.004, zf + 0.005, M(0x2b3034, { roughness: 0.2 }));
+      const btn = M(0xf9f9f7, { roughness: 0.5 });
+      for (const [x, y] of [[-0.065, 0.085], [-0.065, 0.062], [-0.065, 0.039], [-0.025, 0.035], [0.02, 0.035], [0.065, 0.06]]) {
+        const c = cyl(rk, 0, -0.002, 0.002, 0, 0.009, btn); c.rotation.x = Math.PI / 2; c.position.set(cx + x, Y(b + y), zf + 0.004);
+      }
+    }
+  }
+
+  // existing narrow cabinet (20 × 30 × 185) right beside the fridge
+  const nc2 = item(furnG, '窄柜子（现有）', '20 × 30 × 185cm，靠厨房西墙');
+  rb(nc2, 0.19, 0.39, L1, L1 + 1.85, 4.1, 4.4, mat.white, 0.01);
+  // white microwave on top of the fridge, door facing the kitchen aisle
+  const mw = item(furnG, '微波炉（现有）', '白色，放在冰箱上面');
+  rb(mw, 1.38, 1.86, L1 + 1.41, L1 + 1.69, 4.22, 4.6, mat.fridge, 0.02, 3);
+  rb(mw, 1.39, 1.85, L1 + 1.42, L1 + 1.68, 4.595, 4.615, M(0xf7f7f4, { roughness: 0.2 }), 0.01);
+  box(mw, 1.42, 1.69, L1 + 1.46, L1 + 1.64, 4.615, 4.618, M(0x2c3033, { roughness: 0.08, metalness: 0.3 })); // glass window
+  box(mw, 1.735, 1.83, L1 + 1.6, L1 + 1.635, 4.615, 4.618, M(0x1d2a2f, { emissive: 0x2a6f8a, emissiveIntensity: 0.4 })); // display
+  for (const y of [1.48, 1.53, 1.56]) box(mw, 1.745, 1.82, L1 + y, L1 + y + 0.018, 4.615, 4.62, M(0xe2e2de));
+  for (const x of [1.4, 1.84]) box(mw, x - 0.015, x + 0.015, L1 + 1.4, L1 + 1.41, 4.25, 4.57, M(0x333333));
+
+  // Everything faces south: the cook looks through the pass-through, diners sit side by side,
+  // and the sofa sits between them, all looking at the TV on the south wall.
+  const t = item(furnG, '餐桌（建议）', '120 × 75cm，两人并排面朝电视');
+  rb(t, 0.3, 1.5, L1 + 0.69, L1 + 0.73, 6.8, 7.55, mat.woodPale, 0.01);
+  legs(t, 0.3, 1.5, 6.8, 7.55, L1, L1 + 0.69, mat.woodDark);
+  chair(furnG, 0.4, 0.82, 6.32, 6.74, 'n');
+  chair(furnG, 0.98, 1.4, 6.32, 6.74, 'n');
+
+  const tv = item(furnG, '电视柜 + 50 寸电视', '柜 120 × 50 × 50cm，靠南墙，从厨房、餐桌、沙发都能看到');
+  // existing TV stand (photo): sonoma-oak open carcass on four splayed beech legs, open shelves on the
+  // left half, a white sliding door on the right half running in a white bottom rail; front faces north.
+  {
+    const legM = M(0xc99f74, { roughness: 0.55 });
+    const [x0, x1, z0, z1, yb, yt] = [0.2, 1.4, 10.52, 11.02, L1 + 0.13, L1 + 0.5];
+    for (const [lx, lz, ax, az] of [[x0 + 0.08, z0 + 0.07, -1, -1], [x1 - 0.08, z0 + 0.07, 1, -1], [x0 + 0.08, z1 - 0.07, -1, 1], [x1 - 0.08, z1 - 0.07, 1, 1]]) {
+      const leg = cyl(tv, 0, -0.065, 0.065, 0, 0.014, legM, 0.022);
+      leg.position.set(lx + ax * 0.012, L1 + 0.065, lz + az * 0.012);
+      leg.rotation.set(az * 0.18, 0, -ax * 0.18);
+    }
+    box(tv, x0, x1, yt - 0.025, yt, z0, z1, mat.oak);            // top
+    box(tv, x0, x1, yb, yb + 0.02, z0, z1, mat.oak);             // bottom
+    box(tv, x0, x0 + 0.02, yb, yt, z0, z1, mat.oak);             // sides
+    box(tv, x1 - 0.02, x1, yb, yt, z0, z1, mat.oak);
+    box(tv, x0, x1, yb, yt, z1 - 0.01, z1, mat.oak);             // back panel
+    box(tv, 0.79, 0.81, yb, yt, z0 + 0.03, z1, mat.oak);         // centre divider
+    // seen from the sofa (facing south) the door is on the right = west half, open shelves on the east half
+    box(tv, 0.81, x1 - 0.02, yb + 0.17, yb + 0.19, z0 + 0.02, z1, mat.oak); // shelf in the open half
+    box(tv, x0 + 0.02, x1 - 0.02, yb + 0.02, yb + 0.045, z0, z0 + 0.03, mat.white); // white bottom rail
+    rb(tv, x0 + 0.03, 0.8, yb + 0.03, yt - 0.03, z0 + 0.005, z0 + 0.025, mat.white, 0.004); // sliding door
+    // 50" TV: wide flat base plate, slim dark bezel
+    rb(tv, 0.33, 1.27, yt, yt + 0.015, 10.66, 10.88, M(0x1d1f22, { roughness: 0.35 }), 0.004);
+    box(tv, 0.74, 0.86, yt + 0.015, yt + 0.09, 10.82, 10.86, mat.black);
+    box(tv, 0.24, 1.36, yt + 0.06, yt + 0.71, 10.8, 10.84, M(0x2b2d30, { roughness: 0.3 }));
+    box(tv, 0.25, 1.35, yt + 0.07, yt + 0.70, 10.795, 10.8, M(0x0b0c0e, { roughness: 0.08, metalness: 0.2 }));
+  }
+
+  const s = item(furnG, '双人沙发', '170 × 80cm，面朝南，离电视约 1.9m');
+  // existing sofa (photo): beige fabric, wide padded arms, two seat cushions and two loose back cushions
+  for (const x of [0.25, 1.83]) for (const z of [8.36, 9.02]) box(s, x, x + 0.04, L1, L1 + 0.06, z, z + 0.04, M(0x2a2622));
+  rb(s, 0.2, 1.9, L1 + 0.06, L1 + 0.3, 8.3, 9.1, mat.sofa, 0.05, 4);                      // base
+  rb(s, 0.2, 1.9, L1 + 0.3, L1 + 0.62, 8.3, 8.48, mat.sofa, 0.07, 4);                     // back frame
+  rb(s, 0.2, 0.38, L1 + 0.3, L1 + 0.64, 8.3, 9.1, mat.sofa, 0.08, 5);                     // arms
+  rb(s, 1.72, 1.9, L1 + 0.3, L1 + 0.64, 8.3, 9.1, mat.sofa, 0.08, 5);
+  rb(s, 0.38, 1.05, L1 + 0.3, L1 + 0.45, 8.46, 9.08, mat.sofa, 0.06, 5);                  // seat cushions
+  rb(s, 1.05, 1.72, L1 + 0.3, L1 + 0.45, 8.46, 9.08, mat.sofa, 0.06, 5);
+  for (const [x0, x1] of [[0.38, 1.05], [1.05, 1.72]]) {                                  // loose back cushions, leaning back
+    const c = rb(s, x0, x1, L1 + 0.45, L1 + 0.88, 8.44, 8.64, mat.sofa, 0.08, 5);
+    c.rotation.x = -0.12;
+  }
+  rb(s, 1.36, 1.7, L1 + 0.45, L1 + 0.72, 8.62, 8.74, mat.throw, 0.05, 4);                 // throw pillow
+
+  // Existing low table (80×45×40) centered in front of the sofa. The play mat goes in the dead-end
+  // SE corner beside it, kept 0.5m off the window wall.
+  const lt = item(furnG, '矮桌（现有）', '80 × 45 × 40cm，带抽屉和玻璃格');
+  rb(lt, 0.65, 1.45, L1 + 0.3, L1 + 0.4, 9.4, 9.85, mat.oak, 0.01);
+  box(lt, 0.7, 1.15, L1 + 0.2, L1 + 0.3, 9.42, 9.83, mat.white);
+  rb(lt, 1.15, 1.43, L1 + 0.39, L1 + 0.405, 9.42, 9.83, mat.glass, 0.002);
+  for (const x of [0.72, 1.36]) for (const z of [9.46, 9.77]) cyl(lt, x, L1, L1 + 0.22, z, 0.018, mat.woodPale, 0.022);
+
+
+  // kids room + PC corner. Both outlets are on the west wall (by the door, by the window);
+  // the sliding door parks on the west wall z 7.8–8.65. PC shelf + desk line the west wall south of the
+  // parked door, the changing chest takes the SW corner beside the window, the crib sits on the east side,
+  // and a ~0.9m lane down the middle leads to the balcony.
+  const [dx0, dx1, dz0, dz1] = [2.96, 3.44, 9.1, 10.1];
+  const desk = item(furnG, '电脑桌（现有）', '100 × 48 × 70cm，靠西墙，面朝客厅那面墙');
+  rb(desk, dx0, dx1, L1 + 0.67, L1 + 0.7, dz0, dz1, mat.oak, 0.01);
+  legs(desk, dx0, dx1, dz0, dz1, L1, L1 + 0.67, mat.white, 0.01, 0.03);
+  for (const z of [dz0 + 0.01, dz1 - 0.04]) box(desk, dx0 + 0.01, dx1 - 0.01, L1, L1 + 0.03, z, z + 0.03, mat.white);
+  box(desk, 3.04, 3.08, L1 + 0.95, L1 + 1.33, 9.3, 9.92, mat.white);
+  box(desk, 3.08, 3.09, L1 + 0.97, L1 + 1.31, 9.32, 9.9, mat.black);
+  box(desk, 3.0, 3.04, L1 + 0.7, L1 + 1.15, 9.58, 9.64, mat.white);
+  box(desk, 3.18, 3.32, L1 + 0.7, L1 + 0.73, 9.42, 9.78, mat.black);
+
+  const rack = item(furnG, '置物架 + 电脑主机（现有）', '架子约 42 × 40 × 100cm（估计），主机放在顶层，插门边的插座');
+  const [rx0, rx1, rz0, rz1] = [2.96, 3.36, 8.66, 9.08];
+  for (const x of [rx0, rx1 - 0.03]) for (const z of [rz0, rz1 - 0.03]) box(rack, x, x + 0.03, L1, L1 + 1.0, z, z + 0.03, mat.white);
+  for (const y of [0.08, 0.38, 0.68, 0.97]) box(rack, rx0, rx1, L1 + y, L1 + y + 0.03, rz0, rz1, mat.oak);
+  box(rack, 2.98, 3.46, L1 + 1.0, L1 + 1.55, 8.75, 8.99, mat.black);
+
+  // existing office chair (photo): black mesh back, black fabric seat, T-shaped adjustable arms,
+  // polished aluminium 5-star base with black casters. Built facing -x (toward the desk), back on +x.
+  const dc = item(furnG, '电脑椅（现有）', '黑色网背 + 布面坐垫，铝合金五星脚');
+  {
+    const ch = new THREE.Group();
+    ch.position.set(3.72, L1, 9.6);
+    ch.rotation.y = 0.15;
+    dc.add(ch);
+    const alu = M(0xd5d8db, { metalness: 0.9, roughness: 0.22 }), blk = M(0x1c1d1f, { roughness: 0.95 }), plast = M(0x232426, { roughness: 0.45 });
+    const add = (geo, m, x, y, z, rx = 0, ry = 0, rz = 0, parent = ch) => {
+      const o = new THREE.Mesh(geo, m);
+      o.position.set(x, y, z); o.rotation.set(rx, ry, rz);
+      o.castShadow = o.receiveShadow = true;
+      parent.add(o);
+      return o;
+    };
+    // base: five aluminium spokes, casters, hub, gas lift
+    for (let i = 0; i < 5; i++) {
+      const a = i * Math.PI * 2 / 5 + 0.3, dx = Math.cos(a), dz = Math.sin(a);
+      add(new THREE.BoxGeometry(0.3, 0.026, 0.036), alu, dx * 0.17, 0.085, dz * 0.17, 0, -a, -0.08);
+      add(new THREE.BoxGeometry(0.03, 0.04, 0.03), plast, dx * 0.31, 0.06, dz * 0.31);
+      add(new THREE.CylinderGeometry(0.03, 0.03, 0.026, 18), plast, dx * 0.31, 0.03, dz * 0.31, Math.PI / 2, -a, 0);
+    }
+    add(new THREE.CylinderGeometry(0.045, 0.05, 0.05, 20), alu, 0, 0.09, 0);
+    add(new THREE.CylinderGeometry(0.028, 0.028, 0.2, 20), blk, 0, 0.2, 0);
+    add(new THREE.CylinderGeometry(0.02, 0.02, 0.12, 20), alu, 0, 0.35, 0);
+    add(new THREE.BoxGeometry(0.22, 0.05, 0.2), plast, 0.02, 0.41, 0);
+    // seat
+    rb(ch, -0.26, 0.24, 0.43, 0.51, -0.25, 0.25, blk, 0.045);
+    // back: mesh panel inside a black frame, tilted back slightly
+    const meshT = (() => {
+      const c = document.createElement('canvas'); c.width = c.height = 64;
+      const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, 64, 64); g.fillStyle = '#000';
+      for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) { g.beginPath(); g.arc(x * 16 + (y % 2) * 8 + 4, y * 16 + 8, 5, 0, Math.PI * 2); g.fill(); }
+      const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(9, 12); return t;
+    })();
+    const meshM = new THREE.MeshStandardMaterial({ color: 0x141517, roughness: 0.8, alphaMap: meshT, alphaTest: 0.5, side: THREE.DoubleSide });
+    const bk = new THREE.Group();
+    bk.position.set(0.25, 0.56, 0);
+    bk.rotation.z = -0.16;
+    ch.add(bk);
+    add(new THREE.BoxGeometry(0.012, 0.6, 0.44), meshM, 0, 0.33, 0, 0, 0, 0, bk);
+    rb(bk, -0.02, 0.02, 0.62, 0.66, -0.25, 0.25, plast, 0.018);
+    rb(bk, -0.02, 0.02, 0.0, 0.05, -0.23, 0.23, plast, 0.018);
+    for (const s of [-1, 1]) rb(bk, -0.02, 0.02, 0.0, 0.66, s * 0.235 - 0.018, s * 0.235 + 0.018, plast, 0.016);
+    add(new THREE.BoxGeometry(0.05, 0.2, 0.07), plast, 0.23, 0.48, 0);     // spine from the seat to the back
+    // T-shaped armrests
+    for (const s of [-1, 1]) {
+      rb(ch, -0.01, 0.05, 0.44, 0.69, s * 0.27 - 0.02, s * 0.27 + 0.02, plast, 0.012);
+      rb(ch, 0.0, 0.05, 0.44, 0.47, s * 0.18, s * 0.27, plast, 0.01);
+      rb(ch, -0.15, 0.12, 0.69, 0.72, s * 0.27 - 0.045, s * 0.27 + 0.045, blk, 0.015);
+    }
+  }
+
+  // garment rack (75 × 45 × 145) inside the walk-in closet beside the master bedroom, along its north wall
+  const gr = item(furnG, '衣架（现有）', '75 × 45 × 145cm，放在主卧旁的 WIC 里，靠北墙');
+  const grMat = M(0x7f98a8, { metalness: 0.3, roughness: 0.5 });
+  for (const x of [2.03, 2.75]) {
+    box(gr, x, x + 0.02, 0, 1.45, 0.38, 0.4, grMat);
+    box(gr, x, x + 0.02, 0, 0.03, 0.17, 0.62, grMat);
+  }
+  box(gr, 2.03, 2.77, 1.43, 1.45, 0.38, 0.4, grMat);
+  const clothes = [0x9fb59a, 0xa9a9a9, 0xd9536b, 0x2f3540, 0xe8e1d4];
+  clothes.forEach((c, i) => rb(gr, 2.09 + i * 0.13, 2.21 + i * 0.13, 0.55 + (i % 2) * 0.15, 1.4, 0.26, 0.52, M(c), 0.02));
+
+  const route = item(furnG, '去阳台的通道', '门 → 中间约 90cm 宽 → 阳台');
+  const routeMat = new THREE.MeshBasicMaterial({ color: 0x2e6b5e, transparent: true, opacity: 0.35, depthWrite: false });
+  box(route, 2.96, 4.55, L1 + 0.005, L1 + 0.015, 7.05, 7.35, routeMat);
+  box(route, 4.25, 4.55, L1 + 0.005, L1 + 0.015, 7.35, 10.45, routeMat);
+  label(route, '→ 阳台晾衣', '', 4.4, L1 + 0.1, 10.2, '晾衣路线');
+
+  // kids room (hall level)
+  // crib in the master bedroom, right against the south side of the parents' bed (room-sharing, not bed-sharing)
+  const crib = item(furnG, '婴儿床', '外尺寸约 78 × 126cm，贴着大床南侧，头半年和父母同屋睡');
+  const [cx0, cx1, cz0, cz1] = [4.3, 5.56, 2.58, 3.36];
+  // invisible solid block so the walk-mode body can't slip between the slats
+  const proxy = new THREE.Mesh(new THREE.BoxGeometry(cx1 - cx0, 0.95, cz1 - cz0), new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false }));
+  proxy.position.set((cx0 + cx1) / 2, 0.475, (cz0 + cz1) / 2);
+  crib.add(proxy);
+  box(crib, cx0 + 0.04, cx1 - 0.04, 0.3, 0.42, cz0 + 0.04, cz1 - 0.04, mat.pillow);
+  for (const x of [cx0, cx1 - 0.04]) for (const z of [cz0, cz1 - 0.04]) box(crib, x, x + 0.04, 0, 0.95, z, z + 0.04, mat.woodPale);
+  for (const x of [cx0, cx1 - 0.04]) { box(crib, x, x + 0.04, 0.9, 0.95, cz0, cz1, mat.woodPale); box(crib, x, x + 0.04, 0.26, 0.3, cz0, cz1, mat.woodPale); for (let z = cz0 + 0.12; z < cz1 - 0.06; z += 0.09) box(crib, x + 0.01, x + 0.03, 0.3, 0.9, z, z + 0.02, mat.woodPale); }
+  for (const z of [cz0, cz1 - 0.04]) { box(crib, cx0, cx1, 0.9, 0.95, z, z + 0.04, mat.woodPale); for (let x = cx0 + 0.12; x < cx1 - 0.06; x += 0.09) box(crib, x, x + 0.02, 0.3, 0.9, z + 0.01, z + 0.03, mat.woodPale); }
+
+  // master bedroom (north room, hall level). Outlets sit low near both east corners
+  // (north wall and south wall), so the bed's head goes on the east wall with a nightstand each side.
+  // Bed foot stays clear of the room door and the closet doors on the west wall.
+  const bed = item(furnG, '双人床 Double', '140 × 195cm，床头靠东墙，两边床头柜旁都有插座');
+  rb(bed, 3.7, 5.65, 0, 0.28, 1.15, 2.55, mat.woodPale, 0.02);
+  rb(bed, 3.72, 5.55, 0.28, 0.5, 1.18, 2.52, mat.pillow, 0.05);
+  rb(bed, 5.57, 5.65, 0, 0.85, 1.15, 2.55, mat.woodPale, 0.02);
+  rb(bed, 5.12, 5.48, 0.49, 0.63, 1.24, 1.83, mat.pillow, 0.06, 5);
+  rb(bed, 5.12, 5.48, 0.49, 0.63, 1.87, 2.46, mat.pillow, 0.06, 5);
+  rb(bed, 3.68, 5.1, 0.46, 0.58, 1.1, 2.6, mat.duvet, 0.06, 5);          // soft duvet hanging over the edges
+  rb(bed, 3.68, 3.98, 0.47, 0.6, 1.08, 2.62, mat.throw, 0.05, 4);
+  const lampMat = M(0xf3e9d6, { emissive: 0x6b5a3a, emissiveIntensity: 0.3 });
+  for (const [z0, z1] of [[0.7, 1.08]]) {
+    const ns = item(furnG, '床头柜（可选，新买）', '约 38 × 38cm，旁边就是插座');
+    rb(ns, 5.25, 5.63, 0, 0.5, z0, z1, mat.woodPale, 0.01);
+  }
+  // existing drawer chest (60 × 40 × 100) inside the walk-in closet next to the bedroom,
+  // against the closet's west wall, drawers pulling out toward the closet doors
+  const dc2 = item(furnG, '抽屉收纳柜（现有）', '60 × 40 × 100cm，放在 WIC 里靠南，衣架在它北边');
+  rb(dc2, 1.98, 2.38, 0, 0.97, 0.85, 1.45, mat.white, 0.02);
+  box(dc2, 1.98, 2.4, 0.97, 1.0, 0.83, 1.45, mat.woodPale);
+  for (let y = 0.17; y < 0.95; y += 0.16) box(dc2, 2.38, 2.385, y, y + 0.025, 1.05, 1.25, M(0xe3e3e0));
+
+  // existing wood cabinet (85 × 45 × 90) against the south wall, table lamp (20 × 12 × 40) on top
+  const wc = item(furnG, '木柜子 + 台灯（现有）', '柜 85 × 45 × 90cm，台灯 20 × 12 × 40cm，插南墙插座');
+  rb(wc, 3.0, 3.85, 0, 0.9, 3.39, 3.84, mat.oak, 0.01);
+  box(wc, 3.2, 3.4, 0.9, 0.93, 3.6, 3.72, mat.woodPale);
+  box(wc, 3.22, 3.24, 0.93, 1.3, 3.65, 3.67, mat.black);
+  box(wc, 3.22, 3.36, 1.28, 1.3, 3.65, 3.67, mat.black);
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.06, 20, 14), lampMat);
+  bulb.position.set(3.34, 1.15, 3.66); wc.add(bulb);
+
+  // top-loading washer on a white waterproof pan (photo): grey-silver control strip at the front of the lid deck
+  const wm = item(furnG, '洗衣机', '约 56 × 56 × 98cm，放在防水盘上（W 位）');
+  {
+    const pan = M(0xf1f1ee, { roughness: 0.35 });
+    rb(wm, 2.98, 3.64, L1, L1 + 0.06, 4.02, 4.68, pan, 0.02, 3);
+    box(wm, 3.01, 3.61, L1 + 0.06, L1 + 0.062, 4.05, 4.65, M(0xe6e6e2));
+    rb(wm, 3.03, 3.59, L1 + 0.09, L1 + 0.96, 4.07, 4.63, M(0xf6f6f3, { roughness: 0.25 }), 0.04, 3);   // body
+    box(wm, 3.06, 3.56, L1 + 0.06, L1 + 0.09, 4.1, 4.6, M(0x4a4c4e));                                 // feet
+    rb(wm, 3.04, 3.58, L1 + 0.95, L1 + 0.985, 4.08, 4.5, M(0xe9eaeb, { roughness: 0.2 }), 0.03, 3);    // lid
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.17, 0.008, 8, 40), M(0xcfd2d4, { metalness: 0.5, roughness: 0.3 }));
+    ring.rotation.x = Math.PI / 2; ring.position.set(3.31, L1 + 0.988, 4.29); wm.add(ring);
+    rb(wm, 3.04, 3.58, L1 + 0.93, L1 + 0.99, 4.5, 4.62, M(0xa3a7ab, { metalness: 0.55, roughness: 0.3 }), 0.015, 3); // control strip
+    box(wm, 3.2, 3.32, L1 + 0.99, L1 + 0.992, 4.53, 4.58, M(0x1c2326, { emissive: 0x3a6f80, emissiveIntensity: 0.3 }));
+    for (let i = 0; i < 6; i++) cyl(wm, 3.08 + i * 0.022, L1 + 0.99, L1 + 0.994, 4.56, 0.007, M(0xf0f0ee));
+    cyl(wm, 3.46, L1 + 0.99, L1 + 1.0, 4.56, 0.02, M(0xdcdcd8));
+    // water tap on the wall above
+    cyl(wm, 3.31, L1 + 1.15, L1 + 1.19, 4.03, 0.02, mat.steel);
+  }
+
+  // existing straddle rack over the washer (photo): white steel, 70 W × 180 H, a towel bar on top,
+  // a solid shelf with a perforated laundry basket and detergent, and a wire basket shelf above the lid
+  {
+    const lr = item(furnG, '洗衣机上方置物架（现有）', '宽 70 × 高 180cm，跨在洗衣机上');
+    const st = M(0xf2f1ee, { metalness: 0.25, roughness: 0.4 });
+    const x0 = 2.97, x1 = 3.67, z0 = 4.05, z1 = 4.6;
+    for (const x of [x0, x1 - 0.022]) for (const z of [z0, z1 - 0.022]) box(lr, x, x + 0.022, L1, L1 + 1.8, z, z + 0.022, st);
+    // towel bar along the top front, slightly proud
+    const bar = cyl(lr, 0, -0.38, 0.38, 0, 0.014, st); bar.rotation.z = Math.PI / 2; bar.position.set((x0 + x1) / 2, L1 + 1.79, z1 + 0.03);
+    for (const x of [x0 + 0.011, x1 - 0.011]) box(lr, x - 0.008, x + 0.008, L1 + 1.77, L1 + 1.8, z1 - 0.02, z1 + 0.04, st);
+    // solid upper shelf
+    box(lr, x0, x1, L1 + 1.48, L1 + 1.5, z0, z1, st);
+    // wire basket shelf above the washer lid
+    for (let x = x0 + 0.03; x < x1 - 0.02; x += 0.04) box(lr, x, x + 0.005, L1 + 1.25, L1 + 1.255, z0 + 0.02, z1 - 0.02, st);
+    for (const z of [z0 + 0.02, z1 - 0.025]) box(lr, x0, x1, L1 + 1.25, L1 + 1.33, z, z + 0.005, st);
+    box(lr, x0, x1, L1 + 1.325, L1 + 1.335, z1 - 0.025, z1 - 0.02, st);
+    // perforated laundry basket (white) on the upper shelf + detergent
+    const holes = (() => {
+      const c = document.createElement('canvas'); c.width = c.height = 64;
+      const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, 64, 64); g.fillStyle = '#000';
+      for (let y = 0; y < 2; y++) for (let x = 0; x < 2; x++) { g.beginPath(); g.arc(x * 32 + 16 + (y % 2) * 8, y * 32 + 16, 8, 0, Math.PI * 2); g.fill(); }
+      const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(6, 4); return t;
+    })();
+    const bkM = new THREE.MeshStandardMaterial({ color: 0xf6f6f3, roughness: 0.5, alphaMap: holes, alphaTest: 0.5, side: THREE.DoubleSide });
+    const bx0 = x0 + 0.04, bx1 = x0 + 0.42, bz0 = z0 + 0.04, bz1 = z1 - 0.04, by0 = L1 + 1.5, by1 = L1 + 1.78;
+    box(lr, bx0, bx1, by0, by0 + 0.01, bz0, bz1, M(0xf6f6f3, { roughness: 0.5 }));
+    box(lr, bx0, bx1, by0, by1, bz0, bz0 + 0.006, bkM); box(lr, bx0, bx1, by0, by1, bz1 - 0.006, bz1, bkM);
+    box(lr, bx0, bx0 + 0.006, by0, by1, bz0, bz1, bkM); box(lr, bx1 - 0.006, bx1, by0, by1, bz0, bz1, bkM);
+    rb(lr, bx0 + 0.02, bx1 - 0.02, by1 - 0.1, by1 + 0.03, bz0 + 0.03, bz1 - 0.05, M(0xece4d6, { roughness: 1 }), 0.04, 3);   // towel in the basket
+    rb(lr, x0 + 0.46, x0 + 0.53, L1 + 1.5, L1 + 1.72, z1 - 0.18, z1 - 0.08, M(0xc9396b, { roughness: 0.6 }), 0.01);        // detergent box
+    cyl(lr, x0 + 0.6, L1 + 1.5, L1 + 1.74, z1 - 0.13, 0.04, M(0xeef4ee, { roughness: 0.3 }), 0.035);                        // softener bottle
+    cyl(lr, x0 + 0.6, L1 + 1.74, L1 + 1.78, z1 - 0.13, 0.015, M(0x2e8b57));
+    // a few clothes in the wire basket
+    [[0x2d2f33, 0.05, 0.3], [0x6b6d70, 0.32, 0.22], [0xe9e4da, 0.5, 0.15]].forEach(([c, dx, w]) =>
+      rb(lr, x0 + dx, x0 + dx + w, L1 + 1.255, L1 + 1.4, z0 + 0.05, z1 - 0.06, M(c, { roughness: 1 }), 0.05, 3));
+  }
+
+  // sheer curtains on the LDK south window and the kids-room balcony window
+  // pleated curtains: a white sheer layer in front of the glass and an ivory drape gathered at each side
+  const cur = item(furnG, '窗帘', '白色纱帘 + 米白布帘');
+  const sheerM = new THREE.MeshStandardMaterial({ color: 0xfbfaf7, roughness: 1, transparent: true, opacity: 0.55, side: THREE.DoubleSide, depthWrite: false });
+  const drapeM = new THREE.MeshStandardMaterial({ color: 0xefe9de, roughness: 1, side: THREE.DoubleSide });
+  const pleat = (x0, x1, y0, y1, zc, m, amp, folds) => {
+    const g = new THREE.PlaneGeometry(x1 - x0, y1 - y0, Math.max(8, folds * 8), 1);
+    const pos = g.attributes.position;
+    for (let i = 0; i < pos.count; i++) pos.setZ(i, Math.sin((pos.getX(i) / (x1 - x0)) * folds * Math.PI * 2) * amp);
+    g.computeVertexNormals();
+    const ms = new THREE.Mesh(g, m); ms.position.set((x0 + x1) / 2, (y0 + y1) / 2, zc);
+    ms.castShadow = !m.transparent; ms.receiveShadow = true; cur.add(ms);
+  };
+  const curtainSet = (wx0, wx1, zWall, dir) => {   // dir = -1: room is toward -z
+    const zs = zWall + dir * 0.06, zd = zWall + dir * 0.12, yt = L1 + 2.12;
+    pleat(wx0, wx1, L1 + 0.05, yt, zs, sheerM, 0.012, Math.round((wx1 - wx0) / 0.12));
+    pleat(wx0 - 0.18, wx0 + 0.14, L1 + 0.03, yt, zd, drapeM, 0.025, 4);
+    pleat(wx1 - 0.14, wx1 + 0.12, L1 + 0.03, yt, zd, drapeM, 0.025, 4);
+    box(cur, wx0 - 0.2, wx1 + 0.14, yt + 0.01, yt + 0.035, Math.min(zs, zd) - 0.01, Math.max(zs, zd) + 0.01, mat.steel);
+  };
+  curtainSet(0.9, 2.64, 11.02, -1);
+  curtainSet(3.9, 5.5, 10.57, -1);
+}
+
+// ---------- ceiling lights (only when the walls are shown full height) ----------
+const lightsG = new THREE.Group();
+lightsG.visible = !state.cut;
+scene.add(lightsG);
+{
+  const glow = M(0xffffff, { emissive: 0xfff3dc, emissiveIntensity: 1.1 });
+  const disc = (x, y, z, r) => { const d = cyl(lightsG, x, y - 0.06, y, z, r, glow, r * 0.92); d.castShadow = false; };
+  disc(1.5, TOPS, 8.6, 0.24); disc(4.3, TOPN, 2.0, 0.22); disc(4.3, TOPS, 8.9, 0.22); disc(1.5, TOPN, 1.0, 0.1);
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.06, 20, 14), glow); bulb.position.set(1.3, TOPS - 0.12, 4.9); lightsG.add(bulb);
+  cyl(lightsG, 1.3, TOPS - 0.07, TOPS, 4.9, 0.03, M(0xf2f2ef));
+}
+
+// ---------- baseboards (white skirting) ----------
+for (const [x0, x1, z0, z1, y] of [
+  [0.18, 2.84, 4.05, 11.02, L1], [2.96, 5.65, 6.85, 10.57, L1], [2.96, 5.65, 0.16, 3.84, 0], [1.06, 2.84, 1.55, 2.4, 0],
+]) {
+  const t = 0.012, h = 0.06;
+  box(statics, x0, x1, y, y + h, z0, z0 + t, mat.white);
+  box(statics, x0, x1, y, y + h, z1 - t, z1, mat.white);
+  box(statics, x0, x0 + t, y, y + h, z0, z1, mat.white);
+  box(statics, x1 - t, x1, y, y + h, z0, z1, mat.white);
+}
+
+// ---------- version 2: decor & practical extras (v1 is left exactly as it is) ----------
+const decorG = new THREE.Group(), decorLights = new THREE.Group(), decorLoft = new THREE.Group();
+decorG.visible = false; decorLoft.visible = false; decorLights.visible = !state.cut;
+scene.add(decorG); decorG.add(decorLights); loftG.add(decorLoft);
+{
+  const D = decorG;
+  const rattan = M(0xc9a777, { roughness: 0.9 }), ceramic = M(0xece7dd, { roughness: 0.35 }), leafM = M(0x4e7a47, { roughness: 0.7 });
+  const leaves = (parent, x, y, z, r, n = 9) => {
+    for (let i = 0; i < n; i++) {
+      const l = new THREE.Mesh(new THREE.SphereGeometry(r * (0.55 + rnd() * 0.3), 10, 8), leafM);
+      l.scale.set(1, 0.55, 1.6);
+      l.position.set(x + (rnd() - 0.5) * r * 1.6, y + rnd() * r * 1.4, z + (rnd() - 0.5) * r * 1.6);
+      l.rotation.set(rnd() * 1.5, rnd() * 3, rnd() * 1.5);
+      l.castShadow = true;
+      parent.add(l);
+    }
+  };
+  const art = hue => canvasTex(256, 1, (g, n) => {
+    g.fillStyle = '#f3efe7'; g.fillRect(0, 0, n, n);
+    g.fillStyle = `hsl(${hue}, 30%, 62%)`; g.beginPath(); g.arc(n * 0.38, n * 0.55, n * 0.24, 0, Math.PI * 2); g.fill();
+    g.fillStyle = `hsl(${hue + 40}, 25%, 78%)`; g.fillRect(n * 0.5, n * 0.18, n * 0.3, n * 0.5);
+    g.strokeStyle = '#3b3b38'; g.lineWidth = 3; g.beginPath(); g.moveTo(n * 0.15, n * 0.8);
+    g.bezierCurveTo(n * 0.4, n * 0.6, n * 0.6, n * 0.95, n * 0.88, n * 0.7); g.stroke();
+  });
+
+  // LDK: washable rug in front of the sofa
+  const rug = item(D, '可水洗地毯', '约 150 × 130cm，沙发前，宝宝趴着玩也不凉');
+  box(rug, 0.25, 1.75, L1, L1 + 0.014, 9.15, 10.45, TM(linenT, { color: 0xe6dccb, roughness: 1 }));
+  box(rug, 0.25, 1.75, L1 + 0.014, L1 + 0.016, 9.15, 9.2, M(0xcbbfa9));
+  box(rug, 0.25, 1.75, L1 + 0.014, L1 + 0.016, 10.4, 10.45, M(0xcbbfa9));
+
+  // baby bouncer in the quiet SE corner
+  const bn = item(D, '婴儿摇椅', '约 45 × 70cm，新生儿白天放这里，大人在沙发上看得到');
+  {
+    const fm = M(0xbfc3c6, { metalness: 0.6, roughness: 0.35 });
+    for (const x of [1.98, 2.42]) box(bn, x - 0.01, x + 0.01, L1, L1 + 0.02, 9.42, 10.12, fm);
+    const seat = rb(bn, 1.98, 2.42, L1 + 0.08, L1 + 0.16, 9.5, 10.05, M(0x9aa5a8, { roughness: 1 }), 0.05, 4);
+    seat.rotation.x = 0.35;
+    rb(bn, 2.0, 2.4, L1 + 0.16, L1 + 0.2, 9.58, 9.75, M(0xe7e1d6, { roughness: 1 }), 0.03, 4);
+  }
+
+  // rattan basket (nappies / toys) + tall plant by the window
+  const bk = item(D, '藤编收纳篮', '放尿布、湿巾、玩具，伸手就拿到');
+  cyl(bk, 2.62, L1, L1 + 0.3, 9.95, 0.15, rattan, 0.17);
+  const pt = item(D, '大叶绿植（琴叶榕）', '放窗边采光好的角落，盆用重的，不容易被拉倒');
+  cyl(pt, 2.6, L1, L1 + 0.36, 10.72, 0.13, ceramic, 0.16);
+  cyl(pt, 2.6, L1 + 0.36, L1 + 1.0, 10.72, 0.015, M(0x6b4f35));
+  leaves(pt, 2.6, L1 + 0.95, 10.72, 0.16, 14);
+
+  const pl = item(D, '小绿植', '放在吧台台面上，孩子够不到');
+  cyl(pl, 1.7, L1 + 1.18, L1 + 1.3, 6.11, 0.05, ceramic, 0.06);
+  leaves(pl, 1.7, L1 + 1.32, 6.11, 0.07, 7);
+
+  // two framed prints on the LDK east wall, wall clock above the pass-through
+  for (const [z0, hue] of [[8.35, 30], [8.95, 190]]) {
+    const fr = item(D, '装饰画', '约 45 × 55cm，挂在客厅东墙');
+    box(fr, 2.815, 2.84, L1 + 1.3, L1 + 1.85, z0, z0 + 0.45, M(0x2f2c29, { roughness: 0.5 }));
+    const pic = new THREE.Mesh(new THREE.PlaneGeometry(0.39, 0.49), new THREE.MeshStandardMaterial({ map: art(hue).t, roughness: 0.9 }));
+    pic.rotation.y = -Math.PI / 2;
+    pic.position.set(2.812, L1 + 1.575, z0 + 0.225);
+    fr.add(pic);
+  }
+  const ck = item(D, '挂钟', '直径约 30cm，从客厅和餐桌都看得到');
+  {
+    const face = cyl(ck, 0, -0.015, 0.015, 0, 0.15, M(0xfaf8f3));
+    face.rotation.x = Math.PI / 2; face.position.set(1.3, L1 + 2.1, 6.17);
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.012, 8, 40), M(0x5a4636));
+    rim.position.set(1.3, L1 + 2.1, 6.18); ck.add(rim);
+    box(ck, 1.297, 1.303, L1 + 2.1, L1 + 2.2, 6.185, 6.19, M(0x222222));
+    box(ck, 1.3, 1.37, L1 + 2.097, L1 + 2.103, 6.185, 6.19, M(0x222222));
+  }
+
+  // dining: pendant light (only with full-height walls), vase + fruit bowl, baby high chair at the east end
+  {
+    cyl(decorLights, 0.9, L1 + 1.62, TOPS, 7.18, 0.004, M(0x222222));
+    const shade = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.18, 32, 1, true), M(0xd9c6a5, { roughness: 0.8, side: THREE.DoubleSide, emissive: 0x5a4020, emissiveIntensity: 0.2 }));
+    shade.position.set(0.9, L1 + 1.55, 7.18); decorLights.add(shade);
+    const bl = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12), M(0xffffff, { emissive: 0xffe8c0, emissiveIntensity: 1.2 }));
+    bl.position.set(0.9, L1 + 1.5, 7.18); decorLights.add(bl);
+  }
+  const vb = item(D, '花瓶 + 果盘', '');
+  cyl(vb, 0.75, L1 + 0.73, L1 + 0.93, 7.18, 0.045, ceramic, 0.03);
+  leaves(vb, 0.75, L1 + 0.95, 7.18, 0.06, 6);
+  cyl(vb, 1.1, L1 + 0.73, L1 + 0.78, 7.18, 0.08, M(0x8a6a4a), 0.12);
+  for (const [c, dx, dz] of [[0xd9473a, -0.03, 0], [0xf0b33c, 0.03, 0.02], [0x9bbf4f, 0, -0.04]]) {
+    const fr = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 10), M(c, { roughness: 0.5 }));
+    fr.position.set(1.1 + dx, L1 + 0.8, 7.18 + dz); vb.add(fr);
+  }
+  const hc = item(D, '宝宝餐椅（半年后用）', '约 45 × 55cm，放餐桌东端，过道还剩约 90cm');
+  {
+    const w = M(0xd8b88e, { roughness: 0.6 });
+    for (const [x, z] of [[1.57, 7.0], [1.92, 7.0], [1.57, 7.4], [1.92, 7.4]]) box(hc, x - 0.015, x + 0.015, L1, L1 + 0.6, z - 0.015, z + 0.015, w);
+    rb(hc, 1.56, 1.93, L1 + 0.48, L1 + 0.52, 6.99, 7.41, w, 0.01);
+    rb(hc, 1.89, 1.93, L1 + 0.52, L1 + 0.85, 7.0, 7.4, w, 0.01);
+    rb(hc, 1.53, 1.6, L1 + 0.68, L1 + 0.71, 7.0, 7.4, M(0xf4f2ee), 0.01);
+  }
+
+  // TV stand: soundbar in front of the TV, small photo frame
+  const sbar = item(D, '回音壁音箱', '约 70 × 10 × 6cm');
+  rb(sbar, 0.45, 1.15, L1 + 0.5, L1 + 0.56, 10.55, 10.64, M(0x2a2b2d, { roughness: 0.9 }), 0.02, 3);
+  const ph = item(D, '相框', '');
+  rb(ph, 0.24, 0.36, L1 + 0.5, L1 + 0.65, 10.8, 10.82, M(0xf3efe7), 0.005);
+
+  // kitchen: runner mat, utensil pot, dish drainer
+  const km = item(D, '厨房地垫', '约 150 × 50cm，防水，站着做饭脚不累');
+  box(km, 0.3, 1.75, L1, L1 + 0.01, 4.85, 5.35, TM(stripeT, { color: 0xb7b2a8, roughness: 1 }));
+  const ut = item(D, '厨具筒 + 沥水架', '');
+  cyl(ut, 0.26, L1 + 0.88, L1 + 1.0, 5.92, 0.045, ceramic);
+  for (let i = 0; i < 4; i++) box(ut, 0.25 + i * 0.008, 0.256 + i * 0.008, L1 + 0.95, L1 + 1.16, 5.9 + (i % 2) * 0.01, 5.91 + (i % 2) * 0.01, M(i % 2 ? 0x2b2b2b : 0xb08a60));
+  {
+    const wire = M(0xf2f2f0, { roughness: 0.4 });
+    rb(ut, 1.64, 1.82, L1 + 0.88, L1 + 0.9, 5.48, 5.9, wire, 0.01);
+    for (let z = 5.52; z < 5.88; z += 0.05) box(ut, 1.65, 1.81, L1 + 0.9, L1 + 1.0, z, z + 0.004, wire);
+    rb(ut, 1.67, 1.79, L1 + 0.9, L1 + 1.08, 5.6, 5.615, M(0xffffff), 0.005);
+    rb(ut, 1.67, 1.79, L1 + 0.9, L1 + 1.08, 5.7, 5.715, M(0xe8e3d8), 0.005);
+  }
+
+  // washroom: bath mat
+  const bm = item(D, '浴室脚垫', '');
+  box(bm, 3.3, 3.75, L1, L1 + 0.012, 5.02, 5.55, TM(fabricT, { color: 0xd8e6e6, roughness: 1 }));
+  const bs = item(D, '浴凳 + 洗面盆', '');
+  rb(bs, 4.9, 5.2, L1, L1 + 0.32, 5.1, 5.4, M(0xf4f4f2, { roughness: 0.3 }), 0.04, 3);
+  cyl(bs, 5.35, L1, L1 + 0.1, 5.15, 0.12, M(0xf4f4f2, { roughness: 0.3 }), 0.14);
+
+  // toilet mat + small shelf
+  const tm2 = item(D, '马桶脚垫 + 小置物架', '');
+  box(tm2, 0.42, 0.76, 0, 0.012, 0.86, 1.2, TM(fabricT, { color: 0xe7dfd2, roughness: 1 }));
+  box(tm2, 0.19, 0.4, 1.35, 1.37, 0.17, 0.32, M(0xe8e3d8));
+  rb(tm2, 0.22, 0.3, 1.37, 1.47, 0.2, 0.28, M(0xf6f4ef), 0.01);
+
+  // entrance: mat on the raised step, key tray + small plant on the shoe cabinet
+  const em = item(D, '玄关地垫 + 钥匙盘', '');
+  box(em, 0.25, 0.95, LF, LF + 0.012, 1.0, 1.45, TM(stripeT, { color: 0x9c9890, roughness: 1 }));
+  cyl(em, 0.78, GND + 0.9, GND + 0.92, 0.45, 0.06, M(0x8a6a4a));
+  cyl(em, 0.82, GND + 0.9, GND + 1.0, 0.72, 0.04, ceramic);
+  leaves(em, 0.82, GND + 1.02, 0.72, 0.05, 5);
+
+  // master bedroom: leaning mirror, humidifier by the crib, nappy caddy on the cabinet, bedside rug
+  const mr = item(D, '落地镜', '约 40 × 150cm，斜靠西墙');
+  {
+    rb(mr, 2.97, 3.03, 0, 1.5, 2.45, 2.85, M(0xd4c0a0), 0.01);
+    const gl = new THREE.Mesh(new THREE.PlaneGeometry(0.34, 1.42), mat.mirror);
+    gl.rotation.y = Math.PI / 2; gl.position.set(3.032, 0.76, 2.65); mr.add(gl);
+  }
+  const hu = item(D, '加湿器', '冬天给宝宝房间保湿，放在婴儿床和木柜之间');
+  cyl(hu, 4.02, 0, 0.32, 3.1, 0.1, M(0xf7f7f5, { roughness: 0.3 }), 0.085);
+  cyl(hu, 4.02, 0.32, 0.34, 3.1, 0.03, M(0xc8d6dc));
+  const cd = item(D, '尿布收纳盒', '放在木柜上，半夜换尿布顺手');
+  rb(cd, 3.45, 3.8, 0.9, 1.04, 3.45, 3.78, rattan, 0.01);
+  const br = item(D, '床边地毯', '');
+  box(br, 3.05, 3.65, 0, 0.012, 1.2, 2.5, TM(linenT, { color: 0xd9cfbf, roughness: 1 }));
+
+  // kids room / PC corner: round rug, desk lamp, small plant on the rack
+  const kr2 = item(D, '圆形地毯', '直径约 120cm');
+  {
+    const d2 = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 0.012, 48), TM(fabricT, { color: 0xe6dfcf, roughness: 1 }));
+    d2.position.set(4.35, L1 + 0.006, 8.05); d2.receiveShadow = true; kr2.add(d2);
+  }
+  const dl = item(D, '台灯 + 小绿植', '');
+  cyl(dl, 3.1, L1 + 0.7, L1 + 0.72, 10.0, 0.06, M(0x2a2a2a));
+  cyl(dl, 3.1, L1 + 0.72, L1 + 1.05, 10.0, 0.008, M(0x2a2a2a));
+  cyl(dl, 3.16, L1 + 1.0, L1 + 1.1, 10.0, 0.07, M(0x2a2a2a), 0.03);
+  cyl(dl, 3.16, L1 + 0.97, L1 + 1.07, 8.87, 0.05, ceramic);
+  leaves(dl, 3.16, L1 + 1.1, 8.87, 0.06, 6);
+
+  // balcony: drying stands + pole with laundry, deck tiles
+  const bl2 = item(D, '阳台晾衣架 + 地板砖', '晾衣杆约 2.4m');
+  box(bl2, 2.97, 5.69, L1 - 0.06, L1 - 0.045, 10.77, 11.43, TM(oakT, { color: 0x9b8f80, roughness: 0.8 }));
+  for (const x of [3.08, 5.55]) {
+    box(bl2, x - 0.015, x + 0.015, L1 - 0.05, L1 + 1.55, 11.13, 11.16, M(0xb9bdc0, { metalness: 0.6 }));
+    box(bl2, x - 0.15, x + 0.15, L1 - 0.05, L1 - 0.02, 11.06, 11.24, M(0x6d7074));
+  }
+  const pole = cyl(bl2, 0, -1.25, 1.25, 0, 0.014, M(0xd0d3d5, { metalness: 0.8 }));
+  pole.rotation.z = Math.PI / 2; pole.position.set(4.32, L1 + 1.5, 11.15);
+  [[0x8fb4cf, 3.4], [0xf2efe8, 3.85], [0xe7b9a4, 4.3], [0xf2efe8, 4.75], [0x9fb59a, 5.2]].forEach(([c, x]) =>
+    box(bl2, x - 0.17, x + 0.17, L1 + 0.95, L1 + 1.48, 11.14, 11.16, M(c, { roughness: 1, side: THREE.DoubleSide })));
+}
+// loft: seasonal storage boxes (v2 only)
+for (const [x0, c] of [[3.05, 0xe8e2d6], [3.55, 0xd6cfc2], [4.05, 0xe8e2d6], [4.55, 0xcfc6b6]]) {
+  const sb2 = item(decorLoft, '收纳箱（季节用品）', '约 45 × 40 × 30cm');
+  rb(sb2, x0, x0 + 0.45, LOFT, LOFT + 0.3, 5.8, 6.2, M(c, { roughness: 0.6 }), 0.02, 3);
+}
+
+// ---------- showroom themes (v3+): each one only ADDS decor on top of the v1 furniture ----------
+const themesRoot = new THREE.Group(), softRoot = new THREE.Group();   // softRoot: things walk mode can pass through (baby gates)
+scene.add(themesRoot, softRoot);
+const hangers = [decorLights];                                          // ceiling-hung pieces, hidden in the cut-away view
+const THEMES = [];
+const mk = (c, r = 0.8, o = {}) => M(c, { roughness: r, ...o });
+function theme(id, name, notes, build) {
+  const g = new THREE.Group(), hang = new THREE.Group(), soft = new THREE.Group();
+  g.visible = false; soft.visible = false; hang.visible = !state.cut;
+  g.add(hang); themesRoot.add(g); softRoot.add(soft); hangers.push(hang);
+  build(g, hang, soft);
+  THEMES.push({ id, name, notes, g, soft });
+}
+const rod = (parent, a, b, r, m) => {
+  const v = new THREE.Vector3().subVectors(b, a);
+  const o = new THREE.Mesh(new THREE.CylinderGeometry(r, r, v.length(), 8), m);
+  o.position.copy(a).addScaledVector(v, 0.5);
+  o.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v.clone().normalize());
+  o.castShadow = true; parent.add(o); return o;
+};
+const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
+const leafCluster = (parent, x, y, z, r, n = 9) => {
+  const lm = mk(0x4e7a47, 0.7);
+  for (let i = 0; i < n; i++) {
+    const l = new THREE.Mesh(new THREE.SphereGeometry(r * (0.55 + rnd() * 0.3), 10, 8), lm);
+    l.scale.set(1, 0.55, 1.6); l.position.set(x + (rnd() - 0.5) * r * 1.6, y + rnd() * r * 1.4, z + (rnd() - 0.5) * r * 1.6);
+    l.rotation.set(rnd() * 1.5, rnd() * 3, rnd() * 1.5); l.castShadow = true; parent.add(l);
+  }
+};
+
+// textures
+const patTex = (kind, c1, c2, meters = 1) => canvasTex(256, meters, (g, n) => {
+  g.fillStyle = c1; g.fillRect(0, 0, n, n); g.fillStyle = c2; g.strokeStyle = c2;
+  if (kind === 'diamond') { g.lineWidth = 5; for (let i = -n; i < 2 * n; i += 64) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i + n, n); g.stroke(); g.beginPath(); g.moveTo(i + n, 0); g.lineTo(i, n); g.stroke(); } }
+  else if (kind === 'stripe') { for (let y = 0; y < n; y += 32) g.fillRect(0, y, n, 9); }
+  else if (kind === 'jute') { for (let y = 0; y < n; y += 4) for (let x = 0; x < n; x += 4) { g.globalAlpha = 0.2 + rnd() * 0.4; g.fillRect(x + (y % 8 ? 2 : 0), y, 3, 3); } g.globalAlpha = 1; }
+  else if (kind === 'puzzle') { const cs = [c1, c2, '#f6c453', '#7cc4b5']; for (let i = 0; i < 4; i++) { g.fillStyle = cs[i]; g.fillRect((i % 2) * n / 2, Math.floor(i / 2) * n / 2, n / 2, n / 2); } }
+  else if (kind === 'rainbow') { const cs = ['#f2a7a0', '#f6c99a', '#f6e3a1', '#b9dcc0', '#a9cde3']; cs.forEach((c, i) => { g.strokeStyle = c; g.lineWidth = 20; g.beginPath(); g.arc(n / 2, n / 2, 30 + i * 22, 0, Math.PI * 2); g.stroke(); }); }
+  else if (kind === 'knit') { g.lineWidth = 3; for (let x = 0; x < n; x += 12) for (let y = 0; y < n; y += 16) { g.beginPath(); g.moveTo(x, y); g.lineTo(x + 6, y + 8); g.lineTo(x + 12, y); g.stroke(); } }
+  speckle(g, n, 2500, '0,0,0', '255,255,255');
+});
+const artTex = (kind, hue = 30) => canvasTex(256, 1, (g, n) => {
+  const h = (dh, s, l) => `hsl(${hue + dh}, ${s}%, ${l}%)`;
+  g.fillStyle = kind === 'ink' ? '#f4efe4' : '#f3efe7'; g.fillRect(0, 0, n, n);
+  if (kind === 'arch') { g.fillStyle = h(0, 45, 58); g.beginPath(); g.moveTo(n * 0.25, n * 0.85); g.lineTo(n * 0.25, n * 0.45); g.arc(n * 0.5, n * 0.45, n * 0.25, Math.PI, 0); g.lineTo(n * 0.75, n * 0.85); g.fill(); g.fillStyle = h(30, 35, 80); g.beginPath(); g.arc(n * 0.62, n * 0.3, n * 0.08, 0, 7); g.fill(); }
+  else if (kind === 'line') { g.strokeStyle = '#2f2d2a'; g.lineWidth = 3; g.beginPath(); g.moveTo(n * 0.2, n * 0.7); g.bezierCurveTo(n * 0.3, n * 0.2, n * 0.6, n * 0.9, n * 0.8, n * 0.3); g.stroke(); g.fillStyle = h(0, 40, 70); g.beginPath(); g.arc(n * 0.65, n * 0.62, n * 0.12, 0, 7); g.fill(); }
+  else if (kind === 'botanical') { g.strokeStyle = h(80, 25, 40); g.lineWidth = 3; g.beginPath(); g.moveTo(n / 2, n * 0.9); g.lineTo(n / 2, n * 0.15); g.stroke(); for (let i = 0; i < 6; i++) { const y = n * (0.25 + i * 0.1); g.fillStyle = h(80, 25, 45 + i * 3); for (const s of [-1, 1]) { g.beginPath(); g.ellipse(n / 2 + s * n * 0.1, y, n * 0.1, n * 0.035, s * 0.5, 0, 7); g.fill(); } } }
+  else if (kind === 'sun') { g.fillStyle = h(0, 55, 60); g.fillRect(0, n * 0.62, n, n * 0.38); g.fillStyle = h(15, 70, 62); g.beginPath(); g.arc(n / 2, n * 0.62, n * 0.2, Math.PI, 0); g.fill(); }
+  else if (kind === 'ink') { g.strokeStyle = '#2b2a28'; g.lineCap = 'round'; for (let i = 0; i < 3; i++) { g.lineWidth = 10 - i * 3; g.beginPath(); g.moveTo(n * (0.2 + i * 0.1), n * 0.85); g.quadraticCurveTo(n * 0.5, n * (0.3 - i * 0.05), n * 0.8, n * (0.6 + i * 0.05)); g.stroke(); } g.fillStyle = '#b03a2e'; g.fillRect(n * 0.78, n * 0.12, n * 0.07, n * 0.07); }
+  else if (kind === 'mountain') { g.fillStyle = h(190, 25, 82); g.fillRect(0, 0, n, n); g.fillStyle = h(200, 20, 55); g.beginPath(); g.moveTo(0, n * 0.8); g.lineTo(n * 0.35, n * 0.35); g.lineTo(n * 0.6, n * 0.65); g.lineTo(n * 0.8, n * 0.45); g.lineTo(n, n * 0.8); g.fill(); g.fillStyle = h(200, 15, 40); g.fillRect(0, n * 0.8, n, n * 0.2); }
+  else if (kind === 'kids') { g.fillStyle = '#f9f3e6'; g.fillRect(0, 0, n, n); g.fillStyle = '#f6c453'; g.beginPath(); g.arc(n * 0.7, n * 0.3, n * 0.12, 0, 7); g.fill(); g.fillStyle = '#9fd3c7'; g.beginPath(); g.ellipse(n * 0.35, n * 0.62, n * 0.2, n * 0.12, 0, 0, 7); g.fill(); g.fillStyle = '#2f2d2a'; g.beginPath(); g.arc(n * 0.28, n * 0.58, 5, 0, 7); g.arc(n * 0.42, n * 0.58, 5, 0, 7); g.fill(); }
+  else if (kind === 'abstract') { g.fillStyle = h(0, 45, 52); g.beginPath(); g.arc(n * 0.35, n * 0.6, n * 0.3, 0, 7); g.fill(); g.fillStyle = h(40, 25, 30); g.fillRect(n * 0.55, n * 0.15, n * 0.3, n * 0.7); g.fillStyle = h(30, 50, 80); g.beginPath(); g.arc(n * 0.7, n * 0.3, n * 0.1, 0, 7); g.fill(); }
+});
+
+// building blocks
+const rugRect = (g, name, x0, x1, z0, z1, y, m) => { const it = item(g, name, `约 ${Math.round((x1 - x0) * 100)} × ${Math.round((z1 - z0) * 100)}cm`); box(it, x0, x1, y, y + 0.014, z0, z1, m); return it; };
+const rugRound = (g, name, x, z, r, y, m) => {
+  const it = item(g, name, `直径约 ${Math.round(r * 200)}cm`);
+  const d = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 0.014, 48), m); d.position.set(x, y + 0.007, z); d.receiveShadow = true; it.add(d); return it;
+};
+function plant(g, name, kind, x, y, z, s = 1, potColor = 0xe9e4da, note = '') {
+  const it = item(g, name, note);
+  const pr = 0.12 * s, ph = 0.28 * s, top = y + ph;
+  cyl(it, x, y, top, z, pr * 0.82, mk(potColor, 0.5), pr);
+  const leafM = mk(kind === 'olive' ? 0x7f906b : 0x3f6b3c, 0.55, { side: THREE.DoubleSide });
+  const stemM = mk(0x4f6b3c, 0.7);
+  if (kind === 'monstera' || kind === 'fiddle') {
+    const n = kind === 'monstera' ? 10 : 14;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + rnd() * 0.6;
+      const reach = (kind === 'monstera' ? 0.22 : 0.12) * s * (0.6 + rnd() * 0.6);
+      const hy = top + (kind === 'monstera' ? 0.25 + rnd() * 0.5 : 0.3 + rnd() * 1.0) * s;
+      const tip = V3(x + Math.cos(a) * reach, hy, z + Math.sin(a) * reach);
+      rod(it, V3(x, top, z), tip, 0.006 * s, stemM);
+      const lf = new THREE.Mesh(new THREE.CircleGeometry((kind === 'monstera' ? 0.15 : 0.08) * s, 14), leafM);
+      lf.scale.set(kind === 'fiddle' ? 0.8 : 1, kind === 'fiddle' ? 1.3 : 1.1, 1);
+      lf.position.copy(tip); lf.rotation.set(-Math.PI / 2 + 0.5 + rnd() * 0.6, -a + Math.PI / 2, 0); lf.castShadow = true; it.add(lf);
+    }
+  } else if (kind === 'snake') {
+    for (let i = 0; i < 10; i++) {
+      const b = new THREE.Mesh(new THREE.ConeGeometry(0.03 * s, (0.45 + rnd() * 0.4) * s, 4), mk(i % 2 ? 0x3d6a45 : 0x5b8a4f, 0.5));
+      b.scale.z = 0.3; b.position.set(x + (rnd() - 0.5) * 0.12 * s, top + 0.28 * s, z + (rnd() - 0.5) * 0.12 * s); b.rotation.set((rnd() - 0.5) * 0.3, rnd() * 3, (rnd() - 0.5) * 0.3); b.castShadow = true; it.add(b);
+    }
+  } else if (kind === 'olive') {
+    rod(it, V3(x, top, z), V3(x + 0.03 * s, top + 0.85 * s, z), 0.018 * s, mk(0x6b5a45));
+    for (let i = 0; i < 70; i++) {
+      const l = new THREE.Mesh(new THREE.SphereGeometry(0.028 * s, 6, 4), leafM); l.scale.set(1, 0.35, 2.4);
+      const a = rnd() * 6.28, r = rnd() * 0.3 * s;
+      l.position.set(x + Math.cos(a) * r, top + (0.7 + rnd() * 0.6) * s, z + Math.sin(a) * r); l.rotation.set(rnd() * 3, rnd() * 3, rnd() * 3); l.castShadow = true; it.add(l);
+    }
+  } else if (kind === 'pothos') {
+    leafCluster(it, x, top, z, 0.07 * s, 8);
+    for (let v = 0; v < 5; v++) { const a = v / 5 * Math.PI * 2; for (let k = 0; k < 6; k++) { const l = new THREE.Mesh(new THREE.SphereGeometry(0.022 * s, 6, 4), leafM); l.scale.set(1, 0.45, 1.4); l.position.set(x + Math.cos(a) * (pr + 0.01 + k * 0.006), top - k * 0.045 * s, z + Math.sin(a) * (pr + 0.01 + k * 0.006)); it.add(l); } }
+  } else if (kind === 'pampas' || kind === 'branch') {
+    for (let i = 0; i < 7; i++) {
+      const a = rnd() * 6.28, lean = 0.08 + rnd() * 0.12, len = (0.5 + rnd() * 0.25) * s;
+      const tip = V3(x + Math.cos(a) * lean * s, top + len, z + Math.sin(a) * lean * s);
+      rod(it, V3(x, top - 0.05, z), tip, 0.003 * s, mk(kind === 'pampas' ? 0xcdbb98 : 0x5e4a38));
+      if (kind === 'pampas') { const p = new THREE.Mesh(new THREE.SphereGeometry(0.045 * s, 8, 6), mk(0xeadfc8, 1)); p.scale.set(0.6, 2.2, 0.6); p.position.copy(tip); it.add(p); }
+      else for (let k = 0; k < 3; k++) { const tw = tip.clone().add(V3((rnd() - 0.5) * 0.12, -k * 0.08, (rnd() - 0.5) * 0.12)); rod(it, tip.clone().add(V3(0, -k * 0.1, 0)), tw, 0.002, mk(0x5e4a38)); }
+    }
+  } else if (kind === 'bonsai') {
+    rod(it, V3(x, top, z), V3(x + 0.04 * s, top + 0.12 * s, z), 0.012 * s, mk(0x5e4a38));
+    for (const [dx, dy] of [[0.04, 0.14], [-0.03, 0.1], [0.08, 0.1]]) { const c = new THREE.Mesh(new THREE.SphereGeometry(0.05 * s, 10, 8), leafM); c.scale.y = 0.55; c.position.set(x + dx * s, top + dy * s, z); it.add(c); }
+  }
+  return it;
+}
+function frameOn(g, name, wall, c, y0, w, h, kind, hue, frameC = 0x2f2c29) {
+  const it = item(g, name, `约 ${Math.round(w * 100)} × ${Math.round(h * 100)}cm`);
+  const t = 0.025, fm = mk(frameC, 0.5);
+  const pic = new THREE.Mesh(new THREE.PlaneGeometry(w - 0.05, h - 0.05), new THREE.MeshStandardMaterial({ map: artTex(kind, hue).t, roughness: 0.9 }));
+  if ('x' in wall) {
+    const x0 = wall.x + wall.dir * t;
+    box(it, Math.min(x0, wall.x), Math.max(x0, wall.x), y0, y0 + h, c - w / 2, c + w / 2, fm);
+    pic.rotation.y = wall.dir > 0 ? Math.PI / 2 : -Math.PI / 2; pic.position.set(x0 + wall.dir * 0.002, y0 + h / 2, c);
+  } else {
+    const z0 = wall.z + wall.dir * t;
+    box(it, c - w / 2, c + w / 2, y0, y0 + h, Math.min(z0, wall.z), Math.max(z0, wall.z), fm);
+    pic.rotation.y = wall.dir > 0 ? 0 : Math.PI; pic.position.set(c, y0 + h / 2, z0 + wall.dir * 0.002);
+  }
+  it.add(pic); return it;
+}
+function books(parent, xm, y, z0, n, depth = 0.14) {
+  const cols = [0xc9b79c, 0x6f8a8a, 0xd98c5f, 0x3e4a5a, 0xe8e0d0, 0x9a6b4f, 0x8aa38b];
+  let z = z0;
+  for (let i = 0; i < n; i++) { const w = 0.025 + rnd() * 0.02, h = 0.16 + rnd() * 0.08; box(parent, xm - depth / 2, xm + depth / 2, y, y + h, z, z + w, mk(cols[(i * 3) % cols.length], 0.7)); z += w + 0.003; }
+  return z;
+}
+function shelfX(g, name, xw, dir, z0, z1, y, woodC = 0xd9c3a0) {   // floating wall shelf on a wall facing ±x
+  const it = item(g, name, `长约 ${Math.round((z1 - z0) * 100)}cm`);
+  const xb = xw + dir * 0.22, xm = (xw + xb) / 2;
+  box(it, Math.min(xw, xb), Math.max(xw, xb), y - 0.025, y, z0, z1, mk(woodC, 0.6));
+  const zEnd = books(it, xm, y, z0 + 0.05, 7);
+  return { it, xm, zEnd };
+}
+function sofaCushions(g, colors, knit = false) {
+  const it = item(g, '靠垫', '');
+  const xs = colors.length === 4 ? [0.5, 0.9, 1.3, 1.62] : [0.52, 0.98, 1.58];
+  colors.forEach((c, i) => {
+    const m = knit && i === 1 ? TM(patTex('knit', '#efe9de', '#d9d0c0', 0.3), { roughness: 1 }) : mk(c, 1);
+    const x = xs[i], cu = rb(it, x - 0.19, x + 0.19, L1 + 0.47, L1 + 0.85, 8.6, 8.74, m, 0.07, 5);
+    cu.rotation.x = -0.2; cu.rotation.z = (i % 2 ? 1 : -1) * 0.06;
+  });
+}
+function throwOnArm(g, color, knit = true) {
+  const it = item(g, '盖毯', '');
+  const m = knit ? TM(patTex('knit', color, '#00000022', 0.25), { roughness: 1 }) : mk(color, 1);
+  rb(it, 0.18, 0.4, L1 + 0.64, L1 + 0.67, 8.55, 9.0, m, 0.012, 3);
+  rb(it, 0.18, 0.4, L1 + 0.32, L1 + 0.67, 9.0, 9.13, m, 0.02, 3);
+}
+function pendant(hang, x, z, yb, style, c = 0xffffff) {
+  const cord = mk(0x222222);
+  cyl(hang, x, yb + 0.05, TOPS, z, 0.004, cord);
+  const glow = M(0xffffff, { emissive: 0xffe6bf, emissiveIntensity: 1.2 });
+  const add = o => { o.castShadow = false; hang.add(o); return o; };
+  if (style === 'dome') {
+    const s = add(new THREE.Mesh(new THREE.SphereGeometry(0.22, 32, 12, 0, Math.PI * 2, 0, Math.PI / 2), mk(c, 0.45, { side: THREE.DoubleSide })));
+    s.position.set(x, yb, z);
+    add(new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 10), glow)).position.set(x, yb - 0.02, z);
+  } else if (style === 'globe') {
+    add(new THREE.Mesh(new THREE.SphereGeometry(0.16, 32, 20), new THREE.MeshStandardMaterial({ color: c, transparent: true, opacity: 0.45, roughness: 0.05, metalness: 0.1 }))).position.set(x, yb - 0.1, z);
+    add(new THREE.Mesh(new THREE.SphereGeometry(0.04, 12, 10), glow)).position.set(x, yb - 0.1, z);
+    cyl(hang, x, yb + 0.02, yb + 0.07, z, 0.035, mk(0xb8925a, 0.3, { metalness: 0.8 }));
+  } else if (style === 'lantern') {
+    const l = add(new THREE.Mesh(new THREE.SphereGeometry(0.28, 32, 20), M(0xfbf8f1, { roughness: 1, emissive: 0xffe9c8, emissiveIntensity: 0.45 })));
+    l.scale.y = 0.85; l.position.set(x, yb - 0.2, z);
+  } else if (style === 'cone') {
+    const s = add(new THREE.Mesh(new THREE.ConeGeometry(0.17, 0.22, 32, 1, true), mk(c, 0.5, { side: THREE.DoubleSide })));
+    s.position.set(x, yb - 0.06, z);
+    add(new THREE.Mesh(new THREE.SphereGeometry(0.045, 12, 10), glow)).position.set(x, yb - 0.15, z);
+  }
+}
+function floorLamp(g, name, style, x, z, y, opts = {}) {
+  const it = item(g, name, '');
+  const metal = mk(opts.metal ?? 0x2b2b2b, 0.3, { metalness: 0.7 });
+  const glow = M(0xffffff, { emissive: 0xffe6bf, emissiveIntensity: 1.0 });
+  if (style === 'arc') {
+    cyl(it, x, y, y + 0.05, z, 0.16, mk(0xe9e7e2, 0.25));                                 // marble base
+    const tx = opts.tx, tz = opts.tz;
+    const curve = new THREE.CatmullRomCurve3([V3(x, y + 0.05, z), V3(x, y + 1.6, z), V3((x + tx) / 2, y + 2.05, (z + tz) / 2), V3(tx, y + 1.75, tz)]);
+    const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 40, 0.012, 8, false), metal); tube.castShadow = true; it.add(tube);
+    const sh = new THREE.Mesh(new THREE.SphereGeometry(0.17, 24, 10, 0, Math.PI * 2, 0, Math.PI / 2), mk(0xf2f0eb, 0.5, { side: THREE.DoubleSide }));
+    sh.position.set(tx, y + 1.62, tz); it.add(sh);
+    const b = new THREE.Mesh(new THREE.SphereGeometry(0.04, 12, 10), glow); b.position.set(tx, y + 1.62, tz); it.add(b);
+  } else if (style === 'tripod') {
+    for (let i = 0; i < 3; i++) { const a = i * 2.094 + 0.4; rod(it, V3(x + Math.cos(a) * 0.22, y, z + Math.sin(a) * 0.22), V3(x, y + 1.15, z), 0.012, metal); }
+    const sh = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.2, 0.28, 32, 1, true), mk(opts.shade ?? 0xf3ece0, 0.9, { side: THREE.DoubleSide, emissive: 0x6b5030, emissiveIntensity: 0.25 }));
+    sh.position.set(x, y + 1.3, z); it.add(sh);
+  } else if (style === 'paper') {
+    for (let i = 0; i < 3; i++) { const a = i * 2.094; rod(it, V3(x + Math.cos(a) * 0.12, y, z + Math.sin(a) * 0.12), V3(x + Math.cos(a) * 0.1, y + 0.2, z + Math.sin(a) * 0.1), 0.006, mk(0x5e4a38)); }
+    const p = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 1.0, 32), M(0xfbf7ee, { roughness: 1, emissive: 0xffe7c4, emissiveIntensity: 0.45 }));
+    p.position.set(x, y + 0.7, z); p.castShadow = true; it.add(p);
+  }
+  return it;
+}
+function bedding(g, duvetC, pillowC, throwC) {
+  const it = item(g, '床品', '');
+  rb(it, 3.66, 5.12, 0.47, 0.6, 1.07, 2.63, mk(duvetC, 1), 0.06, 5);
+  for (const [z0, z1] of [[1.22, 1.85], [1.86, 2.49]]) rb(it, 5.1, 5.52, 0.5, 0.66, z0, z1, mk(pillowC, 1), 0.07, 5);
+  if (throwC) rb(it, 3.66, 4.0, 0.6, 0.625, 1.05, 2.65, mk(throwC, 1), 0.01, 3);
+}
+function pouf(g, name, x, z, y, r, m) { const it = item(g, name, `直径约 ${Math.round(r * 200)}cm`); const p = cyl(it, x, y, y + 0.36, z, r, m, r * 0.95); return it; }
+function tray(g, x, z, y, m, extras = []) {
+  const it = item(g, '托盘摆件', '');
+  rb(it, x - 0.16, x + 0.16, y, y + 0.02, z - 0.11, z + 0.11, m, 0.01);
+  extras.forEach(([kind, dx, dz]) => {
+    if (kind === 'candle') cyl(it, x + dx, y + 0.02, y + 0.11, z + dz, 0.03, mk(0xf4efe4, 0.7));
+    if (kind === 'vase') cyl(it, x + dx, y + 0.02, y + 0.16, z + dz, 0.035, mk(0xd9cfc0, 0.4), 0.02);
+    if (kind === 'book') { box(it, x + dx - 0.08, x + dx + 0.08, y + 0.02, y + 0.05, z + dz - 0.06, z + dz + 0.06, mk(0x3e4a5a, 0.7)); box(it, x + dx - 0.07, x + dx + 0.07, y + 0.05, y + 0.07, z + dz - 0.05, z + dz + 0.05, mk(0xd98c5f, 0.7)); }
+  });
+}
+function lowShelfX(g, name, x0, x1, z0, z1, h, woodC, fill) {          // floor shelf against a wall facing ±x
+  const it = item(g, name, `约 ${Math.round((z1 - z0) * 100)} × ${Math.round((x1 - x0) * 100)} × ${Math.round(h * 100)}cm`);
+  const w = mk(woodC, 0.6);
+  box(it, x0, x1, L1, L1 + h, z0, z0 + 0.02, w); box(it, x0, x1, L1, L1 + h, z1 - 0.02, z1, w);
+  for (const y of fill.levels) box(it, x0, x1, L1 + y, L1 + y + 0.02, z0, z1, w);
+  box(it, x1 - 0.01, x1, L1, L1 + h, z0, z1, w);
+  fill.items?.(it);
+  return it;
+}
+
+// ===== v3 北欧原木 =====
+theme('v3', '北欧原木风（样板间 1）', `
+  <div class="room"><h3>客厅 <span>浅灰 · 原木 · 绿植</span></h3><p>沙发前铺浅灰菱格羊毛地毯，沙发上三个靠垫（芥末黄、雾灰、米白针织），扶手搭一条针织盖毯。东南角放龟背竹，再立一盏弧形落地灯，灯罩正好伸到矮桌上方，晚上看电视不用开大灯。东墙装一块原木置物板放书和小绿植，上面挂两幅北欧风海报。餐桌上方换成白色碗形吊灯，吧台上放一盆垂吊的绿萝。</p></div>
+  <div class="room"><h3>主卧 <span>鼠尾草绿床品</span></h3><p>床品换成鼠尾草绿配白色枕套，床头上方挂两幅植物画，床尾侧铺一块羊毛小地毯，窗边放一盆琴叶榕。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>东侧做一个绘本角：矮绘本架（封面朝外）加一个针织坐墩，铺浅灰圆地毯；电脑桌上方墙面挂一幅山景画。阳台两端各放一盆绿植。</p></div>`,
+(g, hang) => {
+  rugRect(g, '菱格羊毛地毯', 0.25, 1.75, 9.15, 10.45, L1, TM(patTex('diamond', '#e3e2de', '#cfcdc7', 0.5), { roughness: 1 }));
+  sofaCushions(g, [0xd9a441, 0xa9adb0, 0xefe9de], true);
+  throwOnArm(g, '#d8d4cc');
+  plant(g, '龟背竹', 'monstera', 2.55, L1, 10.7, 1.4, 0xf1efea, '放东南角，大叶子挡掉一点西晒');
+  floorLamp(g, '弧形落地灯', 'arc', 2.5, 9.5, L1, { tx: 1.25, tz: 9.6 });
+  const sh = shelfX(g, '原木置物板', 2.84, -1, 8.25, 9.55, L1 + 1.3);
+  plant(g, '小绿植', 'pothos', sh.xm, L1 + 1.3, sh.zEnd + 0.12, 0.6, 0xffffff);
+  frameOn(g, '海报', { x: 2.84, dir: -1 }, 8.6, L1 + 1.42, 0.42, 0.55, 'line', 20, 0xd9c3a0);
+  frameOn(g, '海报', { x: 2.84, dir: -1 }, 9.15, L1 + 1.42, 0.42, 0.55, 'botanical', 0, 0xd9c3a0);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'dome', 0xf4f2ee);
+  plant(g, '垂吊绿萝', 'pothos', 1.7, L1 + 1.18, 6.11, 0.55, 0xf1efea);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0xd9c3a0, 0.5), [['candle', -0.08, 0.03], ['vase', 0.06, -0.03]]);
+  // master
+  bedding(g, 0xa9b8a0, 0xf4f2ec, 0xe4ddd0);
+  frameOn(g, '植物画', { x: 5.65, dir: -1 }, 1.55, 0.98, 0.4, 0.5, 'botanical', 0, 0xd9c3a0);
+  frameOn(g, '植物画', { x: 5.65, dir: -1 }, 2.15, 0.98, 0.4, 0.5, 'botanical', 40, 0xd9c3a0);
+  rugRound(g, '羊毛小地毯', 3.35, 1.85, 0.42, 0, mk(0xf2efe8, 1));
+  plant(g, '琴叶榕', 'fiddle', 3.9, 0, 0.45, 1.1, 0xe9e4da);
+  // kids / PC
+  rugRound(g, '浅灰圆地毯', 4.6, 9.9, 0.6, L1, TM(patTex('diamond', '#e8e6e1', '#d6d3cc', 0.4), { roughness: 1 }));
+  lowShelfX(g, '绘本架（封面朝外）', 5.35, 5.65, 9.45, 10.35, 0.62, 0xe0cba8, { levels: [0.02, 0.3, 0.6], items: it => {
+    [[0.05, 0xf2a7a0], [0.33, 0x9fd3c7], [0.05, 0xf6c453], [0.33, 0x7ca7d8]].forEach(([y, c], i) => box(it, 5.37, 5.39, L1 + y, L1 + y + 0.24, 9.55 + (i % 2) * 0.4, 9.85 + (i % 2) * 0.4, mk(c, 0.7)));
+  } });
+  pouf(g, '针织坐墩', 4.85, 10.0, L1, 0.22, TM(patTex('knit', '#e9e4da', '#cfc6b6', 0.3), { roughness: 1 }));
+  frameOn(g, '山景画', { x: 2.96, dir: 1 }, 9.6, L1 + 1.3, 0.6, 0.45, 'mountain', 0, 0xd9c3a0);
+  plant(g, '阳台绿植', 'snake', 3.15, L1 - 0.045, 11.3, 0.8, 0x9a8f80);
+  plant(g, '阳台绿植', 'olive', 5.5, L1 - 0.045, 11.3, 0.6, 0x9a8f80);
+});
+
+// ===== v4 日式无印 =====
+theme('v4', '日式无印风（样板间 2）', `
+  <div class="room"><h3>客厅 <span>原木 · 亚麻 · 和纸</span></h3><p>沙发前铺黄麻编织地毯，矮桌南边放两个亚麻坐垫，可以盘腿坐在地上喝茶。东墙靠一个橡木开放层架（参考无印良品的组合层架），放藤编收纳篮、书和陶器，上面挂一幅水墨画。东南角放一张矮木凳，上面一只陶瓶插枯枝。餐桌上方挂一盏大号和纸灯笼，光线很柔。电视柜上放一盆小盆景。</p></div>
+  <div class="room"><h3>主卧 <span>燕麦色亚麻床品</span></h3><p>床品换成燕麦色亚麻，枕头用炭灰色。床头上方挂一幅横向的水墨画，窗边立一盏和纸落地灯，床尾侧铺蔺草小地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>东侧放一个矮木架配藤编篮，装尿布和玩具，铺本白棉麻圆地毯，旁边放一个坐垫。吧台上放一只插花的小陶瓶。</p></div>`,
+(g, hang) => {
+  rugRect(g, '黄麻地毯', 0.25, 1.75, 9.15, 10.45, L1, TM(patTex('jute', '#cdb48c', '#8f7a58', 0.4), { roughness: 1 }));
+  for (const x of [0.88, 1.24]) rb(item(g, '亚麻坐垫', '约 45 × 45cm'), x - 0.17, x + 0.17, L1 + 0.014, L1 + 0.07, 9.98, 10.38, mk(0xd8cdb8, 1), 0.03, 4);
+  sofaCushions(g, [0xd8cdb8, 0x5a5650, 0xe8e1d3]);
+  lowShelfX(g, '橡木开放层架', 2.46, 2.84, 8.2, 9.5, 1.15, 0xd8c2a0, { levels: [0.02, 0.38, 0.76, 1.13], items: it => {
+    for (const [z, y] of [[8.4, 0.04], [8.8, 0.04], [9.2, 0.04]]) rb(it, 2.5, 2.8, L1 + y, L1 + y + 0.28, z - 0.16, z + 0.16, mk(0xc9a777, 0.9), 0.02);
+    books(it, 2.65, L1 + 0.4, 8.25, 9, 0.24);
+    cyl(it, 2.65, L1 + 0.4, L1 + 0.56, 9.2, 0.07, mk(0x8a7f72, 0.4), 0.06);
+    cyl(it, 2.65, L1 + 0.78, L1 + 0.9, 8.5, 0.09, mk(0xe9e2d4, 0.4), 0.05);
+    books(it, 2.65, L1 + 0.78, 8.9, 5, 0.24);
+  } });
+  frameOn(g, '水墨画', { x: 2.84, dir: -1 }, 8.85, L1 + 1.3, 0.42, 0.85, 'ink', 0, 0x6b5a45);
+  { const bn = item(g, '矮木凳 + 枯枝花瓶', ''); box(bn, 2.2, 2.78, L1 + 0.36, L1 + 0.4, 10.55, 10.85, mk(0xc8ab82, 0.6)); for (const x of [2.24, 2.72]) box(bn, x, x + 0.03, L1, L1 + 0.36, 10.57, 10.83, mk(0xc8ab82, 0.6)); }
+  plant(g, '枯枝花瓶', 'branch', 2.5, L1 + 0.4, 10.7, 1.0, 0x6e655a);
+  pendant(hang, 0.9, 7.18, L1 + 1.75, 'lantern');
+  plant(g, '盆景', 'bonsai', 0.29, L1 + 0.5, 10.75, 0.7, 0x4a4540);
+  plant(g, '小陶瓶插花', 'branch', 1.72, L1 + 1.18, 6.11, 0.45, 0x8a7f72);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0x4a4540, 0.5), [['vase', -0.06, 0], ['candle', 0.08, 0.02]]);
+  // master
+  bedding(g, 0xd9cdb6, 0x55524d);
+  frameOn(g, '横幅水墨画', { x: 5.65, dir: -1 }, 1.85, 0.98, 1.0, 0.45, 'ink', 0, 0x6b5a45);
+  floorLamp(g, '和纸落地灯', 'paper', 3.9, 0.45, 0);
+  rugRect(g, '蔺草小地毯', 3.05, 3.65, 1.25, 2.45, 0, TM(patTex('stripe', '#cfc39b', '#b5a77a', 0.2), { roughness: 1 }));
+  // kids / PC
+  rugRound(g, '棉麻圆地毯', 4.6, 9.9, 0.6, L1, TM(patTex('jute', '#ece5d6', '#cfc4ae', 0.4), { roughness: 1 }));
+  lowShelfX(g, '矮木架 + 藤编篮', 5.32, 5.65, 9.45, 10.35, 0.62, 0xd8c2a0, { levels: [0.02, 0.32, 0.6], items: it => {
+    for (const y of [0.04, 0.34]) for (const z of [9.68, 10.12]) rb(it, 5.36, 5.62, L1 + y, L1 + y + 0.24, z - 0.18, z + 0.18, mk(0xc9a777, 0.9), 0.02);
+  } });
+  rb(item(g, '坐垫', ''), 4.7, 5.1, L1 + 0.014, L1 + 0.07, 9.8, 10.2, mk(0x5a5650, 1), 0.03, 4);
+});
+
+// ===== v5 亲子童趣 =====
+theme('v5', '亲子童趣风（样板间 3）', `
+  <div class="room"><h3>客厅 <span>宝宝优先 · 安全</span></h3><p>沙发前换成彩色拼图爬行垫，矮桌四个角包上防撞角。东南角放一个宝宝健身架，下面铺软垫，新生儿躺着看挂件。东墙放一个封面朝外的矮绘本架和一个彩色收纳盒架（参考宜家 TROFAST），墙上贴云朵、星星墙贴。吧台窗口上方挂一串彩色三角旗，餐桌上方是黄色锥形吊灯。</p></div>
+  <div class="room"><h3>安全 <span>实用</span></h3><p>客厅下楼梯口和走廊下 1 楼的楼梯口各装一道宝宝安全门。漫游时可以直接穿过去，不会挡路。</p></div>
+  <div class="room"><h3>主卧 &amp; 儿童房 <span></span></h3><p>主卧床品换成浅粉配浅蓝，婴儿床上方挂一个床铃，木柜上放一盏暖光小夜灯。儿童房东侧搭一个小帐篷，铺彩虹圆地毯，墙上挂一幅小动物画。</p></div>`,
+(g, hang, soft) => {
+  rugRect(g, '拼图爬行垫', 0.25, 1.75, 9.15, 10.45, L1, TM(patTex('puzzle', '#f2a7a0', '#a9cde3', 0.6), { roughness: 0.9 }));
+  { const cg = item(g, '防撞角', ''); for (const x of [0.66, 1.44]) for (const z of [9.41, 9.84]) box(cg, x - 0.02, x + 0.02, L1 + 0.36, L1 + 0.41, z - 0.02, z + 0.02, mk(0xd0d6d8, 0.4)); }
+  sofaCushions(g, [0xf2a7a0, 0x7cc4b5, 0xf6c453]);
+  { const gy = item(g, '宝宝健身架 + 软垫', '');
+    box(gy, 1.98, 2.78, L1, L1 + 0.03, 9.4, 10.5, mk(0xf4e6d4, 1));
+    const wood = mk(0xe2c79f, 0.6);
+    for (const [a, b] of [[V3(2.0, L1, 9.6), V3(2.38, L1 + 0.6, 9.95)], [V3(2.76, L1, 9.6), V3(2.38, L1 + 0.6, 9.95)], [V3(2.0, L1, 10.3), V3(2.38, L1 + 0.6, 9.95)], [V3(2.76, L1, 10.3), V3(2.38, L1 + 0.6, 9.95)]]) rod(gy, a, b, 0.015, wood);
+    [[0xf2a7a0, 2.28], [0xf6c453, 2.38], [0x7cc4b5, 2.48]].forEach(([c, x]) => { rod(gy, V3(x, L1 + 0.6, 9.95), V3(x, L1 + 0.45, 9.95), 0.003, mk(0xffffff)); const t = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 10), mk(c, 0.6)); t.position.set(x, L1 + 0.43, 9.95); gy.add(t); }); }
+  lowShelfX(g, '矮绘本架', 2.56, 2.84, 8.15, 8.95, 0.6, 0xf4f2ee, { levels: [0.02, 0.3, 0.58], items: it => {
+    [[0.05, 0xf2a7a0, 8.25], [0.05, 0xf6c453, 8.6], [0.33, 0x7ca7d8, 8.25], [0.33, 0x9fd3c7, 8.6]].forEach(([y, c, z]) => box(it, 2.6, 2.62, L1 + y, L1 + y + 0.22, z, z + 0.28, mk(c, 0.7)));
+  } });
+  { const tf = item(g, '彩色收纳盒架', '参考宜家 TROFAST');
+    const wh = mk(0xf6f5f2, 0.5);
+    box(tf, 2.46, 2.84, L1, L1 + 0.62, 9.0, 9.02, wh); box(tf, 2.46, 2.84, L1, L1 + 0.62, 9.6, 9.62, wh); box(tf, 2.46, 2.84, L1 + 0.6, L1 + 0.62, 9.0, 9.62, wh);
+    [[0xf2a7a0, 0.05], [0x7cc4b5, 0.25], [0xf6c453, 0.43]].forEach(([c, y]) => rb(tf, 2.47, 2.82, L1 + y, L1 + y + 0.16, 9.04, 9.58, mk(c, 0.5), 0.015)); }
+  // wall decals: clouds + stars on the east wall
+  { const dc = item(g, '墙贴（云朵、星星）', '');
+    const pl = (y, z, w, h, c) => { const p = new THREE.Mesh(new THREE.CircleGeometry(0.5, 24), mk(c, 0.9)); p.scale.set(w, h, 1); p.rotation.y = -Math.PI / 2; p.position.set(2.837, y, z); dc.add(p); };
+    pl(L1 + 1.5, 8.5, 0.34, 0.16, 0xffffff); pl(L1 + 1.55, 8.62, 0.22, 0.18, 0xffffff); pl(L1 + 1.85, 9.35, 0.3, 0.14, 0xffffff);
+    [[L1 + 1.3, 9.0], [L1 + 1.7, 8.95], [L1 + 1.4, 9.55], [L1 + 2.0, 8.7]].forEach(([y, z]) => pl(y, z, 0.07, 0.07, 0xf6c453)); }
+  { const bt = item(g, '彩色三角旗', ''); const cs = [0xf2a7a0, 0xf6c453, 0x7cc4b5, 0xa9cde3, 0xf6c99a];
+    for (let i = 0; i < 10; i++) { const tri = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.12, 3), mk(cs[i % 5], 0.8)); tri.rotation.x = Math.PI; tri.scale.z = 0.15; tri.position.set(0.32 + i * 0.15, L1 + 1.98 - Math.sin(i / 9 * Math.PI) * 0.06, 6.165); bt.add(tri); } }
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'cone', 0xf6c453);
+  // baby gates (walk mode passes through)
+  const gate = (x0, x1, z, y) => { const gt = item(soft, '宝宝安全门', '高约 75cm'); const w = mk(0xf7f7f5, 0.4);
+    box(gt, x0, x1, y + 0.72, y + 0.75, z - 0.015, z + 0.015, w); box(gt, x0, x1, y + 0.03, y + 0.06, z - 0.015, z + 0.015, w);
+    for (let x = x0; x <= x1; x += 0.07) box(gt, x, x + 0.012, y + 0.03, y + 0.75, z - 0.008, z + 0.008, w); };
+  gate(2.02, 2.8, 4.08, L1); gate(1.1, 1.86, 2.69, 0);
+  // master
+  bedding(g, 0xf3d9d6, 0xcfe0ee);
+  { const mb = item(g, '床铃', ''); rod(mb, V3(5.5, 0.95, 2.97), V3(5.5, 1.35, 2.97), 0.008, mk(0xffffff)); rod(mb, V3(5.5, 1.35, 2.97), V3(4.95, 1.35, 2.97), 0.008, mk(0xffffff));
+    [[0xf2a7a0, 0], [0xf6c453, 2.1], [0x7cc4b5, 4.2]].forEach(([c, a]) => { const x = 4.95 + Math.cos(a) * 0.12, z = 2.97 + Math.sin(a) * 0.12; rod(mb, V3(4.95, 1.35, 2.97), V3(x, 1.2, z), 0.002, mk(0xffffff)); const s = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), mk(c, 0.6)); s.position.set(x, 1.18, z); mb.add(s); }); }
+  { const nl = item(g, '暖光小夜灯', ''); const s = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 12), M(0xffffff, { emissive: 0xffd9a0, emissiveIntensity: 0.9 })); s.position.set(3.7, 0.98, 3.6); nl.add(s); }
+  // kids room: teepee + rainbow rug + animal print
+  rugRound(g, '彩虹圆地毯', 4.6, 9.9, 0.62, L1, TM(patTex('rainbow', '#fbf6ee', '#000', 1.24), { roughness: 1 }));
+  { const tp = item(g, '儿童小帐篷', '约 100 × 100 × 140cm');
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(0.5, 1.3, 4, 1, true, Math.PI / 4 + 0.6, Math.PI * 2 - 1.2), TM(patTex('stripe', '#f6f1e7', '#e9c8bd', 0.25), { roughness: 1, side: THREE.DoubleSide }));
+    cone.position.set(5.12, L1 + 0.65, 9.95); cone.rotation.y = Math.PI / 2; cone.castShadow = true; tp.add(cone);
+    for (let i = 0; i < 4; i++) { const a = Math.PI / 4 + i * Math.PI / 2; rod(tp, V3(5.12 + Math.cos(a) * 0.5, L1, 9.95 + Math.sin(a) * 0.5), V3(5.12 - Math.cos(a) * 0.05, L1 + 1.45, 9.95 - Math.sin(a) * 0.05), 0.01, mk(0xd9c3a0, 0.6)); }
+    rb(tp, 4.85, 5.4, L1 + 0.014, L1 + 0.06, 9.7, 10.2, mk(0xcfe0ee, 1), 0.03, 4); }
+  frameOn(g, '小动物画', { x: 2.96, dir: 1 }, 9.6, L1 + 1.3, 0.45, 0.45, 'kids', 0, 0xffffff);
+});
+
+// ===== v6 现代暖调 =====
+theme('v6', '现代暖调风（样板间 4）', `
+  <div class="room"><h3>客厅 <span>炭灰 · 陶土色 · 黄铜</span></h3><p>沙发前铺炭灰色地毯，靠垫用陶土色、橄榄绿和奶油色丝绒。东南角放一棵橄榄树，配黑色大花盆，旁边立一盏黄铜三脚落地灯。东墙挂一幅 120cm 宽的大幅抽象画，是整个客厅的视觉重点。矮桌上放大理石托盘、蜡烛和画册，旁边放一张小圆边几。餐桌上方挂一盏烟灰玻璃球吊灯，吧台窗口上方的墙上挂一面圆形黄铜边镜子。</p></div>
+  <div class="room"><h3>主卧 <span>藏青床品</span></h3><p>床品换成藏青色配奶油色枕套，床头上方挂一幅大幅抽象画，床头柜上放一盏黄铜台灯，床尾侧铺奶油色圆地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>电脑桌上方挂一块深色洞洞板，放耳机和小物件；桌上加一盏黄铜台灯；东侧铺炭灰色圆地毯，放一个皮质坐墩。</p></div>`,
+(g, hang) => {
+  rugRect(g, '炭灰地毯', 0.25, 1.75, 9.15, 10.45, L1, mk(0x55514c, 1));
+  { const bd = item(g, '地毯包边', ''); const t = mk(0xb8643f, 1); box(bd, 0.25, 1.75, L1 + 0.014, L1 + 0.016, 9.2, 9.24, t); box(bd, 0.25, 1.75, L1 + 0.014, L1 + 0.016, 10.36, 10.4, t); }
+  sofaCushions(g, [0xb8643f, 0x6f7552, 0xefe5d2, 0xb8643f]);
+  throwOnArm(g, 0xd9c9b0, false);
+  plant(g, '橄榄树', 'olive', 2.55, L1, 10.7, 1.15, 0x2a2a2a, '黑色大花盆');
+  floorLamp(g, '黄铜三脚落地灯', 'tripod', 2.45, 9.55, L1, { metal: 0xb8925a });
+  frameOn(g, '大幅抽象画', { x: 2.84, dir: -1 }, 9.0, L1 + 1.2, 1.2, 0.8, 'abstract', 18, 0x2a2826);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0xeceae5, 0.2), [['candle', -0.09, 0.04], ['candle', -0.04, 0.05], ['book', 0.06, -0.01]]);
+  { const st = item(g, '小圆边几', '直径约 40cm'); cyl(st, 1.68, L1, L1 + 0.04, 10.3, 0.12, mk(0x2a2a2a, 0.3)); cyl(st, 1.68, L1 + 0.04, L1 + 0.48, 10.3, 0.02, mk(0xb8925a, 0.3, { metalness: 0.8 })); cyl(st, 1.68, L1 + 0.48, L1 + 0.5, 10.3, 0.2, mk(0xe9e7e2, 0.15)); }
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'globe', 0x6d6a66);
+  { const mr = item(g, '圆镜（黄铜边）', '直径约 50cm');
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.25, 0.015, 10, 48), mk(0xb8925a, 0.25, { metalness: 0.9 })); ring.position.set(0.55, L1 + 2.07, 6.165); mr.add(ring);
+    const gl = new THREE.Mesh(new THREE.CircleGeometry(0.25, 40), mat.mirror); gl.position.set(0.55, L1 + 2.07, 6.16); mr.add(gl); }
+  // master
+  bedding(g, 0x2f3a52, 0xefe5d2, 0xb8643f);
+  frameOn(g, '大幅抽象画', { x: 5.65, dir: -1 }, 1.85, 0.98, 0.9, 0.6, 'abstract', 210, 0x2a2826);
+  { const lp = item(g, '黄铜台灯', ''); cyl(lp, 5.44, 0.5, 0.52, 0.89, 0.06, mk(0xb8925a, 0.3, { metalness: 0.8 })); cyl(lp, 5.44, 0.52, 0.8, 0.89, 0.008, mk(0xb8925a, 0.3, { metalness: 0.8 }));
+    const sh = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.11, 0.14, 24, 1, true), mk(0xefe5d2, 0.9, { side: THREE.DoubleSide, emissive: 0x6b5030, emissiveIntensity: 0.3 })); sh.position.set(5.44, 0.84, 0.89); lp.add(sh); }
+  rugRound(g, '奶油色圆地毯', 3.35, 1.85, 0.42, 0, mk(0xefe5d2, 1));
+  // kids / PC
+  { const pb = item(g, '洞洞板', '约 60 × 40cm'); box(pb, 2.96, 2.98, L1 + 1.25, L1 + 1.65, 9.3, 9.9, mk(0x3a3836, 0.6));
+    for (let y = 1.3; y < 1.62; y += 0.05) for (let z = 9.34; z < 9.88; z += 0.05) box(pb, 2.979, 2.981, L1 + y, L1 + y + 0.008, z, z + 0.008, mk(0x1e1d1c));
+    rb(pb, 2.99, 3.06, L1 + 1.36, L1 + 1.56, 9.45, 9.6, mk(0x1d1f22, 0.4), 0.03, 3); }
+  { const dl = item(g, '黄铜台灯', ''); cyl(dl, 3.1, L1 + 0.7, L1 + 0.72, 10.0, 0.06, mk(0xb8925a, 0.3, { metalness: 0.8 })); rod(dl, V3(3.1, L1 + 0.72, 10.0), V3(3.18, L1 + 1.05, 9.95), 0.007, mk(0xb8925a, 0.3, { metalness: 0.8 }));
+    const sh = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.09, 24, 1, true), mk(0xb8925a, 0.3, { metalness: 0.8, side: THREE.DoubleSide })); sh.position.set(3.2, L1 + 1.0, 9.94); dl.add(sh); }
+  rugRound(g, '炭灰圆地毯', 4.6, 9.9, 0.6, L1, mk(0x5c5853, 1));
+  pouf(g, '皮质坐墩', 4.85, 10.0, L1, 0.22, mk(0x8a5a3c, 0.5));
+});
+
+// ===== v7 实用主义 =====
+theme('v7', '实用主义版（动线 & 收纳优先）', `
+  <div class="room"><h3>出门 / 回家 <span>挂钩代替衣架</span></h3><p>玄关西墙装一排挂钩，挂当天穿的外套、包和宝宝背带；鞋柜上放钥匙盘。上到 2 楼走廊，WIC 外墙再装三个挂钩，放睡衣和家居服。开放式衣架已经收进 WIC，不占房间。</p></div>
+  <div class="room"><h3>厨房 &amp; 垃圾分类 <span></span></h3><p>置物架最下层放三个窄垃圾桶：左边两个分别装可燃和塑料，右边矮的装瓶罐，按日本的分类直接扔。IH 旁的墙面装一根挂杆挂锅铲和汤勺，台面东端放沥水架。</p></div>
+  <div class="room"><h3>洗衣 <span>不出房间就能晾</span></h3><p>洗衣机旁边的缝隙放一个窄推车装洗衣液。儿童房阳台窗前装一根吊顶晾衣杆，下雨天和冬天在室内晾，晴天直接推开窗晾到阳台，阳台再放一组晾衣架。</p></div>
+  <div class="room"><h3>宝宝护理 <span>白天在客厅，晚上在主卧</span></h3><p>客厅东南角是白天的换尿布区：地上放换尿布垫，旁边是尿布收纳篮和带盖尿布桶，坐在沙发上就能顺手拿到。主卧木柜上放尿布盒，婴儿床旁边再放一个尿布桶，半夜不用出房间。两个楼梯口装安全门，6 级台阶墙上装感应脚灯，夜里抱孩子走楼梯更安全。</p></div>
+  <div class="room"><h3>收纳 &amp; 其他 <span></span></h3><p>客厅东墙装一块家庭留言板，下面放充电托盘，钥匙、手机、宝宝的东西都集中在这里。厕所马桶上方用伸缩杆加一层架子，放卷纸库存。主卧床底放收纳箱，床边挂收纳袋放手机和夜灯遥控。电脑桌下装理线槽，东侧放一辆三层推车装零碎用品。浴室墙上加一个磁吸架放洗发水。</p></div>`,
+(g, hang, soft) => {
+  const white = mk(0xf5f4f0, 0.45), steel = mk(0xcfd2d4, 0.3, { metalness: 0.7 }), oakM = mk(0xd9c3a0, 0.6);
+  const hooks = (parent, x, dir, z0, z1, y, coats) => {         // hook rail on a wall facing ±x, with garments
+    const xb = x + dir * 0.02;
+    box(parent, Math.min(x, xb), Math.max(x, xb), y - 0.04, y + 0.04, z0, z1, oakM);
+    const n = coats.length;
+    coats.forEach((c, i) => {
+      const z = z0 + (i + 0.5) * (z1 - z0) / n;
+      rod(parent, V3(xb, y, z), V3(x + dir * 0.08, y + 0.03, z), 0.006, steel);
+      if (c) rb(parent, Math.min(x + dir * 0.03, x + dir * 0.13), Math.max(x + dir * 0.03, x + dir * 0.13), y - 0.75, y + 0.02, z - 0.13, z + 0.13, mk(c, 1), 0.04, 3);
+    });
+  };
+  // entrance + hall hooks (walk mode passes through)
+  hooks(item(soft, '玄关挂钩（外套 / 包）', '装在玄关西墙，出门顺手拿'), 0.18, 1, 0.3, 0.85, GND + 1.65, [0x3a4150, 0x8c6b4f, 0x2f3540]);
+  hooks(item(soft, '走廊挂钩（家居服）', '装在 WIC 外墙'), 1.88, -1, 0.7, 1.35, 1.65, [0xd9cfbf, 0x9fb5c8, null]);
+  // baby gates + stair foot lights
+  const gate = (x0, x1, z, y) => { const gt = item(soft, '宝宝安全门', '高约 75cm'); const w = mk(0xf7f7f5, 0.4);
+    box(gt, x0, x1, y + 0.72, y + 0.75, z - 0.015, z + 0.015, w); box(gt, x0, x1, y + 0.03, y + 0.06, z - 0.015, z + 0.015, w);
+    for (let x = x0; x <= x1; x += 0.07) box(gt, x, x + 0.012, y + 0.03, y + 0.75, z - 0.008, z + 0.008, w); };
+  gate(2.02, 2.8, 4.08, L1); gate(1.1, 1.86, 2.69, 0);
+  { const fl = item(soft, '楼梯感应脚灯', ''); const lm = M(0xffffff, { emissive: 0xffd9a0, emissiveIntensity: 1.0 });
+    for (let i = 1; i <= 5; i += 2) { const z = 2.4 + (i - 0.5) * 0.26; box(fl, 2.825, 2.84, (L1 / 6) * i + 0.15, (L1 / 6) * i + 0.2, z - 0.04, z + 0.04, lm); } }
+  // kitchen: three slim sorting bins in the rack's bottom bays, utensil rail, dish drainer
+  { const bins = item(g, '分类垃圾桶 ×3', '可燃 / 塑料 / 瓶罐，放置物架最下层');
+    [[0.44, 0.67, 0.5, 0x8a8f94], [0.68, 0.91, 0.5, 0x5b8fc9], [0.95, 1.27, 0.38, 0x4f9a6a]].forEach(([x0, x1, h, lid]) => {
+      rb(bins, x0, x1, L1 + 0.12, L1 + h - 0.02, 4.1, 4.42, white, 0.02, 3);
+      rb(bins, x0, x1, L1 + h - 0.03, L1 + h, 4.1, 4.42, mk(lid, 0.5), 0.015, 3);
+    }); }
+  { const ur = item(g, '厨具挂杆', 'IH 旁墙面'); const bar = cyl(ur, 0, -0.27, 0.27, 0, 0.008, steel); bar.rotation.z = Math.PI / 2; bar.position.set(0.5, L1 + 1.32, 6.02);
+    [0.3, 0.42, 0.55, 0.68].forEach((x, i) => { rod(ur, V3(x, L1 + 1.32, 6.02), V3(x, L1 + 1.12, 6.02), 0.005, i % 2 ? mk(0x2b2b2b) : steel); }); }
+  { const dr = item(g, '沥水架', ''); rb(dr, 1.64, 1.82, L1 + 0.92, L1 + 0.94, 5.48, 5.9, white, 0.01);
+    for (let z = 5.52; z < 5.88; z += 0.05) box(dr, 1.65, 1.81, L1 + 0.94, L1 + 1.04, z, z + 0.004, white); }
+  // LDK: family board + charging tray on the east wall, daytime nappy station in the SE corner, sofa-arm caddy
+  { const fb = item(g, '家庭留言板 + 充电托盘', '钥匙、手机、宝宝用品集中放这里');
+    box(fb, 2.82, 2.84, L1 + 1.2, L1 + 1.65, 8.05, 8.7, mk(0xfafaf8, 0.3)); box(fb, 2.815, 2.82, L1 + 1.18, L1 + 1.67, 8.03, 8.72, oakM);
+    [[0xf6c453, 8.15], [0x9fd3c7, 8.32], [0xf2a7a0, 8.5]].forEach(([c, z]) => box(fb, 2.812, 2.815, L1 + 1.45, L1 + 1.55, z, z + 0.1, mk(c, 0.9)));
+    box(fb, 2.62, 2.84, L1 + 1.05, L1 + 1.08, 8.05, 8.7, oakM);
+    rb(fb, 2.66, 2.8, L1 + 1.08, L1 + 1.1, 8.15, 8.45, mk(0x3a3836, 0.5), 0.01); }
+  { const cs = item(g, '换尿布区（白天）', '换尿布垫 + 尿布篮 + 带盖尿布桶');
+    rb(cs, 1.98, 2.6, L1, L1 + 0.06, 10.3, 10.95, mk(0xdfeae6, 0.9), 0.03, 4);
+    rb(cs, 2.66, 2.82, L1, L1 + 0.24, 9.95, 10.25, mk(0xc9a777, 0.9), 0.02);
+    cyl(cs, 2.74, L1, L1 + 0.45, 10.75, 0.1, white, 0.11); cyl(cs, 2.74, L1 + 0.45, L1 + 0.48, 10.75, 0.115, mk(0xa9cde3, 0.4)); }
+  { const sc = item(g, '沙发扶手收纳袋', '放遥控器和手机'); rb(sc, 0.19, 0.22, L1 + 0.35, L1 + 0.62, 8.62, 8.92, mk(0x6b6760, 1), 0.01); }
+  // washroom: slim wagon beside the washer, towel bar; bath: magnetic caddy
+  { const wg = item(g, '缝隙推车', '宽 16cm，塞在洗衣机旁装洗衣液');
+    for (const y of [0.05, 0.4, 0.75]) box(wg, 3.64, 3.78, L1 + y, L1 + y + 0.015, 4.12, 4.6, white);
+    for (const z of [4.12, 4.585]) box(wg, 3.64, 3.78, L1 + 0.05, L1 + 0.85, z, z + 0.015, white);
+    cyl(wg, 3.71, L1 + 0.415, L1 + 0.62, 4.25, 0.04, mk(0x5b8fc9, 0.4)); cyl(wg, 3.71, L1 + 0.765, L1 + 0.92, 4.45, 0.035, mk(0xf2f2ef, 0.4)); }
+  { const tb = item(g, '毛巾架', ''); const bar = cyl(tb, 0, -0.18, 0.18, 0, 0.008, steel); bar.rotation.x = Math.PI / 2; bar.position.set(3.0, L1 + 1.25, 6.0);
+    rb(tb, 2.97, 3.0, L1 + 0.85, L1 + 1.25, 5.86, 6.14, mk(0xe9dcd0, 1), 0.01); }
+  { const mg = item(g, '浴室磁吸架', ''); box(mg, 5.5, 5.62, L1 + 0.9, L1 + 0.92, 5.36, 5.52, white);
+    [[0x5aa0d0, 5.4], [0xf2f2ef, 5.47]].forEach(([c, z]) => cyl(mg, 5.56, L1 + 0.92, L1 + 1.12, z, 0.025, mk(c, 0.4))); }
+  // toilet: tension-rod shelf above the tank with paper stock
+  { const ts = item(g, '马桶上方置物架', '伸缩杆 + 层板，放卷纸库存'); box(ts, 0.2, 0.94, 1.1, 1.12, 0.17, 0.38, white);
+    for (let i = 0; i < 4; i++) { const r = cyl(ts, 0, -0.05, 0.05, 0, 0.055, mk(0xfafaf7, 1)); r.position.set(0.32 + i * 0.13, 1.18, 0.27); } }
+  // master: nappy caddy on the cabinet, nappy pail by the crib, under-bed boxes, bedside pocket
+  { const nc = item(g, '尿布收纳盒', '放木柜上，半夜换尿布顺手'); rb(nc, 3.45, 3.8, 0.9, 1.04, 3.45, 3.78, mk(0xc9a777, 0.9), 0.01); }
+  { const np = item(g, '带盖尿布桶', ''); cyl(np, 4.05, 0, 0.42, 3.65, 0.1, white, 0.11); cyl(np, 4.05, 0.42, 0.45, 3.65, 0.115, mk(0xa9cde3, 0.4)); }
+  { const ub = item(g, '床底收纳箱', '床底高度够的话放换季衣物'); for (const x0 of [4.0, 4.7]) rb(ub, x0, x0 + 0.6, 0.02, 0.2, 1.17, 1.75, mk(0xdcdad4, 0.5), 0.02, 3); }
+  { const bp = item(g, '床边收纳袋', '手机、夜灯遥控、奶嘴'); rb(bp, 5.0, 5.3, 0.22, 0.46, 1.1, 1.13, mk(0x8a8f94, 1), 0.01); }
+  // kids room / PC: indoor drying pole hung from the ceiling in front of the balcony window, cable tray, rolling cart
+  { const dp = item(g, '室内吊顶晾衣杆', '下雨天在室内晾，晴天推开窗晾到阳台');
+    for (const x of [4.0, 5.45]) box(dp, x - 0.01, x + 0.01, L1 + 1.95, TOPS, 10.29, 10.31, steel);
+    const bar = cyl(dp, 0, -0.75, 0.75, 0, 0.012, steel); bar.rotation.z = Math.PI / 2; bar.position.set(4.72, L1 + 1.95, 10.3);
+    [[0xf2efe8, 4.25], [0x9fb5c8, 4.6], [0xe7b9a4, 4.95], [0xf2efe8, 5.25]].forEach(([c, x]) => box(dp, x - 0.12, x + 0.12, L1 + 1.45, L1 + 1.93, 10.29, 10.31, mk(c, 1, { side: THREE.DoubleSide }))); }
+  { const ct = item(g, '桌下理线槽', ''); box(ct, 3.0, 3.4, L1 + 0.55, L1 + 0.6, 9.3, 9.9, mk(0x2b2b2b, 0.6)); }
+  { const rc = item(g, '三层推车', '装零碎用品，可以推到需要的地方');
+    for (const y of [0.1, 0.38, 0.66]) rb(rc, 5.25, 5.6, L1 + y, L1 + y + 0.1, 9.5, 9.95, white, 0.02, 3);
+    for (const [x, z] of [[5.26, 9.51], [5.57, 9.51], [5.26, 9.92], [5.57, 9.92]]) box(rc, x, x + 0.02, L1 + 0.04, L1 + 0.78, z, z + 0.02, white); }
+  // balcony drying stands + pole with laundry
+  { const bl = item(g, '阳台晾衣架', '晾衣杆约 2.4m');
+    for (const x of [3.08, 5.55]) { box(bl, x - 0.015, x + 0.015, L1 - 0.05, L1 + 1.55, 11.13, 11.16, mk(0xb9bdc0, 0.4, { metalness: 0.6 })); box(bl, x - 0.15, x + 0.15, L1 - 0.05, L1 - 0.02, 11.06, 11.24, mk(0x6d7074)); }
+    const pole = cyl(bl, 0, -1.25, 1.25, 0, 0.014, steel); pole.rotation.z = Math.PI / 2; pole.position.set(4.32, L1 + 1.5, 11.15);
+    [[0x8fb4cf, 3.4], [0xf2efe8, 3.85], [0xe7b9a4, 4.3], [0xf2efe8, 4.75], [0x9fb59a, 5.2]].forEach(([c, x]) => box(bl, x - 0.17, x + 0.17, L1 + 0.95, L1 + 1.48, 11.14, 11.16, mk(c, 1, { side: THREE.DoubleSide }))); }
+});
+
+// ---------- room labels ----------
+label(labelsG, '客厅 LDK', '11.5畳', 1.45, L1 + 0.15, 7.95, '客厅');
+label(labelsG, '厨房', '', 1.0, L1 + 0.15, 4.95);
+label(labelsG, '儿童房 + 电脑', '6.1畳', 4.0, L1 + 0.15, 7.45, '儿童房');
+label(labelsG, '主卧', '6.1畳', 3.4, 0.15, 3.05);
+label(labelsG, '洗面所', '', 3.38, L1 + 0.15, 5.4);
+label(labelsG, '浴室', '', 4.75, L1 + 0.15, 5.15);
+label(labelsG, '厕所', '', 0.57, 0.15, 1.0);
+label(labelsG, '走廊', '', 1.5, 0.15, 2.0);
+label(labelsG, '收纳', '', 1.47, 1.0, 0.38);
+label(labelsG, '↑ 6级到客厅', '', 2.4, 0.75, 3.1, '台阶');
+label(labelsG, '玄关', '1F', 0.6, GND + 0.15, 0.55);
+label(labelsG, '阳台', '', 4.4, L1 + 0.1, 11.15);
+
+// ---------- camera presets ----------
+const PRESETS = {
+  overview: { pos: [-5.5, 12.5, 17.5], target: [2.9, 0.4, 5.6], cut: true },
+  top: { pos: [2.9, 19.5, 5.66], target: [2.9, 0, 5.65], cut: true },
+  cook: { pos: [1.05, L1 + 1.55, 4.95], target: [0.8, L1 + 0.85, 10.8], cut: false },
+  living: { pos: [2.6, L1 + 1.6, 6.9], target: [0.7, L1 + 0.6, 10.6], cut: false },
+  master: { pos: [3.1, 1.6, 3.65], target: [5.3, 0.4, 1.2], cut: false },
+  kids: { pos: [5.4, L1 + 1.7, 7.1], target: [3.4, L1 + 0.5, 9.9], cut: false },
+  entry: { pos: [0.6, GND + 1.55, 0.3], target: [0.6, -1.1, 3.4], cut: false },
+};
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let tween = null;
+function setToggle(id, on) { document.getElementById(id).setAttribute('aria-pressed', String(on)); }
+function setCut(on) { if (state.cut === on) return; state.cut = on; lightsG.visible = !on; hangers.forEach(h => { h.visible = !on; }); applyCutHide(on); setToggle('t-cut', on); rebuildWalls(); }
+function fly(key, instant = false) {
+  if (walk.on) exitWalk();
+  const p = PRESETS[key];
+  document.querySelectorAll('#views button[data-view], #v-walk').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === key)));
+  const toP = new THREE.Vector3(...p.pos), toT = new THREE.Vector3(...p.target);
+  if (instant || reduceMotion) { camera.position.copy(toP); controls.target.copy(toT); tween = null; return; }
+  tween = { t: 0, fromP: camera.position.clone(), fromT: controls.target.clone(), toP, toT };
+}
+controls.addEventListener('start', () => { tween = null; });
+document.getElementById('views').addEventListener('click', e => { const b = e.target.closest('button[data-view]'); if (b) fly(b.dataset.view); });
+
+document.getElementById('t-furn').addEventListener('click', () => { state.furn = !state.furn; furnG.visible = state.furn; setToggle('t-furn', state.furn); });
+document.getElementById('t-loft').addEventListener('click', () => { state.loft = !state.loft; loftG.visible = state.loft; setToggle('t-loft', state.loft); rebuildWalls(); });
+document.getElementById('t-cut').addEventListener('click', () => { setCut(!state.cut); });
+// ladder: deployed against the loft edge, or stowed upright flat against the east wall just south of the loft
+function setLadder(stowed) {
+  if (stowed) {
+    ladderSub.position.set(5.6, L1, 7.85);
+    ladderSub.rotation.set(0, Math.PI / 2, 0);
+    lad.userData.info = { name: '阁楼梯子（收起）', size: '竖着靠在东墙，阁楼口南边' };
+  } else {
+    ladderSub.position.set(5.22, L1, 8.3);
+    ladderSub.rotation.set(-Math.atan2(0.7, LOFT + 0.45 - L1), 0, 0);
+    lad.userData.info = { name: '阁楼梯子（展开）', size: '架在阁楼边上' };
+  }
+  setToggle('t-ladder', stowed);
+}
+document.getElementById('t-ladder').addEventListener('click', () => setLadder(document.getElementById('t-ladder').getAttribute('aria-pressed') !== 'true'));
+setLadder(true); // stowed by default
+
+// ---------- version switch ----------
+var currentVersion = 'v1';
+const onVersion = [];
+function setVersion(v) {
+  currentVersion = v;
+  const two = v === 'v2';
+  decorG.visible = two; decorLoft.visible = two;
+  document.getElementById('v2-notes').hidden = !two;
+  for (const t of THEMES) { const on = t.id === v; t.g.visible = on; t.soft.visible = on; }
+  const th = THEMES.find(t => t.id === v), tn = document.getElementById('theme-notes');
+  tn.hidden = !th;
+  if (th) { tn.querySelector('h2').textContent = th.name + ' 加了什么'; tn.querySelector('.rooms').innerHTML = th.notes; }
+  try { localStorage.setItem('home-version', v); } catch (e) {}
+  onVersion.forEach(f => f(v));
+}
+{
+  const sel = document.getElementById('ver-select');
+  for (const t of THEMES) { const o = document.createElement('option'); o.value = t.id; o.textContent = t.name; sel.appendChild(o); }
+  let saved = 'v1';
+  try { saved = localStorage.getItem('home-version') || 'v1'; } catch (e) {}
+  sel.value = [...sel.options].some(o => o.value === saved) ? saved : 'v1';
+  sel.addEventListener('change', () => setVersion(sel.value));
+  setVersion(sel.value);
+}
+
+// notes drawer
+{
+  const panel = document.getElementById('panel'), openB = document.getElementById('panel-open');
+  const show = on => { panel.hidden = !on; openB.setAttribute('aria-expanded', String(on)); };
+  openB.addEventListener('click', () => show(panel.hidden));
+  document.getElementById('panel-close').addEventListener('click', () => show(false));
+  window.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden && !walk.on) show(false); });
+}
+
+// one switch for all room labels
+const labelBtn = document.getElementById('v-labels');
+labelBtn.addEventListener('click', () => {
+  state.labels = !state.labels;
+  labelR.domElement.hidden = !state.labels;
+  labelBtn.setAttribute('aria-pressed', String(state.labels));
+});
+
+// ---------- picking ----------
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+let downAt = null;
+renderer.domElement.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
+var toolMode = null;   // 'measure' | 'edit' | null
+renderer.domElement.addEventListener('pointerup', e => {
+  if (toolMode) return;
+  if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+  const vis = pickables.filter(g => { let o = g; while (o) { if (!o.visible) return false; o = o.parent; } return true; });
+  const hit = ray.intersectObjects(vis, true)[0];
+  let o = hit?.object;
+  while (o && !o.userData.info) o = o.parent;
+  infoEl.replaceChildren();
+  if (o) {
+    const b = document.createElement('b'); b.textContent = o.userData.info.name; infoEl.appendChild(b);
+    if (o.userData.info.size) { const s = document.createElement('span'); s.className = 'mono'; s.textContent = o.userData.info.size; infoEl.appendChild(s); }
+  } else infoEl.textContent = '左键拖动旋转 · 右键拖动平移 · 滚轮朝鼠标处缩放 · 双击放大到那里 · 单击家具看尺寸';
+});
+
+// double-click: glide the orbit centre to the clicked point and move in close
+renderer.domElement.addEventListener('dblclick', e => {
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+  const shown = o => { while (o) { if (!o.visible) return false; o = o.parent; } return true; };
+  const hit = ray.intersectObjects([statics, wallsG, furnG, loftG], true)
+    .find(h => h.object.isMesh && !h.object.material.transparent && shown(h.object));
+  if (!hit) return;
+  const dir = camera.position.clone().sub(controls.target).normalize();
+  const dist = Math.min(camera.position.distanceTo(controls.target), 2.2);
+  const toT = hit.point.clone();
+  const toP = toT.clone().add(dir.multiplyScalar(dist));
+  if (reduceMotion) { camera.position.copy(toP); controls.target.copy(toT); return; }
+  tween = { t: 0, fromP: camera.position.clone(), fromT: controls.target.clone(), toP, toT };
+});
+
+// ---------- ambient occlusion (soft contact shadows) ----------
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const ssao = new SSAOPass(scene, camera, 1, 1);
+ssao.kernelRadius = 0.22;
+ssao.minDistance = 0.0003;
+ssao.maxDistance = 0.006;
+composer.addPass(ssao);
+composer.addPass(new OutputPass());
+const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+const useAO = !isCoarse; // soft contact shadows on desktop; phones skip them to stay smooth
+
+// ---------- first-person walk mode ----------
+// Feet height comes from a downward ray onto floors/stairs (steps up to 0.45m climb automatically);
+// walls, furniture, glass and the 1F enclosure block horizontal movement (rays at knee and chest height).
+var walk = { on: false, feet: L1, yaw: Math.PI, pitch: 0, vy: 0, keys: new Set(), joy: { x: 0, y: 0 }, drag: null };
+const EYE = 1.55, RADIUS = 0.22;
+const hud = document.getElementById('walk-hud'), roomEl = document.getElementById('walk-room');
+const cross = document.getElementById('crosshair'), joyEl = document.getElementById('joy'), knob = document.getElementById('knob');
+const isTouch = window.matchMedia('(pointer: coarse)').matches;
+const downRay = new THREE.Raycaster(), sideRay = new THREE.Raycaster();
+const shownMesh = o => { if (!o.isMesh) return false; for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
+const blocks = o => shownMesh(o) && (!o.material.transparent || o.material === mat.glass || o.material === mat.ghost);
+function floorAt(x, z, fromY) {
+  downRay.set(new THREE.Vector3(x, fromY, z), new THREE.Vector3(0, -1, 0));
+  downRay.far = 6;
+  const h = downRay.intersectObjects([statics, wallsG], true).find(h => shownMesh(h.object) && !h.object.material.transparent);
+  return h ? h.point.y : null;
+}
+function blocked(x, z, dx, dz, dist) {
+  const dir = new THREE.Vector3(dx, 0, dz).normalize();
+  // Rays at 0.5m and 1.1m use the full body radius. The low ray (0.22m, above one riser) only looks a
+  // short distance ahead, so the next stair riser doesn't block you before you've stepped up.
+  for (const [h, r] of [[0.5, RADIUS], [1.1, RADIUS], [0.22, 0.08]]) {
+    sideRay.set(new THREE.Vector3(x, walk.feet + h, z), dir);
+    sideRay.far = dist + r;
+    if (sideRay.intersectObjects([statics, wallsG, furnG, decorG, themesRoot, doorsG], true).some(r => blocks(r.object))) return true;
+  }
+  return false;
+}
+const ROOMS = [
+  ['厕所', 0.18, 0.96, 0.16, 1.45, -0.5, 1], ['走廊', 0.96, 2.9, 0.16, 2.7, -0.5, 1], ['主卧', 2.96, 5.65, 0.16, 3.84, -0.5, 1],
+  ['楼梯', 1.9, 2.9, 2.4, 4.05, -0.5, 1.2], ['厨房', 0.18, 2.84, 4.05, 6.15, 0.9, 2], ['洗面所', 2.96, 3.8, 3.98, 6.75, 0.9, 2],
+  ['浴室', 3.9, 5.65, 3.98, 5.6, 0.9, 2], ['儿童房', 2.96, 5.65, 6.85, 10.57, 0.9, 2], ['客厅', 0.18, 2.84, 6.15, 11.02, 0.9, 2],
+];
+function roomName(x, z, y) {
+  if (y < -0.3) return '玄关 / 楼梯（1F）';
+  const r = ROOMS.find(([, x0, x1, z0, z1, y0, y1]) => x >= x0 && x <= x1 && z >= z0 && z <= z1 && y >= y0 && y <= y1);
+  return r ? r[0] : '楼梯';
+}
+function enterWalk() {
+  tween = null;
+  walk.on = true;
+  walk.prevCut = state.cut;
+  setCut(false);
+  controls.enabled = false;
+  // start just inside the front door (1F), back to the door, facing the stairs (south)
+  walk.feet = GND; walk.yaw = Math.PI; walk.pitch = 0.08; walk.vy = 0;
+  camera.position.set(0.4, GND + EYE, 0.3);
+  camera.fov = 70; camera.updateProjectionMatrix();
+  hud.hidden = false; cross.hidden = isTouch; joyEl.hidden = !isTouch;
+  labelR.domElement.hidden = true;
+  document.querySelectorAll('#views button[data-view], #v-walk').forEach(b => b.setAttribute('aria-pressed', String(b.id === 'v-walk')));
+
+}
+function exitWalk() {
+  walk.on = false;
+  setCut(!!walk.prevCut);
+  walk.keys.clear(); walk.joy.x = walk.joy.y = 0;
+  if (document.pointerLockElement) document.exitPointerLock();
+  controls.enabled = true;
+  camera.fov = 45; camera.updateProjectionMatrix();
+  camera.rotation.set(0, 0, 0);
+  hud.hidden = true; cross.hidden = true; joyEl.hidden = true;
+  labelR.domElement.hidden = !state.labels;
+  document.getElementById('v-walk').setAttribute('aria-pressed', 'false');
+}
+document.getElementById('v-walk').addEventListener('click', () => { if (walk.on) fly('overview'); else enterWalk(); });
+document.getElementById('walk-exit').addEventListener('click', () => fly('overview'));
+
+const MOVE_KEYS = { KeyW: 1, KeyA: 1, KeyS: 1, KeyD: 1, ArrowUp: 1, ArrowDown: 1, ArrowLeft: 1, ArrowRight: 1, ShiftLeft: 1, ShiftRight: 1 };
+window.addEventListener('keydown', e => { if (walk.on && MOVE_KEYS[e.code]) { walk.keys.add(e.code); e.preventDefault(); } });
+window.addEventListener('keyup', e => walk.keys.delete(e.code));
+window.addEventListener('blur', () => walk.keys.clear());
+
+// look: pointer lock on desktop click, otherwise drag on the canvas
+const look = (dx, dy, k) => {
+  walk.yaw -= dx * k;
+  walk.pitch = Math.max(-1.3, Math.min(1.3, walk.pitch - dy * k));
+};
+renderer.domElement.addEventListener('click', () => {
+  if (walk.on && !isTouch && !document.pointerLockElement) renderer.domElement.requestPointerLock?.()?.catch?.(() => {});
+});
+document.addEventListener('mousemove', e => { if (walk.on && document.pointerLockElement === renderer.domElement) look(e.movementX, e.movementY, 0.0022); });
+renderer.domElement.addEventListener('pointerdown', e => { if (walk.on && !document.pointerLockElement) walk.drag = { id: e.pointerId, x: e.clientX, y: e.clientY }; });
+window.addEventListener('pointermove', e => {
+  if (!walk.on || !walk.drag || walk.drag.id !== e.pointerId) return;
+  look(e.clientX - walk.drag.x, e.clientY - walk.drag.y, 0.005);
+  walk.drag.x = e.clientX; walk.drag.y = e.clientY;
+});
+window.addEventListener('pointerup', e => { if (walk.drag?.id === e.pointerId) walk.drag = null; });
+
+// touch joystick
+{
+  let jid = null;
+  const setKnob = (dx, dy) => { knob.style.transform = `translate(${dx}px, ${dy}px)`; };
+  joyEl.addEventListener('pointerdown', e => { jid = e.pointerId; joyEl.setPointerCapture(e.pointerId); e.stopPropagation(); });
+  joyEl.addEventListener('pointermove', e => {
+    if (e.pointerId !== jid) return;
+    const r = joyEl.getBoundingClientRect();
+    let dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+    const len = Math.hypot(dx, dy), max = 40;
+    if (len > max) { dx *= max / len; dy *= max / len; }
+    setKnob(dx, dy);
+    walk.joy.x = dx / max; walk.joy.y = dy / max;
+  });
+  const end = e => { if (e.pointerId !== jid) return; jid = null; setKnob(0, 0); walk.joy.x = walk.joy.y = 0; };
+  joyEl.addEventListener('pointerup', end);
+  joyEl.addEventListener('pointercancel', end);
+}
+
+function walkUpdate(dt) {
+  dt = Math.min(dt, 0.05);
+  const k = walk.keys;
+  let f = (k.has('KeyW') || k.has('ArrowUp') ? 1 : 0) - (k.has('KeyS') || k.has('ArrowDown') ? 1 : 0) - walk.joy.y;
+  let s = (k.has('KeyD') || k.has('ArrowRight') ? 1 : 0) - (k.has('KeyA') || k.has('ArrowLeft') ? 1 : 0) + walk.joy.x;
+  const len = Math.hypot(f, s);
+  if (len > 1) { f /= len; s /= len; }
+  const speed = (k.has('ShiftLeft') || k.has('ShiftRight') ? 2.6 : 1.3) * dt;
+  // camera looks down -z at yaw 0
+  const fx = -Math.sin(walk.yaw), fz = -Math.cos(walk.yaw);
+  const dx = (fx * f - fz * s) * speed, dz = (fz * f + fx * s) * speed;
+  const p = camera.position;
+  if (Math.abs(dx) > 1e-5 && !blocked(p.x, p.z, Math.sign(dx), 0, Math.abs(dx))) p.x += dx;
+  if (Math.abs(dz) > 1e-5 && !blocked(p.x, p.z, 0, Math.sign(dz), Math.abs(dz))) p.z += dz;
+  // follow the floor: climb steps instantly-ish, fall with gravity
+  const fy = floorAt(p.x, p.z, walk.feet + 0.45);
+  if (fy !== null) {
+    if (fy >= walk.feet - 0.01) { walk.feet += (fy - walk.feet) * Math.min(1, dt * 18); walk.vy = 0; }
+    else { walk.vy += 9.8 * dt; walk.feet = Math.max(fy, walk.feet - walk.vy * dt); }
+  }
+  p.y = walk.feet + EYE;
+  camera.rotation.set(walk.pitch, walk.yaw, 0, 'YXZ');
+  const name = roomName(p.x, p.z, walk.feet);
+  if (roomEl.textContent !== name) roomEl.textContent = name;
+}
+
+// =====================================================================
+// Tools: measuring, layout editing (saved), dimensions, doors, lighting,
+// walk-mode minimap, per-version item list
+// =====================================================================
+const tb2 = document.getElementById('toolbar2'), toolMsg = document.getElementById('tool-msg');
+const btn = id => document.getElementById(id);
+const setPressed = (id, on) => btn(id).setAttribute('aria-pressed', String(on));
+const shownChain = o => { for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
+const rayAt = e => {
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+};
+function setTool(mode) {
+  if (walk.on) return;
+  toolMode = toolMode === mode ? null : mode;
+  setPressed('t-measure', toolMode === 'measure'); setPressed('t-edit', toolMode === 'edit');
+  tb2.hidden = !toolMode;
+  btn('ms-clear').hidden = toolMode !== 'measure';
+  for (const id of ['ed-rot', 'ed-reset', 'ed-reset-all']) btn(id).hidden = toolMode !== 'edit';
+  if (toolMode !== 'edit') selectItem(null);
+  if (toolMode === 'measure') toolMsg.textContent = '测距：在模型上点两个点，显示两点之间的距离。可以连续量多段。';
+  if (toolMode === 'edit') toolMsg.textContent = editHint();
+  measureStart = null;
+}
+btn('t-measure').addEventListener('click', () => setTool('measure'));
+btn('t-edit').addEventListener('click', () => setTool('edit'));
+
+// ---------- measuring ----------
+const measureG = new THREE.Group(); scene.add(measureG);
+let measureStart = null;
+const mkDot = p => { const d = new THREE.Mesh(new THREE.SphereGeometry(0.025, 12, 10), new THREE.MeshBasicMaterial({ color: 0xd9822b, depthTest: false })); d.renderOrder = 999; d.position.copy(p); measureG.add(d); return d; };
+function addMeasure(a, b) {
+  const g = new THREE.BufferGeometry().setFromPoints([a, b]);
+  const l = new THREE.Line(g, new THREE.LineBasicMaterial({ color: 0xd9822b, depthTest: false })); l.renderOrder = 999; measureG.add(l);
+  const d = a.distanceTo(b), h = Math.hypot(b.x - a.x, b.z - a.z), dy = Math.abs(b.y - a.y);
+  const el = document.createElement('div'); el.className = 'tag measure';
+  el.textContent = dy > 0.05 && h > 0.05 ? `${d.toFixed(2)} m（水平 ${h.toFixed(2)} · 高差 ${dy.toFixed(2)}）` : `${d.toFixed(2)} m`;
+  const o = new CSS2DObject(el); o.position.copy(a).add(b).multiplyScalar(0.5); measureG.add(o);
+}
+btn('ms-clear').addEventListener('click', () => {
+  for (const c of [...measureG.children]) { measureG.remove(c); if (c.element) c.element.remove(); c.geometry?.dispose(); }
+  measureStart = null;
+});
+const measureTargets = () => [statics, wallsG, furnG, decorG, themesRoot, softRoot, doorsG];
+renderer.domElement.addEventListener('pointerup', e => {
+  if (toolMode !== 'measure' || !downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;
+  rayAt(e);
+  const hit = ray.intersectObjects(measureTargets(), true).find(h => h.object.isMesh && shownChain(h.object) && !h.object.material.transparent);
+  if (!hit) return;
+  const p = hit.point.clone();
+  mkDot(p);
+  if (!measureStart) { measureStart = p; toolMsg.textContent = '再点第二个点。'; }
+  else { addMeasure(measureStart, p); measureStart = null; toolMsg.textContent = '测距：继续点两个点可以再量一段，按“清除测量”全部清掉。'; }
+});
+
+// ---------- layout editing (per version, saved) ----------
+const movableRoots = () => [furnG, decorG, decorLoft, ...THEMES.map(t => t.g), ...THEMES.map(t => t.soft)];
+const layout = {};            // version -> { uid: [dx, dz, quarterTurns] }
+let selected = null, selBox = null, drag = null, saveState = 'local';
+function topItem(o) {
+  const roots = movableRoots();
+  let it = null;
+  for (let p = o; p; p = p.parent) { if (p.userData?.info && roots.includes(p.parent)) it = p; if (p === statics || p === loftG) return null; }
+  return it;
+}
+function pivotOf(it) {
+  if (!it.userData.pivot) {
+    const keep = [it.position.clone(), it.rotation.y];
+    it.position.set(0, 0, 0); it.rotation.y = 0; it.updateMatrixWorld(true);
+    const b = new THREE.Box3().setFromObject(it); const c = b.getCenter(new THREE.Vector3());
+    it.userData.pivot = c; it.userData.baseY = b.min.y;
+    it.position.copy(keep[0]); it.rotation.y = keep[1];
+  }
+  return it.userData.pivot;
+}
+function applyT(it, t) {
+  const c = pivotOf(it), [dx, dz, q] = t || [0, 0, 0], th = (q || 0) * Math.PI / 2, co = Math.cos(th), si = Math.sin(th);
+  it.rotation.y = th;
+  it.position.set(c.x + dx - (c.x * co + c.z * si), 0, c.z + dz - (-c.x * si + c.z * co));
+  it.updateMatrixWorld(true);
+}
+function applyLayout(v) {
+  const L = layout[v] || {};
+  for (const it of pickables) if (it.userData.pivot || L[it.userData.uid]) applyT(it, L[it.userData.uid]);
+  if (selected) refreshSel();
+}
+function selectItem(it) {
+  selected = it;
+  if (selBox) { scene.remove(selBox); selBox = null; }
+  if (it) { selBox = new THREE.BoxHelper(it, 0xd9822b); selBox.material.depthTest = false; selBox.renderOrder = 998; scene.add(selBox); }
+  if (toolMode === 'edit') toolMsg.textContent = editHint();
+}
+const refreshSel = () => { if (selBox && selected) selBox.update(); };
+function editHint() {
+  const where = saveState === 'shared' ? '改动会自动保存，打开同一链接的人都能看到。' : saveState === 'readonly' ? '你没有保存权限，改动只在这次打开时有效。' : '改动保存在这台设备的浏览器里。';
+  return selected ? `已选中「${selected.userData.info.name}」：拖动移动，“旋转 90°”转向。${where}` : `编辑布局：点一件家具选中，然后拖动它移动（每个版本单独保存）。${where}`;
+}
+// db (shared, inside claude.ai) or localStorage (anywhere else, e.g. self-hosted)
+let dbRef = null, unsub = null;
+const LS_KEY = 'home-layouts-v1';
+const loadLocal = () => { try { Object.assign(layout, JSON.parse(localStorage.getItem(LS_KEY) || '{}')); } catch (e) {} };
+const saveLocal = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(layout)); } catch (e) {} };
+let writing = Promise.resolve();
+function persist(v) {
+  if (saveState === 'shared' && dbRef) {
+    const body = { items: layout[v] || {} };
+    writing = writing.then(() => dbRef.doc('layouts/' + v).set(body)).catch(err => {
+      if (err?.code === 'invalid_argument') { saveState = 'readonly'; toolMsg.textContent = editHint(); }
+    });
+  } else saveLocal();
+}
+function watchVersion(v) {
+  if (unsub) { unsub(); unsub = null; }
+  if (saveState !== 'shared' || !dbRef) return;
+  unsub = dbRef.doc('layouts/' + v).onSnapshot(snap => {
+    if (drag) return;
+    layout[v] = snap.exists ? { ...(snap.data().items || {}) } : {};
+    if (v === currentVersion) applyLayout(v);
+  }, () => {});
+}
+loadLocal();
+onVersion.push(v => { applyLayout(v); watchVersion(v); refreshShopList(v); });
+(async () => {
+  const db = await window.claude?.use?.('db').catch(() => null);
+  if (!db) return;
+  dbRef = db; saveState = 'shared';
+  watchVersion(currentVersion);
+  if (toolMode === 'edit') toolMsg.textContent = editHint();
+})();
+const quarterOf = it => Math.round((it.rotation.y || 0) / (Math.PI / 2));
+function commit(it) {
+  const c = pivotOf(it), q = quarterOf(it), th = q * Math.PI / 2, co = Math.cos(th), si = Math.sin(th);
+  const dx = it.position.x - c.x + (c.x * co + c.z * si), dz = it.position.z - c.z + (-c.x * si + c.z * co);
+  const L = layout[currentVersion] = layout[currentVersion] || {};
+  if (Math.abs(dx) < 0.005 && Math.abs(dz) < 0.005 && q % 4 === 0) delete L[it.userData.uid];
+  else L[it.userData.uid] = [Math.round(dx * 100) / 100, Math.round(dz * 100) / 100, ((q % 4) + 4) % 4];
+  persist(currentVersion);
+}
+renderer.domElement.addEventListener('pointerdown', e => {
+  if (toolMode !== 'edit' || e.button !== 0) return;
+  rayAt(e);
+  const hit = ray.intersectObjects(movableRoots(), true).find(h => h.object.isMesh && shownChain(h.object));
+  const it = hit && topItem(hit.object);
+  if (!it) return;
+  if (it !== selected) selectItem(it);
+  pivotOf(it);
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -it.userData.baseY);
+  const start = new THREE.Vector3();
+  if (!ray.ray.intersectPlane(plane, start)) return;
+  drag = { it, plane, start, pos0: it.position.clone() };
+  controls.enabled = false;
+});
+window.addEventListener('pointermove', e => {
+  if (!drag) return;
+  rayAt(e);
+  const p = new THREE.Vector3();
+  if (!ray.ray.intersectPlane(drag.plane, p)) return;
+  drag.it.position.set(drag.pos0.x + Math.round((p.x - drag.start.x) * 100) / 100, 0, drag.pos0.z + Math.round((p.z - drag.start.z) * 100) / 100);
+  drag.it.updateMatrixWorld(true); refreshSel();
+});
+window.addEventListener('pointerup', () => {
+  if (!drag) return;
+  const moved = drag.it.position.distanceTo(drag.pos0) > 0.004;
+  if (moved) commit(drag.it);
+  drag = null; controls.enabled = !walk.on;
+});
+function rotateSel() {
+  if (!selected) return;
+  const c = pivotOf(selected), cur = selected.position.clone(), q0 = quarterOf(selected);
+  // keep the item's centre where it is while turning it
+  const th0 = q0 * Math.PI / 2, dx = cur.x - c.x + (c.x * Math.cos(th0) + c.z * Math.sin(th0)), dz = cur.z - c.z + (-c.x * Math.sin(th0) + c.z * Math.cos(th0));
+  applyT(selected, [dx, dz, q0 + 1]); refreshSel(); commit(selected);
+}
+btn('ed-rot').addEventListener('click', rotateSel);
+window.addEventListener('keydown', e => { if (toolMode === 'edit' && (e.key === 'r' || e.key === 'R')) rotateSel(); });
+btn('ed-reset').addEventListener('click', () => { if (!selected) return; applyT(selected, null); refreshSel(); commit(selected); });
+btn('ed-reset-all').addEventListener('click', () => { layout[currentVersion] = {}; applyLayout(currentVersion); persist(currentVersion); });
+
+// ---------- dimensions (best in the top view) ----------
+const dimG = new THREE.Group(); dimG.visible = false; scene.add(dimG);
+{
+  const lm = new THREE.LineBasicMaterial({ color: 0x2e6b5e, depthTest: false });
+  const seg = (a, b) => { const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), lm); l.renderOrder = 997; dimG.add(l); };
+  const lab = (text, p) => { const el = document.createElement('div'); el.className = 'tag dim'; el.textContent = text; const o = new CSS2DObject(el); o.position.copy(p); dimG.add(o); };
+  // a dimension line along x (at z) or along z (at x), with end ticks
+  const dimX = (x0, x1, z, y, t) => { seg(V3(x0, y, z), V3(x1, y, z)); seg(V3(x0, y, z - 0.06), V3(x0, y, z + 0.06)); seg(V3(x1, y, z - 0.06), V3(x1, y, z + 0.06)); lab(t ?? `${(x1 - x0).toFixed(2)} m`, V3((x0 + x1) / 2, y, z)); };
+  const dimZ = (z0, z1, x, y, t) => { seg(V3(x, y, z0), V3(x, y, z1)); seg(V3(x - 0.06, y, z0), V3(x + 0.06, y, z0)); seg(V3(x - 0.06, y, z1), V3(x + 0.06, y, z1)); lab(t ?? `${(z1 - z0).toFixed(2)} m`, V3(x, y, (z0 + z1) / 2)); };
+  const Y1 = L1 + 0.05, Y0 = 0.05;
+  dimX(0.18, 2.84, 10.0, Y1); dimZ(4.05, 11.02, 0.35, Y1);                    // LDK
+  dimX(2.96, 5.65, 7.2, Y1); dimZ(6.85, 10.57, 3.15, Y1);                     // kids
+  dimX(2.96, 5.65, 0.4, Y0); dimZ(0.16, 3.84, 3.15, Y0);                      // master
+  dimX(2.96, 3.8, 5.9, Y1); dimX(3.9, 5.65, 5.3, Y1);                         // washroom, bath
+  dimX(0.18, 0.96, 1.25, Y0); dimX(1.98, 2.84, 1.25, Y0);                     // toilet, WIC
+  // key clearances
+  dimZ(4.46, 5.4, 0.8, Y1, '走道 0.94 m'); dimZ(4.78, 5.4, 1.6, Y1, '冰箱前 0.62 m');
+  dimX(1.9, 2.84, 8.7, Y1, '过道 0.94 m'); dimX(2.96, 3.7, 1.9, Y0, '床尾 0.74 m');
+  dimZ(9.1, 10.52, 1.85, Y1, '沙发→电视柜 1.42 m');
+}
+btn('t-dims').addEventListener('click', () => { dimG.visible = !dimG.visible; setPressed('t-dims', dimG.visible); });
+
+// ---------- doors: leaves you can close, and their swing ranges ----------
+var doorsG = new THREE.Group(); scene.add(doorsG);
+const arcsG = new THREE.Group(); arcsG.visible = false; scene.add(arcsG);
+const doors = [];
+{
+  const frost = new THREE.MeshStandardMaterial({ color: 0xe8eef0, transparent: true, opacity: 0.85, roughness: 0.3 });
+  const whiteM = new THREE.MeshStandardMaterial({ color: 0xf2f1ed, roughness: 0.45 });
+  // one texture per leaf face (box UVs 0..1), with the groove pattern of each door type drawn in
+  const leafMat = (style, w, h) => {
+    const c = document.createElement('canvas'), CW = 256, CH = Math.round(256 * h / w); c.width = CW; c.height = CH;
+    const g = c.getContext('2d');
+    if (style === 'white') { g.fillStyle = '#f3f2ee'; g.fillRect(0, 0, CW, CH); }
+    else {
+      g.fillStyle = '#ad7746'; g.fillRect(0, 0, CW, CH);
+      for (let x = 0; x < CW; x += 1 + rnd() * 3) { g.fillStyle = `rgba(${rnd() < 0.55 ? '110,55,20' : '240,190,140'},${0.04 + rnd() * 0.09})`; g.fillRect(x, 0, 1 + rnd() * 2, CH); }
+      for (let i = 0; i < 12; i++) { g.strokeStyle = 'rgba(100,48,18,0.12)'; g.lineWidth = 1.2; g.beginPath(); const x = rnd() * CW; g.moveTo(x, 0); for (let y = 0; y <= CH; y += 16) g.lineTo(x + Math.sin(y * 0.012 + i) * 5, y); g.stroke(); }
+    }
+    const line = (x0, y0, x1, y1) => { g.strokeStyle = style === 'white' ? 'rgba(0,0,0,0.08)' : 'rgba(70,32,12,0.5)'; g.lineWidth = 2; g.beginPath(); g.moveTo(x0 * CW, y0 * CH); g.lineTo(x1 * CW, y1 * CH); g.stroke(); };
+    const rect = (x0, y0, x1, y1) => { line(x0, y0, x1, y0); line(x1, y0, x1, y1); line(x1, y1, x0, y1); line(x0, y1, x0, y0); };
+    if (style === 'hinged') {           // toilet / bedroom: top rail with a pale slit, one framed panel below
+      g.fillStyle = 'rgba(250,244,232,0.9)'; g.fillRect(0.13 * CW, 0.145 * CH, 0.74 * CW, 0.012 * CH);
+      line(0.13, 0.135, 0.87, 0.135); rect(0.13, 0.17, 0.87, 0.9);
+    } else if (style === 'slide') {     // kids room / washroom sliding doors: tall framed panel with a centre seam
+      rect(0.1, 0.06, 0.9, 0.94); line(0.5, 0.06, 0.5, 0.94);
+    }
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return new THREE.MeshStandardMaterial({ map: t, roughness: style === 'white' ? 0.45 : 0.55 });
+  };
+  const add = (parent, geo, m, x, y, z) => { const o = new THREE.Mesh(geo, m); o.position.set(x, y, z); o.castShadow = !m.transparent; o.receiveShadow = true; parent.add(o); return o; };
+  const arcM = new THREE.MeshBasicMaterial({ color: 0x2e6b5e, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false });
+  const arcLine = new THREE.LineBasicMaterial({ color: 0x2e6b5e });
+  // hinge (x, y, z), leaf width, closed / open angle (leaf runs along local +x, rotY maps +x to (cos, -sin))
+  const hinged = (name, x, y, z, w, closed, open, kind = 'wood', h = 2.0) => {
+    const piv = new THREE.Group(); piv.position.set(x, y, z);
+    const it = item(doorsG, name, `门宽约 ${Math.round(w * 100)}cm`); it.add(piv);
+    if (kind === 'bath') {              // white frame around a frosted panel
+      const T = 0.035;
+      add(piv, new THREE.BoxGeometry(0.06, h - 0.01, T), whiteM, 0.03, h / 2, 0);
+      add(piv, new THREE.BoxGeometry(0.06, h - 0.01, T), whiteM, w - 0.04, h / 2, 0);
+      add(piv, new THREE.BoxGeometry(w - 0.13, 0.07, T), whiteM, w / 2 - 0.005, h - 0.04, 0);
+      add(piv, new THREE.BoxGeometry(w - 0.13, 0.14, T), whiteM, w / 2 - 0.005, 0.07, 0);
+      add(piv, new THREE.BoxGeometry(w - 0.13, h - 0.22, 0.008), frost, w / 2 - 0.005, (h + 0.07) / 2, 0);
+      for (const s of [-1, 1]) add(piv, new THREE.BoxGeometry(0.03, 0.14, 0.02), whiteM, w - 0.08, 1.0, s * 0.028);
+    } else {
+      add(piv, new THREE.BoxGeometry(w - 0.01, h - 0.01, 0.035), leafMat(kind === 'white' ? 'white' : 'hinged', w, h), w / 2, h / 2, 0);
+      if (kind === 'white') {           // closet doors: small round silver knobs
+        for (const s of [-1, 1]) { const k = add(piv, new THREE.SphereGeometry(0.018, 12, 8), mat.steel, w - 0.05, 1.0, s * 0.032); k.scale.z = 0.7; }
+      } else {                          // lever handle with a rosette, thumb-turn above, silver hinges
+        for (const s of [-1, 1]) {
+          const ro = add(piv, new THREE.CylinderGeometry(0.026, 0.026, 0.012, 16), mat.steel, w - 0.07, 0.95, s * 0.023); ro.rotation.x = Math.PI / 2;
+          add(piv, new THREE.BoxGeometry(0.03, 0.02, 0.05), mat.steel, w - 0.07, 0.95, s * 0.045);
+          add(piv, new THREE.BoxGeometry(0.12, 0.018, 0.02), mat.steel, w - 0.12, 0.95, s * 0.068);
+          const tt = add(piv, new THREE.CylinderGeometry(0.018, 0.018, 0.012, 14), mat.steel, w - 0.07, 1.1, s * 0.023); tt.rotation.x = Math.PI / 2;
+        }
+      }
+      for (const hy of [0.2, h - 0.25]) add(piv, new THREE.BoxGeometry(0.02, 0.1, 0.04), mat.steel, 0.0, hy, 0);
+    }
+    const a0 = Math.min(closed, open), len = Math.abs(open - closed);
+    const sec = new THREE.Mesh(new THREE.RingGeometry(0, w, 32, 1, a0, len), arcM); sec.rotation.x = -Math.PI / 2; sec.position.set(x, y + 0.02, z); arcsG.add(sec);
+    const pts = []; for (let i = 0; i <= 32; i++) { const a = a0 + len * i / 32; pts.push(V3(x + Math.cos(a) * w, y + 0.021, z - Math.sin(a) * w)); }
+    arcsG.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), arcLine));
+    doors.push({ name, closed: false, k: 0, apply: k => { piv.rotation.y = open + (closed - open) * k; },
+      center: V3(x + Math.cos(closed) * w / 2, y + 1, z - Math.sin(closed) * w / 2) });
+  };
+  hinged('厕所门', 1.075, 0, 1.35, 0.7, Math.PI / 2, 0);
+  // master bedroom: a sliding door on the bedroom side; open = parked south of the opening, along the west wall
+  {
+    const it = item(doorsG, '主卧推拉门', '推拉门，打开时停在门口南边的墙前（卧室内侧）');
+    const g = new THREE.Group(); it.add(g);
+    add(g, new THREE.BoxGeometry(0.035, 2.0, 0.8), leafMat('slide', 0.8, 2.0), 2.9875, 1.0, 1.975);
+    add(g, new THREE.BoxGeometry(0.012, 0.4, 0.03), mat.steel, 3.011, 0.95, 1.63);
+    box(it, 2.965, 3.01, 2.0, 2.04, 1.55, 3.2, mat.steel);  // fixed rail
+    doors.push({ name: '主卧推拉门', closed: false, k: 0, apply: k => { g.position.z = 0.78 * (1 - k); }, center: V3(2.99, 1, 1.975) });
+  }
+  // kids-room closet: white double doors under the loft, swinging out into the room
+  hinged('儿童房衣柜门（左）', 4.0, L1, 6.87, 0.775, 0, -Math.PI / 2, 'white', 1.95);
+  hinged('儿童房衣柜门（右）', 5.55, L1, 6.87, 0.775, Math.PI, Math.PI * 1.5, 'white', 1.95);
+  hinged('WIC 门（左）', 2.975, 0, 0.25, 0.575, -Math.PI / 2, 0, 'white');
+  hinged('WIC 门（右）', 2.975, 0, 1.4, 0.575, Math.PI / 2, 0, 'white');
+  // washroom: an outset sliding door on the LDK side; open = parked north of the opening (in front of the wall by the fridge)
+  {
+    const it = item(doorsG, '洗面所推拉门', '推拉门，打开时停在门口北边的墙前');
+    const g = new THREE.Group(); it.add(g);
+    add(g, new THREE.BoxGeometry(0.035, 2.0, 0.75), leafMat('slide', 0.75, 2.0), 2.8175, L1 + 1.0, 5.375);
+    box(g, 2.79, 2.8, L1 + 0.8, L1 + 1.2, 5.68, 5.7, mat.steel);
+    box(it, 2.79, 2.84, L1 + 2.0, L1 + 2.04, 4.2, 5.8, mat.steel);  // fixed rail
+    doors.push({ name: '洗面所推拉门', closed: false, k: 0, apply: k => { g.position.z = -0.75 * (1 - k); }, center: V3(2.82, L1 + 1, 5.375) });
+  }
+  hinged('浴室门', 3.92, L1, 5.59, 0.63, Math.PI / 2, 0, 'bath');
+  // kids-room sliding door: the existing panel slides over the opening when closed
+  const sd = pickables.find(p => p.userData.info?.name === '儿童房推拉门');
+  const sdLeaf = sd?.children.find(o => o.isMesh);
+  if (sdLeaf) { sdLeaf.geometry = new THREE.BoxGeometry(0.04, 2.0, 0.85); sdLeaf.material = leafMat('slide', 0.85, 2.0); }
+  if (sd) doors.push({ name: '儿童房推拉门', closed: false, k: 0, apply: k => { sd.position.z = -0.85 * k; }, center: V3(2.98, L1 + 1, 7.375) });
+  doors.forEach(d => d.apply(0));
+}
+// door leaves are hidden by default (cleaner plan); the 门 toggle shows them, and hidden doors never block walking
+let doorsShown = false;
+const kidsDoor = pickables.find(p => p.userData.info?.name === '儿童房推拉门');
+function applyDoorVis() { const v = doorsShown && !state.cut; doorsG.visible = v; if (kidsDoor) kidsDoor.visible = v; setPressed('t-doorvis', doorsShown); }
+btn('t-doorvis').addEventListener('click', () => { doorsShown = !doorsShown; applyDoorVis(); });
+btn('t-doors').addEventListener('click', () => {
+  const c = btn('t-doors').getAttribute('aria-pressed') !== 'true'; doors.forEach(d => { d.closed = c; }); setPressed('t-doors', c);
+  if (c && !doorsShown) { doorsShown = true; applyDoorVis(); }
+});
+// doors swing smoothly toward their target state
+function updateDoors(dt) {
+  for (const d of doors) {
+    const t = d.closed ? 1 : 0;
+    if (d.k === t) continue;
+    d.k += Math.sign(t - d.k) * Math.min(Math.abs(t - d.k), dt / 0.35);
+    d.apply(d.k);
+  }
+}
+// walk mode: E (or the HUD button) opens / closes the door in front
+const doorBtn = btn('walk-door');
+let nearDoor = null;
+function walkDoors() {
+  if (!doorsShown) { if (nearDoor) { nearDoor = null; doorBtn.hidden = true; } return; }
+  const p = camera.position, fx = -Math.sin(walk.yaw), fz = -Math.cos(walk.yaw);
+  let best = null, bestD = 1.6;
+  for (const d of doors) {
+    if (Math.abs(d.center.y - (walk.feet + 1)) > 1.2) continue;
+    const dx = d.center.x - p.x, dz = d.center.z - p.z, dist = Math.hypot(dx, dz);
+    const facing = dist > 0.01 ? (dx * fx + dz * fz) / dist : 1;
+    if (facing < 0.25) continue;
+    if (dist < bestD) { best = d; bestD = dist; }
+  }
+  if (best !== nearDoor) {
+    nearDoor = best;
+    doorBtn.hidden = !best;
+  }
+  if (best) doorBtn.textContent = (best.closed ? '开门' : '关门') + '（E）· ' + best.name;
+}
+const toggleNear = () => { if (nearDoor) nearDoor.closed = !nearDoor.closed; };
+doorBtn.addEventListener('click', toggleNear);
+window.addEventListener('keydown', e => { if (walk.on && e.code === 'KeyE') toggleNear(); });
+btn('t-arcs').addEventListener('click', () => { arcsG.visible = !arcsG.visible; setPressed('t-arcs', arcsG.visible); });
+
+// ---------- lighting: sun simulation by day, room lights at night ----------
+const nightG = new THREE.Group(); nightG.visible = false; scene.add(nightG);
+const roomLights = [];
+{
+  const spots = [[1.5, TOPS - 0.15, 8.6], [1.1, TOPS - 0.15, 5.0], [0.9, L1 + 1.45, 7.18], [4.3, TOPN - 0.15, 2.0], [4.3, TOPS - 0.15, 8.9],
+    [3.38, TOPS - 0.2, 5.4], [4.75, L1 + 2.0, 4.8], [0.57, TOPN - 0.2, 0.8], [1.5, TOPN - 0.15, 1.6], [0.6, -0.5, 0.8], [2.4, TOPN, 3.2]];
+  for (const [x, y, z] of spots) { const l = new THREE.PointLight(0xffffff, 9, 0, 2); l.position.set(x, y, z); nightG.add(l); roomLights.push(l); }
+}
+const envDay = scene.environment;
+const LAT = 35.4 * Math.PI / 180;   // Shonan / Kanagawa area (assumed)
+function setSun(hour, season) {
+  const dec = { w: -23.44, e: 0, s: 23.44 }[season] * Math.PI / 180, H = (hour - 12) * 15 * Math.PI / 180;
+  const alt = Math.asin(Math.sin(LAT) * Math.sin(dec) + Math.cos(LAT) * Math.cos(dec) * Math.cos(H));
+  const A = Math.atan2(Math.sin(H), Math.cos(H) * Math.sin(LAT) - Math.tan(dec) * Math.cos(LAT));  // from south, + toward west
+  const dir = V3(-Math.sin(A) * Math.cos(alt), Math.sin(alt), Math.cos(A) * Math.cos(alt));
+  sun.position.copy(sun.target.position).addScaledVector(dir, 30);
+  const k = THREE.MathUtils.clamp(Math.sin(alt) * 2.2, 0, 1);
+  sun.intensity = 2.6 * k;
+  sun.color.set(0xffa860).lerp(new THREE.Color(0xfff1dc), THREE.MathUtils.clamp(alt / (35 * Math.PI / 180), 0, 1));
+  hemi.intensity = 0.2 + 0.4 * k;
+  renderer.toneMappingExposure = 0.6 + 0.18 * k;
+  return alt;
+}
+function setLighting() {
+  const mode = btn('light-mode').value, night = mode !== 'day';
+  btn('sunctl').hidden = night;
+  nightG.visible = night;
+  if (night) {
+    const c = mode === 'white' ? 0xf1f5ff : 0xffc581;
+    roomLights.forEach(l => { l.color.set(c); });
+    lightsG.children.forEach(o => o.material?.emissive?.set(c));
+    sun.intensity = 0; hemi.intensity = 0.04; hemi.color.set(0x8ea0c8);
+    scene.environment = null; renderer.toneMappingExposure = 0.9;
+    scene.background = new THREE.Color(0x0d1220);
+    lightsG.visible = !state.cut;
+  } else {
+    hemi.color.set(0xfff8ee); scene.environment = envDay; lightsG.children.forEach(o => o.material?.emissive?.set(0xfff3dc));
+    applyTheme();
+    const t = +btn('sun-time').value, hh = Math.floor(t), mm = Math.round((t - hh) * 60);
+    btn('sun-label').textContent = `${hh}:${String(mm).padStart(2, '0')}`;
+    setSun(t, btn('season').value);
+  }
+}
+for (const id of ['light-mode', 'season']) btn(id).addEventListener('change', setLighting);
+btn('sun-time').addEventListener('input', setLighting);
+setLighting();
+
+// ---------- walk-mode minimap ----------
+const mm = btn('minimap'), mctx = mm.getContext('2d');
+const MM = { s: 24, ox: 6, oz: 6 };    // px per metre, offsets
+const planImg = document.createElement('canvas'); planImg.width = mm.width; planImg.height = mm.height;
+{
+  const g = planImg.getContext('2d');
+  g.fillStyle = '#f4f1ea'; g.fillRect(0, 0, planImg.width, planImg.height);
+  g.fillStyle = '#e6d3bd';
+  for (const [x0, x1, z0, z1] of [[0.18, 2.84, 4.05, 11.02], [2.96, 5.65, 6.85, 10.57], [2.96, 5.65, 0.16, 3.84], [0.96, 2.9, 0.16, 2.7], [2.96, 5.65, 3.98, 6.75], [0.18, 0.96, 0.16, 1.45]])
+    g.fillRect(MM.ox + x0 * MM.s, MM.oz + z0 * MM.s, (x1 - x0) * MM.s, (z1 - z0) * MM.s);
+  g.fillStyle = '#3d4240';
+  for (const w of W) { if (w.ghost || w.loft || w.y[1] < 0.5) continue; g.fillRect(MM.ox + w.x[0] * MM.s, MM.oz + w.z[0] * MM.s, Math.max(1.5, (w.x[1] - w.x[0]) * MM.s), Math.max(1.5, (w.z[1] - w.z[0]) * MM.s)); }
+}
+function drawMinimap() {
+  mctx.drawImage(planImg, 0, 0);
+  const x = MM.ox + camera.position.x * MM.s, z = MM.oz + camera.position.z * MM.s;
+  const fx = -Math.sin(walk.yaw), fz = -Math.cos(walk.yaw);
+  mctx.fillStyle = 'rgba(217,130,43,0.35)';
+  mctx.beginPath(); mctx.moveTo(x, z);
+  const a = Math.atan2(fz, fx);
+  mctx.arc(x, z, 26, a - 0.5, a + 0.5); mctx.closePath(); mctx.fill();
+  mctx.fillStyle = '#d9822b'; mctx.beginPath(); mctx.arc(x, z, 4, 0, Math.PI * 2); mctx.fill();
+}
+btn('v-walk').addEventListener('click', () => {
+  mm.hidden = !walk.on;
+  if (walk.on) { toolMode = null; tb2.hidden = true; setPressed('t-measure', false); setPressed('t-edit', false); selectItem(null); }
+});
+btn('walk-exit').addEventListener('click', () => { mm.hidden = true; });
+document.querySelectorAll('#views button[data-view]').forEach(b => b.addEventListener('click', () => { mm.hidden = true; }));
+
+// ---------- per-version item list (in the notes drawer) ----------
+function refreshShopList(v) {
+  const groups = v === 'v1' ? [furnG] : v === 'v2' ? [decorG, decorLoft] : THEMES.filter(t => t.id === v).flatMap(t => [t.g, t.soft]);
+  const counts = new Map();
+  for (const g of groups) g.traverse(o => {
+    const inf = o.userData?.info; if (!inf || o === g) return;
+    let p = o.parent; while (p && !groups.includes(p)) { if (p.userData?.info) return; p = p.parent; }   // top-level items only
+    const k = inf.name; const c = counts.get(k) || { n: 0, size: inf.size }; c.n++; counts.set(k, c);
+  });
+  btn('shop-title').textContent = v === 'v1' ? '现有家具清单' : '这个版本新增的东西（可以照着买）';
+  const tb = btn('shop-list'); tb.replaceChildren();
+  for (const [name, { n, size }] of counts) {
+    const tr = document.createElement('tr'), a = document.createElement('td'), b = document.createElement('td');
+    a.textContent = n > 1 ? `${name} × ${n}` : name; b.className = 'num'; b.textContent = size || '';
+    tr.append(a, b); tb.appendChild(tr);
+  }
+}
+refreshShopList(currentVersion);
+applyLayout(currentVersion);
+
+
+// doors are hidden in the cut-away view (they would stick up above the cut walls)
+const baseSetCut = setCut;
+setCut = on => { baseSetCut(on); applyDoorVis(); };
+applyDoorVis();
+
+// CSS2D labels don't inherit their parents' visibility: hide a label whenever any ancestor is hidden
+function syncLabels() {
+  scene.traverse(o => {
+    if (!o.isCSS2DObject) return;
+    if (o.userData.want === undefined) o.userData.want = o.visible;
+    let on = o.userData.want;
+    for (let p = o.parent; p && on; p = p.parent) if (!p.visible) on = false;
+    o.visible = on;
+  });
+}
+
+// ---------- theme ----------
+function applyTheme() {
+  const cs = getComputedStyle(document.documentElement);
+  const v = n => cs.getPropertyValue(n).trim();
+  scene.background = new THREE.Color(v('--scene'));
+  ground.material.color.set(v('--ground'));
+  edgeMat.color.set(v('--edge'));
+}
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+applyTheme();
+
+// ---------- size + loop ----------
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h);
+  composer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  if (isCoarse) renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  composer.setSize(w, h);
+  labelR.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(stage);
+resize();
+
+rebuildWalls();
+// In the cut-away view, hide wall-mounted pieces that sit entirely above the cut line of their floor
+// (pass-through frame, wall cabinets + hood, AC, rails, clock, prints…) so they don't float in mid-air.
+var aboveCut = [];
+function collectAboveCut() {
+  scene.updateMatrixWorld(true);
+  const bb = new THREE.Box3(), c = new THREE.Vector3();
+  for (const g of [statics, furnG, decorG, themesRoot, softRoot]) g.traverse(o => {
+    if (!o.isMesh) return;
+    bb.setFromObject(o); bb.getCenter(c);
+    if (bb.max.y < -0.2) return;                // 1F entrance walls are never cut, keep its fittings
+    const lvl = c.z > 3.97 ? L1 : 0;
+    if (bb.min.y >= lvl + CUT - 0.01) aboveCut.push(o);
+  });
+}
+function applyCutHide(on) { for (const o of aboveCut) o.visible = !on; }
+collectAboveCut();
+applyCutHide(state.cut);
+fly('top', true);
+const clock = new THREE.Clock();
+const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+renderer.setAnimationLoop(() => {
+  const dt = clock.getDelta();
+  updateDoors(dt);
+  if (walk.on) {
+    walkUpdate(dt);
+    walkDoors();
+    drawMinimap();
+    if (useAO) composer.render(); else renderer.render(scene, camera);
+    return;
+  }
+  if (tween) {
+    tween.t = Math.min(1, tween.t + dt / 0.9);
+    const k = ease(tween.t);
+    camera.position.lerpVectors(tween.fromP, tween.toP, k);
+    controls.target.lerpVectors(tween.fromT, tween.toT, k);
+    if (tween.t >= 1) tween = null;
+  }
+  controls.update();
+  if (useAO) composer.render(); else renderer.render(scene, camera);
+  syncLabels();
+  labelR.render(scene, camera);
+});
+</script>
+
+</body>
+</html>
