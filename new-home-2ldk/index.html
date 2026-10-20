@@ -1833,6 +1833,8 @@ const patTex = (kind, c1, c2, meters = 1) => canvasTex(256, meters, (g, n) => {
   else if (kind === 'puzzle') { const cs = [c1, c2, '#f6c453', '#7cc4b5']; for (let i = 0; i < 4; i++) { g.fillStyle = cs[i]; g.fillRect((i % 2) * n / 2, Math.floor(i / 2) * n / 2, n / 2, n / 2); } }
   else if (kind === 'rainbow') { const cs = ['#f2a7a0', '#f6c99a', '#f6e3a1', '#b9dcc0', '#a9cde3']; cs.forEach((c, i) => { g.strokeStyle = c; g.lineWidth = 20; g.beginPath(); g.arc(n / 2, n / 2, 30 + i * 22, 0, Math.PI * 2); g.stroke(); }); }
   else if (kind === 'knit') { g.lineWidth = 3; for (let x = 0; x < n; x += 12) for (let y = 0; y < n; y += 16) { g.beginPath(); g.moveTo(x, y); g.lineTo(x + 6, y + 8); g.lineTo(x + 12, y); g.stroke(); } }
+  else if (kind === 'grid') { g.lineWidth = 3; for (let i = 0; i <= n; i += 64) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i, n); g.moveTo(0, i); g.lineTo(n, i); g.stroke(); } }
+  else if (kind === 'boucle') { g.lineWidth = 1.6; for (let i = 0; i < 1600; i++) { g.globalAlpha = 0.2 + rnd() * 0.3; g.beginPath(); g.arc(rnd() * n, rnd() * n, 2 + rnd() * 2.5, 0, 7); g.stroke(); } g.globalAlpha = 1; }
   speckle(g, n, 2500, '0,0,0', '255,255,255');
 });
 const artTex = (kind, hue = 30) => canvasTex(256, 1, (g, n) => {
@@ -2251,6 +2253,383 @@ theme('v7', '实用主义版（动线 & 收纳优先）', `
     for (const x of [3.08, 5.55]) { box(bl, x - 0.015, x + 0.015, L1 - 0.05, L1 + 1.55, 11.13, 11.16, mk(0xb9bdc0, 0.4, { metalness: 0.6 })); box(bl, x - 0.15, x + 0.15, L1 - 0.05, L1 - 0.02, 11.06, 11.24, mk(0x6d7074)); }
     const pole = cyl(bl, 0, -1.25, 1.25, 0, 0.014, steel); pole.rotation.z = Math.PI / 2; pole.position.set(4.32, L1 + 1.5, 11.15);
     [[0x8fb4cf, 3.4], [0xf2efe8, 3.85], [0xe7b9a4, 4.3], [0xf2efe8, 4.75], [0x9fb59a, 5.2]].forEach(([c, x]) => box(bl, x - 0.17, x + 0.17, L1 + 0.95, L1 + 1.48, 11.14, 11.16, mk(c, 1, { side: THREE.DoubleSide }))); }
+});
+
+// arched floor mirror leaning on a wall that faces -x (the LDK east wall), with a thin frame
+function archMirror(g, name, xWall, zc, y0, w, h, frameC) {
+  const it = item(g, name, `约 ${Math.round(w * 100)} × ${Math.round(h * 100)}cm`);
+  const r = w / 2, s = new THREE.Shape();
+  s.moveTo(-r, 0); s.lineTo(r, 0); s.lineTo(r, h - r); s.absarc(0, h - r, r, 0, Math.PI, false); s.lineTo(-r, 0);
+  const grp = new THREE.Group(); grp.position.set(xWall - 0.03, y0, zc); grp.rotation.y = -Math.PI / 2; it.add(grp);
+  const glass = new THREE.Mesh(new THREE.ShapeGeometry(s, 24), mat.mirror); grp.add(glass);
+  const pts = s.getPoints(24).map(p => V3(p.x, p.y, 0.005));
+  const frame = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts, true, 'catmullrom', 0.01), 160, 0.018, 8, true), mk(frameC, 0.35, { metalness: 0.6 }));
+  frame.castShadow = true; grp.add(frame);
+  return it;
+}
+
+// ===== v8 日式 × 北欧 混搭 (Japandi) =====
+theme('v8', '日式北欧混搭（样板间 5）', `
+  <div class="room"><h3>客厅 <span>浅橡木 · 燕麦色 · 黑色点缀</span></h3><p>北欧的明亮加日式的克制：沙发前铺燕麦色细条纹平织地毯，靠垫用燕麦、炭黑和鼠尾草绿。东墙放一条黑腿橡木矮长凳，上面摆几本书、一盆小盆景，墙上挂两幅黑框画（一幅水墨、一幅线条画）。东南角立一盏和纸落地灯，旁边一盆黑盆虎尾兰。餐桌上方换成黑色碗形吊灯。</p></div>
+  <div class="room"><h3>主卧 <span>燕麦色 + 炭灰</span></h3><p>床品燕麦色，枕头炭灰，床尾搭一条鼠尾草绿的薄毯。床头挂一幅横向的山景画（黑框），窗边一棵黑盆琴叶榕，床尾侧铺条纹小地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>东侧矮木架配藤编篮，铺本白棉麻圆地毯，放一个亚麻坐墩。阳台放一棵橄榄树。</p></div>`,
+(g, hang) => {
+  rugRect(g, '燕麦色平织地毯', 0.25, 1.75, 9.15, 10.45, L1, TM(patTex('stripe', '#e6dccb', '#d8ccb6', 0.3), { roughness: 1 }));
+  sofaCushions(g, [0xd8cdb8, 0x2f2e2c, 0xa9b8a0]);
+  throwOnArm(g, '#e3dacb');
+  { const bn = item(g, '黑腿橡木矮长凳', '约 120 × 34 × 42cm'); const oak = mk(0xd8c2a0, 0.55), blk = mk(0x232323, 0.4);
+    box(bn, 2.5, 2.84, L1 + 0.39, L1 + 0.42, 8.3, 9.5, oak);
+    for (const z of [8.34, 9.43]) { box(bn, 2.54, 2.57, L1, L1 + 0.39, z, z + 0.03, blk); box(bn, 2.77, 2.8, L1, L1 + 0.39, z, z + 0.03, blk); }
+    books(bn, 2.67, L1 + 0.42, 8.4, 5, 0.22); }
+  plant(g, '小盆景', 'bonsai', 2.67, L1 + 0.42, 9.25, 0.7, 0x2a2a2a);
+  frameOn(g, '水墨画', { x: 2.84, dir: -1 }, 8.6, L1 + 1.15, 0.4, 0.55, 'ink', 0, 0x1f1f1f);
+  frameOn(g, '线条画', { x: 2.84, dir: -1 }, 9.15, L1 + 1.15, 0.4, 0.55, 'line', 30, 0x1f1f1f);
+  floorLamp(g, '和纸落地灯', 'paper', 2.55, 10.75, L1);
+  plant(g, '虎尾兰（黑盆）', 'snake', 2.2, L1, 10.8, 0.9, 0x2a2a2a);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'dome', 0x2a2a2a);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0x2a2a2a, 0.5), [['vase', -0.06, 0], ['book', 0.06, 0]]);
+  // master
+  bedding(g, 0xe6dccb, 0x55524d, 0xa9b8a0);
+  frameOn(g, '山景画（黑框）', { x: 5.65, dir: -1 }, 1.85, 0.98, 0.95, 0.45, 'mountain', 0, 0x1f1f1f);
+  plant(g, '琴叶榕（黑盆）', 'fiddle', 3.9, 0, 0.45, 1.1, 0x2a2a2a);
+  rugRect(g, '条纹小地毯', 3.05, 3.65, 1.25, 2.45, 0, TM(patTex('stripe', '#e6dccb', '#cfc2aa', 0.2), { roughness: 1 }));
+  // kids / PC
+  rugRound(g, '棉麻圆地毯', 4.6, 9.9, 0.6, L1, TM(patTex('jute', '#ece5d6', '#cfc4ae', 0.4), { roughness: 1 }));
+  lowShelfX(g, '矮木架 + 藤编篮', 5.32, 5.65, 9.45, 10.35, 0.62, 0xd8c2a0, { levels: [0.02, 0.32, 0.6], items: it => {
+    for (const y of [0.04, 0.34]) for (const z of [9.68, 10.12]) rb(it, 5.36, 5.62, L1 + y, L1 + y + 0.24, z - 0.18, z + 0.18, mk(0xc9a777, 0.9), 0.02);
+  } });
+  pouf(g, '亚麻坐墩', 4.85, 10.0, L1, 0.22, mk(0xd8cdb8, 1));
+  plant(g, '阳台橄榄树', 'olive', 5.5, L1 - 0.045, 11.3, 0.7, 0x2a2a2a);
+});
+
+// ===== v9 法式奶油风 =====
+theme('v9', '法式奶油风（样板间 6）', `
+  <div class="room"><h3>客厅 <span>奶油白 · 焦糖 · 弧线</span></h3><p>整体用奶油白和焦糖色，多用圆弧造型。沙发前铺一块大号奶油色圈圈绒（泰迪绒）圆地毯，靠垫用奶油、燕麦和焦糖色，扶手搭一条奶白针织毯。东墙靠一面金色细边的拱形落地镜，让客厅显得更大，旁边挂一幅拱形图案的画。东南角一盏奶油色灯罩的三脚落地灯，配一瓶大号蒲苇。餐桌上方是奶油色碗形吊灯，矮桌上放白色大理石托盘、花瓶和蜡烛。</p></div>
+  <div class="room"><h3>主卧 <span>奶油色 + 焦糖色</span></h3><p>床品奶油色，枕头燕麦色，床尾一条焦糖色薄毯。床头挂两幅拱形图案的画，床尾侧铺圈圈绒圆地毯，窗边一盏奶油色三脚落地灯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>东侧奶白色矮书架（封面朝外的绘本），铺燕麦色圈圈绒圆地毯，放一个圈圈绒坐墩，墙上挂一幅小动物画。</p></div>`,
+(g, hang) => {
+  const boucle = TM(patTex('boucle', '#f4ecdf', '#d9cbb4', 0.3), { roughness: 1 });
+  rugRound(g, '圈圈绒圆地毯', 1.0, 9.8, 0.75, L1, boucle);
+  sofaCushions(g, [0xf3ead9, 0xd9c2a3, 0xb88a5e, 0xf3ead9]);
+  throwOnArm(g, '#f1e9dc');
+  archMirror(g, '拱形落地镜（金色细边）', 2.84, 8.75, L1, 0.6, 1.6, 0xc9a465);
+  frameOn(g, '拱形图案画', { x: 2.84, dir: -1 }, 9.5, L1 + 1.15, 0.4, 0.55, 'arch', 25, 0xc9a465);
+  floorLamp(g, '奶油色三脚落地灯', 'tripod', 2.5, 10.65, L1, { metal: 0xc9a465, shade: 0xf6efe3 });
+  plant(g, '大号蒲苇', 'pampas', 2.1, L1, 10.8, 1.2, 0xf1ebe1);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'dome', 0xf3ead9);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0xf2f0ec, 0.15), [['vase', -0.06, 0], ['candle', 0.07, 0.03]]);
+  // master
+  bedding(g, 0xf3ead9, 0xd9c2a3, 0xb88a5e);
+  frameOn(g, '拱形图案画', { x: 5.65, dir: -1 }, 1.55, 0.98, 0.4, 0.5, 'arch', 25, 0xc9a465);
+  frameOn(g, '拱形图案画', { x: 5.65, dir: -1 }, 2.15, 0.98, 0.4, 0.5, 'arch', 0, 0xc9a465);
+  rugRound(g, '圈圈绒小圆毯', 3.35, 1.85, 0.42, 0, boucle);
+  floorLamp(g, '奶油色三脚落地灯', 'tripod', 3.9, 0.5, 0, { metal: 0xc9a465, shade: 0xf6efe3 });
+  // kids / PC
+  rugRound(g, '燕麦色圈圈绒圆地毯', 4.6, 9.9, 0.6, L1, TM(patTex('boucle', '#ebe0cc', '#cdbb9c', 0.3), { roughness: 1 }));
+  lowShelfX(g, '奶白矮书架（封面朝外）', 5.35, 5.65, 9.45, 10.35, 0.62, 0xf3ede2, { levels: [0.02, 0.3, 0.6], items: it => {
+    [[0.05, 0xe8c4b0], [0.33, 0xd9c2a3], [0.05, 0xf0dcb8], [0.33, 0xc9d3c0]].forEach(([y, c], i) => box(it, 5.37, 5.39, L1 + y, L1 + y + 0.24, 9.55 + (i % 2) * 0.4, 9.85 + (i % 2) * 0.4, mk(c, 0.7)));
+  } });
+  pouf(g, '圈圈绒坐墩', 4.85, 10.0, L1, 0.22, boucle);
+  frameOn(g, '小动物画', { x: 2.96, dir: 1 }, 9.6, L1 + 1.3, 0.45, 0.45, 'kids', 0, 0xc9a465);
+});
+
+// ===== v10 中古复古风 (mid-century) =====
+theme('v10', '中古复古风（样板间 7）', `
+  <div class="room"><h3>客厅 <span>柚木 · 芥末黄 · 墨绿</span></h3><p>六七十年代的中古风：东墙放一个柚木锥形腿矮柜（约 120cm），上面放黑胶唱机和几本画册，墙上挂一只黄铜太阳钟和一幅落日海报。沙发前铺芥末黄 + 橄榄色的菱格地毯，靠垫芥末黄、墨绿和砖红。东南角一盏黄铜弧形落地灯，灯罩伸到矮桌上方，再配一棵柚木盆的琴叶榕。餐桌上方挂墨绿色的锥形搪瓷吊灯。</p></div>
+  <div class="room"><h3>主卧 <span>墨绿床品</span></h3><p>床品墨绿，枕头米色，床尾一条芥末黄薄毯。床头挂一幅落日海报，床尾侧铺菱格小地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>东侧柚木矮架放绘本，铺芥末黄圆地毯，放一个焦糖色皮质坐墩；电脑桌上方挂一幅暖色山景画。</p></div>`,
+(g, hang) => {
+  rugRect(g, '芥末黄菱格地毯', 0.25, 1.75, 9.15, 10.45, L1, TM(patTex('diamond', '#c9a13a', '#7d7a45', 0.5), { roughness: 1 }));
+  sofaCushions(g, [0xc9a13a, 0x3f5a4a, 0xa4523a]);
+  throwOnArm(g, 0x3f5a4a, false);
+  { const sb = item(g, '柚木矮柜 + 黑胶唱机', '约 120 × 42 × 68cm'); const teak = mk(0x8a5a3c, 0.45);
+    rb(sb, 2.42, 2.84, L1 + 0.2, L1 + 0.66, 8.35, 9.55, teak, 0.01);
+    for (const z of [8.75, 9.15]) box(sb, 2.415, 2.42, L1 + 0.23, L1 + 0.63, z - 0.002, z + 0.002, mk(0x5a3a26));
+    for (const z of [8.55, 8.95, 9.35]) box(sb, 2.405, 2.415, L1 + 0.38, L1 + 0.48, z - 0.015, z + 0.015, mk(0xb8925a, 0.3, { metalness: 0.8 }));
+    for (const x of [2.47, 2.79]) for (const z of [8.42, 9.48]) cyl(sb, x, L1, L1 + 0.2, z, 0.012, teak, 0.02);
+    rb(sb, 2.5, 2.8, L1 + 0.66, L1 + 0.75, 8.45, 8.85, mk(0x2b2622, 0.4), 0.01);
+    cyl(sb, 2.65, L1 + 0.75, L1 + 0.755, 8.65, 0.14, mk(0x111111, 0.3));
+    books(sb, 2.65, L1 + 0.66, 9.05, 4, 0.26); }
+  { const sc = item(g, '黄铜太阳钟', '直径约 60cm'); const br = mk(0xb8925a, 0.3, { metalness: 0.85 }), c = V3(2.835, L1 + 1.5, 8.95);
+    for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2, len = i % 2 ? 0.22 : 0.3; rod(sc, V3(c.x, c.y + Math.sin(a) * 0.09, c.z + Math.cos(a) * 0.09), V3(c.x, c.y + Math.sin(a) * len, c.z + Math.cos(a) * len), 0.005, br); }
+    const d = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 32), br); d.rotation.z = Math.PI / 2; d.position.copy(c); sc.add(d); }
+  frameOn(g, '落日海报', { x: 2.84, dir: -1 }, 9.95, L1 + 1.2, 0.45, 0.6, 'sun', 15, 0x5a3a26);
+  floorLamp(g, '黄铜弧形落地灯', 'arc', 2.5, 10.6, L1, { tx: 1.2, tz: 9.75, metal: 0xb8925a });
+  plant(g, '琴叶榕（柚木盆）', 'fiddle', 2.1, L1, 10.8, 1.1, 0x8a5a3c);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'cone', 0x3f5a4a);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0x8a5a3c, 0.45), [['book', 0, 0]]);
+  // master
+  bedding(g, 0x3f5a4a, 0xe8dcc4, 0xc9a13a);
+  frameOn(g, '落日海报', { x: 5.65, dir: -1 }, 1.85, 0.98, 0.7, 0.5, 'sun', 25, 0x5a3a26);
+  rugRect(g, '菱格小地毯', 3.05, 3.65, 1.25, 2.45, 0, TM(patTex('diamond', '#c9a13a', '#7d7a45', 0.3), { roughness: 1 }));
+  // kids / PC
+  rugRound(g, '芥末黄圆地毯', 4.6, 9.9, 0.6, L1, mk(0xd1ab4a, 1));
+  lowShelfX(g, '柚木矮架', 5.35, 5.65, 9.45, 10.35, 0.62, 0x8a5a3c, { levels: [0.02, 0.3, 0.6], items: it => { books(it, 5.5, L1 + 0.04, 9.5, 10, 0.24); books(it, 5.5, L1 + 0.32, 9.5, 8, 0.24); } });
+  pouf(g, '焦糖色皮质坐墩', 4.85, 10.0, L1, 0.22, mk(0x9a6038, 0.5));
+  frameOn(g, '暖色山景画', { x: 2.96, dir: 1 }, 9.6, L1 + 1.3, 0.6, 0.45, 'mountain', 200, 0x5a3a26);
+});
+
+// ===== v11 侘寂风 (wabi-sabi) =====
+theme('v11', '侘寂风（样板间 8）', `
+  <div class="room"><h3>客厅 <span>大地色 · 粗陶 · 留白</span></h3><p>东西少、颜色接近土和石头。沙发前铺粗织黄麻地毯，靠垫用沙色、泥褐色和米白亚麻，扶手搭一块亚麻布。沙发东侧放一张石头质感的圆边几。东墙装一块深色原木搁板，只放几只粗陶罐，墙上挂一幅水墨画。东南角放一只大号陶罐插枯枝，旁边立一盏和纸落地灯。餐桌上方是陶土色碗形吊灯。</p></div>
+  <div class="room"><h3>主卧 <span>沙色亚麻</span></h3><p>床品沙色亚麻，枕头泥褐色。床头挂一幅横向水墨画，窗边一只陶罐插枯枝，床尾侧铺黄麻小地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>东侧矮木架配藤编篮，铺黄麻圆地毯，放一个亚麻坐墩。</p></div>`,
+(g, hang) => {
+  const jute = TM(patTex('jute', '#b8a990', '#8b7d66', 0.4), { roughness: 1 });
+  rugRect(g, '粗织黄麻地毯', 0.25, 1.75, 9.15, 10.45, L1, jute);
+  sofaCushions(g, [0xc9b99c, 0x7d6c58, 0xe3dacb]);
+  throwOnArm(g, 0xcfc3ae, false);
+  { const st = item(g, '石纹圆边几', '直径约 35cm'); cyl(st, 2.08, L1, L1 + 0.45, 8.7, 0.17, mk(0xb5ab9c, 0.95), 0.15); }
+  { const sh = item(g, '深色原木搁板 + 粗陶罐', '长约 110cm'); box(sh, 2.62, 2.84, L1 + 1.08, L1 + 1.12, 8.4, 9.5, mk(0x5e4a38, 0.7));
+    [[8.6, 0.07, 0.18, 0x8b7d66], [8.85, 0.05, 0.12, 0xd8cfc0], [9.25, 0.09, 0.22, 0x6e6255]].forEach(([z, r, h, c]) => cyl(sh, 2.73, L1 + 1.12, L1 + 1.12 + h, z, r, mk(c, 0.95), r * 0.6)); }
+  frameOn(g, '水墨画', { x: 2.84, dir: -1 }, 8.95, L1 + 1.4, 0.45, 0.65, 'ink', 0, 0x5e4a38);
+  plant(g, '大陶罐插枯枝', 'branch', 2.5, L1, 10.75, 1.5, 0x7d6c58);
+  floorLamp(g, '和纸落地灯', 'paper', 2.1, 10.8, L1);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'dome', 0x9a7a5e);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0x6e6255, 0.9), [['vase', 0, 0]]);
+  // master
+  bedding(g, 0xcfc3ae, 0x7d6c58);
+  frameOn(g, '横幅水墨画', { x: 5.65, dir: -1 }, 1.85, 0.98, 1.0, 0.45, 'ink', 0, 0x5e4a38);
+  plant(g, '陶罐插枯枝', 'branch', 3.9, 0, 0.45, 1.1, 0x7d6c58);
+  rugRect(g, '黄麻小地毯', 3.05, 3.65, 1.25, 2.45, 0, jute);
+  // kids / PC
+  rugRound(g, '黄麻圆地毯', 4.6, 9.9, 0.6, L1, jute);
+  lowShelfX(g, '矮木架 + 藤编篮', 5.32, 5.65, 9.45, 10.35, 0.62, 0x9a8a72, { levels: [0.02, 0.32, 0.6], items: it => {
+    for (const y of [0.04, 0.34]) for (const z of [9.68, 10.12]) rb(it, 5.36, 5.62, L1 + y, L1 + y + 0.24, z - 0.18, z + 0.18, mk(0xb59a72, 0.9), 0.02);
+  } });
+  pouf(g, '亚麻坐墩', 4.85, 10.0, L1, 0.22, mk(0xcfc3ae, 1));
+});
+
+// shared pieces for the later showrooms
+function teakSideboard(g, name, woodC = 0x8a5a3c, withRecord = true) {     // 120cm low cabinet on tapered legs, against the LDK east wall
+  const sb = item(g, name, '约 120 × 42 × 68cm'); const wood = mk(woodC, 0.45);
+  rb(sb, 2.42, 2.84, L1 + 0.2, L1 + 0.66, 8.35, 9.55, wood, 0.01);
+  for (const z of [8.75, 9.15]) box(sb, 2.415, 2.42, L1 + 0.23, L1 + 0.63, z - 0.002, z + 0.002, mk(0x3a2a20));
+  for (const z of [8.55, 8.95, 9.35]) box(sb, 2.405, 2.415, L1 + 0.38, L1 + 0.48, z - 0.015, z + 0.015, mk(0xb8925a, 0.3, { metalness: 0.8 }));
+  for (const x of [2.47, 2.79]) for (const z of [8.42, 9.48]) cyl(sb, x, L1, L1 + 0.2, z, 0.012, wood, 0.02);
+  if (withRecord) { rb(sb, 2.5, 2.8, L1 + 0.66, L1 + 0.75, 8.45, 8.85, mk(0x2b2622, 0.4), 0.01); cyl(sb, 2.65, L1 + 0.75, L1 + 0.755, 8.65, 0.14, mk(0x111111, 0.3)); }
+  books(sb, 2.65, L1 + 0.66, 9.05, 4, 0.26);
+  return sb;
+}
+function sunburst(g, y = L1 + 1.5, z = 8.95) {
+  const sc = item(g, '黄铜太阳钟', '直径约 60cm'); const br = mk(0xb8925a, 0.3, { metalness: 0.85 }), c = V3(2.835, y, z);
+  for (let i = 0; i < 16; i++) { const a = i / 16 * Math.PI * 2, len = i % 2 ? 0.22 : 0.3; rod(sc, V3(c.x, c.y + Math.sin(a) * 0.09, c.z + Math.cos(a) * 0.09), V3(c.x, c.y + Math.sin(a) * len, c.z + Math.cos(a) * len), 0.005, br); }
+  const d = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.02, 32), br); d.rotation.z = Math.PI / 2; d.position.copy(c); sc.add(d);
+}
+function kidsCorner(g, rugM, shelfC, poufM, art) {                        // the kids-room east corner every showroom dresses
+  rugRound(g, '圆地毯', 4.6, 9.9, 0.6, L1, rugM);
+  lowShelfX(g, '矮书架', 5.35, 5.65, 9.45, 10.35, 0.62, shelfC, { levels: [0.02, 0.3, 0.6], items: it => { books(it, 5.5, L1 + 0.04, 9.5, 10, 0.24); books(it, 5.5, L1 + 0.32, 9.5, 8, 0.24); } });
+  pouf(g, '坐墩', 4.85, 10.0, L1, 0.22, poufM);
+  if (art) frameOn(g, '装饰画', { x: 2.96, dir: 1 }, 9.6, L1 + 1.3, art.w ?? 0.6, 0.45, art.kind, art.hue ?? 0, art.frame ?? 0x2a2826);
+}
+
+// ===== v12 工业风 =====
+theme('v12', '工业风（样板间 9）', `
+  <div class="room"><h3>客厅 <span>黑铁 · 旧木 · 皮革</span></h3><p>LOFT 工业感：东墙装一个黑色水管架 + 旧木层板的书架，放书、黑胶和小绿植。沙发前铺炭灰地毯，靠垫用焦糖皮革色、水泥灰和锈红。东南角一盏黑色三脚落地灯，旁边一盆水泥盆虎尾兰。餐桌上方挂一盏透明玻璃球的爱迪生灯泡吊灯。墙上一幅黑框线条画。</p></div>
+  <div class="room"><h3>主卧 <span>水泥灰 + 皮革色</span></h3><p>床品水泥灰，枕头浅灰，床尾一条焦糖色薄毯；床头一幅暖色抽象画，床尾侧铺深灰小地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>黑铁旧木矮架放书，深灰圆地毯，皮质坐墩，电脑桌上方一幅黑框线条画。</p></div>`,
+(g, hang) => {
+  rugRect(g, '炭灰地毯', 0.25, 1.75, 9.15, 10.45, L1, mk(0x4f4c48, 1));
+  sofaCushions(g, [0x8a5a3c, 0x8d8d88, 0xa4523a]);
+  throwOnArm(g, 0x6b6560, false);
+  { const ps = item(g, '水管架 + 旧木层板', '约 120 × 30 × 150cm'); const pipe = mk(0x262626, 0.35, { metalness: 0.7 }), wood = mk(0x7a5a40, 0.75);
+    for (const z of [8.32, 9.48]) rod(ps, V3(2.7, L1, z), V3(2.7, L1 + 1.5, z), 0.015, pipe);
+    for (const y of [0.3, 0.75, 1.2]) { box(ps, 2.56, 2.84, L1 + y, L1 + y + 0.035, 8.25, 9.55, wood); }
+    books(ps, 2.7, L1 + 0.335, 8.4, 9, 0.24); books(ps, 2.7, L1 + 0.785, 8.9, 6, 0.24);
+    cyl(ps, 2.7, L1 + 1.235, L1 + 1.37, 8.5, 0.07, mk(0x8d8d88, 0.9), 0.05); }
+  plant(g, '层板小绿植', 'pothos', 2.7, L1 + 1.235, 9.2, 0.55, 0x8d8d88);
+  frameOn(g, '线条画', { x: 2.84, dir: -1 }, 9.95, L1 + 1.2, 0.45, 0.6, 'line', 15, 0x1f1f1f);
+  floorLamp(g, '黑色三脚落地灯', 'tripod', 2.5, 10.65, L1, { metal: 0x1f1f1f, shade: 0x2b2b2b });
+  plant(g, '虎尾兰（水泥盆）', 'snake', 2.1, L1, 10.8, 0.9, 0x8d8d88);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'globe', 0xd8d8d8);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0x3a3836, 0.4), [['book', 0, 0]]);
+  bedding(g, 0x8d8d88, 0xc9c9c4, 0x8a5a3c);
+  frameOn(g, '抽象画', { x: 5.65, dir: -1 }, 1.85, 0.98, 0.9, 0.6, 'abstract', 20, 0x1f1f1f);
+  rugRect(g, '深灰小地毯', 3.05, 3.65, 1.25, 2.45, 0, mk(0x55514c, 1));
+  kidsCorner(g, mk(0x5c5853, 1), 0x7a5a40, mk(0x8a5a3c, 0.5), { kind: 'line', hue: 200, frame: 0x1f1f1f });
+});
+
+// ===== v13 海岸度假风 =====
+theme('v13', '海岸度假风（样板间 10）', `
+  <div class="room"><h3>客厅 <span>白 · 雾蓝 · 藤编</span></h3><p>像海边度假屋：沙发前铺白底雾蓝条纹地毯，靠垫雾蓝、白色和沙色。东墙放一个白色矮柜，上面摆几本书和贝壳色花瓶，墙上挂两幅海景画。东南角一棵白盆橄榄树，旁边一盏白色三脚落地灯。餐桌上方挂藤编色的碗形吊灯，吧台上放一盆绿萝。</p></div>
+  <div class="room"><h3>主卧 <span>白 + 雾蓝</span></h3><p>床品纯白，枕头雾蓝，床尾一条沙色薄毯；床头挂一幅横向海景画，窗边一盆琴叶榕，床尾侧铺蓝白条纹小地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>白色矮书架，蓝白条纹圆地毯，沙色坐墩，墙上一幅海景画。</p></div>`,
+(g, hang) => {
+  const stripe = TM(patTex('stripe', '#f4f1ea', '#9fb8c8', 0.4), { roughness: 1 });
+  rugRect(g, '蓝白条纹地毯', 0.25, 1.75, 9.15, 10.45, L1, stripe);
+  sofaCushions(g, [0x7ca3c0, 0xf4f1ea, 0xd9c3a0, 0x7ca3c0]);
+  throwOnArm(g, '#e9e2d4');
+  teakSideboard(g, '白色矮柜', 0xf2f0eb, false);
+  cyl(item(g, '贝壳色花瓶', ''), 2.65, L1 + 0.66, L1 + 0.9, 8.6, 0.06, mk(0xe9dccb, 0.4), 0.04);
+  frameOn(g, '海景画', { x: 2.84, dir: -1 }, 8.6, L1 + 1.15, 0.42, 0.55, 'mountain', 185, 0xd9c3a0);
+  frameOn(g, '海景画', { x: 2.84, dir: -1 }, 9.15, L1 + 1.15, 0.42, 0.55, 'sun', 195, 0xd9c3a0);
+  plant(g, '橄榄树（白盆）', 'olive', 2.5, L1, 10.75, 1.1, 0xf4f1ea);
+  floorLamp(g, '白色三脚落地灯', 'tripod', 2.1, 10.75, L1, { metal: 0xf2f0eb, shade: 0xf6f3ec });
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'dome', 0xc9a777);
+  plant(g, '吧台绿萝', 'pothos', 1.7, L1 + 1.18, 6.11, 0.55, 0xf4f1ea);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0xc9a777, 0.8), [['candle', -0.07, 0.02], ['vase', 0.06, -0.02]]);
+  bedding(g, 0xf7f6f2, 0x9fb8c8, 0xd9c3a0);
+  frameOn(g, '横幅海景画', { x: 5.65, dir: -1 }, 1.85, 0.98, 0.95, 0.45, 'mountain', 190, 0xd9c3a0);
+  plant(g, '琴叶榕', 'fiddle', 3.9, 0, 0.45, 1.1, 0xf4f1ea);
+  rugRect(g, '蓝白条纹小地毯', 3.05, 3.65, 1.25, 2.45, 0, stripe);
+  kidsCorner(g, stripe, 0xf2f0eb, mk(0xd9c3a0, 1), { kind: 'sun', hue: 195, frame: 0xd9c3a0 });
+});
+
+// ===== v14 波西米亚 =====
+theme('v14', '波西米亚风（样板间 11）', `
+  <div class="room"><h3>客厅 <span>陶土 · 芥末 · 绿植很多</span></h3><p>暖色、纹样和绿植堆出来的松弛感：沙发前铺陶土色菱格地毯，靠垫陶土、芥末、橄榄和米色混搭。东墙挂一幅流苏编织挂毯，下面一个皮质坐墩和一大盆蒲苇。东南角放龟背竹，吧台垂下一盆绿萝，餐桌上方是藤编色碗形吊灯。</p></div>
+  <div class="room"><h3>主卧 <span>米色 + 陶土 + 芥末</span></h3><p>床品米色，枕头陶土色，床尾一条芥末黄薄毯；床头挂一幅落日画，窗边一盆琴叶榕，床尾侧铺黄麻小地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>东侧搭一顶条纹小帐篷，铺黄麻圆地毯；电脑桌上方一幅落日画。</p></div>`,
+(g, hang) => {
+  rugRect(g, '陶土菱格地毯', 0.25, 1.75, 9.15, 10.45, L1, TM(patTex('diamond', '#c97b5a', '#efe2cc', 0.4), { roughness: 1 }));
+  sofaCushions(g, [0xb8643f, 0xd9a441, 0x6f7552, 0xe8dcc4]);
+  throwOnArm(g, '#e8dcc4');
+  { const mc = item(g, '流苏编织挂毯', '约 60 × 90cm'); const cord = mk(0xefe4cf, 1);
+    rod(mc, V3(2.82, L1 + 1.9, 8.55), V3(2.82, L1 + 1.9, 9.25), 0.012, mk(0x8a6a48, 0.7));
+    for (let i = 0; i < 14; i++) { const z = 8.6 + i * 0.045, len = 0.55 + Math.sin(i / 13 * Math.PI) * 0.35; rod(mc, V3(2.825, L1 + 1.9, z), V3(2.825, L1 + 1.9 - len, z), 0.007, cord); }
+    for (let k = 0; k < 3; k++) for (let i = 0; i < 6; i++) { const kn = new THREE.Mesh(new THREE.SphereGeometry(0.018, 8, 6), cord); kn.position.set(2.825, L1 + 1.75 - k * 0.12, 8.65 + i * 0.1 + (k % 2) * 0.05); mc.add(kn); } }
+  pouf(g, '皮质坐墩', 2.45, 9.0, L1, 0.22, mk(0x9a6038, 0.5));
+  plant(g, '大瓶蒲苇', 'pampas', 2.6, L1, 9.55, 1.2, 0xc97b5a);
+  plant(g, '龟背竹', 'monstera', 2.5, L1, 10.7, 1.4, 0xc9a777);
+  plant(g, '吧台垂吊绿萝', 'pothos', 1.7, L1 + 1.18, 6.11, 0.6, 0xc97b5a);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'dome', 0xc9a777);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0xc9a777, 0.8), [['candle', -0.08, 0.03], ['candle', -0.02, -0.03], ['vase', 0.07, 0]]);
+  bedding(g, 0xe8dcc4, 0xb8643f, 0xd9a441);
+  frameOn(g, '落日画', { x: 5.65, dir: -1 }, 1.85, 0.98, 0.7, 0.5, 'sun', 10, 0x8a6a48);
+  plant(g, '琴叶榕', 'fiddle', 3.9, 0, 0.45, 1.1, 0xc97b5a);
+  rugRect(g, '黄麻小地毯', 3.05, 3.65, 1.25, 2.45, 0, TM(patTex('jute', '#cdb48c', '#8f7a58', 0.3), { roughness: 1 }));
+  rugRound(g, '黄麻圆地毯', 4.6, 9.9, 0.62, L1, TM(patTex('jute', '#d8c29c', '#9a8462', 0.4), { roughness: 1 }));
+  { const tp = item(g, '条纹小帐篷', '约 100 × 100 × 140cm');
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(0.5, 1.3, 4, 1, true, Math.PI / 4 + 0.6, Math.PI * 2 - 1.2), TM(patTex('stripe', '#f1e6d2', '#c97b5a', 0.25), { roughness: 1, side: THREE.DoubleSide }));
+    cone.position.set(5.12, L1 + 0.65, 9.95); cone.rotation.y = Math.PI / 2; cone.castShadow = true; tp.add(cone);
+    for (let i = 0; i < 4; i++) { const a = Math.PI / 4 + i * Math.PI / 2; rod(tp, V3(5.12 + Math.cos(a) * 0.5, L1, 9.95 + Math.sin(a) * 0.5), V3(5.12 - Math.cos(a) * 0.05, L1 + 1.45, 9.95 - Math.sin(a) * 0.05), 0.01, mk(0x8a6a48, 0.6)); } }
+  frameOn(g, '落日画', { x: 2.96, dir: 1 }, 9.6, L1 + 1.3, 0.6, 0.45, 'sun', 25, 0x8a6a48);
+});
+
+// ===== v15 新中式 =====
+theme('v15', '新中式（样板间 12）', `
+  <div class="room"><h3>客厅 <span>胡桃木 · 米白 · 一点朱红</span></h3><p>留白多、线条直：东墙放一个深胡桃木矮案，上面一只青灰瓷瓶插梅枝，案上方挂一幅竖幅水墨画。沙发前铺米白暗纹地毯，靠垫用米白、藏青和一个朱红色。东南角一盆盆景放在木几上，旁边立一盏和纸落地灯。餐桌上方挂一盏纸灯笼。</p></div>
+  <div class="room"><h3>主卧 <span>米白 + 藏青 + 朱红</span></h3><p>床品米白，枕头藏青，床尾一条朱红色薄毯；床头挂一幅横幅水墨，床尾侧铺米白暗纹小地毯，窗边一盏和纸落地灯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>深胡桃木矮架，米白圆地毯，藏青坐墩，电脑桌上方一幅水墨小画。</p></div>`,
+(g, hang) => {
+  const rugM = TM(patTex('diamond', '#ece6da', '#e0d8c8', 0.5), { roughness: 1 });
+  rugRect(g, '米白暗纹地毯', 0.25, 1.75, 9.15, 10.45, L1, rugM);
+  sofaCushions(g, [0xe8dcc4, 0x2f3a52, 0x9e2f28]);
+  { const ca = item(g, '胡桃木矮案', '约 120 × 35 × 75cm'); const wal = mk(0x4a3426, 0.5);
+    box(ca, 2.49, 2.84, L1 + 0.71, L1 + 0.75, 8.3, 9.5, wal);
+    for (const z of [8.34, 9.43]) { box(ca, 2.52, 2.56, L1, L1 + 0.71, z, z + 0.04, wal); box(ca, 2.77, 2.81, L1, L1 + 0.71, z, z + 0.04, wal); box(ca, 2.52, 2.81, L1 + 0.1, L1 + 0.13, z, z + 0.04, wal); } }
+  plant(g, '青瓷瓶插梅枝', 'branch', 2.67, L1 + 0.75, 8.7, 0.9, 0x8fa3a0);
+  { const bl = item(g, '红梅点缀', ''); const red = mk(0xc23b33, 0.7);
+    for (let i = 0; i < 14; i++) { const b = new THREE.Mesh(new THREE.SphereGeometry(0.014, 8, 6), red); b.position.set(2.67 + (rnd() - 0.5) * 0.2, L1 + 0.75 + 0.45 + rnd() * 0.35, 8.7 + (rnd() - 0.5) * 0.25); bl.add(b); } }
+  frameOn(g, '竖幅水墨画', { x: 2.84, dir: -1 }, 9.05, L1 + 1.05, 0.42, 0.95, 'ink', 0, 0x4a3426);
+  { const st = item(g, '木几 + 盆景', ''); box(st, 2.35, 2.75, L1 + 0.4, L1 + 0.44, 10.55, 10.85, mk(0x4a3426, 0.5)); for (const x of [2.38, 2.69]) box(st, x, x + 0.03, L1, L1 + 0.4, 10.57, 10.83, mk(0x4a3426, 0.5)); }
+  plant(g, '盆景', 'bonsai', 2.55, L1 + 0.44, 10.7, 0.9, 0x8fa3a0);
+  floorLamp(g, '和纸落地灯', 'paper', 2.05, 10.8, L1);
+  pendant(hang, 0.9, 7.18, L1 + 1.75, 'lantern');
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0x4a3426, 0.5), [['vase', -0.05, 0], ['candle', 0.07, 0.02]]);
+  bedding(g, 0xece6da, 0x2f3a52, 0x9e2f28);
+  frameOn(g, '横幅水墨', { x: 5.65, dir: -1 }, 1.85, 0.98, 1.0, 0.45, 'ink', 0, 0x4a3426);
+  rugRect(g, '米白暗纹小地毯', 3.05, 3.65, 1.25, 2.45, 0, rugM);
+  floorLamp(g, '和纸落地灯', 'paper', 3.9, 0.45, 0);
+  kidsCorner(g, mk(0xece6da, 1), 0x4a3426, mk(0x2f3a52, 0.9), { kind: 'ink', w: 0.45, frame: 0x4a3426 });
+});
+
+// ===== v16 黑白极简 =====
+theme('v16', '黑白极简（样板间 13）', `
+  <div class="room"><h3>客厅 <span>黑 · 白 · 灰，东西很少</span></h3><p>只用黑白灰，靠留白显得干净：沙发前铺浅灰平织地毯，靠垫黑、白、中灰各一个。东墙只挂一幅黑框线条画，下面一个白色低矮柜，柜上放一只黑色花瓶。东南角一盏黑色弧形落地灯，一盆白盆虎尾兰。餐桌上方是黑色锥形吊灯。</p></div>
+  <div class="room"><h3>主卧 <span>白 + 黑</span></h3><p>床品纯白，枕头黑色，床尾一条灰色薄毯；床头一幅黑框横幅线条画，床尾侧铺浅灰小地毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>白色矮书架，浅灰圆地毯，黑色坐墩，墙上一幅黑框线条画。</p></div>`,
+(g, hang) => {
+  rugRect(g, '浅灰平织地毯', 0.25, 1.75, 9.15, 10.45, L1, mk(0xd9d9d6, 1));
+  sofaCushions(g, [0x1f1f1f, 0xf4f4f2, 0x8d8d8d]);
+  teakSideboard(g, '白色低矮柜', 0xf4f4f2, false);
+  cyl(item(g, '黑色花瓶', ''), 2.65, L1 + 0.66, L1 + 0.98, 8.6, 0.055, mk(0x1f1f1f, 0.3), 0.035);
+  frameOn(g, '线条画', { x: 2.84, dir: -1 }, 8.95, L1 + 1.15, 0.7, 0.5, 'line', 0, 0x1f1f1f);
+  floorLamp(g, '黑色弧形落地灯', 'arc', 2.5, 10.6, L1, { tx: 1.2, tz: 9.75, metal: 0x1f1f1f });
+  plant(g, '虎尾兰（白盆）', 'snake', 2.1, L1, 10.8, 0.9, 0xf4f4f2);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'cone', 0x1f1f1f);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0x1f1f1f, 0.3), [['candle', 0, 0]]);
+  bedding(g, 0xf7f7f5, 0x1f1f1f, 0x8d8d8d);
+  frameOn(g, '横幅线条画', { x: 5.65, dir: -1 }, 1.85, 0.98, 0.95, 0.45, 'line', 0, 0x1f1f1f);
+  rugRect(g, '浅灰小地毯', 3.05, 3.65, 1.25, 2.45, 0, mk(0xd9d9d6, 1));
+  kidsCorner(g, mk(0xd9d9d6, 1), 0xf4f4f2, mk(0x1f1f1f, 0.6), { kind: 'line', frame: 0x1f1f1f });
+});
+
+// ===== v17 韩系温柔风 =====
+theme('v17', '韩系温柔风（样板间 14）', `
+  <div class="room"><h3>客厅 <span>奶白 · 豆沙粉 · 格纹</span></h3><p>韩剧里常见的柔和小家：沙发前铺奶白格纹圆地毯，靠垫奶白、豆沙粉和燕麦色。东墙靠一面白色细边拱形落地镜，旁边挂一幅线条画。东南角一瓶白色蒲苇和一盏奶白灯罩的三脚落地灯。餐桌上方是一盏白色玻璃球吊灯，矮桌上放蜡烛和小花瓶。</p></div>
+  <div class="room"><h3>主卧 <span>奶白 + 豆沙粉</span></h3><p>床品奶白，枕头豆沙粉，床尾一条燕麦色薄毯；床头挂两幅线条画，床尾侧铺格纹小圆毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>奶白矮书架，格纹圆地毯，豆沙粉坐墩，墙上一幅小动物画。</p></div>`,
+(g, hang) => {
+  const grid = TM(patTex('grid', '#f5f1ea', '#e3d6c8', 0.5), { roughness: 1 });
+  rugRound(g, '格纹圆地毯', 1.0, 9.8, 0.75, L1, grid);
+  sofaCushions(g, [0xf5f1ea, 0xe0bfb3, 0xd9c8b0, 0xf5f1ea]);
+  throwOnArm(g, '#efe6dc');
+  archMirror(g, '拱形落地镜（白色细边）', 2.84, 8.75, L1, 0.6, 1.6, 0xf4f2ee);
+  frameOn(g, '线条画', { x: 2.84, dir: -1 }, 9.5, L1 + 1.15, 0.4, 0.55, 'line', 10, 0xf4f2ee);
+  plant(g, '白色蒲苇', 'pampas', 2.5, L1, 10.75, 1.1, 0xf5f1ea);
+  floorLamp(g, '奶白三脚落地灯', 'tripod', 2.1, 10.75, L1, { metal: 0xd9cbb4, shade: 0xfaf6ef });
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'globe', 0xffffff);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0xf2efe9, 0.3), [['candle', -0.07, 0.02], ['vase', 0.06, -0.02]]);
+  bedding(g, 0xf5f1ea, 0xe0bfb3, 0xd9c8b0);
+  frameOn(g, '线条画', { x: 5.65, dir: -1 }, 1.55, 0.98, 0.4, 0.5, 'line', 10, 0xf4f2ee);
+  frameOn(g, '线条画', { x: 5.65, dir: -1 }, 2.15, 0.98, 0.4, 0.5, 'line', 340, 0xf4f2ee);
+  rugRound(g, '格纹小圆毯', 3.35, 1.85, 0.42, 0, grid);
+  kidsCorner(g, grid, 0xf3ede2, mk(0xe0bfb3, 1), { kind: 'kids', w: 0.45, frame: 0xf4f2ee });
+});
+
+// ===== v18 混搭：奶油 × 中古 =====
+theme('v18', '奶油 × 中古混搭（样板间 15）', `
+  <div class="room"><h3>客厅 <span>奶油色底 + 柚木和黄铜</span></h3><p>大面积用奶油色保持柔和，再用柚木家具和黄铜小件增加年代感：沙发前铺奶油色圈圈绒圆地毯，靠垫奶油、焦糖和橄榄绿。东墙放柚木锥形腿矮柜和黑胶唱机，上方挂黄铜太阳钟。东南角一盏黄铜弧形落地灯和一棵柚木盆琴叶榕。餐桌上方是奶油色碗形吊灯。</p></div>
+  <div class="room"><h3>主卧 <span>奶油 + 焦糖 + 橄榄绿</span></h3><p>床品奶油色，枕头焦糖色，床尾一条橄榄绿薄毯；床头一幅落日画，床尾侧铺圈圈绒小圆毯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span></span></h3><p>柚木矮架，燕麦色圈圈绒圆地毯，焦糖皮质坐墩，墙上一幅暖色山景画。</p></div>`,
+(g, hang) => {
+  const boucle = TM(patTex('boucle', '#f4ecdf', '#d9cbb4', 0.3), { roughness: 1 });
+  rugRound(g, '圈圈绒圆地毯', 1.0, 9.8, 0.75, L1, boucle);
+  sofaCushions(g, [0xf3ead9, 0xb88a5e, 0x6f7552]);
+  throwOnArm(g, '#f1e9dc');
+  teakSideboard(g, '柚木矮柜 + 黑胶唱机');
+  sunburst(g);
+  floorLamp(g, '黄铜弧形落地灯', 'arc', 2.5, 10.6, L1, { tx: 1.2, tz: 9.75, metal: 0xb8925a });
+  plant(g, '琴叶榕（柚木盆）', 'fiddle', 2.1, L1, 10.8, 1.1, 0x8a5a3c);
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'dome', 0xf3ead9);
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0xf2f0ec, 0.15), [['candle', -0.07, 0.03], ['book', 0.05, 0]]);
+  bedding(g, 0xf3ead9, 0xb88a5e, 0x6f7552);
+  frameOn(g, '落日画', { x: 5.65, dir: -1 }, 1.85, 0.98, 0.7, 0.5, 'sun', 25, 0x8a5a3c);
+  rugRound(g, '圈圈绒小圆毯', 3.35, 1.85, 0.42, 0, boucle);
+  kidsCorner(g, TM(patTex('boucle', '#ebe0cc', '#cdbb9c', 0.3), { roughness: 1 }), 0x8a5a3c, mk(0x9a6038, 0.5), { kind: 'mountain', hue: 200, frame: 0x8a5a3c });
+});
+
+// ===== v19 混搭：亲子 × 日式 =====
+theme('v19', '亲子 × 日式混搭（样板间 16）', `
+  <div class="room"><h3>客厅 <span>宝宝安全 + 原木安静</span></h3><p>想要宝宝友好又不想满屋子彩色塑料时的折中：沙发前铺一块本白色加厚棉麻爬行垫，矮桌包上透明防撞角。东南角放一个原木宝宝健身架，挂件用本色木珠。东墙放矮木架配藤编篮，玩具和尿布都收进篮子，墙上一幅水墨小画。餐桌上方挂和纸灯笼。</p></div>
+  <div class="room"><h3>安全 <span>实用</span></h3><p>客厅下楼梯口和走廊下 1 楼的楼梯口各装一道原木色宝宝安全门。漫游时可以直接穿过去。</p></div>
+  <div class="room"><h3>主卧 &amp; 儿童房 <span></span></h3><p>主卧床品燕麦色亚麻，婴儿床上方挂一个原木床铃；儿童房东侧铺棉麻圆地毯，放矮木架和坐垫。</p></div>`,
+(g, hang, soft) => {
+  { const pm = item(g, '加厚棉麻爬行垫', '约 150 × 130 × 3cm'); rb(pm, 0.25, 1.75, L1, L1 + 0.03, 9.15, 10.45, TM(patTex('jute', '#f1ebe0', '#ddd2bf', 0.4), { roughness: 1 }), 0.01); }
+  { const cg = item(g, '透明防撞角', ''); for (const x of [0.66, 1.44]) for (const z of [9.41, 9.84]) box(cg, x - 0.02, x + 0.02, L1 + 0.36, L1 + 0.41, z - 0.02, z + 0.02, new THREE.MeshStandardMaterial({ color: 0xe8f0f2, transparent: true, opacity: 0.6, roughness: 0.2 })); }
+  sofaCushions(g, [0xd8cdb8, 0xa9b8a0, 0xe8e1d3]);
+  { const gy = item(g, '原木宝宝健身架', ''); const wood = mk(0xe2c79f, 0.6);
+    rb(gy, 1.98, 2.78, L1, L1 + 0.03, 9.4, 10.5, mk(0xefe6d6, 1), 0.01);
+    for (const [a, b] of [[V3(2.0, L1, 9.6), V3(2.38, L1 + 0.6, 9.95)], [V3(2.76, L1, 9.6), V3(2.38, L1 + 0.6, 9.95)], [V3(2.0, L1, 10.3), V3(2.38, L1 + 0.6, 9.95)], [V3(2.76, L1, 10.3), V3(2.38, L1 + 0.6, 9.95)]]) rod(gy, a, b, 0.015, wood);
+    for (const x of [2.28, 2.38, 2.48]) { rod(gy, V3(x, L1 + 0.6, 9.95), V3(x, L1 + 0.45, 9.95), 0.003, mk(0xd8cdb8)); const t = new THREE.Mesh(new THREE.SphereGeometry(0.035, 12, 10), mk(0xd2b48a, 0.6)); t.position.set(x, L1 + 0.43, 9.95); gy.add(t); } }
+  lowShelfX(g, '矮木架 + 藤编篮', 2.5, 2.84, 8.3, 9.3, 0.62, 0xd8c2a0, { levels: [0.02, 0.32, 0.6], items: it => {
+    for (const y of [0.04, 0.34]) for (const z of [8.55, 9.05]) rb(it, 2.54, 2.8, L1 + y, L1 + y + 0.24, z - 0.2, z + 0.2, mk(0xc9a777, 0.9), 0.02);
+  } });
+  frameOn(g, '水墨小画', { x: 2.84, dir: -1 }, 8.8, L1 + 1.2, 0.42, 0.55, 'ink', 0, 0x6b5a45);
+  pendant(hang, 0.9, 7.18, L1 + 1.75, 'lantern');
+  const gate = (x0, x1, z, y) => { const gt = item(soft, '原木色宝宝安全门', '高约 75cm'); const w = mk(0xdcc29c, 0.5);
+    box(gt, x0, x1, y + 0.72, y + 0.75, z - 0.015, z + 0.015, w); box(gt, x0, x1, y + 0.03, y + 0.06, z - 0.015, z + 0.015, w);
+    for (let x = x0; x <= x1; x += 0.07) box(gt, x, x + 0.012, y + 0.03, y + 0.75, z - 0.008, z + 0.008, w); };
+  gate(2.02, 2.8, 4.08, L1); gate(1.1, 1.86, 2.69, 0);
+  bedding(g, 0xd9cdb6, 0xefe8dc, 0xa9b8a0);
+  { const mb = item(g, '原木床铃', ''); const w = mk(0xd2b48a, 0.6); rod(mb, V3(5.5, 0.95, 2.97), V3(5.5, 1.35, 2.97), 0.008, w); rod(mb, V3(5.5, 1.35, 2.97), V3(4.95, 1.35, 2.97), 0.008, w);
+    [0, 2.1, 4.2].forEach(a => { const x = 4.95 + Math.cos(a) * 0.12, z = 2.97 + Math.sin(a) * 0.12; rod(mb, V3(4.95, 1.35, 2.97), V3(x, 1.2, z), 0.002, mk(0xefe8dc)); const s = new THREE.Mesh(new THREE.SphereGeometry(0.035, 10, 8), w); s.position.set(x, 1.18, z); mb.add(s); }); }
+  rugRound(g, '棉麻圆地毯', 4.6, 9.9, 0.6, L1, TM(patTex('jute', '#ece5d6', '#cfc4ae', 0.4), { roughness: 1 }));
+  lowShelfX(g, '矮木架', 5.32, 5.65, 9.45, 10.35, 0.62, 0xd8c2a0, { levels: [0.02, 0.32, 0.6], items: it => {
+    for (const y of [0.04, 0.34]) for (const z of [9.68, 10.12]) rb(it, 5.36, 5.62, L1 + y, L1 + y + 0.24, z - 0.18, z + 0.18, mk(0xc9a777, 0.9), 0.02);
+  } });
+  rb(item(g, '坐垫', ''), 4.7, 5.1, L1 + 0.014, L1 + 0.07, 9.8, 10.2, mk(0xa9b8a0, 1), 0.03, 4);
 });
 
 // ---------- room labels ----------
