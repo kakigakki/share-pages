@@ -2993,6 +2993,26 @@ function refreshShopList(v) {
     tr.append(a, b); tb.appendChild(tr);
   }
 }
+// mint bird plush (about 11 × 8 × 16cm) sitting at the bed head between the pillows, facing the foot of the bed.
+// Created last so the saved-layout ids of every other item stay the same.
+{
+  const it = item(furnG, '小鸟玩偶（现有）', '约 11 × 8 × 16cm，坐在床头两个枕头中间');
+  const g = new THREE.Group(); g.position.set(5.47, 0.5, 1.85); g.rotation.y = -Math.PI / 2; it.add(g);  // local +z = west (toward the bed foot)
+  const fur = canvasTex(128, 0.05, (c, n) => { c.fillStyle = '#b4ddd2'; c.fillRect(0, 0, n, n); speckle(c, n, 2500, '120,170,160', '235,250,245'); });
+  const furM = TM(fur, { roughness: 1 }), beakM = M(0xf0c03a, { roughness: 0.9 }), bowM = M(0xd9e07c, { roughness: 0.95 }), eyeM = M(0x3a2420, { roughness: 0.5 });
+  const blob = (m, r, sx, sy, sz, x, y, z) => { const o = new THREE.Mesh(new THREE.SphereGeometry(r, 20, 14), m); o.scale.set(sx, sy, sz); o.position.set(x, y, z); o.castShadow = true; g.add(o); return o; };
+  blob(furM, 0.05, 1.05, 0.95, 0.8, 0, 0.05, 0);              // body
+  blob(furM, 0.048, 1.1, 0.9, 0.85, 0, 0.115, 0.002);         // head (one rounded blob with the body)
+  blob(furM, 0.012, 0.8, 1.4, 0.8, -0.006, 0.162, 0);         // tuft on top
+  for (const s of [-1, 1]) {
+    blob(furM, 0.018, 0.7, 1.3, 0.8, s * 0.053, 0.055, 0.004).rotation.z = s * 0.5;   // stubby wings
+    blob(furM, 0.02, 1, 0.7, 1.2, s * 0.022, 0.008, 0.012);                          // feet
+    blob(eyeM, 0.004, 0.8, 1.4, 0.5, s * 0.03, 0.125, 0.038);                       // slit eyes
+    blob(bowM, 0.011, 1.1, 0.9, 0.8, s * 0.011, 0.075, 0.038);                      // bow tie
+  }
+  blob(beakM, 0.016, 1.2, 0.75, 0.55, 0, 0.112, 0.04);        // beak
+  const lip = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.0015, 0.004), M(0x8a5a1a)); lip.position.set(0, 0.112, 0.0488); g.add(lip);
+}
 refreshShopList(currentVersion);
 applyLayout(currentVersion);
 
