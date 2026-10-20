@@ -40,19 +40,21 @@
   --chip: rgba(24, 32, 29, 0.92);
   color-scheme: dark;
 }
-html, body { height: 100%; }
+html, body { height: 100%; margin: 0; overscroll-behavior: none; }
 [hidden] { display: none !important; }
 body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14px; line-height: 1.6; }
 .app {
-  height: 100%;
+  height: 100%; height: 100dvh;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  padding-block: 16px;
+  padding-top: max(16px, env(safe-area-inset-top, 0px));
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   box-sizing: border-box;
 }
-.stage { position: relative; min-width: 0; min-height: 0; border-radius: 10px; overflow: hidden; background: var(--scene); border: 1px solid var(--line); }
+.stage { position: relative; min-width: 0; min-height: 0; border-radius: 10px; overflow: hidden; background: var(--scene); border: 1px solid var(--line);
+  touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
 .stage canvas { display: block; touch-action: none; }
 .labels { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
 .tag {
@@ -87,13 +89,15 @@ body { background: var(--bg); color: var(--fg); font-family: var(--font-body); f
 aside {
   position: fixed; z-index: 50; top: calc(16px + env(safe-area-inset-top, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   right: max(16px, env(safe-area-inset-right, 0px)); width: min(380px, calc(100vw - 32px));
-  overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px;
+  overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px;
   display: flex; flex-direction: column; gap: 20px; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18); box-sizing: border-box;
 }
 aside header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .icon-btn { font: 500 13px/1 var(--font-body); color: var(--fg); background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; cursor: pointer; }
 .icon-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.panel-btn { position: absolute; right: 12px; bottom: 12px; }
+.br { position: absolute; right: 12px; bottom: 12px; display: flex; gap: 6px; }
+.br .light-btn { display: none; }
+.br .light-btn[aria-expanded="true"] { background: var(--accent); color: var(--panel); border-color: var(--accent); }
 .views .spacer { flex: 1 1 auto; }
 .views .disp { display: flex; flex-wrap: wrap; gap: 6px; }
 h1 { font-family: var(--font-display); font-size: 24px; line-height: 1.25; margin: 0; text-wrap: balance; }
@@ -145,6 +149,38 @@ td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; 
 .err { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--muted); }
 @media (max-width: 820px) {
   .views .spacer { display: none; }
+}
+/* Phones (portrait, or landscape with little height): one scrollable toolbar row, a compact bottom bar,
+   the lighting controls behind a button, bigger tap targets, and a clean screen while walking. */
+@media (max-width: 700px), (max-height: 500px) {
+  .app { padding: max(8px, env(safe-area-inset-top, 0px)) max(8px, env(safe-area-inset-right, 0px)) max(8px, env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-left, 0px)); }
+  .views {
+    top: 8px; left: 8px; right: 0; flex-wrap: nowrap; overflow-x: auto; pointer-events: auto; touch-action: pan-x;
+    scrollbar-width: none; padding-right: 8px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  }
+  .views::-webkit-scrollbar { display: none; }
+  .views .disp { flex-wrap: nowrap; }
+  .views button, .toggles button, .icon-btn, .walk-hud button { flex: none; white-space: nowrap; min-height: 40px; padding: 0 12px; }
+  .toolbar2, .walk-hud { top: 58px; left: 8px; right: 8px; }
+  .walk-hud { padding: 6px 8px 6px 12px; }
+  .walk-hud .walk-keys { flex: 1 1 100px; font-size: 12px; line-height: 1.4; }
+  .ver { left: 8px; bottom: 8px; padding: 0 0 0 4px; max-width: calc(100% - 196px); box-sizing: border-box; }
+  .ver label { display: none; }
+  .ver select { min-height: 40px; max-width: 100%; text-overflow: ellipsis; border: 0; background: transparent; font-size: 14px; }
+  .br { right: 8px; bottom: 8px; }
+  .br .light-btn { display: inline-block; }
+  .lightbox { display: none; left: 8px; right: 8px; bottom: 58px; max-width: none; justify-content: flex-start; padding: 8px 10px; }
+  .stage.light-open .lightbox { display: flex; }
+  .stage.light-open .info { display: none; }
+  .lightbox select { min-height: 36px; font-size: 14px; }
+  .lightbox .sunctl { flex: 1 1 100%; }
+  .lightbox input[type=range] { flex: 1 1 auto; width: auto; min-width: 0; height: 32px; }
+  .info { left: 8px; right: 8px; bottom: 58px; max-width: none; }
+  aside { top: max(8px, env(safe-area-inset-top, 0px)); bottom: max(8px, env(safe-area-inset-bottom, 0px)); right: max(8px, env(safe-area-inset-right, 0px)); width: min(380px, calc(100vw - 16px)); padding: 16px; }
+  .stage.walking .ver, .stage.walking .br, .stage.walking .lightbox, .stage.walking .info { display: none; }
+  .stage.walking .minimap { top: auto; bottom: max(16px, env(safe-area-inset-bottom, 0px)); right: 8px; width: auto; height: min(170px, 34%); }
+  .joy { left: 16px; bottom: max(20px, env(safe-area-inset-bottom, 0px)); }
 }
 </style>
 </head>
@@ -212,8 +248,11 @@ td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; 
       </span>
     </div>
     <canvas class="minimap" id="minimap" width="150" height="300" hidden></canvas>
-    <button type="button" class="icon-btn panel-btn" id="panel-open" aria-controls="panel" aria-expanded="false">说明 / 日志</button>
-    <div class="info" id="info">左键拖动旋转 · 右键拖动平移 · 滚轮朝鼠标处缩放 · 双击放大到那里 · 单击家具看尺寸</div>
+    <div class="br">
+      <button type="button" class="icon-btn light-btn" id="light-open" aria-expanded="false">光照</button>
+      <button type="button" class="icon-btn" id="panel-open" aria-controls="panel" aria-expanded="false">说明 / 日志</button>
+    </div>
+    <div class="info" id="info"></div>
   </div>
 
   <aside id="panel" hidden>
@@ -346,6 +385,12 @@ const state = { furn: true, loft: true, cut: false, labels: true };
 
 const stage = document.getElementById('stage');
 const infoEl = document.getElementById('info');
+const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+const HINT = isCoarse ? '单指拖动旋转 · 双指拖动平移、捏合缩放 · 双击放大到那里 · 点家具看尺寸'
+  : '左键拖动旋转 · 右键拖动平移 · 滚轮朝鼠标处缩放 · 双击放大到那里 · 单击家具看尺寸';
+infoEl.textContent = HINT;
+// iOS Safari ignores touch-action for page pinch-zoom; keep pinches on the model instead of zooming the page
+document.addEventListener('gesturestart', e => e.preventDefault());
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -2241,6 +2286,8 @@ function fly(key, instant = false) {
   const p = PRESETS[key];
   document.querySelectorAll('#views button[data-view], #v-walk').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === key)));
   const toP = new THREE.Vector3(...p.pos), toT = new THREE.Vector3(...p.target);
+  // the whole-house overview is framed for a wide screen; on a tall phone screen back the camera off so the house fits
+  if (key === 'overview' && camera.aspect < 1.3) toP.sub(toT).multiplyScalar(Math.sqrt(1.3 / camera.aspect)).add(toT);
   if (instant || reduceMotion) { camera.position.copy(toP); controls.target.copy(toT); tween = null; return; }
   tween = { t: 0, fromP: camera.position.clone(), fromT: controls.target.clone(), toP, toT };
 }
@@ -2291,6 +2338,12 @@ function setVersion(v) {
   setVersion(sel.value);
 }
 
+// lighting controls sit behind a button on phones
+{
+  const lb = document.getElementById('light-open');
+  lb.addEventListener('click', () => { const on = stage.classList.toggle('light-open'); lb.setAttribute('aria-expanded', String(on)); });
+}
+
 // notes drawer
 {
   const panel = document.getElementById('panel'), openB = document.getElementById('panel-open');
@@ -2310,12 +2363,20 @@ labelBtn.addEventListener('click', () => {
 
 // ---------- picking ----------
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
-let downAt = null;
-renderer.domElement.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
+let downAt = null, downType = 'mouse', lastTap = null;
+renderer.domElement.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; downType = e.pointerType; });
+// a tap: the finger moved only a little (fingers wobble more than a mouse)
+const isTap = e => downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) <= (e.pointerType === 'mouse' ? 5 : 12);
 var toolMode = null;   // 'measure' | 'edit' | null
 renderer.domElement.addEventListener('pointerup', e => {
+  if (!isTap(e)) { lastTap = null; return; }
+  // touch double-tap = the mouse double-click zoom (mobile browsers don't reliably fire dblclick on a touch-action:none canvas)
+  if (e.pointerType !== 'mouse' && !walk.on && !toolMode) {
+    const now = performance.now();
+    if (lastTap && now - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 30) { lastTap = null; zoomAt(e.clientX, e.clientY); return; }
+    lastTap = { t: now, x: e.clientX, y: e.clientY };
+  }
   if (toolMode) return;
-  if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;
   const r = renderer.domElement.getBoundingClientRect();
   ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
   ray.setFromCamera(ndc, camera);
@@ -2327,13 +2388,14 @@ renderer.domElement.addEventListener('pointerup', e => {
   if (o) {
     const b = document.createElement('b'); b.textContent = o.userData.info.name; infoEl.appendChild(b);
     if (o.userData.info.size) { const s = document.createElement('span'); s.className = 'mono'; s.textContent = o.userData.info.size; infoEl.appendChild(s); }
-  } else infoEl.textContent = '左键拖动旋转 · 右键拖动平移 · 滚轮朝鼠标处缩放 · 双击放大到那里 · 单击家具看尺寸';
+  } else infoEl.textContent = HINT;
 });
 
 // double-click: glide the orbit centre to the clicked point and move in close
-renderer.domElement.addEventListener('dblclick', e => {
+renderer.domElement.addEventListener('dblclick', e => { if (downType === 'mouse' && !walk.on) zoomAt(e.clientX, e.clientY); });
+function zoomAt(cx, cy) {
   const r = renderer.domElement.getBoundingClientRect();
-  ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  ndc.set(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
   ray.setFromCamera(ndc, camera);
   const shown = o => { while (o) { if (!o.visible) return false; o = o.parent; } return true; };
   const hit = ray.intersectObjects([statics, wallsG, furnG, loftG], true)
@@ -2345,7 +2407,7 @@ renderer.domElement.addEventListener('dblclick', e => {
   const toP = toT.clone().add(dir.multiplyScalar(dist));
   if (reduceMotion) { camera.position.copy(toP); controls.target.copy(toT); return; }
   tween = { t: 0, fromP: camera.position.clone(), fromT: controls.target.clone(), toP, toT };
-});
+}
 
 // ---------- ambient occlusion (soft contact shadows) ----------
 const composer = new EffectComposer(renderer);
@@ -2356,7 +2418,6 @@ ssao.minDistance = 0.0003;
 ssao.maxDistance = 0.006;
 composer.addPass(ssao);
 composer.addPass(new OutputPass());
-const isCoarse = window.matchMedia('(pointer: coarse)').matches;
 const useAO = !isCoarse; // soft contact shadows on desktop; phones skip them to stay smooth
 
 // ---------- first-person walk mode ----------
@@ -2366,7 +2427,8 @@ var walk = { on: false, feet: L1, yaw: Math.PI, pitch: 0, vy: 0, keys: new Set()
 const EYE = 1.55, RADIUS = 0.22;
 const hud = document.getElementById('walk-hud'), roomEl = document.getElementById('walk-room');
 const cross = document.getElementById('crosshair'), joyEl = document.getElementById('joy'), knob = document.getElementById('knob');
-const isTouch = window.matchMedia('(pointer: coarse)').matches;
+const isTouch = isCoarse;
+if (isTouch) hud.querySelector('.walk-keys').textContent = '摇杆走，推到底快走 · 拖画面看四周';
 const downRay = new THREE.Raycaster(), sideRay = new THREE.Raycaster();
 const shownMesh = o => { if (!o.isMesh) return false; for (let p = o; p; p = p.parent) if (!p.visible) return false; return true; };
 const blocks = o => shownMesh(o) && (!o.material.transparent || o.material === mat.glass || o.material === mat.ghost);
@@ -2408,6 +2470,7 @@ function enterWalk() {
   camera.position.set(0.4, GND + EYE, 0.3);
   camera.fov = 70; camera.updateProjectionMatrix();
   hud.hidden = false; cross.hidden = isTouch; joyEl.hidden = !isTouch;
+  stage.classList.add('walking');
   labelR.domElement.hidden = true;
   document.querySelectorAll('#views button[data-view], #v-walk').forEach(b => b.setAttribute('aria-pressed', String(b.id === 'v-walk')));
 
@@ -2421,6 +2484,7 @@ function exitWalk() {
   camera.fov = 45; camera.updateProjectionMatrix();
   camera.rotation.set(0, 0, 0);
   hud.hidden = true; cross.hidden = true; joyEl.hidden = true;
+  stage.classList.remove('walking');
   labelR.domElement.hidden = !state.labels;
   document.getElementById('v-walk').setAttribute('aria-pressed', 'false');
 }
@@ -2475,7 +2539,8 @@ function walkUpdate(dt) {
   let s = (k.has('KeyD') || k.has('ArrowRight') ? 1 : 0) - (k.has('KeyA') || k.has('ArrowLeft') ? 1 : 0) + walk.joy.x;
   const len = Math.hypot(f, s);
   if (len > 1) { f /= len; s /= len; }
-  const speed = (k.has('ShiftLeft') || k.has('ShiftRight') ? 2.6 : 1.3) * dt;
+  const run = k.has('ShiftLeft') || k.has('ShiftRight') || Math.hypot(walk.joy.x, walk.joy.y) > 0.92;
+  const speed = (run ? 2.6 : 1.3) * dt;
   // camera looks down -z at yaw 0
   const fx = -Math.sin(walk.yaw), fz = -Math.cos(walk.yaw);
   const dx = (fx * f - fz * s) * speed, dz = (fz * f + fx * s) * speed;
@@ -2540,7 +2605,7 @@ btn('ms-clear').addEventListener('click', () => {
 });
 const measureTargets = () => [statics, wallsG, furnG, decorG, themesRoot, softRoot, doorsG];
 renderer.domElement.addEventListener('pointerup', e => {
-  if (toolMode !== 'measure' || !downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;
+  if (toolMode !== 'measure' || !isTap(e)) return;
   rayAt(e);
   const hit = ray.intersectObjects(measureTargets(), true).find(h => h.object.isMesh && shownChain(h.object) && !h.object.material.transparent);
   if (!hit) return;
@@ -2827,7 +2892,7 @@ function walkDoors() {
     nearDoor = best;
     doorBtn.hidden = !best;
   }
-  if (best) doorBtn.textContent = (best.closed ? '开门' : '关门') + '（E）· ' + best.name;
+  if (best) doorBtn.textContent = (best.closed ? '开门' : '关门') + (isTouch ? ' · ' : '（E）· ') + best.name;
 }
 const toggleNear = () => { if (nearDoor) nearDoor.closed = !nearDoor.closed; };
 doorBtn.addEventListener('click', toggleNear);
