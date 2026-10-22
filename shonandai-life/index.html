@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>湘南台くらしの地図</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 町内会の掲示板の地図 — 上に三重の圏域リングを描いた地図、下に分類別の施設台帳。台帳の各行は右端に 徒歩/自転車/車 の所要時間 */
+:root{
+  --paper:#eef1ef; --panel:#ffffff; --sunk:#e3e8e5; --rule:#d2d9d5;
+  --ink:#17222a; --ink2:#4f5e66; --ink3:#83908f;
+  --accent:#1f4e79; --accent-soft:#dde7f1; --warn:#9a5b00; --warn-bg:#fbefd9;
+  --c-shop:#a35c2c; --c-med:#c2366b; --c-gov:#6657b8; --c-trans:#2f6fb0;
+  --c-food:#a07c0c; --c-relax:#2f8a5a; --c-bosai:#e04a1f; --c-kids:#13878d;
+  --tile-filter:none;
+  --display:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#11181c; --panel:#192227; --sunk:#202b31; --rule:#2c3940;
+  --ink:#e3eaec; --ink2:#a5b3b8; --ink3:#73828a;
+  --accent:#8db8e3; --accent-soft:#1d2e3d; --warn:#f0b866; --warn-bg:#3a2c14;
+  --c-shop:#df9563; --c-med:#ec79a3; --c-gov:#a99cf0; --c-trans:#78aee6;
+  --c-food:#dcbc4c; --c-relax:#6fca95; --c-bosai:#ff8a63; --c-kids:#5cc6cb;
+  --tile-filter:invert(1) hue-rotate(180deg) brightness(.82) contrast(.9) saturate(.6);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11181c; --panel:#192227; --sunk:#202b31; --rule:#2c3940;
+  --ink:#e3eaec; --ink2:#a5b3b8; --ink3:#73828a;
+  --accent:#8db8e3; --accent-soft:#1d2e3d; --warn:#f0b866; --warn-bg:#3a2c14;
+  --c-shop:#df9563; --c-med:#ec79a3; --c-gov:#a99cf0; --c-trans:#78aee6;
+  --c-food:#dcbc4c; --c-relax:#6fca95; --c-bosai:#ff8a63; --c-kids:#5cc6cb;
+  --tile-filter:invert(1) hue-rotate(180deg) brightness(.82) contrast(.9) saturate(.6);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.7}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:1100;background:var(--panel)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.gut{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+.top{background:var(--panel);border-bottom:1px solid var(--rule)}
+.top .gut{padding-block:34px 26px;display:grid;gap:18px}
+.back{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:var(--ink3);text-decoration:none}
+.back:hover{color:var(--accent)}
+.eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--ink3);margin:0 0 6px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4.6vw,2.5rem);line-height:1.2;margin:0;text-wrap:balance;letter-spacing:.02em}
+.lead{margin:10px 0 0;color:var(--ink2);max-width:60ch;font-size:.92rem}
+.stats{display:flex;flex-wrap:wrap;gap:10px}
+.stat{display:flex;align-items:baseline;gap:8px;padding:8px 14px;border:1px solid var(--rule);border-radius:6px;background:var(--paper)}
+.stat b{font-family:var(--mono);font-size:1.35rem;font-weight:500;font-variant-numeric:tabular-nums}
+.stat span{font-size:.78rem;color:var(--ink2)}
+.stat i{font-style:normal;display:inline-block;width:22px;border-top:2px solid var(--ink);transform:translateY(-4px)}
+.stat i.d2{border-top-style:dashed}.stat i.d3{border-top-style:dotted;border-top-width:3px}
+
+/* map */
+.mapwrap{position:relative;margin-top:18px;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--sunk)}
+#map{height:min(62vh,520px);min-height:320px;width:100%;background:var(--sunk)}
+.maphint{font-size:.74rem;color:var(--ink3);margin:6px 2px 0}
+
+/* filters */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:1000;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule);margin-top:22px}
+.bar .gut{padding-block:10px;display:grid;gap:8px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font:inherit;font-size:.8rem;padding:4px 11px;border:1px solid var(--rule);border-radius:99px;background:var(--panel);color:var(--ink2);cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.chip:hover{border-color:var(--ink3)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip .dot{width:8px;height:8px}
+.chip .n{font-family:var(--mono);font-size:.68rem;opacity:.7}
+.row2{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:var(--panel)}
+.seg button{font:inherit;font-size:.78rem;padding:4px 10px;border:0;background:transparent;color:var(--ink2);cursor:pointer}
+.seg button+button{border-left:1px solid var(--rule)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);font-weight:700}
+#q{font:inherit;font-size:.82rem;padding:4px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink);min-width:0;flex:1 1 140px;max-width:240px}
+
+/* ledger */
+main.gut{padding-block:8px 60px}
+.cat{margin-top:34px}
+.cat>h2{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0 0 4px;letter-spacing:.03em}
+.cat>h2 .n{font-family:var(--mono);font-size:.72rem;font-weight:500;color:var(--ink3);margin-left:auto}
+.dot{flex:none;display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c)}
+.sub{margin-top:16px}
+.sub h3{font-size:.78rem;font-weight:700;letter-spacing:.12em;color:var(--ink2);margin:0 0 6px;padding-bottom:4px;border-bottom:1px solid var(--rule)}
+ul.list{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 18px;padding:12px 2px;border-bottom:1px dashed var(--rule)}
+.it:last-child{border-bottom:0}
+.nm{font-weight:700;font-size:.98rem;line-height:1.45;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.nm button{all:unset;cursor:pointer}
+.nm button:hover{color:var(--accent);text-decoration:underline}
+.nm button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.warn{font-size:.66rem;font-weight:700;color:var(--warn);background:var(--warn-bg);padding:1px 7px;border-radius:4px;letter-spacing:.04em}
+.ad{font-size:.78rem;color:var(--ink3);margin-top:1px}
+.hr{font-size:.8rem;color:var(--ink2);margin-top:4px}
+.hr .k{font-size:.66rem;letter-spacing:.08em;color:var(--ink3);border:1px solid var(--rule);border-radius:3px;padding:0 4px;margin-right:6px}
+.nt{font-size:.84rem;margin:3px 0 0;color:var(--ink)}
+.tg{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tg span{font-size:.66rem;padding:1px 7px;border-radius:3px;background:var(--sunk);color:var(--ink2)}
+.side{display:grid;gap:6px;justify-items:end;align-content:start}
+.tm{display:grid;grid-template-columns:repeat(3,auto);gap:0;margin:0;border:1px solid var(--rule);border-radius:5px;overflow:hidden;background:var(--panel)}
+.tm div{padding:3px 8px;text-align:center;min-width:52px}
+.tm div+div{border-left:1px solid var(--rule)}
+.tm dt{font-size:.6rem;letter-spacing:.1em;color:var(--ink3)}
+.tm dd{margin:0;font-family:var(--mono);font-size:.92rem;font-variant-numeric:tabular-nums;color:var(--ink3)}
+.tm dd small{font-family:var(--body);font-size:.62rem;margin-left:1px}
+.tm div.on{background:var(--accent-soft)}
+.tm div.on dd{color:var(--accent);font-weight:500}
+.tm div.on dt{color:var(--accent)}
+.lk{display:flex;gap:12px;font-size:.76rem}
+.lk a{text-decoration:none}.lk a:hover{text-decoration:underline}
+.empty{color:var(--ink3);font-size:.9rem;padding:40px 0;text-align:center}
+
+/* method */
+.method{margin-top:50px;padding:20px 22px;background:var(--panel);border:1px solid var(--rule);border-radius:8px;font-size:.84rem;color:var(--ink2)}
+.method h2{font-family:var(--display);font-size:1.1rem;color:var(--ink);margin:0 0 8px}
+.method ul{margin:0;padding-left:1.2em;display:grid;gap:4px}
+.method b{color:var(--ink)}
+
+@media (max-width:640px){
+  .it{grid-template-columns:minmax(0,1fr)}
+  .side{justify-items:start;grid-auto-flow:row}
+  #map{height:56vh}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* Leaflet essentials (inlined) */
+.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane>svg,.leaflet-pane>canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}
+.leaflet-container{overflow:hidden;-webkit-tap-highlight-color:transparent;font-family:var(--body);outline-offset:1px}
+.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow{user-select:none;-webkit-user-drag:none}
+.leaflet-container img.leaflet-tile{max-width:none!important;max-height:none!important;width:256px;height:256px;padding:0;mix-blend-mode:normal}
+.leaflet-tile{visibility:hidden}.leaflet-tile-loaded{visibility:inherit}
+.leaflet-tile-pane{filter:var(--tile-filter)}
+.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}
+.leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}
+.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-image-layer,.leaflet-pane>svg path,.leaflet-tile-container{pointer-events:none}
+.leaflet-marker-icon.leaflet-interactive,.leaflet-image-layer.leaflet-interactive,.leaflet-pane>svg path.leaflet-interactive{pointer-events:auto}
+.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:grab}.leaflet-dragging .leaflet-grab{cursor:move}
+.leaflet-zoom-animated{transform-origin:0 0}
+.leaflet-zoom-anim .leaflet-zoom-animated{transition:transform .25s cubic-bezier(0,0,.25,1)}
+.leaflet-zoom-anim .leaflet-tile,.leaflet-pan-anim .leaflet-tile{transition:none}
+.leaflet-zoom-anim .leaflet-zoom-hide{visibility:hidden}
+.leaflet-control{position:relative;z-index:800;pointer-events:auto;float:left;clear:both}
+.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}
+.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}
+.leaflet-right .leaflet-control{float:right}
+.leaflet-top .leaflet-control{margin-top:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}
+.leaflet-bar{border-radius:5px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.leaflet-bar a{display:block;width:32px;height:32px;line-height:32px;text-align:center;text-decoration:none;background:var(--panel);color:var(--ink);font:700 18px/32px var(--mono)}
+.leaflet-bar a:first-child{border-radius:5px 5px 0 0;border-bottom:1px solid var(--rule)}
+.leaflet-bar a:last-child{border-radius:0 0 5px 5px}
+.leaflet-bar a.leaflet-disabled{color:var(--ink3);cursor:default}
+.leaflet-control-attribution{background:color-mix(in srgb,var(--panel) 85%,transparent);color:var(--ink2);padding:0 6px;font-size:10px;line-height:1.6}
+.leaflet-control-attribution a{color:var(--accent)}
+.leaflet-attribution-flag{display:none!important}
+.leaflet-popup{position:absolute;text-align:center;margin-bottom:14px}
+.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:7px;background:var(--panel);color:var(--ink);box-shadow:0 3px 14px rgba(0,0,0,.25)}
+.leaflet-popup-content{margin:10px 14px;line-height:1.55;font-size:.82rem;min-width:180px}
+.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-top:-1px;margin-left:-20px;overflow:hidden;pointer-events:none}
+.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;transform:rotate(45deg);background:var(--panel)}
+.leaflet-popup-close-button{position:absolute;top:0;right:0;width:26px;height:26px;font:18px/26px var(--mono);color:var(--ink3);text-decoration:none;text-align:center}
+.leaflet-tooltip{position:absolute;padding:2px 7px;background:var(--panel);color:var(--ink);border:1px solid var(--rule);border-radius:4px;white-space:nowrap;pointer-events:none;font-size:.72rem;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.leaflet-tooltip.ring{background:transparent;border:0;box-shadow:none;font-family:var(--mono);font-size:.68rem;font-weight:500;color:var(--ink);text-shadow:0 0 3px var(--panel),0 0 3px var(--panel),0 0 3px var(--panel)}
+.leaflet-tooltip.home{font-weight:700;background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.pop b{font-size:.9rem}.pop .s{color:var(--ink3);font-size:.72rem}.pop .t{font-family:var(--mono);font-size:.76rem;margin:4px 0}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="gut">
+  <a class="back" href="../">← SHARE PAGES</a>
+  <div>
+    <p class="eyebrow">FUJISAWA · SHONANDAI · ENGYO</p>
+    <h1>湘南台くらしの地図</h1>
+    <p class="lead">藤沢市円行の新居から、徒歩・自転車・車でそれぞれ約20分の範囲にある生活施設をまとめました。買い物、医療、手続き、交通、食事、運動、防災、子育てまで、近い順に並べています。</p>
+  </div>
+  <div class="stats" id="stats"></div>
+</div></header>
+
+<div class="gut">
+  <div class="mapwrap"><div id="map" role="region" aria-label="施設の地図"></div></div>
+  <p class="maphint">リングは自宅付近から 徒歩20分・自転車20分・車20分 の目安（直線距離から換算）。点を押すと詳細。地図の中心は実際の位置から少しずらしています。</p>
+</div>
+
+<nav class="bar" aria-label="絞り込み"><div class="gut">
+  <div class="chips" id="cats"></div>
+  <div class="row2">
+    <div class="seg" id="zones"></div>
+    <div class="chips" id="tags"></div>
+    <input id="q" type="search" placeholder="名前・メモで検索" aria-label="名前・メモで検索">
+  </div>
+</div></nav>
+
+<main class="gut" id="list"></main>
+
+<div class="gut" style="padding-bottom:60px">
+  <section class="method">
+    <h2>この地図について</h2>
+    <ul>
+      <li><b>所要時間</b>は直線距離に1.3を掛けて道のり距離とみなし、徒歩 80m/分・自転車 250m/分・車 400m/分＋駐車2分で計算した目安です。信号・坂・渋滞は考慮していません。</li>
+      <li><b>営業時間・診療時間</b>は2026年10月時点の公式サイトや掲載サイトの情報です。変わることがあるので、行く前に各リンクで確認してください。</li>
+      <li><b>要確認</b>の印は、公式情報で裏付けが取れなかったもの（第三者サイトのみ・情報が古い・座標が概算など）です。</li>
+      <li>学区・避難所は市の資料に基づく<b>目安</b>です。学区は番地単位で決まるため、転入時に市役所で確認してください。</li>
+      <li>地図データ © OpenStreetMap contributors。</li>
+    </ul>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script>
+const DATA = [{"c":"買い物","s":"スーパー","n":"ユーコープ 湘南台店","a":"藤沢市円行2-10-1","h":"9:00–21:00","note":"駐車場56台、店内にセリアあり","t":[],"u":"https://tokubai.co.jp/%E3%83%A6%E3%83%BC%E3%82%B3%E3%83%BC%E3%83%97/7769","v":true,"lat":35.39432,"lng":139.46091,"d":0.56,"walk":9,"bike":3,"car":4},{"c":"買い物","s":"スーパー","n":"業務スーパー 湘南台店","a":"藤沢市湘南台2-17-4","h":"9:00–21:00","note":"大容量・冷凍食品が安い。輸入調味料も一部あり。駐車場あり","t":["安い"],"u":"https://tokubai.co.jp/%E6%A5%AD%E5%8B%99%E3%82%B9%E3%83%BC%E3%83%91%E3%83%BC/290359","v":true,"lat":35.3945,"lng":139.46634,"d":0.93,"walk":15,"bike":5,"car":5},{"c":"買い物","s":"スーパー","n":"ダイエー 湘南台店","a":"藤沢市湘南台1-3-3","h":"8:00–23:00","note":"駅前。駐車場103台（1,000円以上購入で2時間無料）。3Fにセリア","t":["深夜"],"u":"https://aeonfoodstyle.com/stores/d0568/","v":true,"lat":35.3974,"lng":139.46761,"d":0.94,"walk":15,"bike":5,"car":5},{"c":"買い物","s":"スーパー","n":"オーケー 湘南台店","a":"藤沢市湘南台1-13-1","h":"7:00–21:00","note":"ディスカウント系で安い。駐車場なし","t":["安い"],"u":"https://tokubai.co.jp/%E3%82%AA%E3%83%BC%E3%82%B1%E3%83%BC/43099","v":true,"lat":35.39574,"lng":139.46724,"d":0.95,"walk":15,"bike":5,"car":5},{"c":"買い物","s":"スーパー","n":"そうてつローゼン 湘南台店","a":"藤沢市湘南台1-10-1","h":"1F 8:00–22:00 / 2F 10:00–21:00","note":"駅前。2Fにキャンドゥ。駐車場あり","t":[],"u":"https://tokubai.co.jp/%E3%81%9D%E3%81%86%E3%81%A6%E3%81%A4%E3%83%AD%E3%83%BC%E3%82%BC%E3%83%B3/6153","v":true,"lat":35.39656,"lng":139.46889,"d":1.07,"walk":17,"bike":6,"car":5},{"c":"買い物","s":"スーパー","n":"ヨークプライス 湘南台店","a":"藤沢市湘南台7-36-1","h":"9:00–22:00","note":"ヨーク系のディスカウント業態。駐車場60台","t":["安い"],"u":"https://tokubai.co.jp/%E3%83%A8%E3%83%BC%E3%82%AF%E3%83%97%E3%83%A9%E3%82%A4%E3%82%B9/9795","v":true,"lat":35.39334,"lng":139.47189,"d":1.44,"walk":23,"bike":7,"car":7},{"c":"買い物","s":"スーパー","n":"ロピア 石川店","a":"藤沢市石川5-9-26","h":"10:00–20:00","note":"肉・大容量パックが安い人気店。同じ建物にダイソー","t":["安い"],"u":"https://tokubai.co.jp/%E3%83%AD%E3%83%94%E3%82%A2/29829","v":true,"lat":35.38585,"lng":139.44788,"d":1.64,"walk":27,"bike":9,"car":7},{"c":"買い物","s":"スーパー","n":"西友 藤沢石川店","a":"藤沢市石川2-14-16","h":"24時間（一部除く）と掲載あり・要確認","note":"駐車場65台。トライアル西友へ転換との情報あり（未確認）","t":[],"u":"https://tokubai.co.jp/%E8%A5%BF%E5%8F%8B/6322","v":false,"lat":35.37766,"lng":139.4547,"d":2.32,"walk":38,"bike":12,"car":10},{"c":"買い物","s":"ドラッグストア","n":"ドラッグセイムス 湘南台店","a":"藤沢市湘南台4-7-14","h":"8:00–22:45","note":"調剤併設、駐車場15台","t":[],"u":"https://tokubai.co.jp/%E3%83%89%E3%83%A9%E3%83%83%E3%82%B0%E3%82%BB%E3%82%A4%E3%83%A0%E3%82%B9/299137","v":true,"lat":35.39885,"lng":139.46324,"d":0.54,"walk":9,"bike":3,"car":4},{"c":"買い物","s":"ドラッグストア","n":"クリエイトエスディー 藤沢湘南台二丁目店","a":"藤沢市湘南台2-23-8","h":"10:00–22:00","note":"駐車場あり","t":[],"u":"https://tokubai.co.jp/%E3%82%AF%E3%83%AA%E3%82%A8%E3%82%A4%E3%83%88%E3%82%A8%E3%82%B9%E3%83%87%E3%82%A3%E3%83%BC/37114","v":true,"lat":35.3941,"lng":139.46394,"d":0.77,"walk":12,"bike":4,"car":4},{"c":"買い物","s":"ドラッグストア","n":"ドラッグセイムス 湘南台西口店","a":"藤沢市湘南台2-13-4 大門ビル1F","h":"7:00–23:00","note":"駅西口。朝早く夜遅くまで営業。駐車場なし","t":["深夜"],"u":"https://tokubai.co.jp/%E3%83%89%E3%83%A9%E3%83%83%E3%82%B0%E3%82%BB%E3%82%A4%E3%83%A0%E3%82%B9/299028","v":true,"lat":35.3957,"lng":139.4654,"d":0.79,"walk":13,"bike":4,"car":5},{"c":"買い物","s":"ドラッグストア","n":"スギドラッグ 湘南台店","a":"藤沢市湘南台1-12-2 湘南台ニューライフ1階","h":null,"note":"駅前。駐車場なし","t":[],"u":"https://tokubai.co.jp/%E3%82%B9%E3%82%AE%E3%83%89%E3%83%A9%E3%83%83%E3%82%B0/174222","v":true,"lat":35.39612,"lng":139.4678,"d":0.99,"walk":16,"bike":5,"car":5},{"c":"買い物","s":"ドラッグストア","n":"サンドラッグ 湘南台一丁目店","a":"藤沢市湘南台1-31-11","h":"9:30–21:00","note":"駐車場あり","t":[],"u":"https://tokubai.co.jp/%E3%82%B5%E3%83%B3%E3%83%89%E3%83%A9%E3%83%83%E3%82%B0/20490","v":true,"lat":35.39319,"lng":139.47118,"d":1.39,"walk":23,"bike":7,"car":7},{"c":"買い物","s":"コンビニ","n":"ファミリーマート 藤沢円行店","a":"藤沢市円行2-1-2","h":null,"note":null,"t":[],"u":"https://tokubai.co.jp/%E3%83%95%E3%82%A1%E3%83%9F%E3%83%AA%E3%83%BC%E3%83%9E%E3%83%BC%E3%83%88/99956","v":true,"lat":35.39582,"lng":139.46054,"d":0.41,"walk":7,"bike":2,"car":3},{"c":"買い物","s":"コンビニ","n":"ファミリーマート 藤沢湘南台四丁目店","a":"藤沢市湘南台4-16-9","h":null,"note":null,"t":[],"u":"https://tokubai.co.jp/%E3%83%95%E3%82%A1%E3%83%9F%E3%83%AA%E3%83%BC%E3%83%9E%E3%83%BC%E3%83%88/99961","v":true,"lat":35.40094,"lng":139.46152,"d":0.48,"walk":8,"bike":2,"car":4},{"c":"買い物","s":"コンビニ","n":"ファミリーマート 円行二丁目店","a":"藤沢市円行2-13-12","h":null,"note":null,"t":[],"u":"https://tokubai.co.jp/%E3%83%95%E3%82%A1%E3%83%9F%E3%83%AA%E3%83%BC%E3%83%9E%E3%83%BC%E3%83%88/99984","v":true,"lat":35.39259,"lng":139.46051,"d":0.71,"walk":12,"bike":4,"car":4},{"c":"買い物","s":"100円ショップ","n":"セリア ユーコープ湘南台店","a":"藤沢市円行2-10-1 ユーコープ湘南台店1F","h":"10:00–20:00","note":"最寄りの100均。ユーコープ内","t":[],"u":"https://100yenshop.jp/kanagawa/station/kng01420/","v":true,"lat":35.3944,"lng":139.4608,"d":0.55,"walk":9,"bike":3,"car":4},{"c":"買い物","s":"100円ショップ","n":"ダイソー 藤沢湘南台店","a":"藤沢市湘南台2-21-3","h":"9:00–21:00（10:00–20:00の記載もあり）","note":"駅西口側の路面店","t":[],"u":"https://100yenshop.jp/kanagawa/station/kng01420/","v":true,"lat":35.39419,"lng":139.46498,"d":0.84,"walk":14,"bike":4,"car":5},{"c":"買い物","s":"100円ショップ","n":"セリア ダイエー湘南台店","a":"藤沢市湘南台1-3-3 ダイエー湘南台店3F","h":"10:00–21:00","note":"ダイエー3F。そうてつローゼン2Fにキャンドゥも","t":[],"u":"https://100yenshop.jp/kanagawa/station/kng01420/","v":true,"lat":35.3975,"lng":139.4677,"d":0.95,"walk":15,"bike":5,"car":5},{"c":"買い物","s":"家電・家具・DIY","n":"ワークマン 藤沢円行店","a":"藤沢市円行2-26-1","h":null,"note":"作業着・アウトドアウェア","t":[],"u":"https://tokubai.co.jp/%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%9E%E3%83%B3/74038","v":true,"lat":35.39157,"lng":139.45805,"d":0.76,"walk":12,"bike":4,"car":4},{"c":"買い物","s":"家電・家具・DIY","n":"ノジマ NEW湘南台店","a":"藤沢市円行1-2-1","h":"10:00–20:00","note":"最寄りの家電量販店","t":[],"u":"https://www.nojima.co.jp/shop/kanagawa/newshonandai/","v":true,"lat":35.3895,"lng":139.45827,"d":0.99,"walk":16,"bike":5,"car":5},{"c":"買い物","s":"家電・家具・DIY","n":"ニトリEXPRESS イトーヨーカドー湘南台店","a":"藤沢市石川6-2-1 イトーヨーカドー湘南台店2階","h":"10:00–21:00","note":"2025年10月開店。最寄りのニトリ","t":["駐車場無料"],"u":"https://shop.nitori-net.jp/nitori/spot/detail?code=0000006488","v":true,"lat":35.3922,"lng":139.4471,"d":1.15,"walk":19,"bike":6,"car":6},{"c":"買い物","s":"家電・家具・DIY","n":"DCM 藤沢石川店","a":"藤沢市石川5-28-5","h":"9:30–19:30","note":"最寄りのホームセンター。駐車場あり","t":[],"u":"https://tokubai.co.jp/DCM/15430","v":true,"lat":35.38182,"lng":139.45012,"d":1.96,"walk":32,"bike":10,"car":8},{"c":"買い物","s":"家電・家具・DIY","n":"ヤマダデンキ テックランド ゆめが丘ソラトス店","a":"横浜市泉区ゆめが丘31 ゆめが丘ソラトス内","h":"10:00–21:00","note":"ゆめが丘ソラトス内","t":[],"u":"https://tokubai.co.jp/%E3%83%A4%E3%83%9E%E3%83%80%E3%83%87%E3%83%B3%E3%82%AD/277937","v":true,"lat":35.4058,"lng":139.4826,"d":2.44,"walk":40,"bike":13,"car":10},{"c":"買い物","s":"大型商業施設","n":"イトーヨーカドー 湘南台店","a":"藤沢市石川6-2-1","h":"10:00–21:00","note":"ニトリEXPRESS・ダイソー入居。駐車場約1,450台","t":["駐車場無料"],"u":"https://tokubai.co.jp/%E3%82%A4%E3%83%88%E3%83%BC%E3%83%A8%E3%83%BC%E3%82%AB%E3%83%89%E3%83%BC/8953","v":true,"lat":35.39233,"lng":139.44699,"d":1.15,"walk":19,"bike":6,"car":6},{"c":"買い物","s":"大型商業施設","n":"ゆめが丘ソラトス","a":"横浜市泉区ゆめが丘31","h":null,"note":"2024年7月開業。約130店、109シネマズ併設","t":[],"u":"https://www.bcnretail.com/topics_detail9/20240505_420592.html","v":true,"lat":35.40594,"lng":139.48274,"d":2.45,"walk":40,"bike":13,"car":10},{"c":"買い物","s":"大型商業施設","n":"湘南とうきゅう（湘南ライフタウン）","a":"藤沢市遠藤字滝ノ沢698-10","h":"9:00–20:00（とうきゅう湘南店）","note":"スーパー・デコホーム・キャンドゥ等。近くにコーナン","t":[],"u":"https://tokubai.co.jp/prefectures/14/loconavi_spots/91244","v":false,"lat":35.37136,"lng":139.44212,"d":3.31,"walk":54,"bike":17,"car":13},{"c":"買い物","s":"大型商業施設","n":"湘南モールフィル","a":"藤沢市辻堂新町4-1-1","h":"ショップ 10:00–21:00","note":"ニトリEXPRESS・無印良品など","t":[],"u":"https://iko-yo.net/facilities/4813","v":true,"lat":35.33792,"lng":139.46312,"d":6.75,"walk":110,"bike":35,"car":24},{"c":"買い物","s":"アジア食材","n":"エスニックスーパー","a":"藤沢市湘南台2-20-4 曽文商事1F","h":null,"note":"タイ・ベトナム等の食材。情報が2014年と古く営業要確認","t":["アジア食材"],"u":"https://tabelog.com/kanagawa/A1404/A140405/14050600/","v":false,"lat":35.39363,"lng":139.46475,"d":0.86,"walk":14,"bike":4,"car":5},{"c":"買い物","s":"アジア食材","n":"タンハー","a":"横浜市泉区上飯田町3050","h":"10:00–21:00（土日祝〜22:00）木曜定休","note":"いちょう団地のベトナム食材店兼食堂。駐車場7台","t":["アジア食材"],"u":"https://blog.sotetsu-re.co.jp/gourmet/asian/yokohama-izumino-tanha-w473-20240130/","v":true,"lat":35.43005,"lng":139.47575,"d":3.9,"walk":63,"bike":20,"car":15},{"c":"買い物","s":"アジア食材","n":"シーワントアジア食品","a":"横浜市泉区上飯田町2670-32 いちょう団地32棟1F","h":null,"note":"中国・ベトナム・タイ食材。2021年の情報で営業未確認","t":["アジア食材"],"u":"https://www.kokoro-vj.org/ja/post_10981","v":false,"lat":35.43233,"lng":139.4735,"d":4.05,"walk":66,"bike":21,"car":15},{"c":"買い物","s":"アジア食材","n":"藤沢アジア物産店","a":"藤沢市藤沢498-10 藤沢第三ビル2F","h":null,"note":"藤沢駅北口の中華食材店。営業状況要確認","t":["アジア食材"],"u":"https://map.yahoo.co.jp/v3/place/ImpMDWeksTE","v":false,"lat":35.3392,"lng":139.48445,"d":7.03,"walk":114,"bike":37,"car":25},{"c":"医療","s":"内科","n":"すが内科クリニック","a":"藤沢市湘南台2-8-30 3F","h":"月火水金9:30-13:00/16:00-18:00、土9:30-13:00","note":"木・日・祝休診。消化器内科","t":[],"u":"https://medicalnote.jp/hospitals/155600","v":false,"lat":35.39642,"lng":139.46329,"d":0.59,"walk":10,"bike":3,"car":4},{"c":"医療","s":"内科","n":"ことり内科クリニック","a":"藤沢市湘南台2-2-1 シーライト湘南1A","h":"月火木金土9:00-12:30、午後 月金14:00-17:00・火木14:00-19:00","note":"水・日・祝休診。予約制。糖尿病内科","t":[],"u":"https://doctorsfile.jp/h/169415/","v":false,"lat":35.3966,"lng":139.4659,"d":0.81,"walk":13,"bike":4,"car":5},{"c":"医療","s":"内科","n":"グリシナクリニック湘南台","a":"藤沢市湘南台2-2-6 Lotus369ビル3階","h":"月水金10:00-13:30/15:00-19:00、土日11:00-14:00/15:00-17:00","note":"火・木・祝休診。土日も診療。小児科・呼吸器内科","t":["休日"],"u":"https://doctorsfile.jp/h/219307/","v":false,"lat":35.3968,"lng":139.4661,"d":0.82,"walk":13,"bike":4,"car":5},{"c":"医療","s":"内科","n":"中沢内科医院","a":"藤沢市湘南台2-18-3","h":"月〜金9:00-12:00/15:00-18:00、土9:00-12:00","note":"日・祝休診。小児科も標榜","t":[],"u":"https://medicalnote.jp/hospitals/35642","v":false,"lat":35.3941,"lng":139.4664,"d":0.95,"walk":16,"bike":5,"car":5},{"c":"医療","s":"内科","n":"村田会 湘南台内科クリニック","a":"藤沢市円行991","h":"月木9:00-12:00/15:00-18:00、火金9:00-12:00/15:00-17:00、水9:00-12:00、土9:00-12:30","note":"日祝休診。小児科・整形外科もあり","t":[],"u":"https://www.sclinic.muratakai.or.jp/","v":true,"lat":35.38718,"lng":139.46042,"d":1.28,"walk":21,"bike":7,"car":6},{"c":"医療","s":"歯科","n":"大庭歯科医院","a":"藤沢市湘南台2-11-6","h":"月火水金9:30-13:00/15:00-20:30、土9:30-13:00/15:00-18:30","note":"木・日・祝休診。平日20:30まで","t":["夜間"],"u":"https://medicalnote.jp/hospitals/177384","v":false,"lat":35.39515,"lng":139.46469,"d":0.76,"walk":12,"bike":4,"car":4},{"c":"医療","s":"歯科","n":"さの歯科","a":"藤沢市湘南台2-2-11 丸美ビル2F","h":"月火木金10:00-13:00/15:00-21:00、土日10:00-13:00/15:00-18:00","note":"水・祝休診。平日21時まで、日曜も診療","t":["夜間","休日"],"u":"https://doctorsfile.jp/h/149791/","v":false,"lat":35.3965,"lng":139.4662,"d":0.83,"walk":14,"bike":4,"car":5},{"c":"医療","s":"歯科","n":"らいおん歯科クリニック湘南台","a":"藤沢市円行2-27-1","h":"月〜金9:00-13:00/14:30-19:00、土日祝9:00-13:00/14:30-18:00","note":"土日祝も診療（掲載情報）。小児歯科・矯正","t":["休日"],"u":"https://doctorsfile.jp/h/167455/","v":false,"lat":35.39032,"lng":139.45811,"d":0.9,"walk":15,"bike":5,"car":5},{"c":"医療","s":"眼科","n":"湘南眼科医院","a":"藤沢市湘南台2-8-10","h":null,"note":"掲載サイト間で時間・休診日が食い違うため要確認","t":[],"u":"https://byoinnavi.jp/rail/2500210/028","v":false,"lat":35.3963,"lng":139.4634,"d":0.6,"walk":10,"bike":3,"car":4},{"c":"医療","s":"眼科","n":"湘南台アイクリニック","a":"藤沢市湘南台2-3-1 アルテミス湘南3階","h":"9:00-13:00/15:00-18:00","note":"木・日・祝休診、臨時休診あり","t":[],"u":"https://byoinnavi.jp/rail/2500210/028","v":false,"lat":35.39679,"lng":139.4653,"d":0.75,"walk":12,"bike":4,"car":4},{"c":"医療","s":"眼科","n":"湘南台ごしょみ眼科","a":"藤沢市湘南台2-4-6 ノワビルⅡ 4F","h":null,"note":"駅西口すぐ","t":[],"u":"https://byoinnavi.jp/rail/2500210/028","v":false,"lat":35.39635,"lng":139.46542,"d":0.77,"walk":13,"bike":4,"car":5},{"c":"医療","s":"皮膚科","n":"すが皮ふ科","a":"藤沢市湘南台2-8-30 2F","h":"月水金9:00-12:00/14:30-18:00、火土9:00-12:00","note":"木・日・祝休診。土曜は完全予約制","t":[],"u":"https://medicalnote.jp/hospitals/219638","v":false,"lat":35.39642,"lng":139.46329,"d":0.59,"walk":10,"bike":3,"car":4},{"c":"医療","s":"皮膚科","n":"稲谷皮膚科","a":"藤沢市湘南台2-9-2","h":null,"note":null,"t":[],"u":"https://byoinnavi.jp/rail/2500210/021","v":false,"lat":35.39519,"lng":139.46364,"d":0.68,"walk":11,"bike":4,"car":4},{"c":"医療","s":"皮膚科","n":"湘南ジンベエ皮膚科","a":"藤沢市湘南台1-4-2 ピノスビル3F-2","h":null,"note":"水・日・祝・土曜隔週休診（掲載情報）。小児皮膚科","t":[],"u":"https://byoinnavi.jp/rail/2500210/021","v":false,"lat":35.3968,"lng":139.4677,"d":0.96,"walk":16,"bike":5,"car":5},{"c":"医療","s":"耳鼻咽喉科","n":"河合耳鼻咽喉科医院","a":"藤沢市湘南台2-7-8","h":"月火水金9:00-12:00/15:00-18:00、土9:00-12:00","note":"木・日・祝休診。臨時休診あり","t":[],"u":"https://medicalnote.jp/hospitals/35636","v":false,"lat":35.3971,"lng":139.4642,"d":0.64,"walk":10,"bike":3,"car":4},{"c":"医療","s":"耳鼻咽喉科","n":"山崎耳鼻咽喉科","a":"藤沢市湘南台1-12-1 エバーズ第13湘南台ビル6階","h":"月火水金9:30-12:30/15:00-18:00、土9:30-12:30","note":"木・日・祝休診。駅徒歩1分","t":[],"u":"https://medicalnote.jp/hospitals/35666","v":false,"lat":35.3962,"lng":139.4677,"d":0.97,"walk":16,"bike":5,"car":5},{"c":"医療","s":"小児科","n":"湘南台あかちゃんこどもクリニック","a":"藤沢市湘南台2-3-1 アルテミス湘南2F","h":"月〜土9:00-12:00、午後 月火水金14:00-18:00・土13:00-17:00","note":"木午後・日・祝休診。アレルギー科あり","t":[],"u":"https://doctorsfile.jp/h/173378/","v":false,"lat":35.3968,"lng":139.4652,"d":0.74,"walk":12,"bike":4,"car":4},{"c":"医療","s":"小児科","n":"さくまこどもクリニック","a":"藤沢市湘南台2-27-15 東永ビル1階","h":null,"note":"駐車場あり（掲載情報）","t":[],"u":"https://byoinnavi.jp/rail/2500210/011","v":false,"lat":35.39355,"lng":139.46666,"d":1.01,"walk":16,"bike":5,"car":5},{"c":"医療","s":"病院・救急","n":"湘南第一病院","a":"藤沢市湘南台1-19-7","h":"月〜金8:30-11:30/13:30-16:30、土8:30-11:30","note":"日祝休診。急患は随時受付（掲載情報）","t":[],"u":"https://doctorsfile.jp/h/41700/","v":false,"lat":35.39516,"lng":139.46933,"d":1.15,"walk":19,"bike":6,"car":6},{"c":"医療","s":"病院・救急","n":"ゆめが丘総合病院","a":"横浜市泉区ゆめが丘30-1","h":null,"note":"2024年開院。24時間365日の二次救急（掲載情報）。位置は概算","t":["24h"],"u":"https://medicalnote.jp/hospitals/338927","v":false,"lat":35.4055,"lng":139.4822,"d":2.39,"walk":39,"bike":12,"car":10},{"c":"医療","s":"病院・救急","n":"藤沢湘南台病院","a":"藤沢市高倉2345","h":"受付 月〜土8:30から（祝日・年末年始除く）","note":"救急科あり。時間外は事前に電話 0466-44-1451","t":[],"u":"https://fj-shonandai.jp/raiin/gairai/uketsuke/","v":true,"lat":35.41713,"lng":139.47057,"d":2.4,"walk":39,"bike":13,"car":10},{"c":"医療","s":"病院・救急","n":"藤沢市民病院","a":"藤沢市藤沢2-6-1","h":null,"note":"救命救急センター（24時間）。外来は紹介予約制","t":["24h"],"u":"https://fujisawacity-hosp.jp/","v":true,"lat":35.35003,"lng":139.48184,"d":5.82,"walk":95,"bike":30,"car":21},{"c":"医療","s":"病院・救急","n":"湘南藤沢徳洲会病院","a":"藤沢市辻堂神台1-5-1","h":null,"note":"24時間365日救急体制","t":["24h"],"u":"https://fujisawatokushukai.jp/","v":true,"lat":35.34103,"lng":139.44392,"d":6.49,"walk":106,"bike":34,"car":23},{"c":"医療","s":"夜間・休日","n":"北休日・夜間急病診療所（藤沢市医師会）","a":"藤沢市大庭5527-1 保健医療センター内","h":"平日20:00-23:00、土曜夜・深夜、日祝9:00-17:00・夜間・深夜","note":"内科・小児科・耳鼻科。発熱時・23時以降は要事前連絡","t":["夜間","休日"],"u":"https://doctorsfile.jp/h/127541/","v":false,"lat":35.36862,"lng":139.44897,"d":3.4,"walk":55,"bike":18,"car":13},{"c":"医療","s":"夜間・休日","n":"ふじさわ安心ダイヤル24","a":"電話 0120-26-0070","h":"毎日24時間","note":"健康相談・休日夜間の医療機関案内","t":["24h"],"u":"https://www.pref.kanagawa.jp/docs/t3u/wsr/kenkousoudan.html","v":true},{"c":"医療","s":"夜間・休日","n":"かながわ救急相談センター #7119","a":"電話 #7119（つながらない場合 045-232-7119）","h":"24時間365日","note":"救急車を呼ぶべきか・受診先を看護師などが案内","t":["24h"],"u":"https://www.pref.kanagawa.jp/docs/h3e/cnt/f209/p809020.html","v":true},{"c":"医療","s":"薬局","n":"ドラッグセイムス 湘南台西口薬局","a":"藤沢市湘南台2-13-4 大門ビル1階","h":null,"note":"店舗は7:00-23:00。調剤時間は要確認","t":[],"u":"https://tokubai.co.jp/transit/rail_lines/station_groups/4943/opening_hour/overnight_opening","v":false,"lat":35.3958,"lng":139.4655,"d":0.8,"walk":13,"bike":4,"car":5},{"c":"医療","s":"薬局","n":"うつみ薬局","a":"藤沢市湘南台2-16-11","h":"月〜金9:00-18:00、土9:00-15:00","note":"日・祝定休","t":[],"u":"https://www.kusurinomadoguchi.com/kanagawa/s66188","v":false,"lat":35.3949,"lng":139.4661,"d":0.89,"walk":14,"bike":5,"car":5},{"c":"医療","s":"薬局","n":"湘南台ひかり薬局","a":"藤沢市円行1-12-10","h":"月〜金9:00-13:00/15:00-19:00、土9:00-14:00","note":"日・祝定休","t":[],"u":"https://www.kusurinomadoguchi.com/kanagawa/s67973","v":false,"lat":35.38775,"lng":139.45926,"d":1.2,"walk":19,"bike":6,"car":6},{"c":"医療","s":"動物病院","n":"コータどうぶつ病院","a":"藤沢市湘南台5-26-2","h":"9:00-12:00/16:00-19:00","note":"水曜・日祝午後休診","t":[],"u":"https://www.koota-vet.com/medicalcare/","v":false,"lat":35.40147,"lng":139.46573,"d":0.84,"walk":14,"bike":4,"car":5},{"c":"医療","s":"動物病院","n":"ひかり犬猫病院","a":"藤沢市湘南台1-16-15","h":"月火木金9:00-12:00/16:00-19:00、土9:00-12:00/14:00-16:00、水9:00-12:00","note":"水午後・日曜休診。犬猫専門","t":[],"u":"https://hikariah.com/about/","v":true,"lat":35.39436,"lng":139.46805,"d":1.07,"walk":17,"bike":6,"car":5},{"c":"医療","s":"動物病院","n":"湘南台セントラル動物病院","a":"藤沢市湘南台5-15-9","h":"9:00-13:00/16:00-19:00","note":"休診日なし（正月数日のみ休み）","t":["休日"],"u":"https://www.central-pc.org/","v":true,"lat":35.40161,"lng":139.4693,"d":1.15,"walk":19,"bike":6,"car":6},{"c":"手続き・公共","s":"市役所・市民センター","n":"湘南台市民センター","a":"藤沢市湘南台1-8（湘南台文化センター内）","h":"平日8:30-17:00（土日祝は戸籍届の預かりのみ）","note":"住民票などの手続き。電話 0466-45-1600。円行は湘南台・六会地区に分かれる","t":[],"u":"https://www.city.fujisawa.kanagawa.jp/jiti-s2/shise/gaiyo/soshiki/centergyomu.html","v":true,"lat":35.39779,"lng":139.46971,"d":1.13,"walk":18,"bike":6,"car":6},{"c":"手続き・公共","s":"市役所・市民センター","n":"六会市民センター","a":"藤沢市亀井野4-8-1","h":null,"note":"円行の一部は六会地区。番地ごとの区分は市に要確認","t":[],"u":"https://www.city.fujisawa.kanagawa.jp/jiti-s2/shise/gaiyo/soshiki/centerannai.html","v":true,"lat":35.3852,"lng":139.4746,"d":2.15,"walk":35,"bike":11,"car":9},{"c":"手続き・公共","s":"市役所・市民センター","n":"藤沢市役所 本庁舎","a":"藤沢市朝日町1-1","h":null,"note":"代表 0466-25-1111。藤沢駅近く","t":[],"u":"https://www.city.fujisawa.kanagawa.jp/","v":true,"lat":35.33953,"lng":139.49107,"d":7.23,"walk":117,"bike":38,"car":25},{"c":"手続き・公共","s":"郵便局","n":"湘南台駅前郵便局","a":"藤沢市湘南台2-5-5 ウェルコンシェール1階","h":"郵便 平日9:00-17:00／ATM 平日・土9:00-21:00、日祝9:00-20:00","note":"最寄り。駐車場なし。窓口は土日休み","t":[],"u":"https://map.japanpost.jp/smt/search/inf/300102528000/","v":true,"lat":35.39598,"lng":139.46402,"d":0.67,"walk":11,"bike":3,"car":4},{"c":"手続き・公共","s":"郵便局","n":"藤沢今田郵便局","a":"藤沢市湘南台7-3-2","h":null,"note":"湘南台駅東側","t":[],"u":"https://www.post.japanpost.jp/enjoy/culture/stamp/fuke/detail.php?id=5649","v":true,"lat":35.3982,"lng":139.47263,"d":1.39,"walk":23,"bike":7,"car":7},{"c":"手続き・公共","s":"郵便局","n":"藤沢北郵便局（ゆうゆう窓口）","a":"藤沢市高倉1220","h":"ゆうゆう窓口 平日8:00-19:00、土8:00-18:00、日祝9:00-15:00","note":"集配局。不在票の荷物受取・時間外の差出はここ","t":["休日"],"u":"https://map.japanpost.jp/smt/search/inf/300102514000/","v":true,"lat":35.40585,"lng":139.47017,"d":1.43,"walk":23,"bike":7,"car":7},{"c":"手続き・公共","s":"郵便局","n":"六会郵便局","a":"藤沢市亀井野2-14-2","h":null,"note":null,"t":[],"u":"https://www.navitime.co.jp/category/0512/14205/","v":true,"lat":35.38205,"lng":139.47286,"d":2.3,"walk":37,"bike":12,"car":9},{"c":"手続き・公共","s":"銀行・ATM","n":"セブン-イレブン 藤沢湘南台2丁目店","a":"藤沢市湘南台2-22-18","h":null,"note":"西口側。セブン銀行ATMの設置は個別未確認","t":[],"u":"https://www.navitime.co.jp/category/0806003003/14205063000/","v":false,"lat":35.3946,"lng":139.4647,"d":0.79,"walk":13,"bike":4,"car":5},{"c":"手続き・公共","s":"銀行・ATM","n":"横浜銀行 湘南台支店","a":"藤沢市湘南台1-4-5","h":null,"note":"湘南台駅東口側","t":[],"u":"https://zengin.ajtw.net/dbs5.php?abg=0138&abs=625","v":true,"lat":35.39684,"lng":139.4677,"d":0.96,"walk":16,"bike":5,"car":5},{"c":"手続き・公共","s":"銀行・ATM","n":"スルガ銀行 湘南台支店","a":"藤沢市湘南台1-12-1","h":null,"note":null,"t":[],"u":"https://zengin.ajtw.net/dbs5.php?abg=0150&abs=303","v":true,"lat":35.39636,"lng":139.46764,"d":0.97,"walk":16,"bike":5,"car":5},{"c":"手続き・公共","s":"交番・警察署","n":"藤沢北警察署","a":"藤沢市円行2-5-1","h":null,"note":"管轄署。電話 0466-45-0110","t":[],"u":"https://www.police.pref.kanagawa.jp/ps/fujisawakita/index.html","v":true,"lat":35.39544,"lng":139.45781,"d":0.33,"walk":5,"bike":2,"car":3},{"c":"手続き・公共","s":"交番・警察署","n":"湘南台駅西口交番","a":"藤沢市湘南台2-13-5","h":null,"note":"円行を受け持つ交番","t":[],"u":"https://www.police.pref.kanagawa.jp/ps/fujisawakita/koban_guide.html","v":true,"lat":35.3959,"lng":139.46585,"d":0.82,"walk":13,"bike":4,"car":5},{"c":"手続き・公共","s":"ごみ・資源","n":"リサイクルプラザ藤沢（北部環境事業所内）","a":"藤沢市石川2168","h":"平日9-12時・13-16時、祝9-12時、日は資源のみ（土休）","note":"自己搬入できる。大型1点500円、資源は無料。2026年5月再開","t":["無料"],"u":"https://www.city.fujisawa.kanagawa.jp/hokubu-k/kurashi/gomi/shisetsu/recycle-plaza.html","v":true,"lat":35.39489,"lng":139.45081,"d":0.7,"walk":11,"bike":4,"car":4},{"c":"手続き・公共","s":"ごみ・資源","n":"ごみ収集日（自宅エリア）","a":null,"h":"可燃・ビン 火金／プラ 水／缶・ペット 隔週月／不燃など 隔週木","note":"令和8年度の日程。市の「ごみ分別アプリ」で前日通知できる","t":[],"u":"https://www.city.fujisawa.kanagawa.jp/kankyo-j/kurashi/gomi/shushubi/nittei/r810b.html","v":true},{"c":"手続き・公共","s":"ごみ・資源","n":"大型ごみ収集の予約（藤沢市興業公社）","a":"電話 0466-23-5301／ネット受付あり","h":"電話 平日8:30-12:00、13:00-17:00","note":"ネット受付は sodai-sys.jp/fujisawa。事前に納付券を購入","t":[],"u":"https://www.city.fujisawa.kanagawa.jp/kankyo-j/kurashi/gomi/wakekata/oogatagomi.html","v":true},{"c":"手続き・公共","s":"図書館","n":"六会市民図書室","a":"藤沢市亀井野4-8-1（六会市民センター内）","h":"火〜日 10:00-17:00","note":"月曜休室。中央館は「運動・リラックス」の総合市民図書館","t":[],"u":"https://www.lib.city.fujisawa.kanagawa.jp/libguide/mutsuai","v":true,"lat":35.3851,"lng":139.4748,"d":2.17,"walk":35,"bike":11,"car":9},{"c":"交通","s":"駅","n":"湘南台駅","a":"藤沢市湘南台","h":null,"note":"小田急江ノ島線・相鉄いずみ野線・ブルーライン。新宿へ約51分、横浜へ約30分（目安）","t":[],"u":"https://www.sfc.keio.ac.jp/doc/accessmap_PDF2020.pdf","v":false,"lat":35.3963,"lng":139.4666,"d":0.88,"walk":14,"bike":5,"car":5},{"c":"交通","s":"駅","n":"六会日大前駅","a":"藤沢市亀井野","h":null,"note":"小田急江ノ島線","t":[],"u":"https://www.odakyu.jp/","v":true,"lat":35.3838,"lng":139.46675,"d":1.84,"walk":30,"bike":10,"car":8},{"c":"交通","s":"バス停","n":"北警察署前（神奈中バス）","a":"藤沢市円行2丁目付近","h":null,"note":"最寄り。湘11・19・20・22〜24系統で湘南台駅西口へ","t":[],"u":"https://mb.jorudan.co.jp/os/bus/1403/stop/229649.html","v":true,"lat":35.3959,"lng":139.45799,"d":0.29,"walk":5,"bike":1,"car":3},{"c":"交通","s":"バス停","n":"円行上庭（神奈中バス）","a":"藤沢市円行付近","h":null,"note":"湘11・湘19〜24・藤39系統（掲載情報）","t":[],"u":"https://mb.jorudan.co.jp/os/bus/1403/stop/58796.html","v":true,"lat":35.39502,"lng":139.46066,"d":0.48,"walk":8,"bike":3,"car":4},{"c":"交通","s":"EV充電","n":"リサイクルプラザ藤沢（EV）","a":null,"h":null,"note":"中速20kW×2・無料と掲載。2025年の火災後は停止との報告あり","t":["無料"],"u":"https://evsmart.net/spot/kanagawa/l142051/v7602","v":false,"lat":35.395,"lng":139.4506,"d":0.71,"walk":12,"bike":4,"car":4},{"c":"交通","s":"EV充電","n":"日産神奈川販売 湘南台店","a":"藤沢市湘南台6-34-11","h":"24時間","note":"CHAdeMO 50kW×1。ビジター料金は販売店で確認","t":["EV急速","24h"],"u":"https://evsmart.net/spot/kanagawa/l142051/v1352","v":true,"lat":35.40122,"lng":139.46979,"d":1.18,"walk":19,"bike":6,"car":6},{"c":"交通","s":"EV充電","n":"ENEOS オブリステーション湘南台SS（EV）","a":"藤沢市湘南台7-26-7","h":"4:00-翌3:00","note":"50kW×1。会員46.2円/分、非会員49.5円/分","t":["EV急速","深夜"],"u":"https://evsmart.net/spot/kanagawa/l142051/v25415","v":true,"lat":35.3939,"lng":139.472,"d":1.42,"walk":23,"bike":7,"car":7},{"c":"交通","s":"EV充電","n":"コナカ 湘南台店","a":"藤沢市高倉1166-1","h":"24時間","note":"中速25kW×1（口コミでは20kW）。有料","t":["EV急速","24h"],"u":"https://evsmart.net/spot/kanagawa/l142051/v24725","v":true,"lat":35.40742,"lng":139.46854,"d":1.43,"walk":23,"bike":7,"car":7},{"c":"交通","s":"EV充電","n":"トヨタモビリティ神奈川 藤沢石川店","a":"藤沢市石川5-10-1","h":"10:00-19:00（月・火定休）","note":"普通3kW×1、1回60分まで","t":["EV普通"],"u":"https://evsmart.net/spot/kanagawa/l142051/v8543","v":true,"lat":35.38483,"lng":139.44824,"d":1.72,"walk":28,"bike":9,"car":8},{"c":"交通","s":"EV充電","n":"日産神奈川販売 長後店","a":"藤沢市高倉891-1","h":"24時間","note":"CHAdeMO 最大90kW×1。有料","t":["EV急速","24h"],"u":"https://evsmart.net/spot/kanagawa/l142051/v29003","v":true,"lat":35.41398,"lng":139.4701,"d":2.09,"walk":34,"bike":11,"car":9},{"c":"交通","s":"ガソリンスタンド","n":"湘南台CS（REXエネルギー）","a":"藤沢市湘南台1-22-9","h":"8:00-20:00","note":null,"t":[],"u":"https://www.navitime.co.jp/category/0801/14205063000/","v":true,"lat":35.39417,"lng":139.47086,"d":1.32,"walk":21,"bike":7,"car":6},{"c":"交通","s":"ガソリンスタンド","n":"セルフ秋葉台SS","a":"藤沢市石川1761-2","h":"7:00-22:00","note":"セルフ","t":["セルフ"],"u":"https://www.navitime.co.jp/category/0801/14205002000/","v":true,"lat":35.39281,"lng":139.44383,"d":1.37,"walk":22,"bike":7,"car":6},{"c":"交通","s":"ガソリンスタンド","n":"ENEOS オブリステーション湘南台","a":"藤沢市湘南台7-26-7","h":"4:00-翌3:00","note":"EV急速充電器併設","t":["深夜"],"u":"https://www.navitime.co.jp/category/0801/14205063000/","v":true,"lat":35.39398,"lng":139.47166,"d":1.39,"walk":23,"bike":7,"car":7},{"c":"交通","s":"ガソリンスタンド","n":"Dr.Drive サンリッチ石川SS","a":"藤沢市石川5-9-22","h":"24時間","note":"ENEOS系","t":["24h"],"u":"https://www.navitime.co.jp/category/0801/14205002000/","v":true,"lat":35.3857,"lng":139.4481,"d":1.64,"walk":27,"bike":9,"car":7},{"c":"交通","s":"洗車","n":"KeePer LABO 湘南台店","a":"藤沢市湘南台5-37-17","h":null,"note":"コーティング・手洗い洗車の専門店","t":[],"u":"https://www.mapion.co.jp/phonebook/M08034/14205/21433087675/","v":true,"lat":35.40442,"lng":139.46943,"d":1.29,"walk":21,"bike":7,"car":6},{"c":"交通","s":"洗車","n":"じゃんぼ洗車センター 藤沢六会店","a":"藤沢市西俣野406-1","h":null,"note":"コイン洗車場","t":[],"u":"https://www.mapion.co.jp/phonebook/M08034/14205/21431342203/","v":true,"lat":35.37993,"lng":139.48561,"d":3.29,"walk":53,"bike":17,"car":13},{"c":"交通","s":"駐車場・駐輪場","n":"タイムズ湘南台駅西口第3","a":"藤沢市湘南台2-8","h":"24時間","note":"18台。20分220円、24時間最大1,500円。現金不可","t":["24h"],"u":"https://btimes.jp/kanagawa/times/BUK0053717/","v":true,"lat":35.3965,"lng":139.4632,"d":0.58,"walk":9,"bike":3,"car":4},{"c":"交通","s":"駐車場・駐輪場","n":"湘南台駅西口自転車駐車場","a":"藤沢市湘南台2-11-3","h":"有人管理 平日6:30-20:00","note":"一時利用1回100円、定期は月1,500〜2,000円（2015年の情報）","t":[],"u":"https://www.city.fujisawa.kanagawa.jp/shisetsu/annai/chushajo/042.html","v":true,"lat":35.39515,"lng":139.46451,"d":0.75,"walk":12,"bike":4,"car":4},{"c":"交通","s":"駐車場・駐輪場","n":"タイムズ湘南台駅地下自動車駐車場","a":"藤沢市湘南台1-43","h":"入出庫6:30-23:30","note":"20分100円・24時間最大1,100円。パーク＆ライド優待あり","t":[],"u":"https://btimes.jp/kanagawa/times/BUK0057972/","v":true,"lat":35.39667,"lng":139.46671,"d":0.88,"walk":14,"bike":5,"car":5},{"c":"交通","s":"シェアサイクル","n":"HELLO CYCLING ファミリーマート藤沢円行店","a":"藤沢市円行","h":null,"note":"自宅に一番近いポート（OpenStreetMapの情報）","t":[],"u":"https://www.openstreetmap.org/node/12477799328","v":false,"lat":35.39646,"lng":139.46073,"d":0.38,"walk":6,"bike":2,"car":3},{"c":"交通","s":"シェアサイクル","n":"HELLO CYCLING 湘南台駅西口自転車駐車場","a":"藤沢市湘南台2-11-3","h":null,"note":"駅西口のポート","t":[],"u":"https://www.hellocycling.jp/","v":true,"lat":35.3952,"lng":139.4646,"d":0.75,"walk":12,"bike":4,"car":4},{"c":"飲食・カフェ","s":"カフェ","n":"ココペリ（kokopelli）","a":"藤沢市湘南台2-1-3 サン80湘南台101","h":"11:00〜17:00（L.O.16:15）不定休","note":"手作りスイーツとコーヒーの隠れ家カフェ","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14047953/","v":true,"lat":35.39734,"lng":139.46539,"d":0.74,"walk":12,"bike":4,"car":4},{"c":"飲食・カフェ","s":"カフェ","n":"ドトールコーヒーショップ 湘南台西口駅前店","a":"藤沢市湘南台2-2-5","h":"平日7:30〜21:00／土8:00〜21:00／日祝9:00〜20:00","note":"西口すぐ。朝から使える","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14012494/","v":true,"lat":35.39669,"lng":139.46602,"d":0.81,"walk":13,"bike":4,"car":5},{"c":"飲食・カフェ","s":"カフェ","n":"コメダ珈琲店 湘南台駅前店","a":"藤沢市湘南台2-2-5 2F","h":"7:00〜23:00（要確認）","note":"駅徒歩1分","t":[],"u":"https://www.navitime.co.jp/category/0301002012/14205/","v":false,"lat":35.39669,"lng":139.46602,"d":0.81,"walk":13,"bike":4,"car":5},{"c":"飲食・カフェ","s":"カフェ","n":"スターバックス コーヒー 湘南台駅ビル店","a":"藤沢市湘南台2-15 小田急マルシェ湘南台2","h":null,"note":"駅ビル内","t":[],"u":"https://store.starbucks.co.jp/","v":false,"lat":35.39518,"lng":139.46698,"d":0.95,"walk":15,"bike":5,"car":5},{"c":"飲食・カフェ","s":"カフェ","n":"葦 湘南台店","a":"藤沢市湘南台1-4-3 サンシャイン湘南台1F","h":"9:00〜20:00（喫茶L.O.19:30）","note":"ケーキと喫茶の人気店。元日のみ休み","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14015812/","v":true,"lat":35.39689,"lng":139.46777,"d":0.96,"walk":16,"bike":5,"car":5},{"c":"飲食・カフェ","s":"パン屋","n":"湘南台ベーカリー","a":"藤沢市湘南台4-2-12","h":"火・金・日 10:00〜19:00","note":"営業は週3日のみ","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14057227/","v":true,"lat":35.39857,"lng":139.46512,"d":0.71,"walk":12,"bike":4,"car":4},{"c":"飲食・カフェ","s":"パン屋","n":"ルートベーカリー（ROOT BAKERY）","a":"藤沢市湘南台2-16-18","h":"火〜金11:00〜13:30／土10:30〜13:30 日月休","note":"昼のみ営業・売切次第終了","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14086317/","v":true,"lat":35.39498,"lng":139.46619,"d":0.89,"walk":14,"bike":5,"car":5},{"c":"飲食・カフェ","s":"パン屋","n":"パン工房 向日葵","a":"藤沢市湘南台2-34-1 第一小泉ハイム","h":"水〜日 8:00〜20:00（売切次第終了）月火休","note":"湘南台のパン屋で評価上位。ベーグルが人気","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14086302/","v":true,"lat":35.39206,"lng":139.46552,"d":1.03,"walk":17,"bike":5,"car":5},{"c":"飲食・カフェ","s":"ランチ・定食","n":"鳥海山 湘南台店","a":"藤沢市湘南台2-1-1","h":"12:00〜23:00（L.O.22:30）火休","note":"焼き鳥居酒屋。昼は焼き鳥丼・刺身定食","t":[],"u":"https://www.hotpepper.jp/strJ000024069/","v":true,"lat":35.3972,"lng":139.4655,"d":0.76,"walk":12,"bike":4,"car":4},{"c":"飲食・カフェ","s":"ランチ・定食","n":"元祖鴨南ばん本家","a":"藤沢市湘南台2-22-17","h":"11:00〜15:30、17:00〜20:00（定休日は要確認）","note":"鴨南ばんのそば店","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14010114/","v":true,"lat":35.39468,"lng":139.46483,"d":0.8,"walk":13,"bike":4,"car":5},{"c":"飲食・カフェ","s":"ランチ・定食","n":"ニューオリンズ","a":"藤沢市湘南台1-14-19","h":"火〜土11:00〜21:00／日11:00〜20:00 月休","note":"パスタ・イタリアン","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14006557/","v":true,"lat":35.39533,"lng":139.46774,"d":1.01,"walk":16,"bike":5,"car":5},{"c":"飲食・カフェ","s":"ランチ・定食","n":"ペピタライオン","a":"藤沢市湘南台1-5-10","h":"月〜土11:00〜22:00／日11:00〜21:30","note":"パスタ・洋食の喫茶店","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14009433/","v":true,"lat":35.39714,"lng":139.46892,"d":1.06,"walk":17,"bike":6,"car":5},{"c":"飲食・カフェ","s":"ランチ・定食","n":"豚菜（トンサイ）","a":"藤沢市湘南台1-20-3","h":"11:30〜13:30、17:30〜21:00 火水休","note":"大きなチキンカツや生姜焼きのボリューム定食","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14001512/","v":true,"lat":35.39568,"lng":139.46904,"d":1.11,"walk":18,"bike":6,"car":6},{"c":"飲食・カフェ","s":"ラーメン","n":"らーめん 麺の月","a":"藤沢市湘南台2-7-6 イザワビル101","h":"11:30〜15:30 水休（スープ切れ終了あり）","note":"湘南台のラーメンで評価上位。昼のみ","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14043456/","v":true,"lat":35.3969,"lng":139.4643,"d":0.66,"walk":11,"bike":3,"car":4},{"c":"飲食・カフェ","s":"ラーメン","n":"鶏そばと担々麺 一石二鶏","a":"藤沢市湘南台2-1-1 田中ビル2F","h":"11:00〜22:00 水休","note":"鶏そばと担々麺。西口すぐ","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14098702/","v":true,"lat":35.3974,"lng":139.4653,"d":0.73,"walk":12,"bike":4,"car":4},{"c":"飲食・カフェ","s":"ラーメン","n":"ラーメン まるとも","a":"藤沢市湘南台5-4-15","h":"月火木11:00〜15:00、17:00〜22:00／土日11:00〜22:00 水休","note":"地元の老舗人気店","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14003733/","v":true,"lat":35.39916,"lng":139.46935,"d":1.1,"walk":18,"bike":6,"car":6},{"c":"飲食・カフェ","s":"中華・アジア料理","n":"楽養軒","a":"藤沢市円行2-9-12","h":"月〜土11:00〜14:30、17:00〜20:00 日休","note":"円行の町中華食堂","t":[],"u":"https://tabelog.com/kanagawa/A1404/A140405/14028711/","v":true,"lat":35.39469,"lng":139.45998,"d":0.48,"walk":8,"bike":2,"car":4},{"c":"飲食・カフェ","s":"中華・アジア料理","n":"菜香園","a":"藤沢市湘南台2-3-3 祥和ビル1F","h":"11:00〜15:00、17:00〜翌1:00（日は24:00まで）","note":"中華居酒屋。深夜1時まで営業","t":["深夜"],"u":"https://tabelog.com/kanagawa/A1404/A140405/14010956/","v":true,"lat":35.3967,"lng":139.4652,"d":0.74,"walk":12,"bike":4,"car":4},{"c":"飲食・カフェ","s":"中華・アジア料理","n":"Mon Thai Restaurant","a":"藤沢市湘南台2-20-4","h":"11:00〜23:00 月休","note":"タイ料理・ミャンマー料理","t":["アジア"],"u":"https://tabelog.com/kanagawa/A1404/A140405/14099600/","v":true,"lat":35.3935,"lng":139.4649,"d":0.88,"walk":14,"bike":5,"car":5},{"c":"飲食・カフェ","s":"中華・アジア料理","n":"サティー（Sathi）","a":"藤沢市湘南台1-9-13 加藤パークサイドビル1F","h":"11:00〜22:00","note":"ネパール・インドカレー（旧ナマステ）","t":["アジア"],"u":"https://tabelog.com/kanagawa/A1404/A140405/14014986/","v":true,"lat":35.39661,"lng":139.47008,"d":1.18,"walk":19,"bike":6,"car":6},{"c":"飲食・カフェ","s":"深夜営業","n":"すき家 藤沢湘南台店","a":"藤沢市湘南台4-14-4","h":null,"note":"年中無休。24時間営業かは未確認","t":["安い"],"u":"https://tabelog.com/kanagawa/A1404/A140405/14038801/","v":false,"lat":35.39908,"lng":139.46188,"d":0.42,"walk":7,"bike":2,"car":3},{"c":"飲食・カフェ","s":"深夜営業","n":"松屋 湘南台店","a":"藤沢市湘南台2-5-9 1F","h":"24時間","note":"牛丼・定食。西口側","t":["24h","安い"],"u":"https://tabelog.com/kanagawa/A1404/A140405/14052796/","v":true,"lat":35.39611,"lng":139.4644,"d":0.69,"walk":11,"bike":4,"car":4},{"c":"飲食・カフェ","s":"深夜営業","n":"ガスト 藤沢湘南台店","a":"藤沢市湘南台5-36-2","h":null,"note":"翌5時までとの第三者情報あり。要確認","t":[],"u":"https://www.skylark.co.jp/gusto/","v":false,"lat":35.40388,"lng":139.46936,"d":1.25,"walk":20,"bike":7,"car":6},{"c":"運動・リラックス","s":"公園","n":"円行公園","a":"藤沢市円行（湘南台駅の西）","h":null,"note":"引地川沿い。遊具・広場・竹林。位置は概算","t":["無料"],"u":"https://4travel.jp/dm_shisetsu/11303345","v":false,"lat":35.3965,"lng":139.4625,"d":0.52,"walk":8,"bike":3,"car":4},{"c":"運動・リラックス","s":"公園","n":"下土棚遊水地公園（A池）","a":"藤沢市下土棚字大下1274-2","h":"4〜9月8:30〜18:00／10〜3月8:30〜17:00","note":"2024年開園。芝生広場・駐車場36台。大雨時は閉鎖","t":["無料"],"u":"https://www.city.fujisawa.kanagawa.jp/kouen/press/documents/20231208syparkpress.pdf","v":true,"lat":35.40511,"lng":139.45711,"d":0.75,"walk":12,"bike":4,"car":4},{"c":"運動・リラックス","s":"公園","n":"湘南台公園","a":"藤沢市湘南台7-16","h":null,"note":"テニスコート2面（有料・要登録）","t":["無料"],"u":"https://f-mirai.jp/sports/tennis/shonandai","v":true,"lat":35.39779,"lng":139.47121,"d":1.26,"walk":21,"bike":7,"car":6},{"c":"運動・リラックス","s":"公園","n":"秋葉台公園","a":"藤沢市遠藤2000-1","h":"施設8:30〜21:00","note":"体育館・プール・球技場・スケボー広場","t":[],"u":"https://f-mirai.jp/sports/facilities/akibadai","v":true,"lat":35.38805,"lng":139.4435,"d":1.7,"walk":28,"bike":9,"car":8},{"c":"運動・リラックス","s":"公園","n":"藤沢市少年の森","a":"藤沢市打戻2345","h":"9:00〜16:30（7〜9月は17:00）平日月曜休","note":"雑木林で昆虫採集・デイキャンプ。駐車場あり","t":[],"u":"https://f-mirai.jp/youth/mori","v":true,"lat":35.39829,"lng":139.41981,"d":3.4,"walk":55,"bike":18,"car":13},{"c":"運動・リラックス","s":"ジム","n":"エニタイムフィットネス 湘南台店","a":"藤沢市湘南台2-13-10 B1F","h":"24時間（スタッフ10:00〜19:00）","note":"月額7,480円（掲載情報）","t":["24h"],"u":"https://fitmap.jp/?p=16022","v":false,"lat":35.3958,"lng":139.4657,"d":0.82,"walk":13,"bike":4,"car":5},{"c":"運動・リラックス","s":"ジム","n":"chocoZAP 湘南台六丁目","a":"藤沢市湘南台6-1-5 57田中ビル1F","h":"24時間","note":"月額3,278円（税込）。東口徒歩5分","t":["24h","安い"],"u":"https://fitmap.jp/?p=66395","v":false,"lat":35.39888,"lng":139.47012,"d":1.16,"walk":19,"bike":6,"car":6},{"c":"運動・リラックス","s":"ジム","n":"秋葉台文化体育館 トレーニングルーム","a":"藤沢市遠藤2000-1","h":"9:00〜21:00 第3月曜休","note":"1回300円。初回に利用登録説明会が必要","t":["安い"],"u":"https://f-mirai.jp/sports/trainingroom/akibadai","v":true,"lat":35.3881,"lng":139.4436,"d":1.69,"walk":27,"bike":9,"car":7},{"c":"運動・リラックス","s":"プール","n":"秋葉台公園プール","a":"藤沢市遠藤2000-1","h":"遊泳9:30〜20:00（屋内）月曜休","note":"屋内25m・幼児用。夏は屋外50m・流水プール","t":["安い"],"u":"https://f-mirai.jp/sports/pool/akibadai","v":true,"lat":35.388,"lng":139.4434,"d":1.71,"walk":28,"bike":9,"car":8},{"c":"運動・リラックス","s":"プール","n":"石名坂温水プール","a":"藤沢市本藤沢1-10-1","h":"遊泳9:30〜20:00 火曜休","note":"大人1回300円の市営温水プール","t":["安い"],"u":"https://f-mirai.jp/sports/pool/ishinazaka","v":true,"lat":35.35202,"lng":139.47218,"d":5.33,"walk":87,"bike":28,"car":19},{"c":"運動・リラックス","s":"銭湯・日帰り温泉","n":"おふろの王様 高座渋谷駅前店","a":"大和市渋谷5-22 IKOZA 5F","h":null,"note":"天空露天風呂。高座渋谷駅すぐ。時間・料金は要確認","t":[],"u":"https://www.ohsama.co.jp/","v":false,"lat":35.43291,"lng":139.46408,"d":3.89,"walk":63,"bike":20,"car":15},{"c":"運動・リラックス","s":"銭湯・日帰り温泉","n":"湯あそびひろば 葛の湯","a":"横浜市泉区中田南5-1-16","h":"10:00〜24:00","note":"踊場駅徒歩10分。料金は要確認","t":["深夜"],"u":"https://sp.jorudan.co.jp/onsen/details/2562/","v":false,"lat":35.40467,"lng":139.51106,"d":4.92,"walk":80,"bike":26,"car":18},{"c":"運動・リラックス","s":"銭湯・日帰り温泉","n":"野天湯元 湯快爽快 たや","a":"横浜市栄区田谷町146-3","h":"10:00〜翌1:00（最終受付0:30）","note":"黒湯・炭酸泉。平日一般980円","t":["深夜"],"u":"https://www.yukaisoukai.com/tay/","v":true,"lat":35.37035,"lng":139.52309,"d":6.73,"walk":109,"bike":35,"car":24},{"c":"運動・リラックス","s":"図書館・文化施設","n":"湘南台文化センター こども館","a":"藤沢市湘南台1-8","h":"9:00〜17:00 月曜休（祝日除く）","note":"展示ホール大人300円・宇宙劇場大人500円","t":[],"u":"https://www.kodomokan.jp/userguide/fee.html","v":true,"lat":35.3979,"lng":139.4698,"d":1.14,"walk":18,"bike":6,"car":6},{"c":"運動・リラックス","s":"図書館・文化施設","n":"藤沢市総合市民図書館","a":"藤沢市湘南台7-18-2","h":"9:00〜17:00（火・金は19:00まで）第2・4水曜休","note":"市の中央館。湘南台駅東側","t":["無料"],"u":"https://www.lib.city.fujisawa.kanagawa.jp/libguide/general","v":true,"lat":35.3962,"lng":139.4733,"d":1.47,"walk":24,"bike":8,"car":7},{"c":"防災","s":"避難所","n":"県立湘南台高等学校","a":"藤沢市円行1986","h":null,"note":"市の避難先一覧（湘南台地区）に掲載","t":["指定避難所"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/file/attachment/558.pdf","v":true,"lat":35.39844,"lng":139.46008,"d":0.25,"walk":4,"bike":1,"car":3},{"c":"防災","s":"避難所","n":"藤沢市まちづくり協会ビル","a":"藤沢市円行2-3-17","h":null,"note":"避難先一覧に掲載。避難スペースは1階大会議室","t":["避難先"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/file/attachment/558.pdf","v":true,"lat":35.39583,"lng":139.45932,"d":0.34,"walk":6,"bike":2,"car":3},{"c":"防災","s":"避難所","n":"湘南台小学校","a":"藤沢市湘南台5-23","h":null,"note":"避難先一覧に掲載。体育館が避難スペース","t":["指定避難所"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/file/attachment/558.pdf","v":true,"lat":35.40129,"lng":139.46736,"d":0.97,"walk":16,"bike":5,"car":5},{"c":"防災","s":"避難所","n":"湘南台市民センター（地区防災拠点本部）","a":"藤沢市湘南台1-8","h":null,"note":"湘南台地区の地区防災拠点本部","t":["防災拠点"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/file/attachment/558.pdf","v":true,"lat":35.39779,"lng":139.46971,"d":1.13,"walk":18,"bike":6,"car":6},{"c":"防災","s":"避難所","n":"六会小学校","a":"藤沢市亀井野550","h":null,"note":"避難先一覧に掲載。体育館が避難スペース","t":["指定避難所"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/file/attachment/558.pdf","v":true,"lat":35.38914,"lng":139.46503,"d":1.25,"walk":20,"bike":6,"car":6},{"c":"防災","s":"避難所","n":"湘南台公園周辺（湘南台中学校含む）","a":"藤沢市湘南台7-16 他","h":null,"note":"地震時の大規模な屋外避難場所。位置は湘南台中学校で代用","t":["屋外避難場所"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/file/attachment/558.pdf","v":false,"lat":35.39588,"lng":139.47243,"d":1.4,"walk":23,"bike":7,"car":7},{"c":"防災","s":"ハザード","n":"自宅付近の標高 約32m","a":null,"h":null,"note":"国土地理院 標高API（1mレーザ測量）の値 31.6m。津波の心配はほぼない高さ","t":["標高"],"u":"https://maps.gsi.go.jp/","v":true},{"c":"防災","s":"ハザード","n":"洪水・内水：自宅付近は想定区域外","a":null,"h":null,"note":"重ねるハザードマップで区域外。東に0.5m未満の区域あり","t":["洪水"],"u":"https://disaportal.gsi.go.jp/","v":false},{"c":"防災","s":"ハザード","n":"土砂災害：自宅付近は警戒区域外","a":null,"h":null,"note":"東に急傾斜地の警戒区域あり","t":["土砂災害"],"u":"https://disaportal.gsi.go.jp/","v":false},{"c":"防災","s":"防災情報","n":"ふじさわ防災ナビ","a":null,"h":null,"note":"市の防災ポータル。避難先一覧・ハザードマップ・防災メール登録","t":["Web","メール"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/","v":true},{"c":"防災","s":"防災情報","n":"藤沢市 防災ラジオ（有償頒布）","a":"藤沢市役所本庁舎7階 防災政策課","h":null,"note":"1世帯1台・3,000円。受付 2026/7/1〜2027/3/31","t":["ラジオ"],"u":"https://www.city.fujisawa.kanagawa.jp/bousai/bosai/bosai/bousairadio.html","v":true},{"c":"防災","s":"消防署","n":"藤沢市北消防署","a":"藤沢市湘南台2-7-1","h":null,"note":"TEL 0466-45-8181","t":["消防署"],"u":"https://www.pref.kanagawa.jp/docs/kd8/faq/p3685.html","v":true,"lat":35.39708,"lng":139.4641,"d":0.63,"walk":10,"bike":3,"car":4},{"c":"防災","s":"消防署","n":"藤沢市北消防署 六会出張所","a":"藤沢市亀井野4-8-1","h":null,"note":"六会日大前駅東口から徒歩5分","t":["消防出張所"],"u":"https://www.city.fujisawa.kanagawa.jp/shisetsu/annai/shobosho/015.html","v":true,"lat":35.38514,"lng":139.47476,"d":2.16,"walk":35,"bike":11,"car":9},{"c":"育児・教育","s":"学区","n":"藤沢市立六会小学校（学区の目安）","a":"藤沢市亀井野550","h":null,"note":"円行の一部番地が学区。市は目安としており個別確認が必要","t":["小学校"],"u":"https://www.city.fujisawa.kanagawa.jp/documents/9499/syou20230101.pdf","v":false,"lat":35.38914,"lng":139.46503,"d":1.25,"walk":20,"bike":6,"car":6},{"c":"育児・教育","s":"学区","n":"藤沢市立六会中学校（学区の目安）","a":"藤沢市亀井野1000","h":null,"note":"円行を含む中学校区は六会中のみ（番地の一部）。要確認","t":["中学校"],"u":"https://www.city.fujisawa.kanagawa.jp/documents/9499/chuugakkoutuugakukuikiitirann_20181211.pdf","v":false,"lat":35.38425,"lng":139.46706,"d":1.8,"walk":29,"bike":9,"car":8},{"c":"育児・教育","s":"学区","n":"通学区域の見直し（六会小学校区）","a":null,"h":null,"note":"六会小は過大規模校として学区見直しの検討対象。最新情報を要確認","t":["学区見直し"],"u":"https://www.city.fujisawa.kanagawa.jp/documents/31913/keikakugaiyo.pdf","v":false},{"c":"育児・教育","s":"保育園・幼稚園","n":"ときわぎ保育園","a":"藤沢市円行2-3-1","h":null,"note":"認可保育所（法人等）","t":["認可保育所"],"u":"https://www.city.fujisawa.kanagawa.jp/hoiku/kenko/kosodate/hoikuen/ninka-ichiran.html","v":true,"lat":35.39583,"lng":139.45932,"d":0.34,"walk":6,"bike":2,"car":3},{"c":"育児・教育","s":"保育園・幼稚園","n":"ときわぎ保育園（分園）","a":"藤沢市円行2-10-5","h":null,"note":"認可保育所（法人等）","t":["認可保育所"],"u":"https://www.city.fujisawa.kanagawa.jp/hoiku/kenko/kosodate/hoikuen/ninka-ichiran.html","v":true,"lat":35.39432,"lng":139.46091,"d":0.56,"walk":9,"bike":3,"car":4},{"c":"育児・教育","s":"保育園・幼稚園","n":"青木幼稚園","a":"藤沢市円行2-10-13","h":null,"note":"認定こども園","t":["認定こども園"],"u":"https://www.city.fujisawa.kanagawa.jp/hoiku/kenko/kosodate/hoikuen/ninka-ichiran.html","v":true,"lat":35.3942,"lng":139.4611,"d":0.58,"walk":9,"bike":3,"car":4},{"c":"育児・教育","s":"保育園・幼稚園","n":"すくすく保育園","a":"藤沢市湘南台2-13-8","h":null,"note":"認可保育所（法人等）","t":["認可保育所"],"u":"https://www.city.fujisawa.kanagawa.jp/hoiku/kenko/kosodate/hoikuen/ninka-ichiran.html","v":true,"lat":35.39585,"lng":139.46561,"d":0.81,"walk":13,"bike":4,"car":5},{"c":"育児・教育","s":"保育園・幼稚園","n":"湘南あかね保育園","a":"藤沢市湘南台2-18-7","h":null,"note":"認可保育所（法人等）","t":["認可保育所"],"u":"https://www.city.fujisawa.kanagawa.jp/hoiku/kenko/kosodate/hoikuen/ninka-ichiran.html","v":true,"lat":35.39402,"lng":139.46649,"d":0.97,"walk":16,"bike":5,"car":5},{"c":"育児・教育","s":"子育て支援","n":"湘南台子育て支援センター","a":"藤沢市湘南台1-8（湘南台文化センター地下1階）","h":"ひろば 9:00〜16:30","note":"親子で使える子育てひろば。TEL 0466-42-5533","t":["子育て支援"],"u":"https://www.city.fujisawa.kanagawa.jp/oyako/syounandaikosodateshiencenter.html","v":true,"lat":35.39779,"lng":139.46971,"d":1.13,"walk":18,"bike":6,"car":6},{"c":"育児・教育","s":"子育て支援","n":"湘南台文化センター こども館","a":"藤沢市湘南台1-8","h":null,"note":"文化センター内の子ども向け科学館・プラネタリウム","t":["こども館"],"u":"https://www.city.fujisawa.kanagawa.jp/shisetsu/annai/bunka/002.html","v":true,"lat":35.3979,"lng":139.4698,"d":1.14,"walk":18,"bike":6,"car":6},{"c":"育児・教育","s":"大学","n":"多摩大学 湘南キャンパス","a":"藤沢市円行802","h":null,"note":"市の避難先一覧にも掲載","t":["大学"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/file/attachment/558.pdf","v":true,"lat":35.38759,"lng":139.46176,"d":1.27,"walk":21,"bike":7,"car":6},{"c":"育児・教育","s":"大学","n":"日本大学 生物資源科学部","a":"藤沢市亀井野1866","h":null,"note":"湘南キャンパス。六会日大前駅すぐ","t":["大学"],"u":"https://bosaiinfo.city.fujisawa.kanagawa.jp/file/attachment/558.pdf","v":true,"lat":35.37924,"lng":139.46851,"d":2.36,"walk":38,"bike":12,"car":10},{"c":"育児・教育","s":"大学","n":"慶應義塾大学 湘南藤沢キャンパス（SFC）","a":"藤沢市遠藤5322","h":null,"note":"湘南台駅からバス","t":["大学"],"u":"https://www.sfc.keio.ac.jp/","v":true,"lat":35.38775,"lng":139.42726,"d":2.97,"walk":48,"bike":15,"car":12}];
+const SHOWN = {"lat":35.3996,"lng":139.4561};
+const ORDER = ["買い物","医療","手続き・公共","交通","飲食・カフェ","運動・リラックス","防災","育児・教育"];
+const CAT = {
+  '買い物':'shop','医療':'med','手続き・公共':'gov','交通':'trans',
+  '飲食・カフェ':'food','運動・リラックス':'relax','防災':'bosai','育児・教育':'kids'
+};
+const ZONES = [
+  {k:'all', label:'すべて'},
+  {k:'walk', label:'徒歩20分', m:'walk', r:20*80/1.3, dash:null},
+  {k:'bike', label:'自転車20分', m:'bike', r:20*250/1.3, dash:'8 6'},
+  {k:'car', label:'車20分', m:'car', r:18*400/1.3, dash:'2 6'},
+];
+const TAGS = [
+  {k:'late', label:'24h・深夜', any:['24h','深夜','夜間']},
+  {k:'hol', label:'休日もOK', any:['休日']},
+  {k:'cheap', label:'安い・無料', any:['安い','無料','駐車場無料']},
+  {k:'asia', label:'アジア食材・料理', any:['アジア食材','アジア']},
+  {k:'ev', label:'EV充電', any:['EV急速','EV普通']},
+];
+const S = {cat:'all', zone:'all', tags:new Set(), q:''};
+try { const z = localStorage.getItem('sd-zone'); if (z && ZONES.some(x => x.k === z)) S.zone = z; } catch (e) {}
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const zoneOf = r => r.d == null ? 'info' : r.walk <= 20 ? 'walk' : r.bike <= 20 ? 'bike' : r.car <= 20 ? 'car' : 'far';
+const rank = {walk:1, bike:2, car:3, far:4, info:0};
+const gmaps = r => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(r.n + ' ' + (r.a || ''));
+DATA.forEach((r, i) => { r.i = i; r.z = zoneOf(r); });
+
+function pass(r, ignoreCat) {
+  if (!ignoreCat && S.cat !== 'all' && r.c !== S.cat) return false;
+  if (S.zone !== 'all' && r.z !== 'info' && rank[r.z] > rank[S.zone]) return false;
+  for (const k of S.tags) { const t = TAGS.find(x => x.k === k); if (!r.t.some(x => t.any.includes(x))) return false; }
+  if (S.q) { const h = (r.n + r.s + (r.note || '') + (r.a || '') + r.t.join('')).toLowerCase(); if (!h.includes(S.q)) return false; }
+  return true;
+}
+
+function statsHtml() {
+  const n = z => DATA.filter(r => r.z !== 'info' && rank[r.z] <= rank[z]).length;
+  return `<div class="stat"><i></i><span>徒歩20分圏</span><b>${n('walk')}</b></div>
+    <div class="stat"><i class="d2"></i><span>自転車20分圏</span><b>${n('bike')}</b></div>
+    <div class="stat"><i class="d3"></i><span>車20分圏</span><b>${n('car')}</b></div>
+    <div class="stat"><span>掲載</span><b>${DATA.length}</b><span>件</span></div>`;
+}
+
+function renderControls() {
+  const cats = ['all', ...ORDER];
+  document.getElementById('cats').innerHTML = cats.map(c => {
+    const n = DATA.filter(r => (c === 'all' || r.c === c) && pass(r, true)).length;
+    const dot = c === 'all' ? '' : `<span class="dot" style="--c:var(--c-${CAT[c]})"></span>`;
+    return `<button type="button" class="chip" data-cat="${esc(c)}" aria-pressed="${S.cat === c}">${dot}${c === 'all' ? 'すべて' : esc(c)}<span class="n">${n}</span></button>`;
+  }).join('');
+  document.getElementById('zones').innerHTML = ZONES.map(z =>
+    `<button type="button" data-zone="${z.k}" aria-pressed="${S.zone === z.k}">${z.label}</button>`).join('');
+  document.getElementById('tags').innerHTML = TAGS.filter(t => DATA.some(r => r.t.some(x => t.any.includes(x)))).map(t =>
+    `<button type="button" class="chip" data-tag="${t.k}" aria-pressed="${S.tags.has(t.k)}">${t.label}</button>`).join('');
+}
+
+function timeCell(r, m, label) {
+  const v = r[m];
+  const show = v != null && (m === 'car' || v <= 60);
+  const on = r.z === m;
+  return `<div class="${on ? 'on' : ''}"><dt>${label}</dt><dd>${show ? v + '<small>分</small>' : '—'}</dd></div>`;
+}
+
+function itemHtml(r) {
+  const name = r.lat != null ? `<button type="button" data-fly="${r.i}">${esc(r.n)}</button>` : esc(r.n);
+  const tm = r.d != null ? `<dl class="tm">${timeCell(r,'walk','徒歩')}${timeCell(r,'bike','自転車')}${timeCell(r,'car','車')}</dl>` : '';
+  const links = [
+    r.lat != null ? `<a href="${gmaps(r)}" target="_blank" rel="noopener">Googleマップ</a>` : '',
+    r.u ? `<a href="${esc(r.u)}" target="_blank" rel="noopener">出典</a>` : '',
+  ].join('');
+  return `<li class="it">
+    <div style="min-width:0">
+      <div class="nm"><span class="dot" style="--c:var(--c-${CAT[r.c]})"></span>${name}${r.v ? '' : '<span class="warn">要確認</span>'}${r.z === 'far' ? '<span class="tg" style="margin:0"><span>車20分超</span></span>' : ''}</div>
+      ${r.a ? `<div class="ad">${esc(r.a)}</div>` : ''}
+      ${r.h ? `<div class="hr"><span class="k">時間</span>${esc(r.h)}</div>` : ''}
+      ${r.note ? `<p class="nt">${esc(r.note)}</p>` : ''}
+      ${r.t.length ? `<div class="tg">${r.t.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
+    </div>
+    <div class="side">${tm}<div class="lk">${links}</div></div>
+  </li>`;
+}
+
+function renderList() {
+  const rows = DATA.filter(r => pass(r));
+  const out = [];
+  for (const c of ORDER) {
+    const rs = rows.filter(r => r.c === c);
+    if (!rs.length) continue;
+    const subs = [...new Set(DATA.filter(r => r.c === c).map(r => r.s))];
+    out.push(`<section class="cat" id="cat-${CAT[c]}"><h2><span class="dot" style="--c:var(--c-${CAT[c]})"></span>${esc(c)}<span class="n">${rs.length}件</span></h2>`);
+    for (const s of subs) {
+      const ss = rs.filter(r => r.s === s);
+      if (ss.length) out.push(`<div class="sub"><h3>${esc(s)}</h3><ul class="list">${ss.map(itemHtml).join('')}</ul></div>`);
+    }
+    out.push('</section>');
+  }
+  document.getElementById('list').innerHTML = out.join('') || '<p class="empty">条件に合う施設がありません。絞り込みを外してください。</p>';
+}
+
+/* map */
+let map = null, markers = null, byIdx = {};
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function popupHtml(r) {
+  return `<div class="pop"><div class="s">${esc(r.c)} / ${esc(r.s)}</div><b>${esc(r.n)}</b>
+    <div class="t">徒歩${r.walk <= 60 ? r.walk + '分' : '—'} · 自転車${r.bike}分 · 車${r.car}分</div>
+    ${r.h ? `<div>${esc(r.h)}</div>` : ''}
+    <div class="lk" style="margin-top:4px"><a href="${gmaps(r)}" target="_blank" rel="noopener">Googleマップ</a></div></div>`;
+}
+function renderMarkers() {
+  if (!map) return;
+  markers.clearLayers(); byIdx = {};
+  const seen = {};
+  const edge = cssVar('--panel');
+  for (const r of DATA) {
+    if (r.lat == null || !pass(r)) continue;
+    const key = r.lat.toFixed(4) + ',' + r.lng.toFixed(4);
+    const k = seen[key] = (seen[key] || 0) + 1;
+    const a = k * 2.4, off = k > 1 ? 0.00011 * Math.sqrt(k) : 0;
+    const m = L.circleMarker([r.lat + off * Math.sin(a), r.lng + off * Math.cos(a)], {
+      radius: 6, weight: 1.5, color: edge, fillColor: cssVar('--c-' + CAT[r.c]), fillOpacity: .95,
+    }).bindPopup(popupHtml(r));
+    m.addTo(markers); byIdx[r.i] = m;
+  }
+}
+function initMap() {
+  if (typeof L === 'undefined' || !SHOWN) { document.getElementById('map').innerHTML = '<p class="empty">地図を読み込めませんでした。</p>'; return; }
+  const touch = matchMedia('(pointer:coarse)').matches;
+  map = L.map('map', {scrollWheelZoom:false, dragging:!touch, tap:false, zoomSnap:.5}).setView([SHOWN.lat, SHOWN.lng], touch ? 13 : 13.5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:18, attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  const ink = cssVar('--ink');
+  for (const z of ZONES.slice(1)) {
+    L.circle([SHOWN.lat, SHOWN.lng], {radius:z.r, color:ink, weight:1.6, opacity:.75, dashArray:z.dash, fill:true, fillColor:ink, fillOpacity:.025, interactive:false}).addTo(map);
+    const north = [SHOWN.lat + z.r / 111320, SHOWN.lng];
+    L.tooltip({permanent:true, direction:'center', className:'ring'}).setLatLng(north).setContent(z.label).addTo(map);
+  }
+  markers = L.layerGroup().addTo(map);
+  L.circleMarker([SHOWN.lat, SHOWN.lng], {radius:8, weight:3, color:cssVar('--panel'), fillColor:ink, fillOpacity:1, interactive:false})
+    .bindTooltip('円行（自宅付近）', {permanent:true, direction:'right', offset:[10,0], className:'home'}).addTo(map);
+  renderMarkers();
+}
+
+function renderAll() { renderControls(); renderList(); renderMarkers(); }
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.cat) { S.cat = b.dataset.cat; renderAll(); }
+  else if (b.dataset.zone) { S.zone = b.dataset.zone; try { localStorage.setItem('sd-zone', S.zone); } catch (e) {} renderAll(); }
+  else if (b.dataset.tag) { S.tags.has(b.dataset.tag) ? S.tags.delete(b.dataset.tag) : S.tags.add(b.dataset.tag); renderAll(); }
+  else if (b.dataset.fly != null && map) {
+    const m = byIdx[b.dataset.fly]; if (!m) return;
+    document.querySelector('.mapwrap').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block:'start'});
+    map.setView(m.getLatLng(), Math.max(map.getZoom(), 15.5)); m.openPopup();
+  }
+});
+document.getElementById('q').addEventListener('input', e => { S.q = e.target.value.trim().toLowerCase(); renderAll(); });
+const recolor = () => { if (map) { map.eachLayer(l => { if (l instanceof L.Circle) l.setStyle({color:cssVar('--ink'), fillColor:cssVar('--ink')}); }); renderMarkers(); } };
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', recolor);
+new MutationObserver(recolor).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+
+document.getElementById('stats').innerHTML = statsHtml();
+initMap();
+renderAll();
+</script>
+</body>
+</html>
