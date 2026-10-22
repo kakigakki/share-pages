@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>搬家清单 — 羽鳥 → 円行 2026.11</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f4f6f4; --panel:#fff; --sunk:#eaeee9; --code:#f0f3ef;
+  --ink:#1a2422; --ink2:#5f6d68; --ink3:#8b9791; --rule:#d8ded8;
+  --ai:#1f5f7a; --sun:#c0562a; --moss:#4a7038; --volt:#2f7a68;
+  --sunbg:#fbf0ea; --aibg:#eaf2f5;
+  --gothic:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans","Microsoft YaHei","Noto Sans SC","Segoe UI",sans-serif;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP",serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:60px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--gothic);
+  font-size:16px;line-height:1.8;-webkit-text-size-adjust:100%}
+a{color:var(--ai)}
+:focus-visible{outline:2px solid var(--ai);outline-offset:2px}
+
+/* ---------- header ---------- */
+.masthead{border-bottom:1px solid var(--rule);background:var(--panel)}
+.masthead .inner{max-width:900px;margin:0 auto;padding:22px 20px 22px}
+.back{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-decoration:none;display:inline-block;margin-bottom:10px;color:var(--ink3)}
+.eyebrow{font-family:var(--mono);font-size:.63rem;letter-spacing:.2em;color:var(--volt);margin:0 0 7px}
+.masthead h1{font-family:var(--mincho);font-weight:600;font-size:1.85rem;line-height:1.3;margin:0}
+.masthead h1 small{display:block;font-family:var(--gothic);font-size:.5em;font-weight:600;color:var(--ink2);margin-top:6px}
+.masthead .sub{margin:12px 0 0;font-size:.85rem;color:var(--ink2);max-width:68ch}
+
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px}
+.stat{background:var(--sunk);border-radius:6px;padding:10px 13px}
+.stat .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;color:var(--ink3)}
+.stat .v{font-size:1.35rem;font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums}
+.stat .v small{font-size:.62em;font-weight:500;color:var(--ink2);margin-left:3px}
+.bar{height:5px;background:var(--rule);border-radius:9px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:var(--volt);transition:width .25s}
+
+/* ---------- nav ---------- */
+nav.jump{position:sticky;top:0;z-index:30;background:var(--panel);border-bottom:1px solid var(--rule);
+  overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav.jump::-webkit-scrollbar{display:none}
+nav.jump ul{display:flex;list-style:none;margin:0 auto;padding:0 12px;max-width:900px}
+nav.jump a{display:block;padding:10px 9px;font-size:.76rem;white-space:nowrap;text-decoration:none;color:var(--ink2)}
+nav.jump a.now{color:var(--sun);font-weight:700}
+
+main{max-width:900px;margin:0 auto;padding:26px 20px 90px}
+
+h2{font-size:1.28rem;font-weight:700;line-height:1.35;margin:50px 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h2 .num{flex:none;min-width:29px;height:29px;padding:0 7px;border-radius:99px;background:var(--ai);color:var(--panel);
+  font-family:var(--mono);font-size:.74rem;font-weight:700;display:grid;place-items:center}
+h2 .when{font-family:var(--mono);font-size:.7rem;font-weight:500;color:var(--ink3)}
+h2 .nowtag{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:#fff;background:var(--sun);
+  padding:2px 8px;border-radius:99px;display:none}
+section.now h2 .nowtag{display:inline-block}
+section.now h2 .num{background:var(--sun)}
+.lead{font-size:.86rem;color:var(--ink2);margin:0 0 12px}
+h3{font-size:1rem;font-weight:700;margin:28px 0 8px}
+p{margin:0 0 12px}
+.fine{font-size:.78rem;color:var(--ink3)}
+
+.prog{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.66rem;color:var(--ink3);margin:0 0 10px}
+.prog .bar{flex:1;margin:0;max-width:220px}
+.prog button{margin-left:auto}
+
+/* ---------- checklist ---------- */
+ul.chk{list-style:none;margin:0;padding:0;background:var(--panel);border:1px solid var(--rule);border-radius:7px;overflow:hidden}
+ul.chk li{position:relative;display:block;padding:11px 14px 11px 46px;border-top:1px solid var(--rule);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:background .12s}
+ul.chk li:first-child{border-top:0}
+ul.chk li:hover{background:#fafbfa}
+ul.chk li::before{content:"";position:absolute;left:15px;top:14px;width:19px;height:19px;border:1.5px solid var(--ink3);
+  border-radius:4px;background:var(--panel)}
+ul.chk li.done::before{background:var(--volt);border-color:var(--volt)}
+ul.chk li.done::after{content:"";position:absolute;left:21px;top:17px;width:6px;height:11px;border:solid #fff;
+  border-width:0 2px 2px 0;transform:rotate(45deg)}
+ul.chk li b{font-weight:700;font-size:.92rem}
+ul.chk li .d{display:block;font-size:.8rem;color:var(--ink2);line-height:1.75;margin-top:2px}
+ul.chk li.done b{color:var(--ink3);text-decoration:line-through;text-decoration-color:var(--ink3)}
+ul.chk li.done .d{color:var(--ink3)}
+body.hide-done ul.chk li.done{display:none}
+
+.tg{display:inline-block;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;padding:1px 6px;border-radius:3px;
+  vertical-align:2px;margin-left:5px;border:1px solid var(--rule);color:var(--ink3);white-space:nowrap;font-weight:500}
+.tg.due{color:var(--sun);border-color:var(--sun);background:var(--sunbg)}
+.tg.off{color:var(--ai);border-color:var(--ai)}
+.tg.web{color:var(--volt);border-color:var(--volt)}
+.tg.if{color:var(--ink3);border-style:dashed}
+
+/* ---------- boxes ---------- */
+.alert{background:var(--sunbg);border:1px solid #ecc9b6;border-left:4px solid var(--sun);border-radius:6px;padding:13px 16px;margin:14px 0}
+.alert h3{margin:0 0 6px;color:var(--sun);font-size:.95rem}
+.alert ol{margin:0;padding-left:1.3em;font-size:.86rem}
+.alert li{margin-bottom:4px}
+.note{background:var(--aibg);border-radius:6px;padding:11px 14px;font-size:.82rem;color:var(--ink2);margin:12px 0}
+.note b{color:var(--ink)}
+
+/* ---------- key info ---------- */
+.keys{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;background:var(--panel);border:1px solid var(--rule);border-radius:7px;padding:14px}
+.keys label{display:block;font-size:.74rem;color:var(--ink2)}
+.keys input{display:block;width:100%;margin-top:3px;font:inherit;font-size:.88rem;padding:6px 9px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);color:var(--ink)}
+.keys input:focus{outline:2px solid var(--ai);outline-offset:0;background:#fff}
+
+/* ---------- day timeline ---------- */
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--rule);margin-left:8px}
+.tl li{position:relative;padding:0 0 13px 20px}
+.tl li::before{content:"";position:absolute;left:-6px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--panel);border:2px solid var(--ai)}
+.tl .t{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--ai);margin-right:8px}
+.tl .x{font-size:.86rem}
+.tl .x small{display:block;color:var(--ink2);font-size:.78rem}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;margin:10px 0;border:1px solid var(--rule);border-radius:7px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:.8rem;min-width:560px}
+th,td{text-align:left;vertical-align:top;padding:8px 11px;border-top:1px solid var(--rule)}
+th{background:var(--sunk);font-weight:700;border-top:0;white-space:nowrap}
+td b{font-weight:700}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:7px;padding:13px 15px}
+.card h4{margin:0 0 6px;font-size:.92rem}
+.card ul{margin:0;padding-left:1.15em;font-size:.82rem;color:var(--ink2)}
+.card li{margin-bottom:3px}
+.card.pick{border-color:var(--volt);box-shadow:inset 0 3px 0 var(--volt)}
+
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+button.btn{font:inherit;font-size:.74rem;padding:5px 11px;border:1px solid var(--rule);border-radius:99px;background:var(--panel);color:var(--ink2);cursor:pointer}
+button.btn:hover{border-color:var(--ai);color:var(--ai)}
+button.btn.on{background:var(--ai);border-color:var(--ai);color:#fff}
+button.mini{font:inherit;font-family:var(--mono);font-size:.6rem;padding:2px 8px;border:1px solid var(--rule);border-radius:99px;background:none;color:var(--ink3);cursor:pointer}
+
+.src{font-size:.78rem;color:var(--ink2);padding-left:1.2em}
+.src li{margin-bottom:5px}
+
+@media (max-width:620px){
+  .masthead h1{font-size:1.5rem}
+  .stats{gap:7px}
+  .stat{padding:8px 10px}
+  .stat .v{font-size:1.1rem}
+  .keys,.grid2{grid-template-columns:1fr}
+  main{padding:20px 16px 80px}
+  .masthead .inner{padding:18px 16px}
+  ul.chk li{padding:10px 12px 10px 42px}
+  ul.chk li::before{left:12px}
+  ul.chk li.done::after{left:18px}
+}
+@media print{
+  nav.jump,.tools,.prog button{display:none}
+  ul.chk li{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead"><div class="inner">
+  <a class="back" href="../">← share-pages</a>
+  <p class="eyebrow">MOVING · FUJISAWA · 2026.11</p>
+  <h1>搬家清单<small>藤沢 羽鳥 → 藤沢 円行（约 7km）· 搬家日 11/20（周五）前后</small></h1>
+  <p class="sub">从今天到搬完、手续办完要做的每件事，按<b>时间顺序</b>排好。点一下就打勾，状态存在这台设备的浏览器里。带 <span class="tg due">期限</span> 的是有法定期限或晚了会卡住的事。<b>同一个市内搬家</b>，所以不用办转出/转入，只办「転居届」。</p>
+  <div class="stats">
+    <div class="stat"><div class="k">距搬家日</div><div class="v" id="cd">—</div></div>
+    <div class="stat"><div class="k">转居届期限</div><div class="v" id="cd2">—</div></div>
+    <div class="stat"><div class="k">总进度</div><div class="v" id="pct">0<small>%</small></div><div class="bar"><i id="pctbar"></i></div></div>
+  </div>
+  <div class="tools">
+    <button class="btn" id="hideDone">隐藏已完成</button>
+    <button class="btn" id="goNow">跳到当前阶段</button>
+  </div>
+</div></header>
+
+<nav class="jump"><ul>
+  <li><a href="#keys">关键日期</a></li>
+  <li><a href="#p0" data-p="p0">① 本周</a></li>
+  <li><a href="#p1" data-p="p1">② 10/29〜</a></li>
+  <li><a href="#p2" data-p="p2">③ 11/5〜</a></li>
+  <li><a href="#p3" data-p="p3">④ 11/12〜</a></li>
+  <li><a href="#p4" data-p="p4">⑤ 前一天</a></li>
+  <li><a href="#p5" data-p="p5">⑥ 当天</a></li>
+  <li><a href="#p6" data-p="p6">⑦ 三连休</a></li>
+  <li><a href="#p7" data-p="p7">⑧ 14天内</a></li>
+  <li><a href="#p8" data-p="p8">⑨ 之后</a></li>
+  <li><a href="#addr">地址变更</a></li>
+  <li><a href="#pack">打包</a></li>
+  <li><a href="#trash">扔东西</a></li>
+  <li><a href="#how">搬家方式</a></li>
+  <li><a href="#src">出处</a></li>
+</ul></nav>
+
+<main>
+
+<div class="alert">
+  <h3>今天就要动的 5 件事（晚了会卡住后面所有安排）</h3>
+  <ol>
+    <li><b>旧家解约通知</b>：合同一般写「1个月前通知」（也有写2个月的）。按1个月算，今天（10/22）通知，解约日最早也是 11/22 左右，已经没有余量了。</li>
+    <li><b>问清新家哪天拿钥匙、从哪天开始交房租</b>：两边房子重叠的那几天，可以先自己开车分批搬小东西、打扫、装窗帘和灯。</li>
+    <li><b>搬家公司找 3 家报价并定下 11/20</b>：11月是淡季，平日又更便宜，不过好的时段照样会被订走。</li>
+    <li><b>新家的网</b>：光纤要上门施工的话，从申请到开通常常要 2〜4 周以上。</li>
+    <li><b>请假</b>：11/20（周五）请年假，后面 11/21〜23 正好三连休（11/23 是勤劳感谢日），连着就是 4 天。</li>
+  </ol>
+</div>
+
+<!-- ===================== KEY INFO ===================== -->
+<section id="keys">
+<h2><span class="num">★</span>关键日期 / 信息<span class="when">自己填，只存本机</span></h2>
+<p class="lead">拿到确切的日期就填进来，后面各阶段都按这些日期安排。</p>
+<div class="keys">
+  <label>新家钥匙交接日<input data-f="key" placeholder="例：11/1"></label>
+  <label>新家房租开始日<input data-f="rentstart" placeholder="例：11/1"></label>
+  <label>旧家解约日（房租算到哪天）<input data-f="kaiyaku" placeholder="例：11/30"></label>
+  <label>旧家退房验收（退去立会い）<input data-f="tachiai" placeholder="例：11/28 10:00"></label>
+  <label>搬家公司 / 时间 / 金额<input data-f="mover" placeholder="例：○○引越 11/20 8:00〜"></label>
+  <label>光纤开通施工日<input data-f="net" placeholder="例：11/20 PM"></label>
+  <label>燃气开栓（需在场）<input data-f="gas" placeholder="例：11/20 15:00"></label>
+  <label>旧停车场解约<input data-f="park" placeholder="例：随房一起 / 另签"></label>
+  <label>大件垃圾收集日<input data-f="sodai" placeholder="例：11/17"></label>
+  <label>管理公司电话（新/旧）<input data-f="kanri" placeholder="新：… / 旧：…"></label>
+</div>
+</section>
+
+<!-- ===================== P0 ===================== -->
+<section id="p0" data-from="2026-10-22" data-to="2026-10-28">
+<h2><span class="num">①</span>本周：先办掉会卡住的事<span class="when">10/22（四）〜 10/28（三）</span><span class="nowtag">NOW</span></h2>
+<p class="lead">这一周不用打包，重点是<b>把日期定下来</b>：解约、钥匙、搬家公司、网络。这几件定了，后面就只是照着做。</p>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p0-contract"><b>翻出旧家（羽鳥）的租赁合同</b><span class="tg due">今天</span><span class="d">看 4 件事：① 提前几个月通知 ② 解约日的房租按天算还是按月算 ③ 退房清扫费 / 原状恢复的约定 ④ 停车场是跟房子一起签的还是另签的。</span></li>
+  <li data-k="p0-notice"><b>通知旧家管理公司 / 房东解约</b><span class="tg due">今天〜明天</span><span class="d">按合同规定的方式（电话、网页、书面「解約通知書」）。<b>问清楚并记下</b>：受理日期、解约日、退房验收（退去立会い）可以约哪天。要有凭证，书面或邮件最好。</span></li>
+  <li data-k="p0-parking"><b>旧停车场解约</b><span class="tg if">另签的话</span><span class="d">月租停车场一般也要提前 1 个月通知，和房子分开办，很容易漏掉。</span></li>
+  <li data-k="p0-newkey"><b>向新家（円行）的中介 / 管理公司确认</b><span class="d">钥匙交接日、房租开始日、钥匙几把、能不能在搬家日之前先进去（打扫、装窗帘、搬小东西）、搬家公司的卡车停哪里、共用部分要不要铺保护（養生）、要不要提前通知管理员。</span></li>
+  <li data-k="p0-insurance"><b>确认新家的火灾保险已经加入</b><span class="d">一般签约时会让你加入，看合同材料里有没有保单。旧家的火灾保险要等退房后解约，<b>剩余月份的保费可能会退</b>。</span></li>
+  <li data-k="p0-mover-quote"><b>搬家公司：找 3 家报价</b><span class="tg web">网上</span><span class="d">可以用比价网站（SUUMO引越し見積もり、引越し侍 等）一次发出去，<b>也可以只填邮件联系</b>，免得一直接电话。告诉对方：2LDK、旧家几楼有没有电梯、新家 2 楼跃层 + 阁楼、7km、日期 11/20（能接受 11/19、11/21 的话价格还能再降）。<b>有大件就要求上门或视频看房报价</b>，否则当天容易加钱。</span></li>
+  <li data-k="p0-mover-q"><b>报价时要问的问题</b><span class="d">纸箱几个、免不免费（一般家庭套餐会送）· 洗衣机拆装 / 空调拆装是否另外收费 · 当天的人数和卡车大小 · 时段（上午档 / 下午档 / 随便档，随便档最便宜）· 取消费从哪天开始收 · 有没有赔偿保险 · 能不能回收旧纸箱。</span></li>
+  <li data-k="p0-leave"><b>公司请年假 11/20（周五）</b><span class="d">再加上三连休 11/21〜23，开箱和收尾都够用。如果打算 11/19 晚上就开始拆大件，也可以考虑请 11/19 下午。</span></li>
+  <li data-k="p0-net-check"><b>查新家能用哪家网络</b><span class="d">问管理公司：楼里是不是「光配線方式」/「VDSL」/ 有没有全楼统一免费的网络。有的楼自带网络，那就不用另外签。</span></li>
+  <li data-k="p0-net-apply"><b>申请新家的网（移机或新签）</b><span class="tg due">尽早</span><span class="d">现在用的光纤办「移転」，或者换一家新签（新签常有返现，旧的那家可能要付解约金和施工费的剩余款，两边算一下）。<b>施工日最好排在 11/20 当天或之前</b>（施工时人要在场，有钥匙的话可以提前排）。排不上的话，开通前先用手机热点或租一个移动 Wi-Fi 顶着。</span></li>
+  <li data-k="p0-measure"><b>拿钥匙或看房时量尺寸</b><span class="d">每扇<b>窗户</b>的宽 × 高（买窗帘用）· 冰箱位置的宽和高 · 洗衣机防水盘的尺寸和水龙头形状 · 门和楼梯的宽度（大件能不能搬上去）· 阁楼入口的大小。可以对照 <a href="../new-home-2ldk/">3D 布置模型</a>。</span></li>
+  <li data-k="p0-lights"><b>确认新家每个房间有没有灯</b><span class="d">日本的租房经常只有灯座、没有灯。没有的话要先买吊顶灯（シーリングライト），<b>不然第一天晚上房间是黑的</b>。</span></li>
+  <li data-k="p0-ac"><b>确认新家装了几台空调</b><span class="d">旧家如果有<b>自己装的空调</b>要带走，拆装需要专门的师傅，一般要提前约，搬家公司也可以代约（另外收费）。</span></li>
+  <li data-k="p0-inventory"><b>拍一圈旧家，列出「不带走」的东西</b><span class="d">大件家具、旧家电、多出来的收纳。下一阶段用这个单子分去向：卖 / 送人 / 当大件垃圾 / 家电回收。</span></li>
+</ul>
+</section>
+
+<!-- ===================== P1 ===================== -->
+<section id="p1" data-from="2026-10-29" data-to="2026-11-04">
+<h2><span class="num">②</span>处理不要的东西 · 预约水电燃气<span class="when">10/29（四）〜 11/4（三）· 含 11/3 文化之日</span><span class="nowtag">NOW</span></h2>
+<p class="lead">大件垃圾要预约，收集日只能排在预约之后，所以<b>不带走的东西这周就开始处理</b>。窗帘、灯具这些要等货的也这周下单。</p>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p1-mover-book"><b>定下搬家公司，拿到确认书</b><span class="d">核对日期、时段、金额、包含的项目（洗衣机拆装、纸箱数），把取消规定截图保存。<b>请对方先送纸箱过来</b>。</span></li>
+  <li data-k="p1-sodai"><b>预约大件垃圾（藤沢市）</b><span class="tg due">尽早</span><span class="tg web">LINE / 网上</span><span class="d">边长 50cm〜2m 的东西：<b>1件 500 円</b>；衣柜、床、沙发、书架、桌子等 16 种「特別大型」<b>1件 1,000 円</b>（贴 2 张 500 円的券）。预约方式：<b>藤沢市 LINE 官方账号 → 「ごみ」→「大型ごみ予約」</b>（24 小时可用），或<a href="https://sodai-sys.jp/fujisawa/users/" target="_blank" rel="noopener">网上受理系统</a>，或打电话给藤沢市興業公社（0466-23-5301，工作日）。<b>收集日要排在 11/19 之前</b>。</span></li>
+  <li data-k="p1-sodai-ticket"><b>买大件垃圾的纳付券（シール）</b><span class="d">在市民センター或取扱店买，写上名字或受理号码后贴在东西上，收集日早上放到指定地点（下雨也收）。</span></li>
+  <li data-k="p1-kaden"><b>冰箱 / 洗衣机 / 电视 / 空调 / 干衣机不能当大件垃圾扔</b><span class="tg if">有要扔的话</span><span class="d">这些归家电回收法管，市里不收。办法：买新的时让店里收走旧的 · 请原来买的店收 · 自己送到指定回收点。要付回收费和搬运费。<b>电脑</b>要找厂家回收。<b>微波炉、打印机、吸尘器</b>不到 50cm 也算大件垃圾。</span></li>
+  <li data-k="p1-sell"><b>能卖的先卖，能送的先送</b><span class="d">メルカリ（小件）、ジモティー（大件可以让对方自己来搬，常常免费送掉）、二手店上门收购。<b>最晚 11/15 前出手</b>，之后来不及就转去大件垃圾。</span></li>
+  <li data-k="p1-renrakucho"><b>办电、燃气、水的停用和开通</b><span class="tg web">网上</span><span class="d">可以用「引越れんらく帳」一次办完电（东京电力等）、燃气（东京燃气等）、神奈川县营水道的停用和开通（要注册会员，先确认两边的公司在支持范围内）。也可以分别在各家官网办。<b>旧家停用日</b>别定在搬家日，定在<b>打扫完、退房验收那天</b>（打扫要用电和水）。</span></li>
+  <li data-k="p1-gas"><b>约新家的燃气开栓（要人在场）</b><span class="tg due">尽早</span><span class="d">开栓时人必须在场。约在 11/20 下午（搬完之后），或者有钥匙就约在搬家日之前。先看清是<b>城市燃气还是液化气（LP）</b>，看入住说明或问管理公司。</span></li>
+  <li data-k="p1-water"><b>水道（神奈川县营水道）</b><span class="d">藤沢是县营水道，归藤沢水道营業所管。<b>旧家停用</b>：LINE / 电子申请（e-kanagawa）/ 引越れんらく帳 / 电话（客服 0570-00-5959）都行，准备好「上下水道使用量のお知らせ」上的号码。<b>新家开通</b>：入住后看到「お客様番号」再申请也可以。</span></li>
+  <li data-k="p1-curtain"><b>下单窗帘</b><span class="d">按量好的窗户尺寸买。定做的要等 1〜2 周，现成尺寸的可以去宜得利（ニトリ）当天买。<b>第一天晚上就要用</b>（遮挡视线 + 保暖）。</span></li>
+  <li data-k="p1-buy"><b>列出新家要买的东西并下单</b><span class="d">灯具 · 窗帘杆 / 挂钩 · 洗衣机防水盘配件（水龙头不合的话要买转接头「ニップル」）· 家具脚垫 · 门口地垫 · 晾衣杆（看阳台是否自带）· 跃层楼梯、阁楼梯子用的防滑贴。大件让商店<b>直接送到新家</b>，送货日排在 11/21〜23。</span></li>
+  <li data-k="p1-oversize"><b>确认大件能不能搬进新家</b><span class="d">双人床（140×195）、冰箱、洗衣机、沙发：对照楼梯和门的宽度。跃层的话，<b>床垫和大柜子能不能上楼</b>是最常出问题的地方，报价时也告诉搬家公司。</span></li>
+  <li data-k="p1-pack-start"><b>开始打包「到搬家都用不上」的东西</b><span class="d">换季衣服、书、纪念品、备用被子、阁楼要放的季节用品。一天装几箱，比最后一周一口气装轻松很多（编号规则见下面的<a href="#pack">打包</a>）。</span></li>
+  <li data-k="p1-fridge-plan"><b>冰箱开始「只出不进」</b><span class="d">冷冻库的存货按日期吃掉，大批采购停到搬家后。</span></li>
+</ul>
+</section>
+
+<!-- ===================== P2 ===================== -->
+<section id="p2" data-from="2026-11-05" data-to="2026-11-11">
+<h2><span class="num">③</span>拿钥匙后：先布置新家，再动手打包<span class="when">11/5（四）〜 11/11（三）</span><span class="nowtag">NOW</span></h2>
+<p class="lead">两边距离只有 7km，开车 15〜20 分钟。如果钥匙已经拿到，<b>东西还没搬进去之前</b>是检查、打扫、装窗帘和灯最省事的时候。</p>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p2-checkin"><b>新家入住检查：拍下所有原有的划痕和污渍</b><span class="tg due">交表有期限</span><span class="d">地板、墙纸、门、浴室、厨房、阳台、窗纱、阁楼，<b>全部拍照或录视频</b>，写进「入居時チェックシート」后在期限内交回去（一般 1〜2 周）。退房时这份记录能挡掉不该付的修理费。</span></li>
+  <li data-k="p2-check-equip"><b>检查设备能不能用</b><span class="d">每个水龙头和下水口（有没有漏水）· 热水器 · 换气扇 · 对讲机 · 每个插座 · 空调（开一下暖风）· 火灾报警器 · 门锁 · 信箱的密码 · 快递柜。有问题<b>搬进去之前</b>就联系管理公司。</span></li>
+  <li data-k="p2-clean"><b>打扫新家</b><span class="d">家具进来前最好打扫：吸尘、擦地、擦柜子里面、浴室和厨房的排水口。想用烟雾型驱虫剂（くん煙剤）的话也要在这时候用。</span></li>
+  <li data-k="p2-install"><b>装灯、装窗帘、贴防滑贴</b><span class="d">都在家具进来之前做。可以顺便拿个床垫或睡袋过去，确认晚上开灯的效果和屋外看进来的视线。</span></li>
+  <li data-k="p2-car-trips"><b>开车分批搬小件</b><span class="tg if">有钥匙的话</span><span class="d">易碎品、贵重物品、电脑、相机和镜头、<b>存素材的移动硬盘</b>、植物、衣服（挂着连衣架整批放进车里）。这些自己搬最放心，也能减少搬家公司的工作量。</span></li>
+  <li data-k="p2-eten"><b>邮局转寄：e転居</b><span class="tg web">网上</span><span class="d">登记要 3〜7 个工作日，<b>这周提交</b>，转寄开始日填 11/20。转寄期 1 年，免费。<a href="https://www.post.japanpost.jp/service/tenkyo/" target="_blank" rel="noopener">日本邮政 转居・转送服务</a></span></li>
+  <li data-k="p2-tachiai-book"><b>约好旧家的退房验收</b><span class="d">如果解约日是 11/22 前后，可以约 11/21〜23 之间，前提是对方节假日也上班；不行的话约 11/24 以后。<b>验收前要搬空并打扫完</b>。</span></li>
+  <li data-k="p2-pack-main"><b>继续打包：书架、收纳柜、不常用的厨具</b><span class="d">目标是这周结束时<b>装完六成</b>。每装好一箱就在侧面写上编号和要放的房间（见<a href="#pack">打包</a>）。</span></li>
+  <li data-k="p2-backup"><b>备份电脑 / NAS / 手机</b><span class="d">搬运途中硬盘最容易出事。至少把重要数据另外拷贝一份，两份分开放（一份自己开车带过去）。</span></li>
+  <li data-k="p2-kids"><b>安排搬家当天谁照看家人和小孩</b><span class="tg if">有需要的话</span><span class="d">当天进进出出、搬重物，最好让家人在新家或者别的地方待着，不要在旧家现场。</span></li>
+  <li data-k="p2-cash"><b>准备现金</b><span class="d">有的搬家公司当天收现金。另外准备买大件垃圾券、零散采购的钱。</span></li>
+</ul>
+</section>
+
+<!-- ===================== P3 ===================== -->
+<section id="p3" data-from="2026-11-12" data-to="2026-11-18">
+<h2><span class="num">④</span>最后一周：装完 + 处理完<span class="when">11/12（四）〜 11/18（三）</span><span class="nowtag">NOW</span></h2>
+<p class="lead">这周结束时，除了每天要用的东西，其他应该都已经装好、卖掉或者扔掉了。</p>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p3-pack-90"><b>打包到九成</b><span class="d">只留「最后一箱」：洗漱、几件换洗衣服、几只碗和锅、充电器、药。</span></li>
+  <li data-k="p3-sodai-out"><b>大件垃圾收集日：贴好券，按时拿出去</b><span class="d">收集日早上放到指定地点。</span></li>
+  <li data-k="p3-sell-end"><b>还没卖掉的：送人或者改成扔掉</b><span class="d">到这周还没出手的，就别再等买家了。</span></li>
+  <li data-k="p3-mover-confirm"><b>跟搬家公司确认最后的细节</b><span class="d">到达时间 · 人数 · 卡车停哪里（旧家、新家都要想好）· 付款方式 · 当天联系人的电话。</span></li>
+  <li data-k="p3-neighbors-old"><b>跟旧家的邻居打个招呼</b><span class="tg if">随意</span><span class="d">告诉对方当天会比较吵、楼道会被占用。</span></li>
+  <li data-k="p3-kanri-notice"><b>跟管理公司确认搬家当天的规定</b><span class="d">有的楼规定能搬的时间段、要不要贴共用部分的保护、电梯能不能专用。</span></li>
+  <li data-k="p3-essentials"><b>把「开箱就要用」的箱子和随身包准备好</b><span class="d">清单在<a href="#pack">打包</a>。这两样<b>自己开车带</b>，不交给搬家公司。</span></li>
+  <li data-k="p3-food"><b>冰箱快清空了</b><span class="d">11/18〜19 只剩下能当天吃完的量，饮料也喝掉。</span></li>
+  <li data-k="p3-net-confirm"><b>确认网络的施工日和路由器</b><span class="d">旧的路由器和光猫（ONU）有的要还，有的要带去新家，先查清楚是哪种。</span></li>
+  <li data-k="p3-old-clean-plan"><b>准备旧家打扫用品</b><span class="d">吸尘器（别装箱）、抹布、中性清洁剂、去霉剂、垃圾袋（藤沢指定袋）、打扫完用来擦地的一次性拖布。</span></li>
+</ul>
+</section>
+
+<!-- ===================== P4 ===================== -->
+<section id="p4" data-from="2026-11-19" data-to="2026-11-19">
+<h2><span class="num">⑤</span>前一天<span class="when">11/19（四）</span><span class="nowtag">NOW</span></h2>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p4-fridge"><b>冰箱断电除霜</b><span class="tg due">前一天</span><span class="d">一般建议<b>搬家前一天白天</b>就拔插头，让冷冻室的冰化掉，把接水盘的水倒掉（具体时间看说明书）。冰箱门用胶带固定，里面的隔板拿出来单独包好。</span></li>
+  <li data-k="p4-washer"><b>洗衣机排水（水抜き）</b><span class="tg due">前一天</span><span class="d">关水龙头 → 按启动键几秒，把进水管里的水排掉 → 拔进水管 → 拆排水管把剩下的水排干。<b>进水接头和螺丝装进小袋，贴在洗衣机上</b>。如果包含在搬家公司的服务里，就不用自己做。</span></li>
+  <li data-k="p4-furniture"><b>拆床和其他需要拆的家具</b><span class="d">螺丝装进小袋，<b>贴在零件本身上</b>。先给接线拍照（电脑、电视、路由器）。</span></li>
+  <li data-k="p4-last-box"><b>最后一箱 + 随身包装好</b><span class="d">晚上用完的洗漱用品、睡衣，第二天早上也直接放进去。</span></li>
+  <li data-k="p4-car"><b>车加满电 / 油，后座腾空</b><span class="d">当天自己的车要装随身包、开箱就要用的箱子、贵重物品、打扫用品。</span></li>
+  <li data-k="p4-mover-call"><b>确认搬家公司的到达时间</b><span class="d">有的公司会在前一天下午打电话确认。</span></li>
+  <li data-k="p4-dinner"><b>晚饭吃外卖或便利店</b><span class="d">别再开火做饭、洗锅了。</span></li>
+</ul>
+</section>
+
+<!-- ===================== P5 ===================== -->
+<section id="p5" data-from="2026-11-20" data-to="2026-11-20">
+<h2><span class="num">⑥</span>搬家当天<span class="when">11/20（五）</span><span class="nowtag">NOW</span></h2>
+<p class="lead">下面是按「上午档」排的<b>参考时间表</b>，到时按搬家公司实际给的时间平移就行。2LDK 搬出一般 2〜3 小时，搬进 1.5〜2.5 小时。</p>
+<ol class="tl">
+  <li><span class="t">07:30</span><span class="x">起床，被子和最后的洗漱用品装进随身包。家人和小孩如果有安排，这时出门。<small>最后再检查一遍有没有落下的东西：柜子里、阳台、信箱。</small></span></li>
+  <li><span class="t">08:00</span><span class="x">搬家公司到。领队先走一圈，告诉对方：哪些不搬（垃圾、打扫用品）、哪些易碎、哪些要先装车。</span></li>
+  <li><span class="t">08:15〜10:30</span><span class="x">搬出。你站在门口或者卡车边上，看着东西装车，不用自己动手。<small>易碎品和电脑已经在自己车里了。</small></span></li>
+  <li><span class="t">10:30</span><span class="x">旧家已经空了：拍照（每个房间）· 关窗 · 关空调 · 关燃气总阀。<b>电和水先别停</b>（还要打扫）。</span></li>
+  <li><span class="t">10:45</span><span class="x">自己开车先到新家（20 分钟），比卡车先到，开好门、确认停车的地方。</span></li>
+  <li><span class="t">11:15〜13:30</span><span class="x">搬进。<b>你在门口指挥每件家具放哪里</b>，床、冰箱、洗衣机一次放到位。箱子按侧面写的房间直接放进去。<small>可以在每个房间门口贴一张写着「主卧 / 客厅 / 儿童房 / 阁楼」的纸。</small></span></li>
+  <li><span class="t">13:30</span><span class="x">付款、签字。<b>当场检查</b>家具和墙有没有碰伤，有的话当场拍照并告诉对方（之后再报很难认定）。</span></li>
+  <li><span class="t">14:00</span><span class="x">冰箱插电（静置时间看说明书）· 洗衣机接管后试一次，确认没有漏水。</span></li>
+  <li><span class="t">15:00</span><span class="x">燃气开栓（约好的时间，要人在场）→ 洗澡和做饭就能用了。</span></li>
+  <li><span class="t">15:30〜</span><span class="x">先打开「开箱就要用」的箱子：铺床 · 挂窗帘 · 厕所纸 · 毛巾 · 充电器。网络施工如果排在今天，就在这个时段。</span></li>
+  <li><span class="t">晚上</span><span class="x">吃外卖或者出去吃。<b>今天只要能睡觉、能洗澡就算完成</b>。</span></li>
+</ol>
+<div class="prog" style="margin-top:12px"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p5-old-photo"><b>旧家清空后每个房间拍照</b></li>
+  <li data-k="p5-old-gas"><b>旧家：关燃气总阀、关窗、关空调</b></li>
+  <li data-k="p5-new-place"><b>新家：每件大件放到位</b><span class="d">搬家公司走了以后自己挪床和柜子很累，当场让他们放好。</span></li>
+  <li data-k="p5-damage"><b>当场检查有没有碰伤</b><span class="d">家具、墙、地板、楼道。</span></li>
+  <li data-k="p5-pay"><b>付款、拿收据</b></li>
+  <li data-k="p5-fridge"><b>冰箱插电</b></li>
+  <li data-k="p5-washer"><b>洗衣机接好、试运转、确认不漏水</b></li>
+  <li data-k="p5-gas"><b>燃气开栓（在场）</b></li>
+  <li data-k="p5-breaker"><b>确认电闸是开着的、热水器能出热水</b></li>
+  <li data-k="p5-first-night"><b>床、窗帘、灯、厕所、浴室能用了</b></li>
+</ul>
+</section>
+
+<!-- ===================== P6 ===================== -->
+<section id="p6" data-from="2026-11-21" data-to="2026-11-23">
+<h2><span class="num">⑦</span>三连休：开箱 + 旧家收尾<span class="when">11/21（六）〜 11/23（一·祝）</span><span class="nowtag">NOW</span></h2>
+<p class="lead">市役所周末不开门（只有本厅每月第 2、4 个周六开，11 月是 11/14 和 11/28），手续留到 11/24 以后。这三天专心做家里的事。</p>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p6-unpack-kitchen"><b>开箱：厨房 → 卫生间 → 衣服 → 其他</b><span class="d">按「每天都要用」的顺序开。阁楼的季节用品可以直接不开箱，搬上去就行。</span></li>
+  <li data-k="p6-boxes"><b>拆开的纸箱压平捆好</b><span class="d">搬家公司回收的话约好时间；不回收就按藤沢的资源垃圾（纸类）规定在收集日拿出去。</span></li>
+  <li data-k="p6-garbage-rule"><b>查新家的垃圾收集日和分类规则</b><span class="d">藤沢是按「收集ブロック」排收集日的，円行按地址在不同的块里，用<a href="https://www.city.fujisawa.kanagawa.jp/kankyo-j/kurashi/gomi/wakekata/kensakusystem/index.html" target="_blank" rel="noopener">藤沢市ごみ検索システム</a>或「藤沢市ごみ分別アプリ」查。公寓的话还要问管理公司垃圾放在哪里、几点之前放。可燃和不可燃垃圾要用<b>藤沢市指定的收费袋</b>。</span></li>
+  <li data-k="p6-old-clean"><b>旧家打扫</b><span class="d">换气扇 · 浴室发霉的地方 · 厨房灶台的油污 · 空调滤网 · 阳台 · 窗户和窗槽 · 墙上的钉子孔（不要自己乱补，按合同来）。拆掉门牌和信箱上的名字。</span></li>
+  <li data-k="p6-tachiai"><b>旧家退房验收（退去立会い）</b><span class="d">带上：合同、<b>所有钥匙（包括自己配的）</b>、入住时拍的照片。当场确认要付的修理费项目，<b>不认同的不要马上签字</b>。押金的结算单一般之后寄过来。</span></li>
+  <li data-k="p6-old-utility"><b>旧家停用电和水的日期 = 验收那天</b><span class="d">验收前还要用灯和吸尘器。</span></li>
+  <li data-k="p6-neighbors"><b>跟新家的邻居打招呼</b><span class="tg if">随意</span><span class="d">公寓一般是左右两户 + 楼上楼下。带一点小点心或毛巾就够了。</span></li>
+  <li data-k="p6-bike"><b>新家的自行车停车位 / 停车场登记</b><span class="tg if">需要的话</span><span class="d">有的楼要先登记、贴贴纸才能停。</span></li>
+  <li data-k="p6-online"><b>网上能改的地址先改</b><span class="d">见下面<a href="#addr">地址变更清单</a>，银行、信用卡、网购这些大多在 App 里就能改。</span></li>
+  <li data-k="p6-safety"><b>跃层楼梯和阁楼梯子的安全</b><span class="d">楼梯口要不要装护栏、阁楼梯子收起来的方式、晚上走楼梯的照明（感应小夜灯）。</span></li>
+</ul>
+</section>
+
+<!-- ===================== P7 ===================== -->
+<section id="p7" data-from="2026-11-24" data-to="2026-12-04">
+<h2><span class="num">⑧</span>14 天内：市役所和警察署<span class="when">11/24（二）〜 12/4（五）</span><span class="nowtag">NOW</span></h2>
+<p class="lead"><b>転居届的期限是开始住进新家那天起 14 天以内</b>，11/20 入住的话要在 <b>12/4（五）</b>之前办完。在留卡、个人编号卡（マイナンバーカード）可以在同一个窗口一起改。</p>
+<div class="note"><b>窗口</b>：市民窓口センター（市役所本厅 1 楼），或者各个市民センター / 石川分館（<b>藤沢・村岡市民センター不能办</b>）。円行附近有湘南台市民センター。周一到周五 8:30〜17:00。<b>周一和节假日的第二天人特别多</b>，11/24（二）是三连休后的第一天，会很挤，建议 <b>11/25（三）或 11/26（四）上午早点去</b>（下午去的话，有的手续当天办不完）。</div>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p7-myna-pre"><b>（可选）在マイナポータル先填好转居信息</b><span class="tg web">网上</span><span class="d">用「引越しワンストップサービス」提前输入，<b>收到完成通知后</b>再去窗口，在窗口能少填一些表。</span></li>
+  <li data-k="p7-bring"><b>整理要带的东西</b><span class="d">
+    ① <b>所有搬家的人的在留卡</b><br>
+    ② 去窗口的人的身份证件（在留卡、マイナンバーカード、驾照都行）<br>
+    ③ <b>所有人的マイナンバーカード + 每张卡的 4 位密码</b>（改地址时要输入）<br>
+    ④ 有的话：小儿医疗证等各种医疗证（要一起改地址）<br>
+    ⑤ 不是同一户口的人代办的话要委任状</span></li>
+  <li data-k="p7-tenkyo"><b>提交転居届</b><span class="tg due">〜12/4</span><span class="tg off">市役所</span><span class="d">印鑑登记的地址会自动跟着改，不用另外办。国民年金原则上也不用另外办。</span></li>
+  <li data-k="p7-zairyu"><b>在留卡背面写上新地址</b><span class="tg due">〜12/4</span><span class="tg off">同一窗口</span><span class="d">提交转居届时一起办，不用另外去入管。<b>没带在留卡的话就得再跑一趟</b>。</span></li>
+  <li data-k="p7-myna"><b>マイナンバーカード改地址</b><span class="tg off">同一窗口</span><span class="d">注意：<b>改地址后「署名用電子証明書」会自动失效</b>（e-Tax、便利店打印证明、网上用卡登录会受影响），要继续用就在窗口当场重新发行，要设 6〜16 位的密码。</span></li>
+  <li data-k="p7-iryo"><b>小儿医疗证等改地址</b><span class="tg if">有的话</span><span class="d">带着医疗证在转居时一起办。同一个市里搬家，<b>儿童补贴（児童手当）不用另外办</b>（孩子和领取人分开住的情况除外）。如果有保育费免除认定、乳儿通园支援，要另外去保育课办。</span></li>
+  <li data-k="p7-jumin"><b>需要的话开住民票</b><span class="tg if">需要的话</span><span class="d">改车检证、某些银行要用。马上要改车检证的话，当场开一张。</span></li>
+  <li data-k="p7-license"><b>驾照改地址</b><span class="tg off">警察署</span><span class="d">円行归<b>藤沢北警察署</b>管（円行 2 丁目，0466-45-0110）。带上驾照和能证明新地址的东西（住民票、背面写了新地址的在留卡或マイナンバーカード等）。在警察署或运转免许中心办，记得确认窗口时间。<br>如果用的是<b>マイナ免許証</b>，并且登记过「ワンストップ」服务，那么在市役所改了地址就会自动同步，不用另外去警察署（以警察厅的最新说明为准）。</span></li>
+  <li data-k="p7-car"><b>汽车：车库证明 → 车检证改地址</b><span class="tg due">〜12/5</span><span class="tg if">有车的话</span><span class="d">普通车：① 先在<b>藤沢北警察署</b>申请新停车位的车库证明（保管場所証明，要停车场的使用合同或使用许可，几天后才能拿到）→ ② 地址变更后 <b>15 天内</b>到<b>湘南自動車検査登録事務所</b>改车检证（都是湘南牌照，不用换牌）。<b>贷款或租赁的车</b>，车主是贷款公司或租赁公司，直接让经销商办最省事。轻型车改去轻自動車検査協会 湘南支所。</span></li>
+  <li data-k="p7-car-ins"><b>车险改地址和停车位置</b><span class="tg if">有车的话</span><span class="d">打电话或在网上改，有的保险公司保费会跟着地区变。</span></li>
+  <li data-k="p7-company"><b>公司改地址</b><span class="d">向人事交住址变更申请（社保、雇用保险、交通费都跟着变）。<b>年终调整（年末調整）</b>正好在 11〜12 月，表上的地址写哪一个，问一下人事。</span></li>
+  <li data-k="p7-checksheet"><b>新家的入住检查表交回去</b><span class="tg due">按管理公司的期限</span></li>
+</ul>
+</section>
+
+<!-- ===================== P8 ===================== -->
+<section id="p8" data-from="2026-12-05" data-to="2027-12-31">
+<h2><span class="num">⑨</span>之后：钱的事和一些小事<span class="when">12 月〜</span><span class="nowtag">NOW</span></h2>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="p8-deposit"><b>旧家押金的结算单：核对</b><span class="d">一般退房后 1 个月左右寄来。看清楚扣了哪些项目，有疑问对照退房时拍的照片和合同交涉。</span></li>
+  <li data-k="p8-fire-old"><b>旧家火灾保险解约</b><span class="d">按月退还剩余保费的话，有一点钱能拿回来。</span></li>
+  <li data-k="p8-net-old"><b>旧的网络解约、退还设备</b><span class="tg if">换了一家的话</span><span class="d">光猫 / 路由器的回收包装箱寄回去，不还会被收费。</span></li>
+  <li data-k="p8-furusato"><b>故乡纳税（ふるさと納税）的一站式特例</b><span class="tg due">〜2027/1/10</span><span class="tg if">今年申请过的话</span><span class="d">今年提交过「ワンストップ特例申請書」的自治体，<b>都要交一份「变更届出书」</b>，最晚 2027/1/10 寄到。以后再捐款，写新地址就行。</span></li>
+  <li data-k="p8-nenga"><b>年贺状 / 新年问候用新地址</b><span class="tg if">随意</span></li>
+  <li data-k="p8-eten-remind"><b>还寄到旧地址的东西：到那个账号上改地址</b><span class="d">邮局转寄只有 1 年。转寄过来的邮件封面上写着旧地址的，就是还没改的。</span></li>
+  <li data-k="p8-gomi-cal"><b>新家的垃圾收集日历贴到冰箱上</b></li>
+</ul>
+</section>
+
+<!-- ===================== ADDRESS ===================== -->
+<section id="addr">
+<h2><span class="num">✉</span>地址变更清单<span class="when">按类别 · 打勾 = 已改</span></h2>
+<p class="lead">市役所以外的地址变更都在这里。大多数可以在 App 里改，<b>三连休的时候一口气改完</b>。</p>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+
+<h3>钱</h3>
+<ul class="chk">
+  <li data-k="a-bank"><b>银行（每个账户）</b><span class="d">工资卡、房租扣款的那张卡优先。</span></li>
+  <li data-k="a-card"><b>信用卡（每张）</b><span class="d">卡片续期时寄卡、账单寄送都用这个地址。</span></li>
+  <li data-k="a-sec"><b>证券账户 / NISA</b><span class="d">有义务通知地址变更。</span></li>
+  <li data-k="a-ins-life"><b>人寿 / 医疗保险</b></li>
+  <li data-k="a-ins-fire"><b>火灾保险（新家）的地址确认</b></li>
+  <li data-k="a-ins-car"><b>车险</b><span class="tg if">有车的话</span></li>
+  <li data-k="a-pension"><b>iDeCo / 企业年金</b><span class="tg if">有的话</span></li>
+</ul>
+
+<h3>通信 · 生活</h3>
+<ul class="chk">
+  <li data-k="a-mobile"><b>手机运营商（每个人的号码）</b></li>
+  <li data-k="a-net"><b>网络（移机或新签）</b><span class="d">见 ① 本周。</span></li>
+  <li data-k="a-nhk"><b>NHK</b><span class="d">在网上改地址。</span></li>
+  <li data-k="a-electric"><b>电 / 燃气 / 水：确认新家都开通了，旧家都停了</b></li>
+  <li data-k="a-delivery"><b>网购的默认收货地址</b><span class="d">Amazon · 楽天 · Yahoo · メルカリ · 网上超市 / 生协 · 定期配送（尿布、水、咖啡这类）。<b>定期配送最容易忘</b>，下一单就会寄到旧家。</span></li>
+  <li data-k="a-furusato-site"><b>故乡纳税网站的注册地址</b><span class="d">还有寄送中的回礼，要跟每个自治体单独联系。</span></li>
+  <li data-k="a-subs"><b>会员 / 订阅</b><span class="d">Costco · 健身房 · 杂志 · 宠物医院 · 美容院这些有登记地址的地方。</span></li>
+  <li data-k="a-ec-pay"><b>购物 App 和支付 App 里的地址</b><span class="d">PayPay、乐天 Pay 等（有登记地址的才需要改）。</span></li>
+</ul>
+
+<h3>公共 · 工作</h3>
+<ul class="chk">
+  <li data-k="a-city"><b>市役所：転居届 · 在留卡 · マイナンバーカード</b><span class="tg due">〜12/4</span><span class="d">见 ⑧。</span></li>
+  <li data-k="a-license"><b>驾照</b><span class="d">见 ⑧。</span></li>
+  <li data-k="a-shaken"><b>车检证 + 车库证明</b><span class="tg due">15 天内</span><span class="tg if">有车的话</span></li>
+  <li data-k="a-company"><b>公司（人事 · 交通费 · 年终调整）</b></li>
+  <li data-k="a-post"><b>邮局 e転居</b></li>
+  <li data-k="a-hospital"><b>常去的医院 / 儿科 / 牙医</b><span class="tg if">随意</span><span class="d">下次就诊时告诉前台就行。</span></li>
+  <li data-k="a-china"><b>国内（中国）那边登记的日本地址</b><span class="tg if">有的话</span><span class="d">银行、保险、领事馆相关的登记、家人的通讯录。</span></li>
+</ul>
+<p class="fine">同一个市里搬家，<b>住民税、国民年金、印鑑登录、儿童补贴</b>都不用另外办（儿童补贴只有孩子和领取人分开住时才要办）。地址变更时管辖的税务署也是同一个（藤沢税務署）。</p>
+</section>
+
+<!-- ===================== PACKING ===================== -->
+<section id="pack">
+<h2><span class="num">箱</span>打包规则 + 两个特别的箱子</h2>
+
+<h3>编号规则（一定要写在侧面，不要写在顶上）</h3>
+<div class="grid2">
+  <div class="card">
+    <h4>侧面写三样</h4>
+    <ul>
+      <li><b>房间</b>：客 / 主 / 儿 / 厨 / 卫 / 阁</li>
+      <li><b>编号</b>：客-07（叠起来时顶上看不到，所以写侧面）</li>
+      <li><b>内容</b>：「书 · 文件」「冬季外套」</li>
+      <li>易碎的再贴一个大大的「割れ物」</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>装箱的原则</h4>
+    <ul>
+      <li><b>重的东西用小箱子</b>（书、餐具），轻的用大箱子（衣服、毛绒玩具）</li>
+      <li>一箱的重量自己能轻松抱起（大概 15kg 以内）</li>
+      <li>盘子<b>竖着放</b>，中间用报纸隔开</li>
+      <li>拆线前先拍照，线贴上标签</li>
+      <li>螺丝装进小袋，贴在零件上</li>
+      <li>液体（调料、洗涤剂）拧紧盖子后包上保鲜膜，装进塑料袋</li>
+    </ul>
+  </div>
+</div>
+<p class="fine">在手机备忘录里记一句「客-07：书、文件」，找东西时搜编号就行。</p>
+
+<h3>随身包（自己拿，不交给搬家公司）</h3>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="b-docs"><b>重要证件</b><span class="d">在留卡、护照、マイナンバーカード、驾照、新旧两份租房合同、搬家公司的确认书。</span></li>
+  <li data-k="b-money"><b>钱包、现金、银行存折和印章</b></li>
+  <li data-k="b-keys"><b>新旧两边的所有钥匙</b><span class="d">旧家的钥匙退房时要全部交回，别装进箱子里。</span></li>
+  <li data-k="b-elec"><b>手机、充电器、充电宝</b></li>
+  <li data-k="b-pc"><b>笔记本电脑、相机、移动硬盘</b></li>
+  <li data-k="b-meds"><b>常用药</b></li>
+  <li data-k="b-valuables"><b>首饰、纪念品等贵重物品</b></li>
+  <li data-k="b-tools"><b>工具包</b><span class="d">螺丝刀（＋/−）、内六角扳手、美工刀、剪刀、胶带、记号笔、卷尺、垃圾袋。</span></li>
+</ul>
+
+<h3>「开箱就要用」的箱子（第一晚用）</h3>
+<div class="prog"><span class="n"></span><div class="bar"><i></i></div><button class="mini" data-reset>重置本段</button></div>
+<ul class="chk">
+  <li data-k="f-bed"><b>床单、枕头、一套被子</b></li>
+  <li data-k="f-curtain"><b>窗帘和挂钩</b><span class="d">如果还没提前装好的话。</span></li>
+  <li data-k="f-toilet"><b>卫生纸、纸巾、洗手液</b></li>
+  <li data-k="f-bath"><b>毛巾、洗发水、牙刷、吹风机</b></li>
+  <li data-k="f-clothes"><b>两天的换洗衣服和睡衣</b></li>
+  <li data-k="f-kitchen"><b>一个锅、几个碗筷、杯子、水壶</b></li>
+  <li data-k="f-food"><b>饮用水、零食、速食</b></li>
+  <li data-k="f-light"><b>台灯或手电筒、灯泡</b><span class="d">新家没有灯的房间先用这个顶着。</span></li>
+  <li data-k="f-clean"><b>抹布、清洁剂、垃圾袋（藤沢指定袋）</b></li>
+  <li data-k="f-ext"><b>延长线、拖线板</b></li>
+  <li data-k="f-kids"><b>小孩的东西</b><span class="tg if">有的话</span><span class="d">尿布、湿巾、奶粉和奶瓶、玩具、安抚用品，放在一个箱子里。</span></li>
+</ul>
+</section>
+
+<!-- ===================== TRASH ===================== -->
+<section id="trash">
+<h2><span class="num">扔</span>不要的东西去哪里（藤沢市）</h2>
+<div class="tw"><table>
+<thead><tr><th>东西</th><th>怎么处理</th><th>费用</th></tr></thead>
+<tbody>
+<tr><td><b>大件垃圾</b><br>边长 50cm〜2m</td><td>预约：藤沢市 LINE「ごみ」→「大型ごみ予約」/ <a href="https://sodai-sys.jp/fujisawa/users/" target="_blank" rel="noopener">网上受理</a> / 興業公社 0466-23-5301（工作日 8:30〜17:00）→ 在市民センター等处买纳付券贴上 → 收集日拿出去</td><td>1 件 500 円</td></tr>
+<tr><td><b>特別大型ごみ</b>（16 种）</td><td>衣柜 · 床（含电动）· 沙发 · 榻榻米 · 餐具柜 · 桌子 · 书架 · 弹簧床垫 · 键盘乐器等。<b>边长不到 1m 的算普通大件</b></td><td>1 件 1,000 円</td></tr>
+<tr><td><b>不到 50cm 也算大件</b></td><td>微波炉、洗碗机、缝纫机、打印机、煤油炉、吸尘器（手持式的算不可燃垃圾）</td><td>500 円</td></tr>
+<tr><td><b>超过 50cm 也不算大件</b></td><td>雨伞、拖把、扫帚、坐垫、毛绒玩具、电饭煲、烤面包机、电热水壶 → 不可燃垃圾（用指定袋装）</td><td>指定袋的费用</td></tr>
+<tr><td><b>冰箱 · 洗衣机 · 电视 · 空调 · 干衣机</b></td><td>市里不收（家电回收法）。买新的时让店里回收 / 让原来的店回收 / 自己送到指定回收点</td><td>回收费 + 搬运费</td></tr>
+<tr><td><b>电脑</b></td><td>市里不收。找厂家回收（有「PCリサイクルマーク」的免费）</td><td>—</td></tr>
+<tr><td><b>还能用的东西</b></td><td>メルカリ / ジモティー / 二手店上门收购 / 送朋友</td><td>可能还有收入</td></tr>
+</tbody></table></div>
+<p class="fine">出处：藤沢市「大型ごみ・特別大型ごみの分類と出し方」。预约后要等几天才能收、一次最多几件，官网上都没写，最好早点预约。</p>
+</section>
+
+<!-- ===================== HOW ===================== -->
+<section id="how">
+<h2><span class="num">车</span>搬家方式怎么选</h2>
+<p class="lead">7km 很近，但新家在 2 楼又是跃层。床、冰箱、洗衣机这些<b>要从楼梯搬上去的大件，不建议自己搬</b>（容易受伤，也容易撞坏墙，要赔修理费）。</p>
+<div class="grid2">
+  <div class="card pick">
+    <h4>推荐：搬家公司搬大件 + 自己开车搬小件</h4>
+    <ul>
+      <li>重叠期间自己开车分几次，先把易碎品、贵重物品、衣服、电脑搬过去</li>
+      <li>大件和纸箱交给搬家公司，<b>纸箱数量少了，卡车可能可以小一号</b>，价格也会下来</li>
+      <li>11 月是淡季 + 平日（周五），比较好谈价格</li>
+      <li>能接受「随便档」（フリー便，时间由公司定）的话更便宜</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>其他选择</h4>
+    <ul>
+      <li><b>全部交给搬家公司</b>：最省力。可以加「打包服务」，费用会高不少</li>
+      <li><b>赤帽 / 只搬大件的服务</b>：小型卡车 + 1 位司机，东西不多时便宜，但司机不一定帮忙搬上楼梯，要先问</li>
+      <li><b>自己租卡车</b>：最便宜，但要 2〜3 个能帮忙的人，冰箱和洗衣机上楼梯风险最大</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<!-- ===================== SOURCES ===================== -->
+<section id="src">
+<h2><span class="num">源</span>出处 · 官方链接</h2>
+<ul class="src">
+  <li>藤沢市「<a href="https://www.city.fujisawa.kanagawa.jp/mado-c/gaikoku-tenkyo.html" target="_blank" rel="noopener">【外国人住民の方】市内の引越し（転居届）</a>」— 14 天期限、窗口、要带的东西（2026-05-15 更新）</li>
+  <li>藤沢市「<a href="https://www.city.fujisawa.kanagawa.jp/mado-c/kurashi/koseki/hikkoshi/tenkyo.html" target="_blank" rel="noopener">市内の引越し（転居届）</a>」— マイナポータル引越しワンストップ、本厅周六开放</li>
+  <li>藤沢市「<a href="https://www.city.fujisawa.kanagawa.jp/documents/8947/20260514143715.pdf" target="_blank" rel="noopener">市内転居された方へ</a>」（PDF，2026-05-01 改订）— 印鑑登录、年金、医疗证、儿童补贴、マイナンバーカード电子证明书失效</li>
+  <li>藤沢市「<a href="https://www.city.fujisawa.kanagawa.jp/kankyo-j/kurashi/gomi/wakekata/h30bunrui.html" target="_blank" rel="noopener">大型ごみ・特別大型ごみの分類と出し方</a>」/「<a href="https://www.city.fujisawa.kanagawa.jp/kankyo-j/kurashi/gomi/wakekata/oogatagomi.html" target="_blank" rel="noopener">大型ごみの収集予約受付先</a>」</li>
+  <li>藤沢市「<a href="https://www.city.fujisawa.kanagawa.jp/kankyo-j/kurashi/gomi/wakekata/kensakusystem/index.html" target="_blank" rel="noopener">ごみ検索システム</a>」— 按地址查收集日</li>
+  <li>神奈川県「<a href="https://www.pref.kanagawa.jp/docs/r4a/okyakusamacc/main.html" target="_blank" rel="noopener">神奈川県営水道お客さまコールセンター</a>」/「<a href="https://www.pref.kanagawa.jp/docs/r4a/tetudukigaido/tensyutu.html" target="_blank" rel="noopener">使用休止の手続き</a>」</li>
+  <li>神奈川県警「<a href="https://www.police.pref.kanagawa.jp/ps/fujisawakita/koban_guide.html" target="_blank" rel="noopener">藤沢北警察署 交番案内</a>」— 円行在湘南台駅西口交番的管辖范围内</li>
+  <li>日本郵便「<a href="https://www.post.japanpost.jp/service/tenkyo/" target="_blank" rel="noopener">転居・転送サービス</a>」</li>
+</ul>
+<p class="fine">2026-10-22 整理。搬家公司、网络、燃气这些「要多久」的说法是一般情况，不是保证，以各家的回复为准。手续和窗口时间可能会变，去之前看一眼官网。勾选状态和填写的日期都只存在这台设备的浏览器里，换手机或电脑不会同步。</p>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var KEY = 'move-engyo-2026:';
+  function load(k, d){ try { var v = localStorage.getItem(KEY + k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } }
+  function save(k, v){ try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch(e){} }
+
+  var done = load('done', {});
+  var items = Array.prototype.slice.call(document.querySelectorAll('ul.chk li[data-k]'));
+
+  function refresh(){
+    var total = 0, on = 0;
+    items.forEach(function(li){ total++; if (done[li.dataset.k]) on++; });
+    var p = total ? Math.round(on / total * 100) : 0;
+    document.getElementById('pct').innerHTML = p + '<small>%</small>';
+    document.getElementById('pctbar').style.width = p + '%';
+    document.querySelectorAll('.prog').forEach(function(pr){
+      var sec = pr.closest('section');
+      var lis = sec.querySelectorAll('ul.chk li[data-k]');
+      // the day-of section has its timeline before the checklist; count only lists after this bar until the next .prog
+      var list = [], el = pr.nextElementSibling;
+      while (el && !el.classList.contains('prog')) {
+        if (el.matches('ul.chk')) list = list.concat(Array.prototype.slice.call(el.querySelectorAll('li[data-k]')));
+        else if (el.querySelectorAll) list = list.concat(Array.prototype.slice.call(el.querySelectorAll('ul.chk li[data-k]')));
+        el = el.nextElementSibling;
+      }
+      if (!list.length) list = Array.prototype.slice.call(lis);
+      var n = list.filter(function(li){ return done[li.dataset.k]; }).length;
+      pr.querySelector('.n').textContent = n + ' / ' + list.length;
+      pr.querySelector('.bar i').style.width = (list.length ? n / list.length * 100 : 0) + '%';
+      pr._list = list;
+    });
+  }
+
+  items.forEach(function(li){
+    if (done[li.dataset.k]) li.classList.add('done');
+    li.setAttribute('role', 'checkbox');
+    li.setAttribute('tabindex', '0');
+    li.setAttribute('aria-checked', done[li.dataset.k] ? 'true' : 'false');
+    function toggle(){
+      var k = li.dataset.k;
+      if (done[k]) delete done[k]; else done[k] = 1;
+      li.classList.toggle('done', !!done[k]);
+      li.setAttribute('aria-checked', done[k] ? 'true' : 'false');
+      save('done', done); refresh();
+    }
+    li.addEventListener('click', function(e){ if (e.target.closest('a')) return; toggle(); });
+    li.addEventListener('keydown', function(e){ if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); } });
+  });
+
+  document.querySelectorAll('[data-reset]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pr = btn.closest('.prog');
+      if (!pr._list || !confirm('把这一段的勾全部取消？')) return;
+      pr._list.forEach(function(li){ delete done[li.dataset.k]; li.classList.remove('done'); li.setAttribute('aria-checked','false'); });
+      save('done', done); refresh();
+    });
+  });
+
+  /* key info fields */
+  var fields = load('fields', {});
+  document.querySelectorAll('.keys input[data-f]').forEach(function(inp){
+    if (fields[inp.dataset.f]) inp.value = fields[inp.dataset.f];
+    inp.addEventListener('input', function(){ fields[inp.dataset.f] = inp.value; save('fields', fields); });
+  });
+
+  /* hide done */
+  var hideBtn = document.getElementById('hideDone');
+  function setHide(v){ document.body.classList.toggle('hide-done', v); hideBtn.classList.toggle('on', v); hideBtn.textContent = v ? '显示已完成' : '隐藏已完成'; }
+  setHide(load('hide', false));
+  hideBtn.addEventListener('click', function(){ var v = !document.body.classList.contains('hide-done'); setHide(v); save('hide', v); });
+
+  /* dates */
+  function jst(){ var d = new Date(Date.now() + 9 * 3600e3); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()); }
+  function day(s){ var p = s.split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]); }
+  var today = jst();
+  var dMove = Math.round((day('2026-11-20') - today) / 864e5);
+  var dLimit = Math.round((day('2026-12-04') - today) / 864e5);
+  document.getElementById('cd').innerHTML = dMove > 0 ? dMove + '<small>天</small>' : (dMove === 0 ? '今天' : '已搬');
+  document.getElementById('cd2').innerHTML = dLimit >= 0 ? dLimit + '<small>天 · 12/4</small>' : '已过';
+
+  var nowSec = null;
+  document.querySelectorAll('section[data-from]').forEach(function(sec){
+    if (today >= day(sec.dataset.from) && today <= day(sec.dataset.to)) nowSec = sec;
+  });
+  if (!nowSec && today < day('2026-10-22')) nowSec = document.getElementById('p0');
+  if (nowSec) {
+    nowSec.classList.add('now');
+    var a = document.querySelector('nav.jump a[data-p="' + nowSec.id + '"]');
+    if (a) a.classList.add('now');
+  }
+  document.getElementById('goNow').addEventListener('click', function(){
+    (nowSec || document.getElementById('p0')).scrollIntoView({ behavior: 'smooth' });
+  });
+
+  refresh();
+})();
+</script>
+</body>
+</html>
