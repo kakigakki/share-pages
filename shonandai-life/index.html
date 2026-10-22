@@ -66,6 +66,14 @@ h1{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,4.6vw,2.5re
 .mapwrap{position:relative;margin-top:18px;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--sunk)}
 #map{height:min(62vh,520px);min-height:320px;width:100%;background:var(--sunk)}
 .maphint{font-size:.74rem;color:var(--ink3);margin:6px 2px 0}
+.mapbtn{position:absolute;right:10px;bottom:24px;z-index:1001;font:inherit;font-size:.8rem;font-weight:700;padding:8px 14px;border:1px solid var(--rule);border-radius:99px;background:var(--panel);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer}
+.mapwrap.full{position:fixed;inset:0;z-index:1200;margin:0;border:0;border-radius:0}
+.mapwrap.full #map{height:100%;min-height:0}
+.mapwrap.full .mapbtn{bottom:auto;top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px))}
+.mapwrap.full .leaflet-top{top:env(safe-area-inset-top,0px)}
+.mapwrap.full .leaflet-left{left:env(safe-area-inset-left,0px)}
+.mapwrap.full .leaflet-bottom{bottom:env(safe-area-inset-bottom,0px)}
+body.lock{overflow:hidden}
 
 /* filters */
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:1000;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule);margin-top:22px}
@@ -127,9 +135,29 @@ ul.list{list-style:none;margin:0;padding:0;display:grid;gap:0}
 .method b{color:var(--ink)}
 
 @media (max-width:640px){
-  .it{grid-template-columns:minmax(0,1fr)}
-  .side{justify-items:start;grid-auto-flow:row}
-  #map{height:56vh}
+  body{font-size:14.5px}
+  .top .gut{padding-block:22px 18px;gap:14px}
+  .lead{font-size:.86rem}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .stat{padding:6px 10px;gap:6px}
+  .stat b{font-size:1.15rem}
+  .mapwrap{margin-top:14px}
+  #map{height:44vh;min-height:260px}
+  .bar{margin-top:16px}
+  .bar .gut{padding-block:8px;gap:6px}
+  .row2{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .row2::-webkit-scrollbar{display:none}
+  .row2>*{flex:none}
+  .row2 #tags{overflow:visible}
+  #q{flex:0 0 150px;font-size:16px;padding:3px 10px}
+  .chip{padding:5px 11px}
+  .seg button{padding:5px 10px;white-space:nowrap}
+  .cat{margin-top:26px}
+  .cat>h2{font-size:1.2rem}
+  .it{grid-template-columns:minmax(0,1fr);padding:12px 0}
+  .side{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px}
+  .lk{gap:16px}
+  .lk a{padding:6px 0}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 
@@ -187,8 +215,8 @@ ul.list{list-style:none;margin:0;padding:0;display:grid;gap:0}
 </div></header>
 
 <div class="gut">
-  <div class="mapwrap"><div id="map" role="region" aria-label="施設の地図"></div></div>
-  <p class="maphint">リングは自宅付近から 徒歩20分・自転車20分・車20分 の目安（直線距離から換算）。点を押すと詳細。地図の中心は実際の位置から少しずらしています。</p>
+  <div class="mapwrap"><div id="map" role="region" aria-label="施設の地図"></div><button type="button" class="mapbtn" id="full" hidden>全画面で見る</button></div>
+  <p class="maphint">リングは自宅付近から 徒歩20分・自転車20分・車20分 の目安（直線距離から換算）。点を押すと詳細。スマホでは「全画面で見る」で地図を指で動かせます。地図の中心は実際の位置から少しずらしています。</p>
 </div>
 
 <nav class="bar" aria-label="絞り込み"><div class="gut">
@@ -345,7 +373,6 @@ function renderMarkers() {
 }
 function initMap() {
   if (typeof L === 'undefined' || !SHOWN) { document.getElementById('map').innerHTML = '<p class="empty">地図を読み込めませんでした。</p>'; return; }
-  const touch = matchMedia('(pointer:coarse)').matches;
   map = L.map('map', {scrollWheelZoom:false, dragging:!touch, tap:false, zoomSnap:.5}).setView([SHOWN.lat, SHOWN.lng], touch ? 13 : 13.5);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:18, attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
   const ink = cssVar('--ink');
@@ -358,7 +385,21 @@ function initMap() {
   L.circleMarker([SHOWN.lat, SHOWN.lng], {radius:8, weight:3, color:cssVar('--panel'), fillColor:ink, fillOpacity:1, interactive:false})
     .bindTooltip('円行（自宅付近）', {permanent:true, direction:'right', offset:[10,0], className:'home'}).addTo(map);
   renderMarkers();
+  document.getElementById('full').hidden = false;
 }
+
+let touch = matchMedia('(pointer:coarse)').matches;
+function setFull(on) {
+  if (!map) return;
+  document.querySelector('.mapwrap').classList.toggle('full', on);
+  document.body.classList.toggle('lock', on);
+  document.getElementById('full').textContent = on ? '閉じる' : '全画面で見る';
+  if (touch) on ? map.dragging.enable() : map.dragging.disable();
+  map.invalidateSize();
+}
+const isFull = () => document.querySelector('.mapwrap').classList.contains('full');
+document.getElementById('full').addEventListener('click', () => setFull(!isFull()));
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && isFull()) setFull(false); });
 
 function renderAll() { renderControls(); renderList(); renderMarkers(); }
 
@@ -369,7 +410,8 @@ document.addEventListener('click', e => {
   else if (b.dataset.tag) { S.tags.has(b.dataset.tag) ? S.tags.delete(b.dataset.tag) : S.tags.add(b.dataset.tag); renderAll(); }
   else if (b.dataset.fly != null && map) {
     const m = byIdx[b.dataset.fly]; if (!m) return;
-    document.querySelector('.mapwrap').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block:'start'});
+    if (touch) setFull(true);
+    else document.querySelector('.mapwrap').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block:'start'});
     map.setView(m.getLatLng(), Math.max(map.getZoom(), 15.5)); m.openPopup();
   }
 });
