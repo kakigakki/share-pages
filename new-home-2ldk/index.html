@@ -85,6 +85,7 @@ body { background: var(--bg); color: var(--fg); font-family: var(--font-body); f
   background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; font-size: 13px;
 }
 .info b { font-weight: 700; }
+.shop-link { color: var(--accent); margin-left: 8px; white-space: nowrap; }
 .info .mono { font-family: var(--font-mono); color: var(--muted); margin-left: 6px; }
 aside {
   position: fixed; z-index: 50; top: calc(16px + env(safe-area-inset-top, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
@@ -2762,9 +2763,9 @@ function vaseFlowers(g, name, note, x, y, z, vaseM, headC, kind = 'tulip', n = 7
   }
   return it;
 }
-function wavyMirror(g, name, note, wall, c, y0, w, h, frameC) {   // irregular wavy outline, on a wall facing -x
+function wavyMirror(g, name, note, wall, c, y0, w, h, frameC, wave = 1) {   // irregular wavy outline (wave 0 = plain oval), on a wall facing -x
   const it = item(g, name, note), s = new THREE.Shape();
-  for (let i = 0; i <= 64; i++) { const a = i / 64 * Math.PI * 2, k = 1 + 0.06 * Math.sin(a * 5) + 0.03 * Math.sin(a * 3 + 1); const px = Math.cos(a) * w / 2 * k, py = h / 2 + Math.sin(a) * h / 2 * k; i ? s.lineTo(px, py) : s.moveTo(px, py); }
+  for (let i = 0; i <= 64; i++) { const a = i / 64 * Math.PI * 2, k = 1 + wave * (0.06 * Math.sin(a * 5) + 0.03 * Math.sin(a * 3 + 1)); const px = Math.cos(a) * w / 2 * k, py = h / 2 + Math.sin(a) * h / 2 * k; i ? s.lineTo(px, py) : s.moveTo(px, py); }
   const grp = new THREE.Group(); grp.position.set(wall.x - 0.02, y0, c); grp.rotation.y = -Math.PI / 2; it.add(grp);
   if (frameC != null) { const back = new THREE.Mesh(new THREE.ShapeGeometry(s, 32), mk(frameC, 0.6)); back.scale.set(1.06, 1.04, 1); back.position.set(0, -h * 0.02, -0.005); grp.add(back); }
   grp.add(new THREE.Mesh(new THREE.ShapeGeometry(s, 32), mat.mirror));
@@ -2790,8 +2791,8 @@ function armchair(g, name, note, x, z, face, seatM, frameM, style) {   // lounge
   }
   return it;
 }
-function crib(g, name, note, woodM, mattM) {
-  const it = item(g, name, note), [x0, x1, z0, z1] = [4.3, 5.56, 2.58, 3.36];
+function crib(g, name, note, woodM, mattM, b = [4.3, 5.56, 2.58, 3.36]) {
+  const it = item(g, name, note), [x0, x1, z0, z1] = b;
   const proxy = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, 0.95, z1 - z0), new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false }));
   proxy.position.set((x0 + x1) / 2, 0.475, (z0 + z1) / 2); it.add(proxy);
   box(it, x0 + 0.04, x1 - 0.04, 0.3, 0.42, z0 + 0.04, z1 - 0.04, mattM);
@@ -2800,15 +2801,15 @@ function crib(g, name, note, woodM, mattM) {
   for (const x of [x0, x1 - 0.03]) { box(it, x, x + 0.03, 0.26, 0.92, z0, z1, woodM); }
   return it;
 }
-function dresser(g, name, note, bodyM, knobM, style) {             // replaces the wood cabinet in the master's SW corner
-  const it = item(g, name, note), [x0, x1, z0, z1] = [3.0, 3.85, 3.42, 3.84];
-  rb(it, x0, x1, 0.08, 0.82, z0, z1, bodyM, 0.012);
+function dresser(g, name, note, bodyM, knobM, style, b = [3.0, 3.85, 3.42, 3.84], top = 0.82) {   // replaces the wood cabinet in the master's SW corner
+  const it = item(g, name, note), [x0, x1, z0, z1] = b;
+  rb(it, x0, x1, 0.08, top, z0, z1, bodyM, 0.012);
   for (const x of [x0 + 0.05, x1 - 0.07]) cyl(it, x + 0.01, 0, 0.08, z0 + 0.06, 0.015, knobM, 0.02);
-  for (let k = 0; k < 3; k++) {
-    const y = 0.14 + k * 0.23;
-    if (style === 'fluted') for (let x = x0 + 0.03; x < x1 - 0.02; x += 0.028) cyl(it, x, y, y + 0.2, z0 - 0.004, 0.01, bodyM);
-    else box(it, x0 + 0.02, x1 - 0.02, y + 0.2, y + 0.205, z0 - 0.003, z0, mk(0x000000, 0.9, { transparent: true, opacity: 0.12 }));
-    for (const x of [x0 + 0.22, x1 - 0.22]) { const kn = new THREE.Mesh(new THREE.SphereGeometry(0.016, 10, 8), knobM); kn.position.set(x, y + 0.1, z0 - 0.018); it.add(kn); }
+  for (let k = 0, dh = (top - 0.13) / 3; k < 3; k++) {
+    const y = 0.11 + k * dh;
+    if (style === 'fluted') for (let x = x0 + 0.03; x < x1 - 0.02; x += 0.028) cyl(it, x, y, y + dh - 0.03, z0 - 0.004, 0.01, bodyM);
+    else box(it, x0 + 0.02, x1 - 0.02, y + dh - 0.03, y + dh - 0.025, z0 - 0.003, z0, mk(0x000000, 0.9, { transparent: true, opacity: 0.12 }));
+    for (const x of [x0 + (x1 - x0) * 0.26, x1 - (x1 - x0) * 0.26]) { const kn = new THREE.Mesh(new THREE.SphereGeometry(0.016, 10, 8), knobM); kn.position.set(x, y + dh / 2, z0 - 0.018); it.add(kn); }
   }
   return it;
 }
@@ -2823,200 +2824,147 @@ function hooksRow(g, name, note, wallX, dir, z0, z1, y, m) {
   for (let z = z0; z <= z1 + 1e-6; z += (z1 - z0) / 2) { const k = new THREE.Mesh(new THREE.SphereGeometry(0.02, 12, 10), m); k.position.set(wallX + dir * 0.03, y, z); it.add(k); rod(it, V3(wallX, y, z), V3(wallX + dir * 0.03, y, z), 0.006, m); }
   return it;
 }
-function hamper(g, name, note, x, z, y, m, lidM) {
+function hamper(g, name, note, x, z, y, m, lidM, r = 0.17, h = 0.5) {
   const it = item(g, name, note);
-  cyl(it, x, y, y + 0.5, z, 0.17, m, 0.18);
-  if (lidM) cyl(it, x, y + 0.5, y + 0.53, z, 0.185, lidM);
+  cyl(it, x, y, y + h, z, r, m, r + 0.01);
+  if (lidM) cyl(it, x, y + h, y + h + 0.03, z, r + 0.015, lidM);
   return it;
 }
-// the room-by-room layout shared by all three schemes; P holds each scheme's palette and piece styles
+// Each scheme fills a fixed set of slots with real IKEA / ニトリ / 無印良品 products found by web search
+// (PRODUCTS below; sizes are the listed ones, nothing guessed). A slot without a product falls back to a
+// placeholder size and says so. Kept on purpose: few pieces per room, so the small rooms stay open.
+const PRODUCTS = {"v20":[{"slot":"ldk_rug","store":"IKEA","name":"STOENSE ストエンセ ラグ パイル短, オフホワイト, 133x195 cm","url":"https://www.ikea.com/jp/ja/p/stoense-rug-low-pile-off-white-90425527/","url_region":"jp","size_cm":{"w":133,"d":195},"shape":"rect","color":"オフホワイト","color_hex_guess":"#efe9dd","price_jpy":9990,"note":"洗濯不可"},{"slot":"coffee_table","store":"ニトリ","name":"センターテーブル ES601 円形70","url":"https://www.nitori-net.jp/ec/keyword/%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%80%80%E5%B9%85%EF%BC%97%EF%BC%90/","url_region":"jp","link_kind":"search","size_cm":{"dia":70},"shape":"round","color":null,"color_hex_guess":"#e8dfd0","price_jpy":null,"note":"高さは検索結果に出ていない；価格は 19,990〜24,990円の幅"},{"slot":"sideboard","store":"ニトリ","name":"キャビネット(ポスティア WH)","url":"https://www.nitori-net.jp/ec/product/3000474s/","url_region":"jp","size_cm":{"w":80,"d":42,"h":70.5},"shape":"rect","color":"ホワイト","color_hex_guess":"#f4f1ea","price_jpy":null},{"slot":"wall_mirror","store":"IKEA","name":"SVANSELE スヴァンセーレ ミラー, ゴールドカラー, 53x63 cm","url":"https://www.ikea.com/jp/ja/p/svansele-mirror-gold-colour-40471277/","url_region":"jp","size_cm":{"w":53,"h":63},"shape":"rect","color":"ゴールドカラー","color_hex_guess":"#c9a45c","price_jpy":null,"note":"形状は検索結果で未確認"},{"slot":"art_frame","store":"IKEA","name":"LOMVIKEN ロムヴィーケン フレーム, ゴールドカラー, 50x70 cm","url":"https://www.ikea.com/jp/ja/p/lomviken-frame-gold-colour-60419523/","url_region":"jp","size_cm":{"w":52,"d":2,"h":72},"shape":"rect","color":"ゴールドカラー","color_hex_guess":"#c8a656","price_jpy":3499},{"slot":"dining_table","store":"IKEA","name":"PINNTORP ピントルプ テーブル, ライトブラウンステイン/ホワイトステイン パイン材, 85 cm","url":"https://www.ikea.com/jp/ja/p/pinntorp-table-round-light-brown-stained-white-stained-20579962/","url_region":"jp","size_cm":{"dia":85,"h":75},"shape":"round","legs":"four","color":"ライトブラウンステイン/ホワイトステイン","color_hex_guess":"#e9e2d6","price_jpy":null,"note":"高さ75cm は海外ページの値"},{"slot":"dining_chair","store":"ニトリ","name":"傷・汚れに強いファブリック ダイニングチェア(Nコレクション C-57 NA/NSF-BE)","url":"https://www.nitori-net.jp/ec/product/2110100002830s/","url_region":"jp","size_cm":{"w":46.9,"d":53.2,"h":80.2},"shape":"other","legs":"four","color":"ナチュラル/ベージュ","color_hex_guess":"#d9c8ad","price_jpy":null},{"slot":"pendant_light","store":"IKEA","name":"NYMÅNE ニーモーネ ペンダントランプ, ホワイト","url":"https://www.ikea.com/jp/ja/p/nymane-pendant-lamp-white-20407145/","url_region":"jp","size_cm":{"dia":40},"shape":"round","color":"ホワイト","color_hex_guess":"#f5f3ee","price_jpy":5999,"note":"引掛シーリング対応"},{"slot":"cushion_cover","store":"ニトリ","name":"オーダークッションカバー(ウーノ アイボリー 45X45cm)","url":"https://www.nitori-net.jp/ec/product/7303522s/","url_region":"jp","size_cm":{"w":45,"h":45},"shape":"rect","color":"アイボリー","color_hex_guess":"#f1ead9","price_jpy":null,"note":"オーダー品（注文後の変更・キャンセル不可）"},{"slot":"throw","store":"IKEA","name":"NÄTNÄVA ネートネーヴァ ブランケット, ベージュ, 130x170 cm","url":"https://www.ikea.com/jp/ja/p/naetnaeva-throw-beige-70617594/","url_region":"jp","size_cm":{"w":130,"d":170},"shape":"rect","color":"ベージュ","color_hex_guess":"#d8c7ab","price_jpy":3999},{"slot":"duvet_cover","store":"IKEA","name":"KLYNNETÅG クリンネトーグ 掛け布団カバー＆枕カバー（枕カバー2枚）, ベージュ/ホワイト/水玉模様, 200x200/50x60 cm","url":"https://www.ikea.com/jp/ja/p/klynnetag-duvet-cover-and-2-pillowcases-beige-white-dotted-20524837/","url_region":"jp","size_cm":{"w":200,"d":200},"shape":"rect","color":"ベージュ/ホワイト","color_hex_guess":"#e6dccb","price_jpy":4499,"note":"IKEA 200×200 は日本のダブル（190×210）と違うので掛け布団に合うか確認"},{"slot":"nightstand","store":"IKEA","name":"VIHALS ヴィーハルス サイドテーブル, ホワイト, 37x37 cm","url":"https://www.ikea.com/jp/ja/p/vihals-bedside-table-white-60488738/","url_region":"jp","size_cm":{"w":37,"d":37,"h":58},"shape":"rect","legs":"four","color":"ホワイト","color_hex_guess":"#f3f1ec","price_jpy":null},{"slot":"table_lamp","store":"IKEA","name":"BLÅSVERK ブロースヴェルク テーブルランプ, ベージュ, 36 cm","url":"https://www.ikea.com/jp/ja/p/blasverk-table-lamp-beige-50520932/","url_region":"jp","size_cm":{"h":36},"shape":"round","color":"ベージュ","color_hex_guess":"#e3d3b8","price_jpy":null},{"slot":"bedroom_rug","store":"ニトリ","name":"ラグ(ラメシャギーBE 140X200)","url":"https://www.nitori-net.jp/ec/product/5722126/","url_region":"jp","size_cm":{"w":140,"d":200},"shape":"rect","color":"ベージュ","color_hex_guess":"#d9c6a8","price_jpy":null},{"slot":"crib","store":"IKEA","name":"SUNDVIK スンドヴィーク ベビーベッド, ホワイト, 60x120 cm","url":"https://www.ikea.com/jp/ja/p/sundvik-cot-white-00372156/","url_region":"jp","size_cm":{"w":125,"d":67,"h":86},"shape":"rect","color":"ホワイト","color_hex_guess":"#f5f3ef","price_jpy":24990,"note":"マットレス別売り"},{"slot":"dresser","store":"ニトリ","name":"日本製 多サイズチェスト 幅80cm(4段 WH)","url":"https://www.nitori-net.jp/ec/product/2110500001907/","url_region":"jp","size_cm":{"w":80,"d":40,"h":85},"shape":"rect","color":"ホワイト","color_hex_guess":"#f2efe8","price_jpy":24490},{"slot":"curtain_ldk","store":"ニトリ","name":"遮光1級・遮熱・遮音カーテン(ジェンナ アイボリー 100X200X2) + レース(ドイリー アイボリー 100X198X2)","url":"https://www.nitori-net.jp/ec/product/7319617/","url_region":"jp","size_cm":{"w":100,"h":200},"shape":"rect","color":"アイボリー","color_hex_guess":"#efe7d6","price_jpy":null,"extra_url":"https://www.nitori-net.jp/ec/product/7316314/"},{"slot":"curtain_master","store":"ニトリ","name":"遮光1級・遮熱・遮音カーテン(ポワン アイボリー 100X135X2) + レース(ドイリー アイボリー 100X133X2)","url":"https://www.nitori-net.jp/ec/product/7316273/","url_region":"jp","size_cm":{"w":100,"h":135},"shape":"rect","color":"アイボリー","color_hex_guess":"#efe7d6","price_jpy":null,"extra_url":"https://www.nitori-net.jp/ec/product/7310918/"},{"slot":"curtain_kids","store":"ニトリ","name":"遮光1級・遮熱・遮音カーテン(RD123 アイボリー 100X200X2) + レース(ドイリー アイボリー 100X198X2)","url":"https://www.nitori-net.jp/ec/product/2114100331945/","url_region":"jp","size_cm":{"w":100,"h":200},"shape":"rect","color":"アイボリー","color_hex_guess":"#efe7d6","price_jpy":null,"extra_url":"https://www.nitori-net.jp/ec/product/7316314/"},{"slot":"armchair","store":"IKEA","name":"EKENÄSET エーケネーセット パーソナルチェア, キランダ ライトベージュ","url":"https://www.ikea.com/us/en/p/ekenaeset-armchair-kilanda-light-beige-30533493/","url_region":"us","size_cm":{"w":64,"d":78,"h":76},"shape":"other","color":"キランダ ライトベージュ","color_hex_guess":"#dcd0bd","price_jpy":25990,"note":"日本の商品ページURLは見つからず米国ページ"},{"slot":"kids_rug","store":"ニトリ","name":"洗える 円形 フロアマット(3D 100R ID07)","url":null,"url_region":"jp","size_cm":{"dia":100},"shape":"round","color":"色未確認","color_hex_guess":"#e8e0d2","price_jpy":5990,"note":"直径は品名「100R」からの推定；商品URLなし"},{"slot":"kids_shelf","store":"IKEA","name":"FLISAT フリサット ブックディスプレイ","url":"https://www.ikea.com/jp/ja/p/flisat-book-display-60614567/","url_region":"jp","size_cm":{"w":49,"d":28,"h":41},"shape":"rect","color":"パイン無垢材","color_hex_guess":"#e9d8b8","price_jpy":2999},{"slot":"entry_mirror","store":"IKEA","name":"LINDBYN リンドビーン ミラー, ホワイト, 40x130 cm","url":"https://www.ikea.com/jp/ja/p/lindbyn-mirror-white-90493700/","url_region":"jp","size_cm":{"w":40,"h":130},"shape":"rect","color":"ホワイト","color_hex_guess":"#f4f2ed","price_jpy":6999,"note":"壁掛けはネジ2本（穴あけ）；立てかけも可"},{"slot":"wall_hooks","store":"無印良品","name":"壁に付けられる家具フック（オーク材）","url":"https://www.muji.com/jp/ja/store/cmdty/detail/4550182944853","url_region":"jp","size_cm":{"w":4,"d":6,"h":8},"shape":"other","color":"オーク材","color_hex_guess":"#c9a77c","price_jpy":990,"note":"石こうボード用ピン固定"},{"slot":"entry_mat","store":"IKEA","name":"LOHALS ローハルス 玄関マット 室内用, ナチュラル, 40x60 cm","url":"https://www.ikea.com/jp/ja/p/lohals-door-mat-indoor-natural-50556073/","url_region":"jp","size_cm":{"w":40,"d":60},"shape":"rect","color":"ナチュラル","color_hex_guess":"#c8b089","price_jpy":2499},{"slot":"bath_mat","store":"IKEA","name":"TOFTBO トフトボー バスマット, ベージュ, 40x60 cm","url":"https://www.ikea.com/jp/ja/p/toftbo-bath-mat-beige-80610262/","url_region":"jp","size_cm":{"w":40,"d":60},"shape":"rect","color":"ベージュ","color_hex_guess":"#d9c8ab","price_jpy":null},{"slot":"laundry_basket","store":"無印良品","name":"重なるラタン長方形バスケット・特大","url":"https://www.muji.com/jp/ja/store/cmdty/detail/4549738309819","url_region":"jp","size_cm":{"w":36,"d":26,"h":31},"shape":"rect","color":"ラタン","color_hex_guess":"#b98d58","price_jpy":null,"note":"洗濯かごとしては小さめ"}],"v21":[{"slot":"ldk_rug","store":"IKEA","name":"KNARDRUP クナールドルップ ラグ パイル短, ペールピンク, 133x195 cm","url":"https://www.ikea.com/jp/ja/p/knardrup-rug-low-pile-pale-pink-00492615/","url_region":"jp","size_cm":{"w":133,"d":195,"h":null,"dia":null},"shape":"rect","color":"ペールピンク","color_hex_guess":"#e8cfcb","price_jpy":null},{"slot":"coffee_table","store":"無印良品","name":"手軽に組み立てられる木製ローテーブル 直径６０ｃｍ アッシュ材突板","url":"https://www.muji.com/jp/ja/store/cmdty/detail/4550723278423","url_region":"jp","size_cm":{"w":60,"d":60,"h":35,"dia":60},"shape":"round","legs":"four","color":"アッシュ材突板（ナチュラル）","color_hex_guess":"#d9c4a3","price_jpy":9990},{"slot":"sideboard","store":"IKEA","name":"EKET エーケト キャビネットコンビネーション 脚付き, ホワイト/木製, 70x35x80 cm","url":"https://www.ikea.com/jp/ja/p/eket-cabinet-combination-with-legs-white-wood-s59388004/","url_region":"jp","size_cm":{"w":70,"d":35,"h":80,"dia":null},"shape":"rect","legs":"four","color":"ホワイト/木製","color_hex_guess":"#f4f2ee","price_jpy":null},{"slot":"wall_mirror","store":"IKEA","name":"PRUNKHALLON プルンクハロン ミラー, ライトピンク, 40 cm","url":"https://www.ikea.com/jp/ja/p/prunkhallon-mirror-light-pink-90601785/","url_region":"jp","size_cm":{"w":null,"d":1,"h":null,"dia":40},"shape":"wavy","color":"ライトピンク","color_hex_guess":"#f2c9cf","price_jpy":1499,"note":"壁固定にネジ2本（穴あけ）"},{"slot":"art_frame","store":"IKEA","name":"FISKBO フィスクボー フレーム, ホワイト, 50x70 cm","url":"https://www.ikea.com/jp/ja/p/fiskbo-frame-white-80300472/","url_region":"jp","size_cm":{"w":53,"d":null,"h":73,"dia":null},"shape":"rect","color":"ホワイト","color_hex_guess":"#ffffff","price_jpy":1299},{"slot":"dining_table","store":"ニトリ","name":"北欧風円形ダイニングテーブル 80cm (410 WH/NA)","url":"https://www.nitori-net.jp/ec/product/4943733868805s/","url_region":"jp","size_cm":{"w":80,"d":80,"h":71,"dia":80},"shape":"round","legs":"four","color":"ホワイト/ナチュラル","color_hex_guess":"#f3efe8","price_jpy":null},{"slot":"dining_chair","store":"IKEA","name":"HAUGA ハウガ チェア, ホワイト","url":"https://www.ikea.com/jp/ja/p/hauga-chair-white-50579215/","url_region":"jp","size_cm":{"w":40,"d":41,"h":87,"dia":null},"shape":"other","legs":"four","color":"ホワイト","color_hex_guess":"#f5f5f2","price_jpy":null},{"slot":"pendant_light","store":"IKEA","name":"BUNKEFLO ブンケフロー ペンダントランプ, ホワイト/バーチ, 36 cm","url":"https://www.ikea.com/jp/ja/p/bunkeflo-pendant-lamp-white-birch-50488395/","url_region":"jp","size_cm":{"w":null,"d":null,"h":28,"dia":36},"shape":"round","color":"ホワイト/バーチ","color_hex_guess":"#f7f6f2","price_jpy":4999},{"slot":"cushion_cover","store":"IKEA","name":"SANELA サネーラ クッションカバー, ペールピンク, 50x50 cm","url":"https://www.ikea.com/jp/ja/p/sanela-cushion-cover-pale-pink-10591894/","url_region":"jp","size_cm":{"w":50,"d":50,"h":null,"dia":null},"shape":"rect","color":"ペールピンク","color_hex_guess":"#e6c4c0","price_jpy":null},{"slot":"throw","store":"IKEA","name":"HORNMAL ホルンマル ブランケット, ライトピンク, 130x170 cm","url":"https://www.ikea.com/jp/ja/p/hornmal-throw-light-pink-30530786/","url_region":"jp","size_cm":{"w":130,"d":170,"h":null,"dia":null},"shape":"rect","color":"ライトピンク","color_hex_guess":"#efd3d3","price_jpy":1999},{"slot":"duvet_cover","store":"IKEA","name":"BRUNKRISSLA ブルーンクリスラ 掛け布団カバー＆枕カバー, ピンク, 200x200/50x60 cm","url":"https://www.ikea.com/jp/ja/cat/bed-linen-10651/f/checkered-bed-linen-f-pattern--48355/","url_region":"jp","size_cm":{"w":200,"d":200,"h":null,"dia":null},"shape":"rect","color":"ピンク","color_hex_guess":"#f0c8cc","price_jpy":null,"link_kind":"category","note":"カテゴリーページ；販売中か要確認"},{"slot":"nightstand","store":"IKEA","name":"BURVIK ブールヴィーク サイドテーブル, ホワイト, 38 cm","url":"https://www.ikea.com/jp/ja/p/burvik-side-table-white-20340391/","url_region":"jp","size_cm":{"w":null,"d":null,"h":45,"dia":38},"shape":"round","color":"ホワイト","color_hex_guess":"#ffffff","price_jpy":3999},{"slot":"table_lamp","store":"IKEA","name":"FADO ファード テーブルランプ, ピンク/ガラス, 25 cm","url":"https://www.ikea.com/jp/ja/p/fado-table-lamp-pink-glass-80592630/","url_region":"jp","size_cm":{"w":null,"d":null,"h":24,"dia":25},"shape":"round","color":"ピンク/ガラス","color_hex_guess":"#f3c6c8","price_jpy":null},{"slot":"bedroom_rug","store":"IKEA","name":"VOLLERSLEV ヴォルルスレヴ シャギーラグ, ホワイト, 133x195 cm","url":"https://www.ikea.com/jp/ja/p/vollerslev-rug-high-pile-white-90492569/","url_region":"jp","size_cm":{"w":133,"d":195,"h":null,"dia":null},"shape":"rect","color":"ホワイト","color_hex_guess":"#f8f6f1","price_jpy":null},{"slot":"crib","store":"IKEA","name":"SUNDVIK スンドヴィーク ベビーベッド, ホワイト, 60x120 cm","url":"https://www.ikea.com/jp/ja/p/sundvik-cot-white-00372156/","url_region":"jp","size_cm":{"w":67,"d":125,"h":86,"dia":null},"shape":"rect","legs":"four","color":"ホワイト","color_hex_guess":"#ffffff","price_jpy":24990},{"slot":"dresser","store":"ニトリ","name":"日本製 多サイズチェスト 幅80cm(3段 WH)","url":"https://www.nitori-net.jp/ec/product/2110500001891/","url_region":"jp","size_cm":{"w":80,"d":40,"h":67,"dia":null},"shape":"rect","color":"ホワイト","color_hex_guess":"#f6f5f1","price_jpy":21490},{"slot":"curtain_ldk","store":"ニトリ","name":"遮光1級･遮熱･遮音カーテン＆遮熱･遮像レース4枚セット(RP002 IV 100X200cmセット)","url":"https://www.nitori-net.jp/ec/keyword/%E3%82%AB%E3%83%BC%E3%83%86%E3%83%B3%E3%83%BB%E3%83%AC%E3%83%BC%E3%82%B9%E3%82%BB%E3%83%83%E3%83%88%E3%80%80%E3%82%A2%E3%82%A4%E3%83%9C%E3%83%AA%E3%83%BC/","url_region":"jp","size_cm":{"w":100,"d":null,"h":200,"dia":null},"shape":"rect","color":"アイボリー","color_hex_guess":"#f1ebdc","price_jpy":null,"link_kind":"search"},{"slot":"curtain_master","store":"ニトリ","name":"遮光2級･遮熱カーテン&遮熱･ミラーレース4枚セット(ベージュ 100X135cmセット)","url":"https://www.nitori-net.jp/ec/product/5654293/","url_region":"jp","size_cm":{"w":100,"d":null,"h":135,"dia":null},"shape":"rect","color":"ベージュ","color_hex_guess":"#e3d6c2","price_jpy":null},{"slot":"curtain_kids","store":"ニトリ","name":"遮光3級･遮熱カーテン&遮熱･遮像レース4枚セット(100X200X4 ベージュ DH153)","url":"https://www.nitori-net.jp/ec/keyword/%E3%82%AB%E3%83%BC%E3%83%86%E3%83%B3%E3%83%BB%E3%83%AC%E3%83%BC%E3%82%B9%E3%82%BB%E3%83%83%E3%83%88%E3%80%80%E3%83%99%E3%83%BC%E3%82%B8%E3%83%A5/","url_region":"jp","size_cm":{"w":100,"d":null,"h":200,"dia":null},"shape":"rect","color":"ベージュ","color_hex_guess":"#e3d6c2","price_jpy":null,"link_kind":"search"},{"slot":"armchair","store":"IKEA","name":"EKENÄSET エーケネーセット アームチェア, Kilanda ライトベージュ","url":"https://www.ikea.com/gb/en/p/ekenaeset-armchair-kilanda-light-beige-50533492/","url_region":"gb","size_cm":{"w":64,"d":78,"h":76,"dia":null},"shape":"other","legs":"four","color":"Kilanda ライトベージュ","color_hex_guess":"#ddd3c3","price_jpy":null,"note":"日本の商品ページURLは見つからず英国ページ"},{"slot":"kids_rug","store":"ニトリ","name":"洗える 円形 フロアマット(3D 100R ID07)","url":null,"url_region":"jp","size_cm":{"dia":100},"shape":"round","color":"色未確認","color_hex_guess":"#e8e0d2","price_jpy":5990,"note":"直径は品名「100R」からの推定；商品URLなし"},{"slot":"kids_shelf","store":"IKEA","name":"FLISAT フリサット ブックディスプレイ","url":"https://www.ikea.com/jp/ja/p/flisat-book-display-60614567/","url_region":"jp","size_cm":{"w":49,"d":28,"h":41},"shape":"rect","color":"パイン無垢材","color_hex_guess":"#e9d8b8","price_jpy":2999},{"slot":"entry_mirror","store":"IKEA","name":"NISSEDAL ニッセダール ミラー, ホワイト, 40x150 cm","url":"https://www.ikea.com/jp/ja/p/nissedal-mirror-white-90320323/","url_region":"jp","size_cm":{"w":40,"d":null,"h":150,"dia":null},"shape":"rect","color":"ホワイト","color_hex_guess":"#ffffff","price_jpy":4999,"note":"壁掛けに穴あけが必要"},{"slot":"wall_hooks","store":"無印良品","name":"壁に付けられる家具フック（オーク材）","url":"https://www.muji.com/jp/ja/store/cmdty/detail/4550182944853","url_region":"jp","size_cm":{"w":4,"d":6,"h":8,"dia":null},"shape":"other","color":"オーク材","color_hex_guess":"#cdb08a","price_jpy":990},{"slot":"entry_mat","store":"IKEA","name":"LOHALS ローハルス 玄関マット 室内用, ナチュラル, 40x60 cm","url":"https://www.ikea.com/jp/ja/p/lohals-door-mat-indoor-natural-50556073/","url_region":"jp","size_cm":{"w":40,"d":60,"h":null,"dia":null},"shape":"rect","color":"ナチュラル","color_hex_guess":"#c9b38f","price_jpy":2499},{"slot":"bath_mat","store":"IKEA","name":"TOFTBO トフトボー バスマット, ピンク, 40x60 cm","url":"https://www.ikea.com/jp/ja/p/toftbo-bath-mat-pink-90610271/","url_region":"jp","size_cm":{"w":40,"d":60,"h":null,"dia":null},"shape":"rect","color":"ピンク","color_hex_guess":"#eab8c0","price_jpy":499},{"slot":"laundry_basket","store":"無印良品","name":"重なるラタン長方形バスケット・特大","url":"https://www.muji.com/jp/ja/store/cmdty/detail/4549738309819","url_region":"jp","size_cm":{"w":36,"d":26,"h":31},"shape":"rect","color":"ラタン","color_hex_guess":"#b98d58","price_jpy":null,"note":"洗濯かごとしては小さめ"}],"v22":[{"slot":"ldk_rug","store":"IKEA","name":"STOENSE ストエンセ ラグ パイル短, オフホワイト, 133x195 cm","url":"https://www.ikea.com/jp/ja/p/stoense-rug-low-pile-off-white-90425527/","url_region":"jp","size_cm":{"w":133,"d":195},"shape":"rect","color":"オフホワイト","color_hex_guess":"#efe9dd","price_jpy":9990,"note":"洗濯不可。洗えるものなら無印「洗いざらしの綿キルティングラグ 140×195」（確認できた色はグレー）"},{"slot":"coffee_table","store":"IKEA","name":"JAKOBSFORS ヤーコブスフォルス コーヒーテーブル, オーク材突き板, 80 cm","url":"https://www.ikea.com/jp/ja/p/jakobsfors-coffee-table-oak-veneer-50515172/","url_region":"jp","size_cm":{"dia":80,"h":42},"shape":"round","legs":"four","color":"オーク材突き板","color_hex_guess":"#c8a678","price_jpy":19990},{"slot":"sideboard","name":null},{"slot":"wall_mirror","store":"IKEA","name":"STOCKHOLM ストックホルム ミラー, オーク材突き板, 60 cm","url":"https://www.ikea.com/jp/ja/p/stockholm-mirror-oak-veneer-30591586/","url_region":"jp","size_cm":{"dia":60,"d":10},"shape":"round","color":"オーク材突き板","color_hex_guess":"#c8a678","price_jpy":null,"note":"下部が小さな棚；壁固定にネジ2本（穴あけ）"},{"slot":"art_frame","store":"IKEA","name":"RÖDALM レーダルム フレーム, オーク調, 50x70 cm","url":"https://www.ikea.com/gb/en/p/roedalm-frame-oak-effect-60566401/","url_region":"gb","size_cm":{"w":52,"d":3,"h":72},"shape":"rect","color":"オーク調","color_hex_guess":"#c9a982","price_jpy":null,"note":"日本の商品ページURLは見つからず英国ページ"},{"slot":"dining_table","store":"IKEA","name":"PINNTORP ピントルプ テーブル, ライトブラウンステイン/ホワイトステイン パイン材, 85 cm","url":"https://www.ikea.com/jp/ja/p/pinntorp-table-round-light-brown-stained-white-stained-20579962/","url_region":"jp","size_cm":{"dia":85,"h":75},"shape":"round","legs":"four","color":"ライトブラウンステイン/ホワイトステイン","color_hex_guess":"#e3d9c6","price_jpy":14990},{"slot":"dining_chair","store":"IKEA","name":"STOCKHOLM 2025 ストックホルム 2025 チェア, オーク/籐","url":"https://www.ikea.com/jp/ja/p/stockholm-2025-chair-oak-rattan-00590951/","url_region":"jp","size_cm":{"w":47,"d":45,"h":80},"shape":"other","legs":"four","color":"オーク/籐","color_hex_guess":"#c4a06c","price_jpy":30000,"note":"価格表示が ¥25,000 / ¥30,000 で分かれる"},{"slot":"pendant_light","store":"IKEA","name":"KAPPELAND カッペランド / HAVSDJUP ハーヴスユープ ペンダントランプ, ブラック/籐, 45 cm","url":"https://www.ikea.com/jp/ja/p/kappeland-havsdjup-pendant-lamp-black-rattan-s99618164/","url_region":"jp","size_cm":{"dia":45,"h":30},"shape":"round","color":"ブラック/籐","color_hex_guess":"#b8925f","price_jpy":7998,"note":"引掛シーリング対応か明記なし、要確認"},{"slot":"cushion_cover","store":"ニトリ","name":"クッションカバー(メランジュ MJ001 BE 45×45cm)","url":"https://www.nitori-net.jp/ec/product/2113300000125/","url_region":"jp","size_cm":{"w":45,"d":45},"shape":"rect","color":"ベージュ","color_hex_guess":"#d8c8ad","price_jpy":null,"note":"洗濯機OK（ネット使用）"},{"slot":"throw","store":"IKEA","name":"NÄTNÄVA ネートネーヴァ ブランケット, ベージュ, 130x170 cm","url":"https://www.ikea.com/jp/ja/p/naetnaeva-throw-beige-70617594/","url_region":"jp","size_cm":{"w":130,"d":170},"shape":"rect","color":"ベージュ","color_hex_guess":"#d9cbb3","price_jpy":3999},{"slot":"duvet_cover","store":"IKEA","name":"KLYNNETÅG クリンネトーグ 掛け布団カバー＆枕カバー（枕カバー2枚）, ベージュ/ホワイト/水玉模様, 200x200/50x60 cm","url":"https://www.ikea.com/jp/ja/p/klynnetag-duvet-cover-and-2-pillowcases-beige-white-dotted-20524837/","url_region":"jp","size_cm":{"w":200,"d":200},"shape":"rect","color":"ベージュ/ホワイト","color_hex_guess":"#e6dccb","price_jpy":4499,"note":"IKEA 200×200 は日本のダブル（190×210）と違うので確認"},{"slot":"nightstand","store":"IKEA","name":"NESNA ネスナ ベッドサイドテーブル, 36x35 cm","url":"https://www.ikea.com/jp/ja/p/nesna-bedside-table-bamboo-20247128/","url_region":"jp","size_cm":{"w":36,"d":35,"h":45},"shape":"rect","legs":"four","color":"竹","color_hex_guess":"#d1b07c","price_jpy":1999},{"slot":"table_lamp","store":"IKEA","name":"BÖJA ベイヤ テーブルランプ, 竹/ハンドメイド","url":"https://www.ikea.com/jp/ja/p/boeja-table-lamp-bamboo-handmade-20156161/","url_region":"jp","size_cm":{"h":40,"dia":20},"shape":"round","color":"竹","color_hex_guess":"#c9a26b","price_jpy":5999},{"slot":"bedroom_rug","store":"無印良品","name":"綿太番手インドの手織りラグ 140×200cm","url":"https://www.muji.com/jp/ja/store/search/cmdty/%E3%82%A4%E3%83%B3%E3%83%89%E3%81%AE%E6%89%8B%E7%B9%94%E3%82%8A","url_region":"jp","link_kind":"search","size_cm":{"w":140,"d":200},"shape":"rect","color":"色未確認","color_hex_guess":"#e6dccb","price_jpy":14900,"note":"「10月上旬発売予定」の表示あり"},{"slot":"crib","store":"IKEA","name":"SNIGLAR スニーグラル ベビーベッド, バーチ, 60x120 cm","url":"https://www.ikea.com/jp/ja/p/sniglar-cot-birch-50610621/","url_region":"jp","size_cm":{"w":124,"d":66,"h":80},"shape":"rect","color":"バーチ","color_hex_guess":"#e2c9a0","price_jpy":16990,"note":"価格表示が ¥12,990 / ¥16,990 で分かれる；マットレス別売り"},{"slot":"dresser","store":"ニトリ","name":"日本製 多サイズチェスト 幅80cm(4段)","url":"https://www.nitori-net.jp/ec/product/2110500001907/","url_region":"jp","size_cm":{"w":80,"d":40,"h":85},"shape":"rect","color":"ナチュラル（リンク先は WH 版）","color_hex_guess":"#d6b98c","price_jpy":24990},{"slot":"curtain_ldk","store":"無印良品","name":"綿洗いざらし平織ノンプリーツカーテン 幅100×丈200cm（2枚）","url":"https://www.muji.com/jp/ja/store/cmdty/detail/%E7%B6%BF%E6%B4%97%E3%81%84%E3%81%96%E3%82%89%E3%81%97%E5%B9%B3%E7%B9%94%E3%83%8E%E3%83%B3%E3%83%97%E3%83%AA%E3%83%BC%E3%83%84%E3%82%AB%E3%83%BC%E3%83%86%E3%83%B3/4550584759499","url_region":"jp","size_cm":{"w":100,"h":200},"shape":"rect","color":"生成り系（色名未確認）","color_hex_guess":"#e8e0d0","price_jpy":3990,"note":"1枚3,990円、遮光なし。レースは同じ無印の 100×198（2,990円）","extra_url":"https://www.muji.com/jp/ja/store/cmdty/detail/4548076686576"},{"slot":"curtain_master","store":"無印良品","name":"綿洗いざらし平織ノンプリーツカーテン（丈135 があるか要確認）","url":"https://www.muji.com/jp/ja/store/cmdty/detail/%E7%B6%BF%E6%B4%97%E3%81%84%E3%81%96%E3%82%89%E3%81%97%E5%B9%B3%E7%B9%94%E3%83%8E%E3%83%B3%E3%83%97%E3%83%AA%E3%83%BC%E3%83%84%E3%82%AB%E3%83%BC%E3%83%86%E3%83%B3/4550584759499","url_region":"jp","size_cm":{"w":100},"shape":"rect","color":"生成り系（色名未確認）","color_hex_guess":"#e8e0d0","price_jpy":null},{"slot":"curtain_kids","store":"無印良品","name":"綿洗いざらし平織ノンプリーツカーテン 幅100×丈200cm（2枚）","url":"https://www.muji.com/jp/ja/store/cmdty/detail/%E7%B6%BF%E6%B4%97%E3%81%84%E3%81%96%E3%82%89%E3%81%97%E5%B9%B3%E7%B9%94%E3%83%8E%E3%83%B3%E3%83%97%E3%83%AA%E3%83%BC%E3%83%84%E3%82%AB%E3%83%BC%E3%83%86%E3%83%B3/4550584759499","url_region":"jp","size_cm":{"w":100,"h":200},"shape":"rect","color":"生成り系（色名未確認）","color_hex_guess":"#e8e0d0","price_jpy":3990,"note":"遮光が必要ならニトリ 隙間ブロック 遮光1級(RD220 ベージュ 100X200X2)","extra_url":"https://www.nitori-net.jp/ec/product/2114100525306/"},{"slot":"armchair","store":"IKEA","name":"EKENÄSET エーケネーセット パーソナルチェア, オーク調/キランダ ライトベージュ","url":"https://www.ikea.com/us/en/p/ekenaeset-armchair-oak-effect-kilanda-light-beige-00624324/","url_region":"us","size_cm":{"w":64,"d":78,"h":76},"shape":"other","color":"オーク調/キランダ ライトベージュ","color_hex_guess":"#d8ccb8","price_jpy":24990,"note":"日本の商品ページURLは見つからず米国ページ"},{"slot":"kids_rug","store":"ニトリ","name":"洗える 円形 フロアマット(3D 100R ID07)","url":null,"url_region":"jp","size_cm":{"dia":100},"shape":"round","color":"色未確認","color_hex_guess":"#e3d6bf","price_jpy":5990,"note":"直径は品名「100R」からの推定；商品URLなし"},{"slot":"kids_shelf","store":"IKEA","name":"FLISAT フリサット ブックディスプレイ","url":"https://www.ikea.com/jp/ja/p/flisat-book-display-60614567/","url_region":"jp","size_cm":{"w":49,"d":28,"h":41},"shape":"rect","color":"パイン無垢材","color_hex_guess":"#e9d8b8","price_jpy":2999},{"slot":"entry_mirror","store":"無印良品","name":"壁に付けられる家具ミラー（中）オーク材","url":"https://www.muji.com/jp/ja/store/cmdty/detail/4550344505069","url_region":"jp","size_cm":{"w":32.5,"d":2,"h":100},"shape":"rect","color":"オーク","color_hex_guess":"#c8a678","price_jpy":7990,"note":"石こうボード用ピン固定、工具不要"},{"slot":"wall_hooks","store":"無印良品","name":"壁に付けられる家具フック（オーク材突板）","url":"https://www.muji.com/jp/ja/store/cmdty/detail/4550182944853","url_region":"jp","size_cm":{"w":4,"d":6,"h":8},"shape":"other","color":"オーク","color_hex_guess":"#c8a678","price_jpy":990},{"slot":"entry_mat","store":"ニトリ","name":"吸着ぴたマットループ 45×60cm BE","url":"https://www.nitori-net.jp/ec/keyword/%E3%81%B4%E3%81%9F%E3%83%9E%E3%83%83%E3%83%88%E3%83%AB%E3%83%BC%E3%83%97/","url_region":"jp","link_kind":"search","size_cm":{"w":45,"d":60},"shape":"rect","color":"ベージュ","color_hex_guess":"#cdbb9c","price_jpy":null},{"slot":"bath_mat","store":"無印良品","name":"綿麻バスマット・Ｍ","url":"https://www.muji.com/jp/ja/store/cmdty/detail/%E7%B6%BF%E9%BA%BB%E3%83%90%E3%82%B9%E3%83%9E%E3%83%83%E3%83%88%E3%83%BB%EF%BC%AD/4548076415169","url_region":"jp","size_cm":{"w":45,"d":70},"shape":"rect","color":"生成り系（色名未確認）","color_hex_guess":"#ece6da","price_jpy":null},{"slot":"laundry_basket","store":"無印良品","name":"重なるラタン長方形バスケット・特大","url":"https://www.muji.com/jp/ja/store/cmdty/detail/4549738309819","url_region":"jp","size_cm":{"w":36,"d":26,"h":31},"shape":"rect","color":"ラタン","color_hex_guess":"#b98d58","price_jpy":null,"note":"洗濯かごとしては小さめ"}]};
+const cm = (p, k, def) => (p?.size_cm?.[k] ?? def) / 100;
+function sizeText(p) {
+  const z = p.size_cm || {}, n = v => v == null ? null : Math.round(v * 10) / 10;
+  const dims = z.dia ? `Ø${n(z.dia)}${z.h ? ' × 高 ' + n(z.h) : ''}cm` : [z.w, z.d, z.h].filter(v => v != null).map(n).join(' × ') + (z.w || z.d || z.h ? 'cm' : '');
+  return [p.store, dims, p.color].filter(Boolean).join(' · ');
+}
+// name/size/link of the product in this slot onto an item (or a placeholder note when the search found none)
+function tag(it, p, fallback) {
+  if (p?.name) Object.assign(it.userData.info, { name: p.name, size: sizeText(p) + (p.note ? '（' + p.note + '）' : ''), url: p.url, store: p.store, price: p.price_jpy, slot: p.slot, kind: p.link_kind, region: p.url_region });
+  else Object.assign(it.userData.info, { name: fallback, size: '暂未找到合适的商品，尺寸为示意' });
+  return it;
+}
+const pm = (p, fallback, r = 1) => p?.color_hex_guess ? mk(parseInt(p.color_hex_guess.slice(1), 16), r) : fallback;   // product colour, else the scheme's material
+const hexM = (p, def, r = 0.8, o = {}) => mk(p?.color_hex_guess ? parseInt(p.color_hex_guess.slice(1), 16) : def, r, o);
+function tableG(g, name, p, x, z, y, defs, topM, legM) {   // round / oval / rectangular table with pedestal or four legs
+  const it = item(g, name, '');
+  const h = cm(p, 'h', defs.h * 100), dia = cm(p, 'dia', 0), w = dia || cm(p, 'w', defs.w * 100), d = dia || cm(p, 'd', (defs.d ?? defs.w) * 100);   // defs are in metres
+  const round = dia || p?.shape === 'round' || p?.shape === 'oval' || (!p && defs.round);
+  if (round) { const top = new THREE.Mesh(new THREE.CylinderGeometry(w / 2, w / 2, 0.03, 48), topM); top.scale.z = d / w; top.position.set(x, y + h - 0.015, z); top.castShadow = top.receiveShadow = true; it.add(top); }
+  else rb(it, x - w / 2, x + w / 2, y + h - 0.03, y + h, z - d / 2, z + d / 2, topM, 0.008);
+  if ((p?.legs ?? defs.legs) === 'pedestal') { cyl(it, x, y, y + 0.03, z, Math.min(w, d) * 0.32, legM); cyl(it, x, y + 0.03, y + h - 0.03, z, 0.05, legM, 0.07); }
+  else for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) cyl(it, x + sx * (w / 2 - 0.07) * (round ? 0.75 : 1), y, y + h - 0.03, z + sz * (d / 2 - 0.07) * (round ? 0.75 : 1), 0.02, legM, 0.024);
+  return tag(it, p, name);
+}
 function designScheme(g, hang, P) {
+  const I = slot => P.items[slot];
   // --- LDK: living ---
-  rugRect(g, P.rugName, 0.22, 2.05, 9.15, 10.45, L1, P.rugM).userData.info.size = P.rugSpec;
-  coffeeTable(g, P.ctName, P.ctSpec, P.ctStyle, 1.05, 9.78, L1 + 0.014, P.ctTop, P.ctBase);
-  sofaCushions(g, P.cushions, P.knit);
-  throwOnArm(g, P.throwC, P.knit);
-  const sb = sideboard(g, P.sbName, P.sbSpec, 8.4, 9.4, 0.75, 0.4, P.sbM, P.sbFront, P.metalM);
-  mushroomLamp(g, P.tlName, P.tlSpec, sb.xm, sb.top, 8.6, P.lampM);
-  vaseFlowers(g, '花瓶 + 花', P.flowerSpec, sb.xm, sb.top, 9.2, P.vaseM, P.flowerC, P.flowerKind);
-  if (P.mirror === 'arch') archMirror(g, P.mirrorName, 2.84, 8.9, sb.top + 0.25, 0.6, 0.95, P.mirrorFrame).userData.info.size = P.mirrorSpec;
-  else wavyMirror(g, P.mirrorName, P.mirrorSpec, { x: 2.84 }, 8.9, sb.top + 0.25, 0.6, 0.85, P.mirrorFrame);
-  floorLamp(g, P.flName, P.flStyle, 2.45, 10.0, L1, { tx: 1.2, tz: 9.8, metal: P.flMetal, shade: P.flShade }).userData.info.size = P.flSpec;
-  plant(g, P.plantName, P.plantKind, 2.5, L1, 10.7, P.plantScale, P.potC, P.plantSpec);
-  curtains(g, '客厅窗帘（布帘 + 纱帘）', P.curtainSpec, 0.9, 2.64, 11.02, -1, L1 + 2.12, L1 + 0.02, P.sheerC, P.drapeC, P.metalM);
-  frameOn(g, '沙发侧大幅装饰画', { x: 0.18, dir: 1 }, 8.75, L1 + 1.1, 1.0, 0.7, P.bigArt, P.bigArtHue, P.artFrame).userData.info.size = '约 100 × 70cm · 挂在沙发西侧的墙上，画框下沿离沙发扶手约 45cm';
-  for (const [z, k] of [[6.95, 0], [7.5, 30]]) frameOn(g, '餐桌旁小画', { x: 0.18, dir: 1 }, z, L1 + 1.25, 0.4, 0.5, P.bedArt, P.bedArtHue + k, P.artFrame).userData.info.size = '约 40 × 50cm × 2 幅';
-  // --- LDK: dining + kitchen ---
-  roundDining(g, P.dtName, P.dtSpec, 0.95, 7.25, 0.45, P.dtTop, P.dtBase, P.dtStyle);
-  for (const x of [0.62, 1.28]) chairS(g, P.chName, P.chSpec, P.chStyle, x, 6.62, L1, P.chSeat, P.chFrame, 0);
-  P.pendant(hang, 0.95, 7.25, L1 + 1.62);
-  vaseFlowers(g, '餐桌小花', P.smallFlowerSpec, 0.95, L1 + 0.73, 7.25, P.vaseM, P.flowerC, P.flowerKind, 5);
-  { const cn = item(g, '吧台收纳罐 + 砧板', P.canisterSpec); for (const [x, h] of [[1.3, 0.16], [1.42, 0.12], [1.52, 0.09]]) cyl(cn, x, L1 + 1.18, L1 + 1.18 + h, 6.1, 0.04, P.canM); rb(cn, 1.6, 1.84, L1 + 1.18, L1 + 1.2, 6.06, 6.14, P.boardM, 0.005); }
+  { const p = I('ldk_rug'), dia = cm(p, 'dia', 0);
+    if (dia) tag(rugRound(g, '', 1.1, 9.8, dia / 2, L1, pm(p, P.rugM)), p, '客厅地毯');
+    else { const w = Math.max(cm(p, 'w', 185), cm(p, 'd', 130)), d = Math.min(cm(p, 'w', 185), cm(p, 'd', 130)), zc = Math.min(9.8, 10.47 - d / 2);
+      tag(rugRect(g, '', 1.13 - w / 2, 1.13 + w / 2, zc - d / 2, zc + d / 2, L1, pm(p, P.rugM)), p, '客厅地毯'); } }
+  tableG(g, '茶几', I('coffee_table'), 1.05, 9.78, L1 + 0.014, { w: 0.7, h: 0.4, round: true, legs: P.ctLegs }, I('coffee_table') ? hexM(I('coffee_table'), 0, 0.5) : P.woodTop, P.woodLeg);
+  tag(sofaCushions(g, P.cushions, P.knit) ?? g.children[g.children.length - 1], I('cushion_cover'), '靠垫套');
+  tag(throwOnArm(g, P.throwC, P.knit) ?? g.children[g.children.length - 1], I('throw'), '盖毯');
+  const sbp = I('sideboard'), sw = Math.min(cm(sbp, 'w', 100), 1.1), sdp = Math.min(cm(sbp, 'd', 40), 0.42), sh = cm(sbp, 'h', 75);
+  const sb = sideboard(g, '', '', 8.9 - sw / 2, 8.9 + sw / 2, sh, sdp, sbp ? hexM(sbp, 0, 0.5) : P.sbM, sbp ? 'plain' : P.sbFront, P.metalM); tag(sb.it, sbp, '边柜');
+  { const p = I('wall_mirror'), w = cm(p, 'w', 0) || cm(p, 'dia', 60), h = cm(p, 'h', 0) || cm(p, 'dia', 90), y0 = sb.top + 0.22;
+    const shape = p?.shape ?? P.mirrorShape;
+    const fc = p?.color_hex_guess ? parseInt(p.color_hex_guess.slice(1), 16) : P.mirrorFrame;
+    tag(shape === 'arch' ? archMirror(g, '', 2.84, 8.9, y0, w, h, fc) : shape === 'round' || shape === 'wavy' ? wavyMirror(g, '', '', { x: 2.84 }, 8.9, y0, w, h, fc, shape === 'round' ? 0 : 1) : tallMirror(g, '', '', 2.84, -1, 8.9, y0, w, h, fc), p, '挂镜'); }
+  const art = I('art_frame'), aw = cm(art, 'w', 50), ah = cm(art, 'h', 70);
+  tag(frameOn(g, '', { x: 0.18, dir: 1 }, 8.75, L1 + 1.05, aw, ah, P.art, P.artHue, P.artFrame), art, '画框');
+  plant(g, '绿植（花店 / 园艺店自选）', P.plantKind, 2.5, L1, 10.7, P.plantScale, P.potC, '高约 100cm');
+  { const p = I('curtain_ldk'); tag(curtains(g, '', '', 0.9, 2.64, 11.02, -1, L1 + 2.12, L1 + 0.02, P.sheerC, p?.color_hex_guess ? parseInt(p.color_hex_guess.slice(1), 16) : P.drapeC, P.metalM), p, '客厅窗帘'); }
+  // --- LDK: dining ---
+  { const p = I('dining_table'), D = cm(p, 'dia', 0) || cm(p, 'd', 80);
+    tableG(g, '餐桌', p, 0.95, 7.25, L1, { w: 0.8, h: 0.72, round: true, legs: P.dtLegs }, p ? hexM(p, 0, 0.45) : P.dtTop, P.dtBase);
+    const cp = I('dining_chair'), cw = Math.min(cm(cp, 'w', 45), 0.5);
+    for (const x of [0.95 - 0.33, 0.95 + 0.33]) { const c = chairS(g, '', '', P.chStyle, x, 7.25 - D / 2 - 0.05, L1, P.chSeat, P.chFrame, 0); c.scale.set(cw / 0.45, 1, 1); c.position.x = x * (1 - cw / 0.45); tag(c, cp, '餐椅'); } }
+  { const p = I('pendant_light'); if (p?.color_hex_guess) pendant(hang, 0.95, 7.25, L1 + 1.62, 'dome', parseInt(p.color_hex_guess.slice(1), 16)); else P.pendant(hang, 0.95, 7.25, L1 + 1.62, 0.4); const it = item(g, '', ''); tag(it, p, '餐桌吊灯'); }
   // --- master ---
-  bedding(g, P.duvetC, P.pillowC, P.bedThrowC);
-  { const ns = item(g, P.nsName, P.nsSpec); cyl(ns, 5.44, 0, 0.5, 0.89, 0.19, P.nsM, P.nsStyle === 'pedestal' ? 0.16 : 0.19); }
-  mushroomLamp(g, P.tlName + '（床头）', P.tlSpec, 5.44, 0.5, 0.89, P.lampM, 0.85);
-  for (const z of [0.95, 2.75]) wallSconce(g, '床头壁灯', P.sconceSpec, { x: 5.65, dir: -1 }, z, 1.3, P.metalM);
-  frameOn(g, P.bedArtName, { x: 5.65, dir: -1 }, 1.85, 1.0, 0.8, 0.55, P.bedArt, P.bedArtHue, P.artFrame).userData.info.size = P.bedArtSpec;
-  rugRect(g, P.bedRugName, 3.2, 4.6, 0.85, 2.85, 0, P.bedRugM).userData.info.size = P.bedRugSpec;
-  crib(g, P.cribName, P.cribSpec, P.cribM, mk(0xfaf8f4, 1));
-  dresser(g, P.drName, P.drSpec, P.drM, P.metalM, P.drStyle);
-  vaseFlowers(g, '斗柜上的花瓶', P.smallFlowerSpec, 3.65, 0.82, 3.63, P.vaseM, P.flowerC, P.flowerKind, 5);
-  frameOn(g, '斗柜上方装饰画', { z: 3.84, dir: -1 }, 3.42, 1.15, 0.45, 0.6, P.bedArt, P.bedArtHue + 20, P.artFrame).userData.info.size = '约 45 × 60cm';
-  curtains(g, '主卧窗帘', P.bedCurtainSpec, 4.15, 4.95, 0.16, 1, 2.1, 0.02, P.sheerC, P.drapeC, P.metalM);
-  plant(g, P.bedPlantName, P.bedPlantKind, 3.3, 0, 0.45, 1.0, P.potC, '放窗边');
+  tag(bedding(g, P.duvetC, P.pillowC, P.bedThrowC) ?? g.children[g.children.length - 1], I('duvet_cover'), '被套 + 枕套');
+  { const p = I('nightstand'), w = Math.min(cm(p, 'w', 0) || cm(p, 'dia', 38), 0.38), h = cm(p, 'h', 50);
+    const nm = p ? hexM(p, 0, 0.5) : P.nsM, ns = tableG(g, '床头柜', p, 5.44, 0.89, 0, { w, d: Math.min(cm(p, 'd', 0) || w, 0.38), h, round: true, legs: 'four' }, nm, nm);
+    const lp = I('table_lamp'), lh = cm(lp, 'h', 30); tag(mushroomLamp(g, '', '', 5.44, h, 0.89, P.lampM, lh / 0.3), lp, '台灯'); }
+  tag(frameOn(g, '', { x: 5.65, dir: -1 }, 1.85, 1.0, aw, ah, P.art, P.artHue + 20, P.artFrame), art, '画框');
+  { const p = I('bedroom_rug'), w = Math.min(cm(p, 'w', 140), cm(p, 'd', 200)), d = Math.max(cm(p, 'w', 140), cm(p, 'd', 200));
+    tag(rugRect(g, '', 3.2, 3.2 + w, 1.85 - d / 2, 1.85 + d / 2, 0, pm(p, P.bedRugM)), p, '卧室地毯'); }
+  { const p = I('crib'), a = cm(p, 'w', 126), b = cm(p, 'd', 78), w = Math.min(Math.max(a, b), 1.26), d = Math.min(Math.min(a, b), 0.8);   // long side along the bed
+    const it = crib(g, '', '', p ? hexM(p, 0, 0.5) : P.cribM, mk(0xfaf8f4, 1), [5.56 - w, 5.56, 2.58, 2.58 + d]); tag(it, p, '婴儿床'); }
+  { const p = I('dresser'), w = Math.min(cm(p, 'w', 85), 0.85), d = Math.min(cm(p, 'd', 42), 0.45), h = Math.min(cm(p, 'h', 82), 0.9);
+    tag(dresser(g, '', '', p ? hexM(p, 0, 0.5) : P.drM, P.metalM, p ? 'plain' : P.drStyle, [3.0, 3.0 + w, 3.84 - d, 3.84], h), p, '斗柜'); }
+  { const p = I('curtain_master'); tag(curtains(g, '', '', 4.15, 4.95, 0.16, 1, 2.1, 0.75, P.sheerC, p?.color_hex_guess ? parseInt(p.color_hex_guess.slice(1), 16) : P.drapeC, P.metalM), p, '主卧窗帘'); }
   // --- kids room + PC corner ---
-  armchair(g, P.acName, P.acSpec, 5.2, 8.62, -Math.PI / 2, P.acSeat, P.acFrame, P.acStyle);
-  { const st = item(g, '边几', P.stSpec); cyl(st, 5.36, L1, L1 + 0.5, 9.22, 0.16, P.nsM, P.nsStyle === 'pedestal' ? 0.13 : 0.16); }
-  floorLamp(g, P.flName + '（儿童房）', P.flStyle === 'arc' ? 'tripod' : P.flStyle, 4.7, 8.1, L1, { metal: P.flMetal, shade: P.flShade }).userData.info.size = P.flSpec;
-  rugRound(g, P.kidRugName, 4.4, 9.95, 0.6, L1, P.kidRugM).userData.info.size = P.kidRugSpec;
-  lowShelfX(g, P.ksName, 5.35, 5.65, 9.45, 10.35, 0.62, P.ksC, { levels: [0.02, 0.3, 0.6], items: it => {
-    P.bookCs.forEach(([y, c], i) => box(it, 5.37, 5.39, L1 + y, L1 + y + 0.24, 9.55 + (i % 2) * 0.4, 9.85 + (i % 2) * 0.4, mk(c, 0.7)));
-    for (const z of [9.68, 10.12]) rb(it, 5.4, 5.62, L1 + 0.32, L1 + 0.52, z - 0.16, z + 0.16, P.basketM, 0.02);
-  } }).userData.info.size = P.ksSpec;
-  pouf(g, P.poufName, 4.6, 10.25, L1, 0.2, P.poufM).userData.info.size = P.poufSpec;
-  { const pb = item(g, '洞洞板（电脑桌上方）', P.pegSpec); box(pb, 2.96, 2.98, L1 + 1.4, L1 + 1.8, 9.3, 9.9, P.pegM);
-    for (let y = 1.45; y < 1.78; y += 0.05) for (let z = 9.34; z < 9.88; z += 0.05) box(pb, 2.979, 2.981, L1 + y, L1 + y + 0.008, z, z + 0.008, mk(0x8a8a86)); }
-  mushroomLamp(g, '桌面台灯', P.tlSpec, 3.12, L1 + 0.7, 10.0, P.lampM, 0.8);
-  curtains(g, '儿童房窗帘', P.kidCurtainSpec, 3.9, 5.5, 10.57, -1, L1 + 2.12, L1 + 0.02, P.sheerC, P.drapeC, P.metalM);
-  frameOn(g, '儿童房装饰画', { x: 5.65, dir: -1 }, 9.9, L1 + 1.05, 0.5, 0.4, 'kids', 0, P.artFrame).userData.info.size = '约 50 × 40cm，挂在矮书架上方';
-  // --- entrance, hall, washroom ---
-  rugRect(g, '玄关地垫', 0.25, 0.6, 0.3, 0.8, GND, P.matM).userData.info.size = P.matSpec;
-  tallMirror(g, P.entryMirrorName, P.entryMirrorSpec, 0.18, 1, 0.47, GND + 0.5, 0.35, 1.2, P.mirrorFrame);
-  hooksRow(g, '玄关挂钩（3 个）', P.hookSpec, 0.18, 1, 0.72, 0.86, GND + 1.6, P.metalM);
-  tray(g, 0.81, 0.45, GND + 0.9, P.trayM, [['vase', -0.06, 0.04], ['candle', 0.07, -0.03]]);
-  rugRect(g, '走廊地毯（长条）', 1.2, 1.75, 0.75, 2.45, 0, P.runnerM).userData.info.size = P.runnerSpec;
-  mushroomLamp(g, '走廊柜上的小台灯', P.tlSpec, 1.3, 0.85, 0.36, P.lampM, 0.7);
-  frameOn(g, '走廊装饰画', { x: 1.88, dir: -1 }, 1.0, 1.15, 0.4, 0.5, P.bedArt, P.bedArtHue + 40, P.artFrame).userData.info.size = '约 40 × 50cm';
-  rugRect(g, '浴室门口脚垫', 3.3, 3.8, 5.05, 5.55, L1, P.bathMatM).userData.info.size = P.bathMatSpec;
-  hamper(g, P.hamperName, P.hamperSpec, 3.6, 5.95, L1, P.hamperM, P.hamperLid);
+  { const p = I('armchair'), w = Math.min(cm(p, 'w', 76), 0.78); const it = armchair(g, '', '', 5.2, 8.62, -Math.PI / 2, pm(p, P.acSeat), P.acFrame, P.acStyle); it.children[0].scale.setScalar(w / 0.76); tag(it, p, '单人椅（哺乳用）'); }
+  { const p = I('kids_rug'), dia = cm(p, 'dia', 0);
+    if (dia || !p) tag(rugRound(g, '', 4.4, 9.95, (dia || 1.2) / 2, L1, pm(p, P.kidRugM)), p, '儿童房地毯');
+    else { const w = cm(p, 'w', 120), d = cm(p, 'd', 120); tag(rugRect(g, '', 4.4 - w / 2, 4.4 + w / 2, 9.95 - d / 2, 9.95 + d / 2, L1, P.kidRugM), p, '儿童房地毯'); } }
+  { const p = I('kids_shelf'), w = Math.min(cm(p, 'w', 90), 0.9), d = Math.min(cm(p, 'd', 30), 0.35), h = Math.min(cm(p, 'h', 62), 0.7);
+    tag(lowShelfX(g, '', 5.65 - d, 5.65, 9.9 - w / 2, 9.9 + w / 2, h, P.ksC, { levels: [0.02, h / 2, h - 0.02], items: it => {
+      P.bookCs.forEach(([y, c], i) => box(it, 5.67 - d, 5.69 - d, L1 + (y > 0.2 ? h / 2 + 0.03 : 0.05), L1 + (y > 0.2 ? h / 2 + 0.03 : 0.05) + 0.22, 9.9 - w / 2 + 0.08 + (i % 2) * w / 2, 9.9 - w / 2 + 0.36 + (i % 2) * w / 2, mk(c, 0.7)));
+    } }), p, '矮书架'); }
+  { const p = I('curtain_kids'); tag(curtains(g, '', '', 3.9, 5.5, 10.57, -1, L1 + 2.12, L1 + 0.02, P.sheerC, p?.color_hex_guess ? parseInt(p.color_hex_guess.slice(1), 16) : P.drapeC, P.metalM), p, '儿童房窗帘'); }
+  // --- entrance + washroom ---
+  { const p = I('entry_mirror'), w = Math.min(cm(p, 'w', 35), 0.4), h = cm(p, 'h', 120); tag(tallMirror(g, '', '', 0.18, 1, 0.45, GND + 1.85 - h, w, h, P.mirrorFrame), p, '玄关穿衣镜'); }
+  tag(hooksRow(g, '', '', 0.18, 1, 0.72, 0.86, GND + 1.6, P.metalM), I('wall_hooks'), '挂钩');
+  { const p = I('entry_mat'), w = Math.min(cm(p, 'w', 50), 0.6), d = Math.min(cm(p, 'd', 35), 0.6); const mw = Math.min(w, d, 0.42), ml = Math.min(Math.max(w, d), 0.6); tag(rugRect(g, '', 0.4 - mw / 2, 0.4 + mw / 2, 0.55 - ml / 2, 0.55 + ml / 2, GND, pm(p, P.matM)), p, '玄关地垫'); }
+  { const p = I('bath_mat'), w = Math.min(cm(p, 'w', 50), 0.5), d = Math.min(cm(p, 'd', 50), 0.6); tag(rugRect(g, '', 3.8 - Math.min(w, d), 3.8, 5.3 - Math.max(w, d) / 2, 5.3 + Math.max(w, d) / 2, L1, pm(p, P.bathMatM)), p, '浴室脚垫'); }
+  { const p = I('laundry_basket'), r = Math.min(cm(p, 'dia', 0) || cm(p, 'w', 34), 0.36) / 2, h = Math.min(cm(p, 'h', 50), 0.55); tag(hamper(g, '', '', 3.78 - r, 5.95, L1, pm(p, P.hamperM, 0.9), p ? null : P.hamperLid, r, h), p, '洗衣篮'); }
 }
 function designTheme(id, name, notes, P) {
   REPLACED[id] = DESIGN_SWAPS;
+  P.items = Object.fromEntries((PRODUCTS[id] || []).filter(p => p.name).map(p => [p.slot, p]));
   theme(id, name, notes, (g, hang) => designScheme(g, hang, P));
 }
-
 const boucleT = (c1, c2) => TM(patTex('boucle', c1, c2, 0.3), { roughness: 1 });
 const brass = mk(0xc9a465, 0.3, { metalness: 0.8 });
+const pleatP = c => (h, x, z, y, dia) => { pleatPendant(h, x, z, y, mk(c, 0.9, { side: THREE.DoubleSide })); };
+const domeP = c => (h, x, z, y, dia) => pendant(h, x, z, y, 'dome', c);
 
-// ===== v20 奶油法式 =====
-designTheme('v20', '软装方案 A · 奶油法式', `
-  <div class="room"><h3>方案思路 <span>奶油白 · 焦糖 · 黄铜 · 圆弧</span></h3><p>保留现有的米色沙发、电视柜、床和电脑桌椅，其余按奶油法式重新配：大面积奶油白和圈圈绒，少量焦糖色和黄铜点缀，家具尽量选圆角、拱形，宝宝爬的时候也不容易磕到。下面「这个版本新增的东西」就是购物清单，每件都写了尺寸和日文搜索关键词。</p></div>
-  <div class="room"><h3>客厅 + 餐厅</h3><p>沙发前铺 130×185 奶油圈圈绒地毯，矮桌换成 Ø70 圆形石纹边几式茶几。东墙放 100cm 奶油色竖纹边柜，上方挂黄铜拱形镜，柜上放蘑菇台灯和一瓶郁金香。东南角奶油灯罩三脚落地灯 + 橄榄树。餐桌换成 Ø90 白色郁金香圆桌，配两把奶油圈圈绒餐椅，上方挂褶皱布艺吊灯。窗帘换成奶油色亚麻布帘 + 白纱。</p></div>
-  <div class="room"><h3>主卧 / 儿童房 / 玄关</h3><p>主卧：奶油色床品 + 焦糖色毯子，床头两侧黄铜壁灯，北侧圆形奶油边几 + 蘑菇灯，西南角换成奶油竖纹三斗柜，婴儿床换成奶白实木款。儿童房：放一把奶油圈圈绒单人沙发当哺乳椅，配边几和落地灯；东侧奶白矮书架 + 圆地毯 + 坐墩。玄关和走廊：奶油地垫、细长穿衣镜、黄铜挂钩、长条地毯。</p></div>`, {
-  bigArt: 'abstract', bigArtHue: 25,
-  rugName: '奶油色圈圈绒地毯', rugSpec: '130 × 185cm · 奶油白圈圈绒（ブークレ）· 搜「ブークレ ラグ 130×185 アイボリー」', rugM: boucleT('#f4ecdf', '#dccdb4'),
-  ctName: '圆形石纹茶几', ctSpec: 'Ø70 × 高 40cm · 石纹（トラバーチン调）圆台 · 搜「トラバーチン風 センターテーブル 丸 70」', ctStyle: 'pedestal', ctTop: mk(0xe9dfcf, 0.55), ctBase: mk(0xe2d6c3, 0.6),
-  cushions: [0xf3ead9, 0xb88a5e, 0xe8dcc4, 0xf3ead9], knit: true, throwC: '#f1e9dc',
-  sbName: '奶油色竖纹边柜', sbSpec: '100 × 40 × 75cm · 奶油白竖纹门 + 黄铜脚 · 搜「サイドボード リブ 100 アイボリー」', sbM: mk(0xf1ebe0, 0.5), sbFront: 'fluted', metalM: brass,
-  tlName: '蘑菇台灯', tlSpec: '高约 30cm · 奶油色乳白灯罩 · 搜「マッシュルームランプ」', lampM: M(0xf6efe3, { roughness: 0.6, emissive: 0x6b5030, emissiveIntensity: 0.2 }),
-  flowerSpec: '陶瓷花瓶高约 20cm + 郁金香', smallFlowerSpec: '小花瓶 + 当季鲜花', vaseM: mk(0xefe6d8, 0.4), flowerC: 0xf2c6b4, flowerKind: 'tulip',
-  mirror: 'arch', mirrorName: '黄铜拱形挂镜', mirrorSpec: '60 × 95cm · 细黄铜边 · 搜「アーチミラー ゴールド 壁掛け」', mirrorFrame: 0xc9a465,
-  flName: '奶油灯罩三脚落地灯', flStyle: 'tripod', flMetal: 0xc9a465, flShade: 0xf6efe3, flSpec: '高约 150cm · 奶油布灯罩 + 黄铜脚',
-  plantName: '橄榄树', plantKind: 'olive', plantScale: 1.0, potC: 0xefe7da, plantSpec: '高约 120cm，配奶油色陶盆',
-  curtainSpec: '布帘 2 片 宽 100 × 高 200cm（奶油亚麻，2 级遮光）+ 白纱 · 搜「リネン カーテン アイボリー 100×200」· 尺寸请实测', sheerC: 0xfbf8f2, drapeC: 0xeee5d6,
-  dtName: '白色郁金香圆桌', dtSpec: 'Ø90 × 高 73cm · 白色桌面 + 单脚 · 搜「チューリップテーブル 90 ホワイト」', dtTop: mk(0xf6f4ef, 0.3), dtBase: mk(0xf6f4ef, 0.35), dtStyle: 'tulip',
-  chName: '奶油圈圈绒餐椅', chSpec: '约 50 × 50 × 75cm · 圈圈绒 + 木脚 · 搜「ブークレ ダイニングチェア」', chStyle: 'boucle', chSeat: boucleT('#f4ecdf', '#dccdb4'), chFrame: mk(0xc8a87e, 0.5),
-  pendant: (h, x, z, y) => pleatPendant(h, x, z, y, mk(0xf4ece0, 0.9, { side: THREE.DoubleSide })),
-  canisterSpec: '陶瓷收纳罐 3 个 + 木砧板', canM: mk(0xf2ece2, 0.4), boardM: mk(0xc8a87e, 0.6),
-  duvetC: 0xf3ead9, pillowC: 0xe6d6bf, bedThrowC: 0xb88a5e,
-  nsName: '圆形奶油边几（床头）', nsSpec: 'Ø40 × 高 50cm · 奶油色 · 搜「サイドテーブル 丸 アイボリー」', nsM: mk(0xf1ebe0, 0.5), nsStyle: 'pedestal',
-  sconceSpec: '黄铜壁灯 2 盏（插头式即可，不用改电线）· 搜「ブラケットライト コンセント式 ゴールド」',
-  bedArtName: '床头装饰画', bedArt: 'arch', bedArtHue: 25, artFrame: 0xc9a465, bedArtSpec: '80 × 55cm · 拱形图案',
-  bedRugName: '主卧地毯', bedRugM: boucleT('#f4ecdf', '#dccdb4'), bedRugSpec: '140 × 200cm · 奶油圈圈绒，铺在床下半段',
-  cribName: '婴儿床（奶白实木）', cribSpec: '内寸 60 × 120cm · 奶白色实木 · 搜「ベビーベッド ホワイト 木製」', cribM: mk(0xf4f1ea, 0.5),
-  drName: '奶油竖纹三斗柜', drSpec: '85 × 42 × 82cm · 奶油白竖纹 + 黄铜拉手 · 搜「チェスト リブ 3段 アイボリー」', drM: mk(0xf1ebe0, 0.5), drStyle: 'fluted',
-  bedCurtainSpec: '布帘 2 片 宽 100 × 高 210cm（遮光，宝宝午睡用）+ 白纱 · 尺寸请实测',
-  bedPlantName: '琴叶榕', bedPlantKind: 'fiddle',
-  acName: '圈圈绒单人沙发（哺乳椅）', acSpec: '约 76 × 76 × 85cm · 奶油圈圈绒 · 搜「ブークレ ソファ 1人掛け」', acSeat: boucleT('#f4ecdf', '#dccdb4'), acFrame: mk(0xc8a87e, 0.5), acStyle: 'boucle',
-  stSpec: 'Ø32 × 高 50cm · 奶油色', kidRugName: '儿童房圆地毯', kidRugM: boucleT('#ebe0cc', '#cdbb9c'), kidRugSpec: 'Ø120cm · 燕麦色圈圈绒，可水洗款更好',
-  ksName: '奶白矮书架', ksSpec: '90 × 30 × 62cm · 奶白 · 封面朝外放绘本', ksC: 0xf3ede2, bookCs: [[0.05, 0xe8c4b0], [0.33, 0xd9c2a3], [0.05, 0xf0dcb8], [0.33, 0xc9d3c0]], basketM: mk(0xd9c3a0, 0.9),
-  poufName: '圈圈绒坐墩', poufM: boucleT('#f4ecdf', '#dccdb4'), poufSpec: 'Ø40 × 高 36cm',
-  pegSpec: '60 × 40cm · 奶白色洞洞板', pegM: mk(0xf3ede2, 0.6),
-  kidCurtainSpec: '布帘 2 片 宽 100 × 高 200cm + 白纱 · 尺寸请实测',
-  matM: mk(0xe9dfcf, 1), matSpec: '约 50 × 35cm · 奶油色', entryMirrorName: '细长穿衣镜', entryMirrorSpec: '35 × 120cm · 黄铜细边，挂在玄关西墙', hookSpec: '黄铜挂钩 3 个', trayM: mk(0xe9dfcf, 0.4),
-  runnerM: boucleT('#efe6d6', '#d6c7ad'), runnerSpec: '55 × 170cm · 奶油色长条地毯（防滑）', bathMatM: mk(0xf1ebe0, 1), bathMatSpec: '约 50 × 50cm · 速干硅藻土或毛巾质',
-  hamperName: '布艺洗衣篮（带盖）', hamperSpec: 'Ø36 × 高 53cm · 奶油色棉麻', hamperM: mk(0xefe6d6, 1), hamperLid: mk(0xe2d4bd, 1),
+designTheme('v20', '软装方案 A · 奶油法式', `<div class="room"><h3>奶油法式 <span>宜家 / ニトリ / 无印良品</span></h3><p>奶白和米色打底，金色挂镜、金色画框点缀；大件以 ニトリ 的白色收纳和 IKEA 的 PINNTORP 圆餐桌为主，每个房间只留必要的几件。</p><p>家具都是网上搜到的实际商品，按标示尺寸摆放；点模型里的家具或下面清单里的「商品页 ↗」可以打开官网。价格和库存请以官网为准。</p></div>`, {
+  rugM: boucleT('#f4ecdf', '#dccdb4'), woodTop: mk(0xe9dfcf, 0.55), woodLeg: mk(0xe2d6c3, 0.6), ctLegs: 'pedestal',
+  cushions: [0xf3ead9, 0xb88a5e, 0xe8dcc4], knit: true, throwC: '#f1e9dc',
+  sbM: mk(0xf1ebe0, 0.5), sbFront: 'fluted', metalM: brass, mirrorShape: 'arch', mirrorFrame: 0xc9a465,
+  art: 'arch', artHue: 25, artFrame: 0xc9a465, plantKind: 'olive', plantScale: 1.0, potC: 0xefe7da,
+  sheerC: 0xfbf8f2, drapeC: 0xeee5d6,
+  dtTop: mk(0xf6f4ef, 0.3), dtBase: mk(0xf6f4ef, 0.35), dtLegs: 'pedestal', chStyle: 'boucle', chSeat: boucleT('#f4ecdf', '#dccdb4'), chFrame: mk(0xc8a87e, 0.5),
+  pendant: pleatP(0xf4ece0), duvetC: 0xf3ead9, pillowC: 0xe6d6bf, bedThrowC: 0xe9e1d2,
+  nsM: mk(0xf1ebe0, 0.5), lampM: M(0xf6efe3, { roughness: 0.6, emissive: 0x6b5030, emissiveIntensity: 0.2 }),
+  bedRugM: boucleT('#f4ecdf', '#dccdb4'), cribM: mk(0xf4f1ea, 0.5), drM: mk(0xf1ebe0, 0.5), drStyle: 'fluted',
+  acSeat: boucleT('#f4ecdf', '#dccdb4'), acFrame: mk(0xc8a87e, 0.5), acStyle: 'boucle', kidRugM: boucleT('#ebe0cc', '#cdbb9c'),
+  ksC: 0xf3ede2, bookCs: [[0.05, 0xe8c4b0], [0.33, 0xd9c2a3], [0.05, 0xf0dcb8], [0.33, 0xc9d3c0]],
+  matM: mk(0xe9dfcf, 1), bathMatM: mk(0xf1ebe0, 1), hamperM: mk(0xefe6d6, 1), hamperLid: mk(0xe2d4bd, 1),
 });
-
-// ===== v21 韩系温柔 =====
-designTheme('v21', '软装方案 B · 韩系温柔', `
-  <div class="room"><h3>方案思路 <span>奶白 · 豆沙粉 · 浅橡木 · 格纹</span></h3><p>比方案 A 更轻、更甜一点：白色和浅橡木打底，用豆沙粉、格纹和波浪形镜子增加可爱感。家具线条细，视觉上让小客厅更宽。</p></div>
-  <div class="room"><h3>客厅 + 餐厅</h3><p>沙发前铺奶白格纹地毯，茶几换成浅橡木椭圆茶几。东墙放浅橡木白色边柜，上方挂无框波浪镜，柜上放白色蘑菇灯和郁金香。东南角奶白三脚落地灯 + 龟背竹。餐桌换成 Ø90 浅橡木圆桌，配两把 Y 字椅（编织坐面），上方挂白色褶皱吊灯。窗帘用奶白布帘 + 白纱。</p></div>
-  <div class="room"><h3>主卧 / 儿童房 / 玄关</h3><p>主卧：奶白床品 + 豆沙粉枕头 + 格纹毯，浅橡木边几和斗柜，白色婴儿床。儿童房：浅橡木框架单人椅（哺乳椅）+ 粉色坐墩 + 格纹圆地毯，奶白矮书架。玄关：波浪全身镜、白色挂钩、格纹长条地毯。</p></div>`, {
-  bigArt: 'line', bigArtHue: 340,
-  rugName: '奶白格纹地毯', rugSpec: '130 × 185cm · 奶白 + 浅米格纹 · 搜「チェック ラグ 130×185 アイボリー」', rugM: TM(patTex('grid', '#f6f2eb', '#e2d5c6', 0.5), { roughness: 1 }),
-  ctName: '浅橡木椭圆茶几', ctSpec: '80 × 50 × 高 40cm · 浅橡木 · 搜「オーバル センターテーブル オーク」', ctStyle: 'oval', ctTop: mk(0xdcc29c, 0.5), ctBase: mk(0xdcc29c, 0.5),
-  cushions: [0xf6f2eb, 0xe0bfb3, 0xd9c8b0, 0xf6f2eb], knit: true, throwC: '#efe2d8',
-  sbName: '浅橡木边柜', sbSpec: '100 × 40 × 75cm · 白色柜体 + 浅橡木 · 搜「キャビネット オーク ホワイト 100」', sbM: mk(0xf6f4ef, 0.45), sbFront: 'plain', metalM: mk(0xdcc29c, 0.5),
-  tlName: '白色蘑菇灯', tlSpec: '高约 30cm · 乳白 · 搜「マッシュルームランプ ホワイト」', lampM: M(0xfbf8f2, { roughness: 0.5, emissive: 0x6b5030, emissiveIntensity: 0.2 }),
-  flowerSpec: '玻璃花瓶 + 郁金香', smallFlowerSpec: '小花瓶 + 当季鲜花', vaseM: new THREE.MeshStandardMaterial({ color: 0xeaf1f2, roughness: 0.1, transparent: true, opacity: 0.5 }), flowerC: 0xf3b7b0, flowerKind: 'tulip',
-  mirror: 'wavy', mirrorName: '波浪挂镜（无框）', mirrorSpec: '约 60 × 85cm · 无框异形镜 · 搜「ウェーブミラー 壁掛け」', mirrorFrame: null,
-  flName: '奶白三脚落地灯', flStyle: 'tripod', flMetal: 0xdcc29c, flShade: 0xfaf6ef, flSpec: '高约 150cm · 白色布灯罩 + 浅木脚',
-  plantName: '龟背竹', plantKind: 'monstera', plantScale: 1.3, potC: 0xf6f4ef, plantSpec: '高约 100cm，白色盆',
-  curtainSpec: '布帘 2 片 宽 100 × 高 200cm（奶白，2 级遮光）+ 白纱 · 尺寸请实测', sheerC: 0xffffff, drapeC: 0xf3ece2,
-  dtName: '浅橡木圆餐桌', dtSpec: 'Ø90 × 高 72cm · 浅橡木 · 搜「ダイニングテーブル 丸 90 オーク」', dtTop: mk(0xdcc29c, 0.45), dtBase: mk(0xdcc29c, 0.5), dtStyle: 'legs',
-  chName: 'Y 字椅（编织坐面）', chSpec: '约 55 × 50 × 76cm · 浅橡木 + 纸绳编织坐面 · 搜「Yチェア風 ダイニングチェア」', chStyle: 'wishbone', chSeat: TM(patTex('grid', '#e9dcc4', '#c9b48e', 0.05), { roughness: 0.9 }), chFrame: mk(0xdcc29c, 0.5),
-  pendant: (h, x, z, y) => pleatPendant(h, x, z, y, mk(0xffffff, 0.8, { side: THREE.DoubleSide })),
-  canisterSpec: '白色珐琅收纳罐 3 个 + 木砧板', canM: mk(0xffffff, 0.25), boardM: mk(0xdcc29c, 0.6),
-  duvetC: 0xf7f4ee, pillowC: 0xe0bfb3, bedThrowC: 0xe6d6c6,
-  nsName: '浅橡木圆边几（床头）', nsSpec: 'Ø40 × 高 50cm · 浅橡木', nsM: mk(0xdcc29c, 0.5), nsStyle: 'drum',
-  sconceSpec: '白色壁灯 2 盏（插头式）· 搜「ブラケットライト コンセント式 ホワイト」',
-  bedArtName: '床头装饰画', bedArt: 'line', bedArtHue: 10, artFrame: 0xdcc29c, bedArtSpec: '80 × 55cm · 线条画',
-  bedRugName: '主卧格纹地毯', bedRugM: TM(patTex('grid', '#f6f2eb', '#e2d5c6', 0.5), { roughness: 1 }), bedRugSpec: '140 × 200cm · 奶白格纹',
-  cribName: '婴儿床（白色）', cribSpec: '内寸 60 × 120cm · 白色 · 搜「ベビーベッド ホワイト」', cribM: mk(0xffffff, 0.45),
-  drName: '浅橡木三斗柜', drSpec: '85 × 42 × 82cm · 白 + 浅橡木 · 搜「チェスト 3段 オーク ホワイト」', drM: mk(0xf6f4ef, 0.45), drStyle: 'plain',
-  bedCurtainSpec: '布帘 2 片 宽 100 × 高 210cm（遮光）+ 白纱 · 尺寸请实测',
-  bedPlantName: '橄榄树', bedPlantKind: 'olive',
-  acName: '浅橡木单人椅（哺乳椅）', acSpec: '约 70 × 70 × 80cm · 浅橡木框 + 奶白坐垫 · 搜「ラウンジチェア オーク」', acSeat: mk(0xf6f2eb, 1), acFrame: mk(0xdcc29c, 0.5), acStyle: 'wood',
-  stSpec: 'Ø32 × 高 50cm · 浅橡木', kidRugName: '格纹圆地毯', kidRugM: TM(patTex('grid', '#f8eee9', '#e8cfc5', 0.4), { roughness: 1 }), kidRugSpec: 'Ø120cm · 粉白格纹，可水洗款更好',
-  ksName: '奶白矮书架', ksSpec: '90 × 30 × 62cm · 奶白', ksC: 0xf6f4ef, bookCs: [[0.05, 0xf3b7b0], [0.33, 0xd9c8b0], [0.05, 0xf6dcb8], [0.33, 0xb9d3d6]], basketM: mk(0xe9dcc4, 0.9),
-  poufName: '豆沙粉坐墩', poufM: mk(0xe0bfb3, 1), poufSpec: 'Ø40 × 高 36cm',
-  pegSpec: '60 × 40cm · 白色洞洞板', pegM: mk(0xffffff, 0.6),
-  kidCurtainSpec: '布帘 2 片 宽 100 × 高 200cm + 白纱 · 尺寸请实测',
-  matM: mk(0xe6d6c6, 1), matSpec: '约 50 × 35cm · 米白', entryMirrorName: '波浪全身镜', entryMirrorSpec: '35 × 120cm · 无框', hookSpec: '白色挂钩 3 个', trayM: mk(0xf6f4ef, 0.3),
-  runnerM: TM(patTex('grid', '#f6f2eb', '#e2d5c6', 0.3), { roughness: 1 }), runnerSpec: '55 × 170cm · 格纹长条地毯（防滑）', bathMatM: mk(0xf3e3dc, 1), bathMatSpec: '约 50 × 50cm · 豆沙粉速干',
-  hamperName: '白色洗衣篮', hamperSpec: 'Ø36 × 高 53cm · 白色棉麻', hamperM: mk(0xf8f6f2, 1), hamperLid: null,
+designTheme('v21', '软装方案 B · 韩系温柔', `<div class="room"><h3>韩系温柔 <span>宜家 / ニトリ / 无印良品</span></h3><p>白色家具配浅粉色地毯、毯子和小件，IKEA 的波浪镜 PRUNKHALLON 和粉色玻璃台灯 FADO 是重点；家具线条细，小客厅显得更宽。</p><p>家具都是网上搜到的实际商品，按标示尺寸摆放；点模型里的家具或下面清单里的「商品页 ↗」可以打开官网。价格和库存请以官网为准。</p></div>`, {
+  rugM: TM(patTex('grid', '#f6f2eb', '#e2d5c6', 0.5), { roughness: 1 }), woodTop: mk(0xdcc29c, 0.5), woodLeg: mk(0xdcc29c, 0.5), ctLegs: 'four',
+  cushions: [0xf6f2eb, 0xe0bfb3, 0xd9c8b0], knit: true, throwC: '#efe2d8',
+  sbM: mk(0xf6f4ef, 0.45), sbFront: 'plain', metalM: mk(0xdcc29c, 0.5), mirrorShape: 'wavy', mirrorFrame: null,
+  art: 'line', artHue: 340, artFrame: 0xdcc29c, plantKind: 'monstera', plantScale: 1.3, potC: 0xf6f4ef,
+  sheerC: 0xffffff, drapeC: 0xf3ece2,
+  dtTop: mk(0xdcc29c, 0.45), dtBase: mk(0xdcc29c, 0.5), dtLegs: 'four', chStyle: 'wishbone', chSeat: TM(patTex('grid', '#e9dcc4', '#c9b48e', 0.05), { roughness: 0.9 }), chFrame: mk(0xdcc29c, 0.5),
+  pendant: pleatP(0xffffff), duvetC: 0xf7f4ee, pillowC: 0xe0bfb3, bedThrowC: 0xf1e3df,
+  nsM: mk(0xdcc29c, 0.5), lampM: M(0xfbf8f2, { roughness: 0.5, emissive: 0x6b5030, emissiveIntensity: 0.2 }),
+  bedRugM: TM(patTex('grid', '#f6f2eb', '#e2d5c6', 0.5), { roughness: 1 }), cribM: mk(0xffffff, 0.45), drM: mk(0xf6f4ef, 0.45), drStyle: 'plain',
+  acSeat: mk(0xf6f2eb, 1), acFrame: mk(0xdcc29c, 0.5), acStyle: 'wood', kidRugM: TM(patTex('grid', '#f8eee9', '#e8cfc5', 0.4), { roughness: 1 }),
+  ksC: 0xf6f4ef, bookCs: [[0.05, 0xf3b7b0], [0.33, 0xd9c8b0], [0.05, 0xf6dcb8], [0.33, 0xb9d3d6]],
+  matM: mk(0xe6d6c6, 1), bathMatM: mk(0xf3e3dc, 1), hamperM: mk(0xf8f6f2, 1), hamperLid: null,
 });
-
-// ===== v22 奶油原木 =====
-designTheme('v22', '软装方案 C · 奶油原木', `
-  <div class="room"><h3>方案思路 <span>奶油 · 原木 · 藤编 · 一点鼠尾草绿</span></h3><p>奶油色打底，家具用原木和藤编，颜色更暖、更耐脏，和现在的米色沙发、木地板最搭。东西都比较结实、好擦，适合宝宝出生后的几年。</p></div>
-  <div class="room"><h3>客厅 + 餐厅</h3><p>沙发前铺奶油色棉麻地毯，茶几换成原木双层圆茶几（下层放绘本和遥控器）。东墙放藤编门原木边柜，上方挂原木拱形镜，柜上放纸灯和干花。东南角放和纸落地灯 + 龟背竹。餐桌换成 Ø90 原木圆桌配两把藤编椅，上方挂褶皱布艺吊灯。窗帘用燕麦色亚麻 + 白纱。</p></div>
-  <div class="room"><h3>主卧 / 儿童房 / 玄关</h3><p>主卧：燕麦色床品 + 鼠尾草绿毯子，原木边几和斗柜，原木婴儿床。儿童房：藤编单人椅（哺乳椅）+ 原木矮书架 + 藤编收纳篮 + 棉麻圆地毯。玄关和洗面所：藤编洗衣篮、原木托盘、黄麻地垫。</p></div>`, {
-  bigArt: 'mountain', bigArtHue: 30,
-  rugName: '奶油棉麻地毯', rugSpec: '130 × 185cm · 奶油色棉麻平织（可水洗）· 搜「洗える ラグ 綿 130×185 アイボリー」', rugM: TM(patTex('jute', '#efe7d9', '#d8cbb5', 0.4), { roughness: 1 }),
-  ctName: '原木双层圆茶几', ctSpec: 'Ø72 × 高 40cm · 原木（橡木 / 白蜡木）· 搜「センターテーブル 丸 2段 オーク」', ctStyle: 'twotier', ctTop: mk(0xcfae82, 0.5), ctBase: mk(0xcfae82, 0.5),
+designTheme('v22', '软装方案 C · 奶油原木', `<div class="room"><h3>奶油原木 <span>宜家 / ニトリ / 无印良品</span></h3><p>原木、竹、藤编配米色布艺：IKEA 的橡木圆茶几、藤编餐椅、竹制床头柜和台灯，窗帘和床品选无印良品、ニトリ 的棉麻风。</p><p>家具都是网上搜到的实际商品，按标示尺寸摆放；点模型里的家具或下面清单里的「商品页 ↗」可以打开官网。价格和库存请以官网为准。</p></div>`, {
+  rugM: TM(patTex('jute', '#efe7d9', '#d8cbb5', 0.4), { roughness: 1 }), woodTop: mk(0xcfae82, 0.5), woodLeg: mk(0xcfae82, 0.5), ctLegs: 'four',
   cushions: [0xefe7d9, 0xa9b8a0, 0xd8c7aa], knit: true, throwC: '#e6dccb',
-  sbName: '藤编门原木边柜', sbSpec: '100 × 40 × 75cm · 原木 + 藤编门 · 搜「ラタン キャビネット 100 オーク」', sbM: mk(0xcfae82, 0.5), sbFront: 'cane', metalM: mk(0x9c7c50, 0.5),
-  tlName: '和纸台灯', tlSpec: '高约 30cm · 和纸灯罩 · 搜「和紙 テーブルランプ」', lampM: M(0xfbf6ec, { roughness: 1, emissive: 0x6b5030, emissiveIntensity: 0.3 }),
-  flowerSpec: '陶罐 + 干花（尤加利 / 棉花）', smallFlowerSpec: '小陶瓶 + 干花', vaseM: mk(0xd8cdbd, 0.8), flowerC: 0xefe7d9, flowerKind: 'dry',
-  mirror: 'arch', mirrorName: '原木拱形挂镜', mirrorSpec: '60 × 95cm · 原木框 · 搜「アーチミラー 木枠」', mirrorFrame: 0xcfae82,
-  flName: '和纸落地灯', flStyle: 'paper', flMetal: 0x9c7c50, flShade: 0xfbf6ec, flSpec: '高约 120cm · 和纸灯罩',
-  plantName: '龟背竹', plantKind: 'monstera', plantScale: 1.3, potC: 0xc9a777, plantSpec: '高约 100cm，藤编花盆套',
-  curtainSpec: '布帘 2 片 宽 100 × 高 200cm（燕麦色亚麻，2 级遮光）+ 白纱 · 尺寸请实测', sheerC: 0xfbf8f2, drapeC: 0xe2d6c2,
-  dtName: '原木圆餐桌', dtSpec: 'Ø90 × 高 72cm · 原木 · 搜「ダイニングテーブル 丸 90 無垢」', dtTop: mk(0xcfae82, 0.45), dtBase: mk(0xcfae82, 0.5), dtStyle: 'legs',
-  chName: '藤编餐椅', chSpec: '约 45 × 50 × 80cm · 原木框 + 藤编靠背 · 搜「ラタン ダイニングチェア」', chStyle: 'rattan', chSeat: TM(patTex('grid', '#dcc39a', '#9c7c50', 0.06), { roughness: 0.9 }), chFrame: mk(0xb8925e, 0.5),
-  pendant: (h, x, z, y) => pleatPendant(h, x, z, y, mk(0xefe4d0, 0.9, { side: THREE.DoubleSide })),
-  canisterSpec: '原木盖玻璃罐 3 个 + 木砧板', canM: mk(0xe9e2d6, 0.3), boardM: mk(0xcfae82, 0.6),
-  duvetC: 0xe6dccb, pillowC: 0xf3ede2, bedThrowC: 0xa9b8a0,
-  nsName: '原木边几（床头）', nsSpec: 'Ø40 × 高 50cm · 原木', nsM: mk(0xcfae82, 0.5), nsStyle: 'drum',
-  sconceSpec: '原木 + 布罩壁灯 2 盏（插头式）· 搜「ブラケットライト コンセント式 木」',
-  bedArtName: '床头装饰画', bedArt: 'botanical', bedArtHue: 0, artFrame: 0xcfae82, bedArtSpec: '80 × 55cm · 植物画',
-  bedRugName: '主卧棉麻地毯', bedRugM: TM(patTex('jute', '#efe7d9', '#d8cbb5', 0.4), { roughness: 1 }), bedRugSpec: '140 × 200cm · 奶油棉麻（可水洗）',
-  cribName: '婴儿床（原木）', cribSpec: '内寸 60 × 120cm · 原木 · 搜「ベビーベッド 木製 ナチュラル」', cribM: mk(0xd9bd94, 0.5),
-  drName: '原木三斗柜', drSpec: '85 × 42 × 82cm · 原木 · 搜「チェスト 3段 オーク 無垢」', drM: mk(0xcfae82, 0.5), drStyle: 'plain',
-  bedCurtainSpec: '布帘 2 片 宽 100 × 高 210cm（燕麦色遮光）+ 白纱 · 尺寸请实测',
-  bedPlantName: '虎尾兰', bedPlantKind: 'snake',
-  acName: '藤编单人椅（哺乳椅）', acSpec: '约 70 × 70 × 80cm · 原木框 + 藤编靠背 + 坐垫 · 搜「ラタン ラウンジチェア」', acSeat: mk(0xe6dccb, 1), acFrame: mk(0xb8925e, 0.5), acStyle: 'rattan',
-  stSpec: 'Ø32 × 高 50cm · 原木', kidRugName: '棉麻圆地毯', kidRugM: TM(patTex('jute', '#ece5d6', '#cfc4ae', 0.4), { roughness: 1 }), kidRugSpec: 'Ø120cm · 棉麻（可水洗）',
-  ksName: '原木矮书架 + 藤编篮', ksSpec: '90 × 30 × 62cm · 原木，配 2 个藤编篮', ksC: 0xd9bd94, bookCs: [[0.05, 0xa9b8a0], [0.33, 0xe6c79a], [0.05, 0xd9a68a], [0.33, 0xb9cbd6]], basketM: mk(0xc9a777, 0.9),
-  poufName: '亚麻坐墩', poufM: mk(0xd8cdb8, 1), poufSpec: 'Ø40 × 高 36cm',
-  pegSpec: '60 × 40cm · 原木洞洞板', pegM: mk(0xd9bd94, 0.6),
-  kidCurtainSpec: '布帘 2 片 宽 100 × 高 200cm + 白纱 · 尺寸请实测',
-  matM: TM(patTex('jute', '#cdb48c', '#8f7a58', 0.3), { roughness: 1 }), matSpec: '约 50 × 35cm · 黄麻', entryMirrorName: '原木细长镜', entryMirrorSpec: '35 × 120cm · 原木框', hookSpec: '原木挂钩 3 个', trayM: mk(0xcfae82, 0.5),
-  runnerM: TM(patTex('jute', '#e2d4bb', '#bda67f', 0.3), { roughness: 1 }), runnerSpec: '55 × 170cm · 棉麻长条地毯（防滑）', bathMatM: mk(0xe6dccb, 1), bathMatSpec: '约 50 × 50cm · 燕麦色速干',
-  hamperName: '藤编洗衣篮（带盖）', hamperSpec: 'Ø36 × 高 53cm · 藤编 / 水草编', hamperM: TM(patTex('grid', '#d8bf94', '#9c7c50', 0.08), { roughness: 0.9 }), hamperLid: mk(0xc9a777, 0.9),
+  sbM: mk(0xcfae82, 0.5), sbFront: 'cane', metalM: mk(0x9c7c50, 0.5), mirrorShape: 'arch', mirrorFrame: 0xcfae82,
+  art: 'mountain', artHue: 30, artFrame: 0xcfae82, plantKind: 'monstera', plantScale: 1.3, potC: 0xc9a777,
+  sheerC: 0xfbf8f2, drapeC: 0xe2d6c2,
+  dtTop: mk(0xcfae82, 0.45), dtBase: mk(0xcfae82, 0.5), dtLegs: 'four', chStyle: 'rattan', chSeat: TM(patTex('grid', '#dcc39a', '#9c7c50', 0.06), { roughness: 0.9 }), chFrame: mk(0xb8925e, 0.5),
+  pendant: pleatP(0xefe4d0), duvetC: 0xe6dccb, pillowC: 0xf3ede2, bedThrowC: 0xd8ccb6,
+  nsM: mk(0xcfae82, 0.5), lampM: M(0xfbf6ec, { roughness: 1, emissive: 0x6b5030, emissiveIntensity: 0.3 }),
+  bedRugM: TM(patTex('jute', '#efe7d9', '#d8cbb5', 0.4), { roughness: 1 }), cribM: mk(0xd9bd94, 0.5), drM: mk(0xcfae82, 0.5), drStyle: 'plain',
+  acSeat: mk(0xe6dccb, 1), acFrame: mk(0xb8925e, 0.5), acStyle: 'rattan', kidRugM: TM(patTex('jute', '#ece5d6', '#cfc4ae', 0.4), { roughness: 1 }),
+  ksC: 0xd9bd94, bookCs: [[0.05, 0xa9b8a0], [0.33, 0xe6c79a], [0.05, 0xd9a68a], [0.33, 0xb9cbd6]],
+  matM: TM(patTex('jute', '#cdb48c', '#8f7a58', 0.3), { roughness: 1 }), bathMatM: mk(0xe6dccb, 1), hamperM: TM(patTex('grid', '#d8bf94', '#9c7c50', 0.08), { roughness: 0.9 }), hamperLid: mk(0xc9a777, 0.9),
 });
 
 // ---------- room labels ----------
@@ -3159,6 +3107,7 @@ renderer.domElement.addEventListener('pointerup', e => {
   if (o) {
     const b = document.createElement('b'); b.textContent = o.userData.info.name; infoEl.appendChild(b);
     if (o.userData.info.size) { const s = document.createElement('span'); s.className = 'mono'; s.textContent = o.userData.info.size; infoEl.appendChild(s); }
+    if (o.userData.info.url) infoEl.appendChild(shopLink(o.userData.info));
   } else infoEl.textContent = HINT;
 });
 
@@ -3748,19 +3697,26 @@ btn('walk-exit').addEventListener('click', () => { mm.hidden = true; });
 document.querySelectorAll('#views button[data-view]').forEach(b => b.addEventListener('click', () => { mm.hidden = true; }));
 
 // ---------- per-version item list (in the notes drawer) ----------
+// a store product link for the info chip and the item list (opens the store page in a new tab)
+function shopLink(inf) {
+  const a = document.createElement('a'); a.href = inf.url; a.target = '_blank'; a.rel = 'noopener';
+  const where = inf.kind === 'search' ? '搜索结果' : inf.kind === 'category' ? '分类页' : inf.region && inf.region !== 'jp' ? `${inf.region.toUpperCase()} 官网` : '商品页';
+  a.className = 'shop-link'; a.textContent = `${inf.store || ''} ${where} ↗`; return a;
+}
 function refreshShopList(v) {
   const groups = v === 'v1' ? [furnG] : v === 'v2' ? [decorG, decorLoft] : THEMES.filter(t => t.id === v).flatMap(t => [t.g, t.soft]);
   const counts = new Map();
   for (const g of groups) g.traverse(o => {
     const inf = o.userData?.info; if (!inf || o === g) return;
     let p = o.parent; while (p && !groups.includes(p)) { if (p.userData?.info) return; p = p.parent; }   // top-level items only
-    const k = inf.name; const c = counts.get(k) || { n: 0, size: inf.size }; c.n++; counts.set(k, c);
+    const k = inf.name; const c = counts.get(k) || { n: 0, size: inf.size, inf }; c.n++; counts.set(k, c);
   });
   btn('shop-title').textContent = v === 'v1' ? '现有家具清单' : '这个版本新增的东西（可以照着买）';
   const tb = btn('shop-list'); tb.replaceChildren();
-  for (const [name, { n, size }] of counts) {
+  for (const [name, { n, size, inf }] of counts) {
     const tr = document.createElement('tr'), a = document.createElement('td'), b = document.createElement('td');
     a.textContent = n > 1 ? `${name} × ${n}` : name; b.className = 'num'; b.textContent = size || '';
+    if (inf.url) b.append(' ', shopLink(inf));
     tr.append(a, b); tb.appendChild(tr);
   }
 }
