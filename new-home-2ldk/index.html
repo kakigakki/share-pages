@@ -120,6 +120,9 @@ td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; 
   position: absolute; top: 56px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
   background: var(--chip); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 13px;
 }
+.toolbar2 #render-msg { flex: 1 1 220px; min-width: 0; color: var(--muted); }
+.rt-shot { position: fixed; inset: 0; z-index: 100; background: rgba(20, 20, 18, 0.82); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 16px; color: #fff; font-size: 13px; }
+.rt-shot img { max-width: 100%; max-height: 78vh; border-radius: 6px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
 .toolbar2 #tool-msg { flex: 1 1 220px; min-width: 0; color: var(--muted); }
 .lightbox {
   position: absolute; right: 12px; bottom: 56px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px 8px;
@@ -206,6 +209,7 @@ td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; 
         <button type="button" id="t-arcs" aria-pressed="false">开门范围</button>
         <button type="button" id="t-measure" aria-pressed="false">测距</button>
         <button type="button" id="t-edit" aria-pressed="false">编辑布局</button>
+        <button type="button" id="t-render" aria-pressed="false">效果图</button>
       </div>
     </div>
     <div class="walk-hud" id="walk-hud" hidden>
@@ -229,6 +233,17 @@ td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; 
       <button type="button" class="icon-btn" id="ed-reset" hidden>复位这件</button>
       <button type="button" class="icon-btn" id="ed-reset-all" hidden>本版本全部复位</button>
       <button type="button" class="icon-btn" id="ms-clear" hidden>清除测量</button>
+    </div>
+    <div class="toolbar2" id="render-bar" hidden>
+      <span id="render-msg"></span>
+      <button type="button" class="icon-btn" id="rt-save" disabled>保存图片</button>
+      <button type="button" class="icon-btn" id="rt-glb">导出给 Blender</button>
+      <button type="button" class="icon-btn" id="rt-exit">退出效果图</button>
+    </div>
+    <div class="rt-shot" id="rt-shot" hidden>
+      <img id="rt-img" alt="当前视角的效果图">
+      <p>右键「图片另存为」，手机上长按图片保存。<button type="button" class="icon-btn" id="rt-dl">下载</button></p>
+      <button type="button" class="icon-btn" id="rt-close">关闭</button>
     </div>
     <div class="lightbox">
       <label for="light-mode">光照</label>
@@ -364,7 +379,10 @@ td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; 
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+  "three/examples/jsm/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+  "three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.7.6/build/index.module.js",
+  "three-gpu-pathtracer": "https://cdn.jsdelivr.net/npm/three-gpu-pathtracer@0.0.23/build/index.module.js"
 } }
 </script>
 <script type="module">
@@ -458,12 +476,12 @@ const floorT = canvasTex(1024, 2.4, (g, n) => {
     let y = -rnd() * n * 0.6;
     while (y < n) {
       const len = n * (0.45 + rnd() * 0.35);
-      g.fillStyle = `hsl(${21 + rnd() * 6}, ${44 + rnd() * 12}%, ${38 + rnd() * 9}%)`;
+      g.fillStyle = `hsl(${21 + rnd() * 4}, ${33 + rnd() * 7}%, ${37 + rnd() * 5}%)`;   // photos: ~hsl(22, 28-44%, 28-42%)
       g.fillRect(i * pw, y, pw, len);
       g.save(); g.beginPath(); g.rect(i * pw, y, pw, len); g.clip();
       const ph = rnd() * 10;
       for (let k = 0; k < 24; k++) {
-        g.strokeStyle = `rgba(70,28,8,${0.05 + rnd() * 0.09})`;
+        g.strokeStyle = `rgba(70,28,8,${0.03 + rnd() * 0.06})`;
         g.lineWidth = 1 + rnd() * 1.6;
         g.beginPath();
         const x0 = i * pw + (k / 24) * pw;
@@ -1352,7 +1370,7 @@ function chair(parent, x0, x1, z0, z1, backSide, y = L1) {
   // existing sofa (photo): beige fabric, wide padded arms, two seat cushions and two loose back cushions
   for (const x of [0.25, 1.83]) for (const z of [8.36, 9.02]) box(s, x, x + 0.04, L1, L1 + 0.06, z, z + 0.04, M(0x2a2622));
   rb(s, 0.2, 1.9, L1 + 0.06, L1 + 0.3, 8.3, 9.1, mat.sofa, 0.05, 4);                      // base
-  rb(s, 0.2, 1.9, L1 + 0.3, L1 + 0.62, 8.3, 8.48, mat.sofa, 0.07, 4);                     // back frame
+  rb(s, 0.36, 1.74, L1 + 0.3, L1 + 0.62, 8.31, 8.48, mat.sofa, 0.07, 4);                   // back frame, ends tucked inside the arms (shared faces streak in path tracers)
   rb(s, 0.2, 0.38, L1 + 0.3, L1 + 0.64, 8.3, 9.1, mat.sofa, 0.08, 5);                     // arms
   rb(s, 1.72, 1.9, L1 + 0.3, L1 + 0.64, 8.3, 9.1, mat.sofa, 0.08, 5);
   rb(s, 0.38, 1.05, L1 + 0.3, L1 + 0.45, 8.46, 9.08, mat.sofa, 0.06, 5);                  // seat cushions
@@ -3469,6 +3487,132 @@ function collectAboveCut() {
 }
 function applyCutHide(on) { for (const o of aboveCut) o.visible = !on; }
 collectAboveCut();
+// ---------- 效果图: path-traced still of the current view (three-gpu-pathtracer, loaded on first use) ----------
+const rt = { on: false, pt: null, sky: null, max: 300, ready: false };
+const rtBar = btn('render-bar'), rtMsg = btn('render-msg');
+// hide what a renderer outside this page shouldn't see: lights under hidden parents, walk-mode proxies, helper lines;
+// returns a function that shows them again
+function hideHelpers(extra = () => false) {
+  const hid = [];
+  scene.traverse(o => {
+    if (!o.visible) return;
+    if ((o.isLight && !shownChain(o)) || (o.isMesh && o.material?.colorWrite === false) || o.isLine || o.isPoints || extra(o)) { o.visible = false; hid.push(o); }
+  });
+  return () => hid.forEach(o => { o.visible = true; });
+}
+function rtBuild() {
+  // the path tracer only skips meshes under hidden parents
+  const restore = hideHelpers();
+  const env = scene.environment;
+  scene.environment = env ? rt.sky : null;           // PMREM maps can't be path traced; use a soft daylight sky instead
+  rt.pt.setScene(scene, camera);
+  scene.environment = env;
+  restore();
+  rt.pt.pausePathTracing = false;
+  rt.ready = true;
+}
+async function enterRender() {
+  if (walk.on) exitWalk();
+  if (toolMode) setTool(toolMode);
+  rt.on = true; rt.ready = false; setPressed('t-render', true);
+  rtBar.hidden = false; labelR.domElement.hidden = true; btn('rt-save').disabled = true;
+  rtMsg.textContent = '正在载入渲染器…';
+  try {
+    if (!rt.pt) {
+      // three r160 has no background/environment rotation yet; the path tracer reads both
+      if (!new THREE.Scene().backgroundRotation) { THREE.Scene.prototype.backgroundRotation = new THREE.Euler(); THREE.Scene.prototype.environmentRotation = new THREE.Euler(); }
+      const { WebGLPathTracer, GradientEquirectTexture } = await import('three-gpu-pathtracer');
+      rt.pt = new WebGLPathTracer(renderer);
+      rt.pt.tiles.set(2, 2); rt.pt.bounces = 6; rt.pt.filterGlossyFactor = 0.5;
+      rt.pt.renderDelay = 0; rt.pt.fadeDuration = 0; rt.pt.minSamples = 1;
+      rt.sky = new GradientEquirectTexture(256); rt.sky.topColor.set(0xe3ecf7); rt.sky.bottomColor.set(0x9a9182); rt.sky.update();
+    }
+    if (!rt.on) return;
+    rtMsg.textContent = '正在整理场景（第一次会慢一点）…';
+    await new Promise(r => setTimeout(r, 50));
+    if (rt.on) rtBuild();
+  } catch (e) {
+    rtMsg.textContent = '渲染器载入失败：' + e.message; console.error(e);
+  }
+}
+function exitRender() {
+  if (!rt.on) return;
+  rt.on = false; rt.ready = false; setPressed('t-render', false);
+  rtBar.hidden = true; labelR.domElement.hidden = !state.labels;
+}
+function rtFrame() {
+  if (!rt.ready) { renderer.render(scene, camera); return; }
+  const done = rt.pt.samples >= rt.max;
+  rt.pt.pausePathTracing = done;
+  rt.pt.renderSample();
+  btn('rt-save').disabled = rt.pt.samples < 20;
+  rtMsg.textContent = done ? `完成（${rt.max} 次采样）。拖动视角会重新渲染，换版本、灯光后也会自动重算。`
+    : `渲染中… ${Math.floor(rt.pt.samples)} / ${rt.max} 次采样（越多越干净，可以随时保存）`;
+}
+controls.addEventListener('change', () => { if (rt.ready) rt.pt.updateCamera(); });
+btn('t-render').addEventListener('click', () => rt.on ? exitRender() : enterRender());
+btn('rt-exit').addEventListener('click', exitRender);
+btn('rt-save').addEventListener('click', () => {
+  rt.pt.renderSample();
+  const url = renderer.domElement.toDataURL('image/png');
+  btn('rt-img').src = url;
+  btn('rt-shot').hidden = false;
+});
+btn('rt-close').addEventListener('click', () => { btn('rt-shot').hidden = true; });
+btn('rt-dl').addEventListener('click', () => {      // the canvas buffer is cleared between frames, so save the captured image
+  const bin = atob(btn('rt-img').src.split(',')[1]), bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  offerFile(`新家效果图-${currentVersion}.png`, new Blob([bytes], { type: 'image/png' })).catch(() => {});
+});
+// GLB for new-home-2ldk/blender/render_home.py: the visible scene, the current view as camera 'RenderCam',
+// and a 'RenderInfo' node whose extras carry the sun direction and the light mode
+async function exportGLB() {
+  const { GLTFExporter } = await import('three/addons/exporters/GLTFExporter.js');
+  const restore = hideHelpers(o => o.isDirectionalLight || o.isHemisphereLight || o.isCSS2DObject);
+  const cam = camera.clone(); cam.name = 'RenderCam'; scene.add(cam);
+  const info = new THREE.Object3D(); info.name = 'RenderInfo';
+  const sd = sun.position.clone().sub(sun.target.position).normalize();
+  info.userData = { mode: btn('light-mode').value, sunOn: sun.intensity > 0.05, sunDir: [sd.x, sd.y, sd.z], sunIntensity: sun.intensity, version: currentVersion, fov: camera.fov, aspect: camera.aspect };
+  scene.add(info);
+  try {
+    return await new Promise((ok, fail) => new GLTFExporter().parse(scene, ok, fail, { binary: true, onlyVisible: true, maxTextureSize: 1024 }));
+  } finally { scene.remove(cam, info); restore(); }
+}
+// a single-file zip (stored, no compression): inside claude.ai files go out through the downloads capability, which takes .zip but not .glb
+function zipOne(name, bytes) {
+  const crcT = zipOne.t ||= Array.from({ length: 256 }, (_, n) => { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; return c >>> 0; });
+  let crc = 0xffffffff; for (let i = 0; i < bytes.length; i++) crc = crcT[(crc ^ bytes[i]) & 255] ^ (crc >>> 8); crc = (crc ^ 0xffffffff) >>> 0;
+  const fn = new TextEncoder().encode(name), size = bytes.length;
+  const head = (sig, extra) => { const b = new DataView(new ArrayBuffer(extra)); b.setUint32(0, sig, true); return b; };
+  const loc = head(0x04034b50, 30); loc.setUint16(4, 20, true); loc.setUint32(14, crc, true); loc.setUint32(18, size, true); loc.setUint32(22, size, true); loc.setUint16(26, fn.length, true);
+  const cen = head(0x02014b50, 46); cen.setUint16(4, 20, true); cen.setUint16(6, 20, true); cen.setUint32(16, crc, true); cen.setUint32(20, size, true); cen.setUint32(24, size, true); cen.setUint16(28, fn.length, true);
+  const end = head(0x06054b50, 22); end.setUint16(8, 1, true); end.setUint16(10, 1, true); end.setUint32(12, 46 + fn.length, true); end.setUint32(16, 30 + fn.length + size, true);
+  return new Blob([loc, fn, bytes, cen, fn, end], { type: 'application/zip' });
+}
+// hand a file to the viewer: the downloads capability inside claude.ai, a plain download link anywhere else
+async function offerFile(filename, blob) {
+  const dl = await window.claude?.use?.('downloads');
+  if (dl) return dl.save({ filename, data: blob });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+btn('rt-glb').addEventListener('click', async () => {
+  const b = btn('rt-glb'); b.disabled = true; const old = b.textContent; b.textContent = '导出中…';
+  try {
+    const glb = new Uint8Array(await exportGLB()), name = `home-${currentVersion}`;
+    if (window.claude?.use) await offerFile(name + '.zip', zipOne(name + '.glb', glb));
+    else await offerFile(name + '.glb', new Blob([glb], { type: 'model/gltf-binary' }));
+  } catch (e) { if (e?.code !== 'declined') rtMsg.textContent = '导出失败：' + (e.message || e.code); }
+  b.disabled = false; b.textContent = old;
+});
+// any other control changes the scene (version, lights, toggles): rebuild once its own handler has run
+for (const type of ['click', 'change', 'input']) document.addEventListener(type, e => {
+  if (!rt.on || !e.target.closest) return;
+  if (e.target.closest('#render-bar, #t-render, #rt-shot')) return;
+  if (e.target.closest('#v-walk')) { exitRender(); return; }
+  if (e.target.closest('button, select, input')) setTimeout(() => { if (rt.on && rt.pt) rtBuild(); }, 60);
+});
+
 applyCutHide(state.cut);
 fly('top', true);
 const clock = new THREE.Clock();
@@ -3477,6 +3621,7 @@ renderer.setAnimationLoop(() => {
   const dt = clock.getDelta();
   updateDoors(dt);
   if (walk.on) {
+    exitRender();
     walkUpdate(dt);
     walkDoors();
     drawMinimap();
@@ -3491,6 +3636,7 @@ renderer.setAnimationLoop(() => {
     if (tween.t >= 1) tween = null;
   }
   controls.update();
+  if (rt.on) { rtFrame(); return; }
   if (useAO) composer.render(); else renderer.render(scene, camera);
   syncLabels();
   labelR.render(scene, camera);
