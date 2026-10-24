@@ -2650,6 +2650,375 @@ theme('v19', '亲子 × 日式混搭（样板间 16）', `
   rb(item(g, '坐垫', ''), 4.7, 5.1, L1 + 0.014, L1 + 0.07, 9.8, 10.2, mk(0xa9b8a0, 1), 0.03, 4);
 });
 
+// ===== 软装设计方案 (v20+): full proposals for buying, built around the kept sofa, TV stand, bed and PC desk =====
+// Each scheme hides the v1 pieces it replaces (REPLACED[id]) and adds everything else as purchasable items;
+// the item size text is the shopping spec (size · material/colour · a search keyword for Japanese shops).
+const REPLACED = {};
+const DESIGN_SWAPS = ['矮桌（现有）', '餐桌（建议）', '餐椅', '窗帘', '床头柜（可选，新买）', '木柜子 + 台灯（现有）', '婴儿床', '去阳台的通道'];
+const glowM = c => M(0xffffff, { emissive: c ?? 0xffe2b8, emissiveIntensity: 1.1 });
+function pleatPanel(parent, x0, x1, y0, y1, z, m, amp, folds) {        // a pleated curtain panel facing ±z
+  const g = new THREE.PlaneGeometry(x1 - x0, y1 - y0, Math.max(8, folds * 8), 1), p = g.attributes.position;
+  for (let i = 0; i < p.count; i++) p.setZ(i, Math.sin((p.getX(i) / (x1 - x0)) * folds * Math.PI * 2) * amp);
+  g.computeVertexNormals();
+  const ms = new THREE.Mesh(g, m); ms.position.set((x0 + x1) / 2, (y0 + y1) / 2, z); ms.castShadow = !m.transparent; ms.receiveShadow = true; parent.add(ms);
+}
+function curtains(g, name, note, x0, x1, zWall, dir, yTop, yBot, sheerC, drapeC, rodC) {
+  const it = item(g, name, note);
+  const sheer = new THREE.MeshStandardMaterial({ color: sheerC, roughness: 1, transparent: true, opacity: 0.55, side: THREE.DoubleSide, depthWrite: false });
+  const drape = new THREE.MeshStandardMaterial({ color: drapeC, roughness: 1, side: THREE.DoubleSide });
+  const zs = zWall + dir * 0.06, zd = zWall + dir * 0.12;
+  pleatPanel(it, x0, x1, yBot + 0.02, yTop, zs, sheer, 0.012, Math.round((x1 - x0) / 0.1));
+  pleatPanel(it, x0 - 0.2, x0 + 0.18, yBot, yTop, zd, drape, 0.03, 4);
+  pleatPanel(it, x1 - 0.18, x1 + 0.2, yBot, yTop, zd, drape, 0.03, 4);
+  const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, x1 - x0 + 0.5, 12), rodC); rod.rotation.z = Math.PI / 2; rod.position.set((x0 + x1) / 2, yTop + 0.03, zd); it.add(rod);
+  for (const x of [x0 - 0.25, x1 + 0.25]) { const f = new THREE.Mesh(new THREE.SphereGeometry(0.022, 12, 10), rodC); f.position.set(x, yTop + 0.03, zd); it.add(f); }
+  return it;
+}
+function coffeeTable(g, name, note, style, x, z, y, m1, m2) {
+  const it = item(g, name, note);
+  if (style === 'pedestal') {            // round stone-look top on a fat drum
+    cyl(it, x, y, y + 0.36, z, 0.17, m2, 0.15);
+    cyl(it, x, y + 0.36, y + 0.4, z, 0.35, m1);
+  } else if (style === 'oval') {         // light oak oval on four round legs
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.035, 48), m1); top.scale.z = 0.62; top.position.set(x, y + 0.38, z); top.castShadow = true; it.add(top);
+    for (const [dx, dz] of [[-0.25, -0.12], [0.25, -0.12], [-0.25, 0.12], [0.25, 0.12]]) cyl(it, x + dx, y, y + 0.365, z + dz, 0.022, m2, 0.025);
+  } else {                               // two-tier round oak table
+    cyl(it, x, y + 0.36, y + 0.4, z, 0.36, m1);
+    cyl(it, x, y + 0.1, y + 0.13, z, 0.32, m1);
+    for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2 + Math.PI / 4; cyl(it, x + Math.cos(a) * 0.27, y, y + 0.36, z + Math.sin(a) * 0.27, 0.022, m2); }
+  }
+  return it;
+}
+function roundDining(g, name, note, x, z, r, topM, baseM, style) {
+  const it = item(g, name, note), y = L1;
+  cyl(it, x, y + 0.7, y + 0.73, z, r, topM);
+  if (style === 'tulip') { cyl(it, x, y, y + 0.04, z, 0.25, baseM, 0.27); cyl(it, x, y + 0.04, y + 0.7, z, 0.06, baseM, 0.1); }
+  else for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2 + Math.PI / 4; rod(it, V3(x + Math.cos(a) * r * 0.62, y, z + Math.sin(a) * r * 0.62), V3(x + Math.cos(a) * r * 0.5, y + 0.7, z + Math.sin(a) * r * 0.5), 0.022, baseM); }
+  return it;
+}
+// dining / accent chair facing +z (south) at seat centre (x, z); style 'boucle' | 'wishbone' | 'rattan'
+function chairS(g, name, note, style, x, z, y, seatM, frameM, face = 0) {
+  const it = item(g, name, note);
+  const c = new THREE.Group(); c.position.set(x, y, z); c.rotation.y = face; it.add(c);
+  const add = (geo, m, px, py, pz, rx = 0, ry = 0, rz = 0) => { const o = new THREE.Mesh(geo, m); o.position.set(px, py, pz); o.rotation.set(rx, ry, rz); o.castShadow = true; o.receiveShadow = true; c.add(o); return o; };
+  if (style === 'boucle') {
+    for (const [dx, dz] of [[-0.16, -0.16], [0.16, -0.16], [-0.16, 0.16], [0.16, 0.16]]) add(new THREE.CylinderGeometry(0.018, 0.012, 0.36, 10), frameM, dx, 0.18, dz);
+    add(new THREE.CylinderGeometry(0.23, 0.23, 0.1, 32), seatM, 0, 0.41, 0);
+    add(new THREE.TorusGeometry(0.2, 0.06, 12, 32, Math.PI), seatM, 0, 0.5, 0, -Math.PI / 2);   // backrest arc on the -z (back) side
+  } else if (style === 'wishbone') {
+    for (const [dx, dz] of [[-0.19, -0.17], [0.19, -0.17], [-0.19, 0.17], [0.19, 0.17]]) add(new THREE.CylinderGeometry(0.016, 0.016, 0.44, 10), frameM, dx, 0.22, dz);
+    add(new THREE.BoxGeometry(0.42, 0.04, 0.4), seatM, 0, 0.45, 0);
+    add(new THREE.TorusGeometry(0.21, 0.02, 8, 32, Math.PI), frameM, 0, 0.68, 0, -Math.PI / 2);
+    add(new THREE.BoxGeometry(0.03, 0.22, 0.02), frameM, 0, 0.58, -0.2);
+  } else {
+    for (const [dx, dz] of [[-0.18, -0.17], [0.18, -0.17], [-0.18, 0.17], [0.18, 0.17]]) add(new THREE.CylinderGeometry(0.016, 0.016, 0.44, 10), frameM, dx, 0.22, dz);
+    add(new THREE.BoxGeometry(0.42, 0.05, 0.4), seatM, 0, 0.46, 0);
+    add(new THREE.BoxGeometry(0.4, 0.32, 0.025), seatM, 0, 0.66, -0.2, -0.12);
+    add(new THREE.BoxGeometry(0.44, 0.025, 0.04), frameM, 0, 0.83, -0.22);
+  }
+  return it;
+}
+// low cabinet against the LDK east wall (x 2.84), front facing -x
+function sideboard(g, name, note, z0, z1, h, depth, bodyM, frontStyle, accentM) {
+  const it = item(g, name, note), x1 = 2.84, x0 = x1 - depth;
+  rb(it, x0, x1, L1 + 0.1, L1 + h, z0, z1, bodyM, 0.01);
+  for (const z of [z0 + 0.05, z1 - 0.07]) for (const x of [x0 + 0.04, x1 - 0.06]) cyl(it, x + 0.01, L1, L1 + 0.1, z + 0.01, 0.014, accentM, 0.018);
+  if (frontStyle === 'fluted') for (let z = z0 + 0.04; z < z1 - 0.03; z += 0.03) cyl(it, x0 - 0.004, L1 + 0.14, L1 + h - 0.04, z, 0.011, bodyM);
+  else if (frontStyle === 'cane') { const cane = TM(patTex('grid', '#dcc39a', '#9c7c50', 0.06), { roughness: 0.9 }); for (const [a, b] of [[z0 + 0.03, (z0 + z1) / 2 - 0.01], [(z0 + z1) / 2 + 0.01, z1 - 0.03]]) box(it, x0 - 0.006, x0, L1 + 0.15, L1 + h - 0.05, a, b, cane); }
+  for (const z of [(z0 + z1) / 2 - 0.05, (z0 + z1) / 2 + 0.05]) { const k = new THREE.Mesh(new THREE.SphereGeometry(0.014, 10, 8), accentM); k.position.set(x0 - 0.02, L1 + h / 2 + 0.05, z); it.add(k); }
+  return { it, top: L1 + h, xm: (x0 + x1) / 2 };
+}
+function mushroomLamp(g, name, note, x, y, z, shadeM, s = 1) {
+  const it = item(g, name, note);
+  cyl(it, x, y, y + 0.015, z, 0.07 * s, shadeM);
+  cyl(it, x, y, y + 0.24 * s, z, 0.022 * s, shadeM, 0.03 * s);
+  const sh = new THREE.Mesh(new THREE.SphereGeometry(0.13 * s, 28, 12, 0, Math.PI * 2, 0, Math.PI / 2), shadeM); sh.position.set(x, y + 0.24 * s, z); sh.castShadow = true; it.add(sh);
+  const b = new THREE.Mesh(new THREE.SphereGeometry(0.035 * s, 12, 10), glowM()); b.position.set(x, y + 0.235 * s, z); it.add(b);
+  return it;
+}
+function pleatPendant(hang, x, z, yb, m) {
+  cyl(hang, x, yb + 0.12, TOPS, z, 0.004, mk(0x222222));
+  const geo = new THREE.CylinderGeometry(0.09, 0.24, 0.26, 40, 1, true), p = geo.attributes.position;
+  for (let i = 0; i < p.count; i++) { const a = Math.atan2(p.getZ(i), p.getX(i)), k = 1 + 0.035 * Math.cos(a * 20); p.setX(i, p.getX(i) * k); p.setZ(i, p.getZ(i) * k); }
+  geo.computeVertexNormals();
+  const s = new THREE.Mesh(geo, m); s.position.set(x, yb, z); hang.add(s);
+  const b = new THREE.Mesh(new THREE.SphereGeometry(0.045, 12, 10), glowM()); b.position.set(x, yb - 0.03, z); hang.add(b);
+}
+function wallSconce(g, name, note, wall, c, y, m) {          // wall = { x, dir } (wall facing ±x)
+  const it = item(g, name, note), xf = wall.x + wall.dir * 0.1;
+  box(it, Math.min(wall.x, wall.x + wall.dir * 0.015), Math.max(wall.x, wall.x + wall.dir * 0.015), y - 0.06, y + 0.06, c - 0.04, c + 0.04, m);
+  rod(it, V3(wall.x + wall.dir * 0.01, y, c), V3(xf, y + 0.05, c), 0.008, m);
+  const sh = new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 12), glowM(0xffd9a0)); sh.position.set(xf, y + 0.08, c); it.add(sh);
+  return it;
+}
+function vaseFlowers(g, name, note, x, y, z, vaseM, headC, kind = 'tulip', n = 7) {
+  const it = item(g, name, note);
+  cyl(it, x, y, y + 0.2, z, 0.055, vaseM, 0.04);
+  const stem = mk(0x5d7a45, 0.7);
+  for (let i = 0; i < n; i++) {
+    const a = i / n * Math.PI * 2, tip = V3(x + Math.cos(a) * 0.08, y + 0.36 + (i % 3) * 0.04, z + Math.sin(a) * 0.08);
+    rod(it, V3(x, y + 0.15, z), tip, 0.003, stem);
+    const h = new THREE.Mesh(new THREE.SphereGeometry(kind === 'tulip' ? 0.025 : 0.035, 12, 10), mk(headC, 0.7)); h.scale.y = kind === 'tulip' ? 1.4 : 0.8; h.position.copy(tip); it.add(h);
+  }
+  return it;
+}
+function wavyMirror(g, name, note, wall, c, y0, w, h, frameC) {   // irregular wavy outline, on a wall facing -x
+  const it = item(g, name, note), s = new THREE.Shape();
+  for (let i = 0; i <= 64; i++) { const a = i / 64 * Math.PI * 2, k = 1 + 0.06 * Math.sin(a * 5) + 0.03 * Math.sin(a * 3 + 1); const px = Math.cos(a) * w / 2 * k, py = h / 2 + Math.sin(a) * h / 2 * k; i ? s.lineTo(px, py) : s.moveTo(px, py); }
+  const grp = new THREE.Group(); grp.position.set(wall.x - 0.02, y0, c); grp.rotation.y = -Math.PI / 2; it.add(grp);
+  if (frameC != null) { const back = new THREE.Mesh(new THREE.ShapeGeometry(s, 32), mk(frameC, 0.6)); back.scale.set(1.06, 1.04, 1); back.position.set(0, -h * 0.02, -0.005); grp.add(back); }
+  grp.add(new THREE.Mesh(new THREE.ShapeGeometry(s, 32), mat.mirror));
+  return it;
+}
+function armchair(g, name, note, x, z, face, seatM, frameM, style) {   // lounge / nursing chair, seat centre (x, z), face = rotY (0 faces +z)
+  const it = item(g, name, note);
+  const c = new THREE.Group(); c.position.set(x, L1, z); c.rotation.y = face; it.add(c);
+  const R = (parent, x0, x1, y0, y1, z0, z1, m, r) => rb(parent, x0, x1, y0, y1, z0, z1, m, r, 4);
+  if (style === 'boucle') {
+    R(c, -0.38, 0.38, 0.08, 0.42, -0.36, 0.36, seatM, 0.1);
+    R(c, -0.38, 0.38, 0.42, 0.85, -0.38, -0.18, seatM, 0.1);
+    for (const sx of [-1, 1]) R(c, sx > 0 ? 0.2 : -0.38, sx > 0 ? 0.38 : -0.2, 0.42, 0.62, -0.36, 0.34, seatM, 0.08);
+    for (const [dx, dz] of [[-0.3, -0.28], [0.3, -0.28], [-0.3, 0.28], [0.3, 0.28]]) cyl(c, dx, 0, 0.08, dz, 0.02, frameM);
+  } else {                                // wooden / rattan frame with loose cushions
+    for (const [dx, dz] of [[-0.33, -0.3], [0.33, -0.3], [-0.33, 0.3], [0.33, 0.3]]) cyl(c, dx, 0, 0.6, dz, 0.022, frameM);
+    for (const sx of [-0.33, 0.33]) box(c, sx - 0.03, sx + 0.03, 0.58, 0.62, -0.33, 0.34, frameM);
+    box(c, -0.33, 0.33, 0.28, 0.31, -0.3, 0.3, frameM);
+    if (style === 'rattan') box(c, -0.31, 0.31, 0.32, 0.88, -0.33, -0.3, TM(patTex('grid', '#dcc39a', '#9c7c50', 0.06), { roughness: 0.9 }));
+    else box(c, -0.31, 0.31, 0.6, 0.88, -0.33, -0.3, frameM);
+    R(c, -0.3, 0.3, 0.31, 0.43, -0.28, 0.3, seatM, 0.05);
+    const back = R(c, -0.29, 0.29, 0.43, 0.8, -0.3, -0.16, seatM, 0.06); back.rotation.x = -0.12;
+  }
+  return it;
+}
+function crib(g, name, note, woodM, mattM) {
+  const it = item(g, name, note), [x0, x1, z0, z1] = [4.3, 5.56, 2.58, 3.36];
+  const proxy = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0, 0.95, z1 - z0), new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false }));
+  proxy.position.set((x0 + x1) / 2, 0.475, (z0 + z1) / 2); it.add(proxy);
+  box(it, x0 + 0.04, x1 - 0.04, 0.3, 0.42, z0 + 0.04, z1 - 0.04, mattM);
+  for (const x of [x0, x1 - 0.045]) for (const z of [z0, z1 - 0.045]) box(it, x, x + 0.045, 0, 0.92, z, z + 0.045, woodM);
+  for (const z of [z0, z1 - 0.03]) { box(it, x0, x1, 0.87, 0.92, z, z + 0.03, woodM); box(it, x0, x1, 0.26, 0.3, z, z + 0.03, woodM); for (let x = x0 + 0.1; x < x1 - 0.06; x += 0.085) box(it, x, x + 0.022, 0.3, 0.87, z + 0.004, z + 0.026, woodM); }
+  for (const x of [x0, x1 - 0.03]) { box(it, x, x + 0.03, 0.26, 0.92, z0, z1, woodM); }
+  return it;
+}
+function dresser(g, name, note, bodyM, knobM, style) {             // replaces the wood cabinet in the master's SW corner
+  const it = item(g, name, note), [x0, x1, z0, z1] = [3.0, 3.85, 3.42, 3.84];
+  rb(it, x0, x1, 0.08, 0.82, z0, z1, bodyM, 0.012);
+  for (const x of [x0 + 0.05, x1 - 0.07]) cyl(it, x + 0.01, 0, 0.08, z0 + 0.06, 0.015, knobM, 0.02);
+  for (let k = 0; k < 3; k++) {
+    const y = 0.14 + k * 0.23;
+    if (style === 'fluted') for (let x = x0 + 0.03; x < x1 - 0.02; x += 0.028) cyl(it, x, y, y + 0.2, z0 - 0.004, 0.01, bodyM);
+    else box(it, x0 + 0.02, x1 - 0.02, y + 0.2, y + 0.205, z0 - 0.003, z0, mk(0x000000, 0.9, { transparent: true, opacity: 0.12 }));
+    for (const x of [x0 + 0.22, x1 - 0.22]) { const kn = new THREE.Mesh(new THREE.SphereGeometry(0.016, 10, 8), knobM); kn.position.set(x, y + 0.1, z0 - 0.018); it.add(kn); }
+  }
+  return it;
+}
+function tallMirror(g, name, note, wallX, dir, zc, y0, w, h, frameC) {   // narrow wall mirror on a wall facing ±x
+  const it = item(g, name, note), x1 = wallX + dir * 0.02;
+  if (frameC != null) box(it, Math.min(wallX, x1), Math.max(wallX, x1), y0, y0 + h, zc - w / 2, zc + w / 2, mk(frameC, 0.4, { metalness: 0.5 }));
+  const gl = new THREE.Mesh(new THREE.PlaneGeometry(w - 0.03, h - 0.03), mat.mirror); gl.rotation.y = dir > 0 ? Math.PI / 2 : -Math.PI / 2; gl.position.set(x1 + dir * 0.002, y0 + h / 2, zc); it.add(gl);
+  return it;
+}
+function hooksRow(g, name, note, wallX, dir, z0, z1, y, m) {
+  const it = item(g, name, note);
+  for (let z = z0; z <= z1 + 1e-6; z += (z1 - z0) / 2) { const k = new THREE.Mesh(new THREE.SphereGeometry(0.02, 12, 10), m); k.position.set(wallX + dir * 0.03, y, z); it.add(k); rod(it, V3(wallX, y, z), V3(wallX + dir * 0.03, y, z), 0.006, m); }
+  return it;
+}
+function hamper(g, name, note, x, z, y, m, lidM) {
+  const it = item(g, name, note);
+  cyl(it, x, y, y + 0.5, z, 0.17, m, 0.18);
+  if (lidM) cyl(it, x, y + 0.5, y + 0.53, z, 0.185, lidM);
+  return it;
+}
+// the room-by-room layout shared by all three schemes; P holds each scheme's palette and piece styles
+function designScheme(g, hang, P) {
+  // --- LDK: living ---
+  rugRect(g, P.rugName, 0.22, 2.05, 9.15, 10.45, L1, P.rugM).userData.info.size = P.rugSpec;
+  coffeeTable(g, P.ctName, P.ctSpec, P.ctStyle, 1.05, 9.78, L1 + 0.014, P.ctTop, P.ctBase);
+  sofaCushions(g, P.cushions, P.knit);
+  throwOnArm(g, P.throwC, P.knit);
+  const sb = sideboard(g, P.sbName, P.sbSpec, 8.4, 9.4, 0.75, 0.4, P.sbM, P.sbFront, P.metalM);
+  mushroomLamp(g, P.tlName, P.tlSpec, sb.xm, sb.top, 8.6, P.lampM);
+  vaseFlowers(g, '花瓶 + 花', P.flowerSpec, sb.xm, sb.top, 9.2, P.vaseM, P.flowerC, P.flowerKind);
+  if (P.mirror === 'arch') archMirror(g, P.mirrorName, 2.84, 8.9, sb.top + 0.25, 0.6, 0.95, P.mirrorFrame).userData.info.size = P.mirrorSpec;
+  else wavyMirror(g, P.mirrorName, P.mirrorSpec, { x: 2.84 }, 8.9, sb.top + 0.25, 0.6, 0.85, P.mirrorFrame);
+  floorLamp(g, P.flName, P.flStyle, 2.45, 10.0, L1, { tx: 1.2, tz: 9.8, metal: P.flMetal, shade: P.flShade }).userData.info.size = P.flSpec;
+  plant(g, P.plantName, P.plantKind, 2.5, L1, 10.7, P.plantScale, P.potC, P.plantSpec);
+  curtains(g, '客厅窗帘（布帘 + 纱帘）', P.curtainSpec, 0.9, 2.64, 11.02, -1, L1 + 2.12, L1 + 0.02, P.sheerC, P.drapeC, P.metalM);
+  frameOn(g, '沙发侧大幅装饰画', { x: 0.18, dir: 1 }, 8.75, L1 + 1.1, 1.0, 0.7, P.bigArt, P.bigArtHue, P.artFrame).userData.info.size = '约 100 × 70cm · 挂在沙发西侧的墙上，画框下沿离沙发扶手约 45cm';
+  for (const [z, k] of [[6.95, 0], [7.5, 30]]) frameOn(g, '餐桌旁小画', { x: 0.18, dir: 1 }, z, L1 + 1.25, 0.4, 0.5, P.bedArt, P.bedArtHue + k, P.artFrame).userData.info.size = '约 40 × 50cm × 2 幅';
+  // --- LDK: dining + kitchen ---
+  roundDining(g, P.dtName, P.dtSpec, 0.95, 7.25, 0.45, P.dtTop, P.dtBase, P.dtStyle);
+  for (const x of [0.62, 1.28]) chairS(g, P.chName, P.chSpec, P.chStyle, x, 6.62, L1, P.chSeat, P.chFrame, 0);
+  P.pendant(hang, 0.95, 7.25, L1 + 1.62);
+  vaseFlowers(g, '餐桌小花', P.smallFlowerSpec, 0.95, L1 + 0.73, 7.25, P.vaseM, P.flowerC, P.flowerKind, 5);
+  { const cn = item(g, '吧台收纳罐 + 砧板', P.canisterSpec); for (const [x, h] of [[1.3, 0.16], [1.42, 0.12], [1.52, 0.09]]) cyl(cn, x, L1 + 1.18, L1 + 1.18 + h, 6.1, 0.04, P.canM); rb(cn, 1.6, 1.84, L1 + 1.18, L1 + 1.2, 6.06, 6.14, P.boardM, 0.005); }
+  // --- master ---
+  bedding(g, P.duvetC, P.pillowC, P.bedThrowC);
+  { const ns = item(g, P.nsName, P.nsSpec); cyl(ns, 5.44, 0, 0.5, 0.89, 0.19, P.nsM, P.nsStyle === 'pedestal' ? 0.16 : 0.19); }
+  mushroomLamp(g, P.tlName + '（床头）', P.tlSpec, 5.44, 0.5, 0.89, P.lampM, 0.85);
+  for (const z of [0.95, 2.75]) wallSconce(g, '床头壁灯', P.sconceSpec, { x: 5.65, dir: -1 }, z, 1.3, P.metalM);
+  frameOn(g, P.bedArtName, { x: 5.65, dir: -1 }, 1.85, 1.0, 0.8, 0.55, P.bedArt, P.bedArtHue, P.artFrame).userData.info.size = P.bedArtSpec;
+  rugRect(g, P.bedRugName, 3.2, 4.6, 0.85, 2.85, 0, P.bedRugM).userData.info.size = P.bedRugSpec;
+  crib(g, P.cribName, P.cribSpec, P.cribM, mk(0xfaf8f4, 1));
+  dresser(g, P.drName, P.drSpec, P.drM, P.metalM, P.drStyle);
+  vaseFlowers(g, '斗柜上的花瓶', P.smallFlowerSpec, 3.65, 0.82, 3.63, P.vaseM, P.flowerC, P.flowerKind, 5);
+  frameOn(g, '斗柜上方装饰画', { z: 3.84, dir: -1 }, 3.42, 1.15, 0.45, 0.6, P.bedArt, P.bedArtHue + 20, P.artFrame).userData.info.size = '约 45 × 60cm';
+  curtains(g, '主卧窗帘', P.bedCurtainSpec, 4.15, 4.95, 0.16, 1, 2.1, 0.02, P.sheerC, P.drapeC, P.metalM);
+  plant(g, P.bedPlantName, P.bedPlantKind, 3.3, 0, 0.45, 1.0, P.potC, '放窗边');
+  // --- kids room + PC corner ---
+  armchair(g, P.acName, P.acSpec, 5.2, 8.62, -Math.PI / 2, P.acSeat, P.acFrame, P.acStyle);
+  { const st = item(g, '边几', P.stSpec); cyl(st, 5.36, L1, L1 + 0.5, 9.22, 0.16, P.nsM, P.nsStyle === 'pedestal' ? 0.13 : 0.16); }
+  floorLamp(g, P.flName + '（儿童房）', P.flStyle === 'arc' ? 'tripod' : P.flStyle, 4.7, 8.1, L1, { metal: P.flMetal, shade: P.flShade }).userData.info.size = P.flSpec;
+  rugRound(g, P.kidRugName, 4.4, 9.95, 0.6, L1, P.kidRugM).userData.info.size = P.kidRugSpec;
+  lowShelfX(g, P.ksName, 5.35, 5.65, 9.45, 10.35, 0.62, P.ksC, { levels: [0.02, 0.3, 0.6], items: it => {
+    P.bookCs.forEach(([y, c], i) => box(it, 5.37, 5.39, L1 + y, L1 + y + 0.24, 9.55 + (i % 2) * 0.4, 9.85 + (i % 2) * 0.4, mk(c, 0.7)));
+    for (const z of [9.68, 10.12]) rb(it, 5.4, 5.62, L1 + 0.32, L1 + 0.52, z - 0.16, z + 0.16, P.basketM, 0.02);
+  } }).userData.info.size = P.ksSpec;
+  pouf(g, P.poufName, 4.6, 10.25, L1, 0.2, P.poufM).userData.info.size = P.poufSpec;
+  { const pb = item(g, '洞洞板（电脑桌上方）', P.pegSpec); box(pb, 2.96, 2.98, L1 + 1.4, L1 + 1.8, 9.3, 9.9, P.pegM);
+    for (let y = 1.45; y < 1.78; y += 0.05) for (let z = 9.34; z < 9.88; z += 0.05) box(pb, 2.979, 2.981, L1 + y, L1 + y + 0.008, z, z + 0.008, mk(0x8a8a86)); }
+  mushroomLamp(g, '桌面台灯', P.tlSpec, 3.12, L1 + 0.7, 10.0, P.lampM, 0.8);
+  curtains(g, '儿童房窗帘', P.kidCurtainSpec, 3.9, 5.5, 10.57, -1, L1 + 2.12, L1 + 0.02, P.sheerC, P.drapeC, P.metalM);
+  frameOn(g, '儿童房装饰画', { x: 5.65, dir: -1 }, 9.9, L1 + 1.05, 0.5, 0.4, 'kids', 0, P.artFrame).userData.info.size = '约 50 × 40cm，挂在矮书架上方';
+  // --- entrance, hall, washroom ---
+  rugRect(g, '玄关地垫', 0.25, 0.6, 0.3, 0.8, GND, P.matM).userData.info.size = P.matSpec;
+  tallMirror(g, P.entryMirrorName, P.entryMirrorSpec, 0.18, 1, 0.47, GND + 0.5, 0.35, 1.2, P.mirrorFrame);
+  hooksRow(g, '玄关挂钩（3 个）', P.hookSpec, 0.18, 1, 0.72, 0.86, GND + 1.6, P.metalM);
+  tray(g, 0.81, 0.45, GND + 0.9, P.trayM, [['vase', -0.06, 0.04], ['candle', 0.07, -0.03]]);
+  rugRect(g, '走廊地毯（长条）', 1.2, 1.75, 0.75, 2.45, 0, P.runnerM).userData.info.size = P.runnerSpec;
+  mushroomLamp(g, '走廊柜上的小台灯', P.tlSpec, 1.3, 0.85, 0.36, P.lampM, 0.7);
+  frameOn(g, '走廊装饰画', { x: 1.88, dir: -1 }, 1.0, 1.15, 0.4, 0.5, P.bedArt, P.bedArtHue + 40, P.artFrame).userData.info.size = '约 40 × 50cm';
+  rugRect(g, '浴室门口脚垫', 3.3, 3.8, 5.05, 5.55, L1, P.bathMatM).userData.info.size = P.bathMatSpec;
+  hamper(g, P.hamperName, P.hamperSpec, 3.6, 5.95, L1, P.hamperM, P.hamperLid);
+}
+function designTheme(id, name, notes, P) {
+  REPLACED[id] = DESIGN_SWAPS;
+  theme(id, name, notes, (g, hang) => designScheme(g, hang, P));
+}
+
+const boucleT = (c1, c2) => TM(patTex('boucle', c1, c2, 0.3), { roughness: 1 });
+const brass = mk(0xc9a465, 0.3, { metalness: 0.8 });
+
+// ===== v20 奶油法式 =====
+designTheme('v20', '软装方案 A · 奶油法式', `
+  <div class="room"><h3>方案思路 <span>奶油白 · 焦糖 · 黄铜 · 圆弧</span></h3><p>保留现有的米色沙发、电视柜、床和电脑桌椅，其余按奶油法式重新配：大面积奶油白和圈圈绒，少量焦糖色和黄铜点缀，家具尽量选圆角、拱形，宝宝爬的时候也不容易磕到。下面「这个版本新增的东西」就是购物清单，每件都写了尺寸和日文搜索关键词。</p></div>
+  <div class="room"><h3>客厅 + 餐厅</h3><p>沙发前铺 130×185 奶油圈圈绒地毯，矮桌换成 Ø70 圆形石纹边几式茶几。东墙放 100cm 奶油色竖纹边柜，上方挂黄铜拱形镜，柜上放蘑菇台灯和一瓶郁金香。东南角奶油灯罩三脚落地灯 + 橄榄树。餐桌换成 Ø90 白色郁金香圆桌，配两把奶油圈圈绒餐椅，上方挂褶皱布艺吊灯。窗帘换成奶油色亚麻布帘 + 白纱。</p></div>
+  <div class="room"><h3>主卧 / 儿童房 / 玄关</h3><p>主卧：奶油色床品 + 焦糖色毯子，床头两侧黄铜壁灯，北侧圆形奶油边几 + 蘑菇灯，西南角换成奶油竖纹三斗柜，婴儿床换成奶白实木款。儿童房：放一把奶油圈圈绒单人沙发当哺乳椅，配边几和落地灯；东侧奶白矮书架 + 圆地毯 + 坐墩。玄关和走廊：奶油地垫、细长穿衣镜、黄铜挂钩、长条地毯。</p></div>`, {
+  bigArt: 'abstract', bigArtHue: 25,
+  rugName: '奶油色圈圈绒地毯', rugSpec: '130 × 185cm · 奶油白圈圈绒（ブークレ）· 搜「ブークレ ラグ 130×185 アイボリー」', rugM: boucleT('#f4ecdf', '#dccdb4'),
+  ctName: '圆形石纹茶几', ctSpec: 'Ø70 × 高 40cm · 石纹（トラバーチン调）圆台 · 搜「トラバーチン風 センターテーブル 丸 70」', ctStyle: 'pedestal', ctTop: mk(0xe9dfcf, 0.55), ctBase: mk(0xe2d6c3, 0.6),
+  cushions: [0xf3ead9, 0xb88a5e, 0xe8dcc4, 0xf3ead9], knit: true, throwC: '#f1e9dc',
+  sbName: '奶油色竖纹边柜', sbSpec: '100 × 40 × 75cm · 奶油白竖纹门 + 黄铜脚 · 搜「サイドボード リブ 100 アイボリー」', sbM: mk(0xf1ebe0, 0.5), sbFront: 'fluted', metalM: brass,
+  tlName: '蘑菇台灯', tlSpec: '高约 30cm · 奶油色乳白灯罩 · 搜「マッシュルームランプ」', lampM: M(0xf6efe3, { roughness: 0.6, emissive: 0x6b5030, emissiveIntensity: 0.2 }),
+  flowerSpec: '陶瓷花瓶高约 20cm + 郁金香', smallFlowerSpec: '小花瓶 + 当季鲜花', vaseM: mk(0xefe6d8, 0.4), flowerC: 0xf2c6b4, flowerKind: 'tulip',
+  mirror: 'arch', mirrorName: '黄铜拱形挂镜', mirrorSpec: '60 × 95cm · 细黄铜边 · 搜「アーチミラー ゴールド 壁掛け」', mirrorFrame: 0xc9a465,
+  flName: '奶油灯罩三脚落地灯', flStyle: 'tripod', flMetal: 0xc9a465, flShade: 0xf6efe3, flSpec: '高约 150cm · 奶油布灯罩 + 黄铜脚',
+  plantName: '橄榄树', plantKind: 'olive', plantScale: 1.0, potC: 0xefe7da, plantSpec: '高约 120cm，配奶油色陶盆',
+  curtainSpec: '布帘 2 片 宽 100 × 高 200cm（奶油亚麻，2 级遮光）+ 白纱 · 搜「リネン カーテン アイボリー 100×200」· 尺寸请实测', sheerC: 0xfbf8f2, drapeC: 0xeee5d6,
+  dtName: '白色郁金香圆桌', dtSpec: 'Ø90 × 高 73cm · 白色桌面 + 单脚 · 搜「チューリップテーブル 90 ホワイト」', dtTop: mk(0xf6f4ef, 0.3), dtBase: mk(0xf6f4ef, 0.35), dtStyle: 'tulip',
+  chName: '奶油圈圈绒餐椅', chSpec: '约 50 × 50 × 75cm · 圈圈绒 + 木脚 · 搜「ブークレ ダイニングチェア」', chStyle: 'boucle', chSeat: boucleT('#f4ecdf', '#dccdb4'), chFrame: mk(0xc8a87e, 0.5),
+  pendant: (h, x, z, y) => pleatPendant(h, x, z, y, mk(0xf4ece0, 0.9, { side: THREE.DoubleSide })),
+  canisterSpec: '陶瓷收纳罐 3 个 + 木砧板', canM: mk(0xf2ece2, 0.4), boardM: mk(0xc8a87e, 0.6),
+  duvetC: 0xf3ead9, pillowC: 0xe6d6bf, bedThrowC: 0xb88a5e,
+  nsName: '圆形奶油边几（床头）', nsSpec: 'Ø40 × 高 50cm · 奶油色 · 搜「サイドテーブル 丸 アイボリー」', nsM: mk(0xf1ebe0, 0.5), nsStyle: 'pedestal',
+  sconceSpec: '黄铜壁灯 2 盏（插头式即可，不用改电线）· 搜「ブラケットライト コンセント式 ゴールド」',
+  bedArtName: '床头装饰画', bedArt: 'arch', bedArtHue: 25, artFrame: 0xc9a465, bedArtSpec: '80 × 55cm · 拱形图案',
+  bedRugName: '主卧地毯', bedRugM: boucleT('#f4ecdf', '#dccdb4'), bedRugSpec: '140 × 200cm · 奶油圈圈绒，铺在床下半段',
+  cribName: '婴儿床（奶白实木）', cribSpec: '内寸 60 × 120cm · 奶白色实木 · 搜「ベビーベッド ホワイト 木製」', cribM: mk(0xf4f1ea, 0.5),
+  drName: '奶油竖纹三斗柜', drSpec: '85 × 42 × 82cm · 奶油白竖纹 + 黄铜拉手 · 搜「チェスト リブ 3段 アイボリー」', drM: mk(0xf1ebe0, 0.5), drStyle: 'fluted',
+  bedCurtainSpec: '布帘 2 片 宽 100 × 高 210cm（遮光，宝宝午睡用）+ 白纱 · 尺寸请实测',
+  bedPlantName: '琴叶榕', bedPlantKind: 'fiddle',
+  acName: '圈圈绒单人沙发（哺乳椅）', acSpec: '约 76 × 76 × 85cm · 奶油圈圈绒 · 搜「ブークレ ソファ 1人掛け」', acSeat: boucleT('#f4ecdf', '#dccdb4'), acFrame: mk(0xc8a87e, 0.5), acStyle: 'boucle',
+  stSpec: 'Ø32 × 高 50cm · 奶油色', kidRugName: '儿童房圆地毯', kidRugM: boucleT('#ebe0cc', '#cdbb9c'), kidRugSpec: 'Ø120cm · 燕麦色圈圈绒，可水洗款更好',
+  ksName: '奶白矮书架', ksSpec: '90 × 30 × 62cm · 奶白 · 封面朝外放绘本', ksC: 0xf3ede2, bookCs: [[0.05, 0xe8c4b0], [0.33, 0xd9c2a3], [0.05, 0xf0dcb8], [0.33, 0xc9d3c0]], basketM: mk(0xd9c3a0, 0.9),
+  poufName: '圈圈绒坐墩', poufM: boucleT('#f4ecdf', '#dccdb4'), poufSpec: 'Ø40 × 高 36cm',
+  pegSpec: '60 × 40cm · 奶白色洞洞板', pegM: mk(0xf3ede2, 0.6),
+  kidCurtainSpec: '布帘 2 片 宽 100 × 高 200cm + 白纱 · 尺寸请实测',
+  matM: mk(0xe9dfcf, 1), matSpec: '约 50 × 35cm · 奶油色', entryMirrorName: '细长穿衣镜', entryMirrorSpec: '35 × 120cm · 黄铜细边，挂在玄关西墙', hookSpec: '黄铜挂钩 3 个', trayM: mk(0xe9dfcf, 0.4),
+  runnerM: boucleT('#efe6d6', '#d6c7ad'), runnerSpec: '55 × 170cm · 奶油色长条地毯（防滑）', bathMatM: mk(0xf1ebe0, 1), bathMatSpec: '约 50 × 50cm · 速干硅藻土或毛巾质',
+  hamperName: '布艺洗衣篮（带盖）', hamperSpec: 'Ø36 × 高 53cm · 奶油色棉麻', hamperM: mk(0xefe6d6, 1), hamperLid: mk(0xe2d4bd, 1),
+});
+
+// ===== v21 韩系温柔 =====
+designTheme('v21', '软装方案 B · 韩系温柔', `
+  <div class="room"><h3>方案思路 <span>奶白 · 豆沙粉 · 浅橡木 · 格纹</span></h3><p>比方案 A 更轻、更甜一点：白色和浅橡木打底，用豆沙粉、格纹和波浪形镜子增加可爱感。家具线条细，视觉上让小客厅更宽。</p></div>
+  <div class="room"><h3>客厅 + 餐厅</h3><p>沙发前铺奶白格纹地毯，茶几换成浅橡木椭圆茶几。东墙放浅橡木白色边柜，上方挂无框波浪镜，柜上放白色蘑菇灯和郁金香。东南角奶白三脚落地灯 + 龟背竹。餐桌换成 Ø90 浅橡木圆桌，配两把 Y 字椅（编织坐面），上方挂白色褶皱吊灯。窗帘用奶白布帘 + 白纱。</p></div>
+  <div class="room"><h3>主卧 / 儿童房 / 玄关</h3><p>主卧：奶白床品 + 豆沙粉枕头 + 格纹毯，浅橡木边几和斗柜，白色婴儿床。儿童房：浅橡木框架单人椅（哺乳椅）+ 粉色坐墩 + 格纹圆地毯，奶白矮书架。玄关：波浪全身镜、白色挂钩、格纹长条地毯。</p></div>`, {
+  bigArt: 'line', bigArtHue: 340,
+  rugName: '奶白格纹地毯', rugSpec: '130 × 185cm · 奶白 + 浅米格纹 · 搜「チェック ラグ 130×185 アイボリー」', rugM: TM(patTex('grid', '#f6f2eb', '#e2d5c6', 0.5), { roughness: 1 }),
+  ctName: '浅橡木椭圆茶几', ctSpec: '80 × 50 × 高 40cm · 浅橡木 · 搜「オーバル センターテーブル オーク」', ctStyle: 'oval', ctTop: mk(0xdcc29c, 0.5), ctBase: mk(0xdcc29c, 0.5),
+  cushions: [0xf6f2eb, 0xe0bfb3, 0xd9c8b0, 0xf6f2eb], knit: true, throwC: '#efe2d8',
+  sbName: '浅橡木边柜', sbSpec: '100 × 40 × 75cm · 白色柜体 + 浅橡木 · 搜「キャビネット オーク ホワイト 100」', sbM: mk(0xf6f4ef, 0.45), sbFront: 'plain', metalM: mk(0xdcc29c, 0.5),
+  tlName: '白色蘑菇灯', tlSpec: '高约 30cm · 乳白 · 搜「マッシュルームランプ ホワイト」', lampM: M(0xfbf8f2, { roughness: 0.5, emissive: 0x6b5030, emissiveIntensity: 0.2 }),
+  flowerSpec: '玻璃花瓶 + 郁金香', smallFlowerSpec: '小花瓶 + 当季鲜花', vaseM: new THREE.MeshStandardMaterial({ color: 0xeaf1f2, roughness: 0.1, transparent: true, opacity: 0.5 }), flowerC: 0xf3b7b0, flowerKind: 'tulip',
+  mirror: 'wavy', mirrorName: '波浪挂镜（无框）', mirrorSpec: '约 60 × 85cm · 无框异形镜 · 搜「ウェーブミラー 壁掛け」', mirrorFrame: null,
+  flName: '奶白三脚落地灯', flStyle: 'tripod', flMetal: 0xdcc29c, flShade: 0xfaf6ef, flSpec: '高约 150cm · 白色布灯罩 + 浅木脚',
+  plantName: '龟背竹', plantKind: 'monstera', plantScale: 1.3, potC: 0xf6f4ef, plantSpec: '高约 100cm，白色盆',
+  curtainSpec: '布帘 2 片 宽 100 × 高 200cm（奶白，2 级遮光）+ 白纱 · 尺寸请实测', sheerC: 0xffffff, drapeC: 0xf3ece2,
+  dtName: '浅橡木圆餐桌', dtSpec: 'Ø90 × 高 72cm · 浅橡木 · 搜「ダイニングテーブル 丸 90 オーク」', dtTop: mk(0xdcc29c, 0.45), dtBase: mk(0xdcc29c, 0.5), dtStyle: 'legs',
+  chName: 'Y 字椅（编织坐面）', chSpec: '约 55 × 50 × 76cm · 浅橡木 + 纸绳编织坐面 · 搜「Yチェア風 ダイニングチェア」', chStyle: 'wishbone', chSeat: TM(patTex('grid', '#e9dcc4', '#c9b48e', 0.05), { roughness: 0.9 }), chFrame: mk(0xdcc29c, 0.5),
+  pendant: (h, x, z, y) => pleatPendant(h, x, z, y, mk(0xffffff, 0.8, { side: THREE.DoubleSide })),
+  canisterSpec: '白色珐琅收纳罐 3 个 + 木砧板', canM: mk(0xffffff, 0.25), boardM: mk(0xdcc29c, 0.6),
+  duvetC: 0xf7f4ee, pillowC: 0xe0bfb3, bedThrowC: 0xe6d6c6,
+  nsName: '浅橡木圆边几（床头）', nsSpec: 'Ø40 × 高 50cm · 浅橡木', nsM: mk(0xdcc29c, 0.5), nsStyle: 'drum',
+  sconceSpec: '白色壁灯 2 盏（插头式）· 搜「ブラケットライト コンセント式 ホワイト」',
+  bedArtName: '床头装饰画', bedArt: 'line', bedArtHue: 10, artFrame: 0xdcc29c, bedArtSpec: '80 × 55cm · 线条画',
+  bedRugName: '主卧格纹地毯', bedRugM: TM(patTex('grid', '#f6f2eb', '#e2d5c6', 0.5), { roughness: 1 }), bedRugSpec: '140 × 200cm · 奶白格纹',
+  cribName: '婴儿床（白色）', cribSpec: '内寸 60 × 120cm · 白色 · 搜「ベビーベッド ホワイト」', cribM: mk(0xffffff, 0.45),
+  drName: '浅橡木三斗柜', drSpec: '85 × 42 × 82cm · 白 + 浅橡木 · 搜「チェスト 3段 オーク ホワイト」', drM: mk(0xf6f4ef, 0.45), drStyle: 'plain',
+  bedCurtainSpec: '布帘 2 片 宽 100 × 高 210cm（遮光）+ 白纱 · 尺寸请实测',
+  bedPlantName: '橄榄树', bedPlantKind: 'olive',
+  acName: '浅橡木单人椅（哺乳椅）', acSpec: '约 70 × 70 × 80cm · 浅橡木框 + 奶白坐垫 · 搜「ラウンジチェア オーク」', acSeat: mk(0xf6f2eb, 1), acFrame: mk(0xdcc29c, 0.5), acStyle: 'wood',
+  stSpec: 'Ø32 × 高 50cm · 浅橡木', kidRugName: '格纹圆地毯', kidRugM: TM(patTex('grid', '#f8eee9', '#e8cfc5', 0.4), { roughness: 1 }), kidRugSpec: 'Ø120cm · 粉白格纹，可水洗款更好',
+  ksName: '奶白矮书架', ksSpec: '90 × 30 × 62cm · 奶白', ksC: 0xf6f4ef, bookCs: [[0.05, 0xf3b7b0], [0.33, 0xd9c8b0], [0.05, 0xf6dcb8], [0.33, 0xb9d3d6]], basketM: mk(0xe9dcc4, 0.9),
+  poufName: '豆沙粉坐墩', poufM: mk(0xe0bfb3, 1), poufSpec: 'Ø40 × 高 36cm',
+  pegSpec: '60 × 40cm · 白色洞洞板', pegM: mk(0xffffff, 0.6),
+  kidCurtainSpec: '布帘 2 片 宽 100 × 高 200cm + 白纱 · 尺寸请实测',
+  matM: mk(0xe6d6c6, 1), matSpec: '约 50 × 35cm · 米白', entryMirrorName: '波浪全身镜', entryMirrorSpec: '35 × 120cm · 无框', hookSpec: '白色挂钩 3 个', trayM: mk(0xf6f4ef, 0.3),
+  runnerM: TM(patTex('grid', '#f6f2eb', '#e2d5c6', 0.3), { roughness: 1 }), runnerSpec: '55 × 170cm · 格纹长条地毯（防滑）', bathMatM: mk(0xf3e3dc, 1), bathMatSpec: '约 50 × 50cm · 豆沙粉速干',
+  hamperName: '白色洗衣篮', hamperSpec: 'Ø36 × 高 53cm · 白色棉麻', hamperM: mk(0xf8f6f2, 1), hamperLid: null,
+});
+
+// ===== v22 奶油原木 =====
+designTheme('v22', '软装方案 C · 奶油原木', `
+  <div class="room"><h3>方案思路 <span>奶油 · 原木 · 藤编 · 一点鼠尾草绿</span></h3><p>奶油色打底，家具用原木和藤编，颜色更暖、更耐脏，和现在的米色沙发、木地板最搭。东西都比较结实、好擦，适合宝宝出生后的几年。</p></div>
+  <div class="room"><h3>客厅 + 餐厅</h3><p>沙发前铺奶油色棉麻地毯，茶几换成原木双层圆茶几（下层放绘本和遥控器）。东墙放藤编门原木边柜，上方挂原木拱形镜，柜上放纸灯和干花。东南角放和纸落地灯 + 龟背竹。餐桌换成 Ø90 原木圆桌配两把藤编椅，上方挂褶皱布艺吊灯。窗帘用燕麦色亚麻 + 白纱。</p></div>
+  <div class="room"><h3>主卧 / 儿童房 / 玄关</h3><p>主卧：燕麦色床品 + 鼠尾草绿毯子，原木边几和斗柜，原木婴儿床。儿童房：藤编单人椅（哺乳椅）+ 原木矮书架 + 藤编收纳篮 + 棉麻圆地毯。玄关和洗面所：藤编洗衣篮、原木托盘、黄麻地垫。</p></div>`, {
+  bigArt: 'mountain', bigArtHue: 30,
+  rugName: '奶油棉麻地毯', rugSpec: '130 × 185cm · 奶油色棉麻平织（可水洗）· 搜「洗える ラグ 綿 130×185 アイボリー」', rugM: TM(patTex('jute', '#efe7d9', '#d8cbb5', 0.4), { roughness: 1 }),
+  ctName: '原木双层圆茶几', ctSpec: 'Ø72 × 高 40cm · 原木（橡木 / 白蜡木）· 搜「センターテーブル 丸 2段 オーク」', ctStyle: 'twotier', ctTop: mk(0xcfae82, 0.5), ctBase: mk(0xcfae82, 0.5),
+  cushions: [0xefe7d9, 0xa9b8a0, 0xd8c7aa], knit: true, throwC: '#e6dccb',
+  sbName: '藤编门原木边柜', sbSpec: '100 × 40 × 75cm · 原木 + 藤编门 · 搜「ラタン キャビネット 100 オーク」', sbM: mk(0xcfae82, 0.5), sbFront: 'cane', metalM: mk(0x9c7c50, 0.5),
+  tlName: '和纸台灯', tlSpec: '高约 30cm · 和纸灯罩 · 搜「和紙 テーブルランプ」', lampM: M(0xfbf6ec, { roughness: 1, emissive: 0x6b5030, emissiveIntensity: 0.3 }),
+  flowerSpec: '陶罐 + 干花（尤加利 / 棉花）', smallFlowerSpec: '小陶瓶 + 干花', vaseM: mk(0xd8cdbd, 0.8), flowerC: 0xefe7d9, flowerKind: 'dry',
+  mirror: 'arch', mirrorName: '原木拱形挂镜', mirrorSpec: '60 × 95cm · 原木框 · 搜「アーチミラー 木枠」', mirrorFrame: 0xcfae82,
+  flName: '和纸落地灯', flStyle: 'paper', flMetal: 0x9c7c50, flShade: 0xfbf6ec, flSpec: '高约 120cm · 和纸灯罩',
+  plantName: '龟背竹', plantKind: 'monstera', plantScale: 1.3, potC: 0xc9a777, plantSpec: '高约 100cm，藤编花盆套',
+  curtainSpec: '布帘 2 片 宽 100 × 高 200cm（燕麦色亚麻，2 级遮光）+ 白纱 · 尺寸请实测', sheerC: 0xfbf8f2, drapeC: 0xe2d6c2,
+  dtName: '原木圆餐桌', dtSpec: 'Ø90 × 高 72cm · 原木 · 搜「ダイニングテーブル 丸 90 無垢」', dtTop: mk(0xcfae82, 0.45), dtBase: mk(0xcfae82, 0.5), dtStyle: 'legs',
+  chName: '藤编餐椅', chSpec: '约 45 × 50 × 80cm · 原木框 + 藤编靠背 · 搜「ラタン ダイニングチェア」', chStyle: 'rattan', chSeat: TM(patTex('grid', '#dcc39a', '#9c7c50', 0.06), { roughness: 0.9 }), chFrame: mk(0xb8925e, 0.5),
+  pendant: (h, x, z, y) => pleatPendant(h, x, z, y, mk(0xefe4d0, 0.9, { side: THREE.DoubleSide })),
+  canisterSpec: '原木盖玻璃罐 3 个 + 木砧板', canM: mk(0xe9e2d6, 0.3), boardM: mk(0xcfae82, 0.6),
+  duvetC: 0xe6dccb, pillowC: 0xf3ede2, bedThrowC: 0xa9b8a0,
+  nsName: '原木边几（床头）', nsSpec: 'Ø40 × 高 50cm · 原木', nsM: mk(0xcfae82, 0.5), nsStyle: 'drum',
+  sconceSpec: '原木 + 布罩壁灯 2 盏（插头式）· 搜「ブラケットライト コンセント式 木」',
+  bedArtName: '床头装饰画', bedArt: 'botanical', bedArtHue: 0, artFrame: 0xcfae82, bedArtSpec: '80 × 55cm · 植物画',
+  bedRugName: '主卧棉麻地毯', bedRugM: TM(patTex('jute', '#efe7d9', '#d8cbb5', 0.4), { roughness: 1 }), bedRugSpec: '140 × 200cm · 奶油棉麻（可水洗）',
+  cribName: '婴儿床（原木）', cribSpec: '内寸 60 × 120cm · 原木 · 搜「ベビーベッド 木製 ナチュラル」', cribM: mk(0xd9bd94, 0.5),
+  drName: '原木三斗柜', drSpec: '85 × 42 × 82cm · 原木 · 搜「チェスト 3段 オーク 無垢」', drM: mk(0xcfae82, 0.5), drStyle: 'plain',
+  bedCurtainSpec: '布帘 2 片 宽 100 × 高 210cm（燕麦色遮光）+ 白纱 · 尺寸请实测',
+  bedPlantName: '虎尾兰', bedPlantKind: 'snake',
+  acName: '藤编单人椅（哺乳椅）', acSpec: '约 70 × 70 × 80cm · 原木框 + 藤编靠背 + 坐垫 · 搜「ラタン ラウンジチェア」', acSeat: mk(0xe6dccb, 1), acFrame: mk(0xb8925e, 0.5), acStyle: 'rattan',
+  stSpec: 'Ø32 × 高 50cm · 原木', kidRugName: '棉麻圆地毯', kidRugM: TM(patTex('jute', '#ece5d6', '#cfc4ae', 0.4), { roughness: 1 }), kidRugSpec: 'Ø120cm · 棉麻（可水洗）',
+  ksName: '原木矮书架 + 藤编篮', ksSpec: '90 × 30 × 62cm · 原木，配 2 个藤编篮', ksC: 0xd9bd94, bookCs: [[0.05, 0xa9b8a0], [0.33, 0xe6c79a], [0.05, 0xd9a68a], [0.33, 0xb9cbd6]], basketM: mk(0xc9a777, 0.9),
+  poufName: '亚麻坐墩', poufM: mk(0xd8cdb8, 1), poufSpec: 'Ø40 × 高 36cm',
+  pegSpec: '60 × 40cm · 原木洞洞板', pegM: mk(0xd9bd94, 0.6),
+  kidCurtainSpec: '布帘 2 片 宽 100 × 高 200cm + 白纱 · 尺寸请实测',
+  matM: TM(patTex('jute', '#cdb48c', '#8f7a58', 0.3), { roughness: 1 }), matSpec: '约 50 × 35cm · 黄麻', entryMirrorName: '原木细长镜', entryMirrorSpec: '35 × 120cm · 原木框', hookSpec: '原木挂钩 3 个', trayM: mk(0xcfae82, 0.5),
+  runnerM: TM(patTex('jute', '#e2d4bb', '#bda67f', 0.3), { roughness: 1 }), runnerSpec: '55 × 170cm · 棉麻长条地毯（防滑）', bathMatM: mk(0xe6dccb, 1), bathMatSpec: '约 50 × 50cm · 燕麦色速干',
+  hamperName: '藤编洗衣篮（带盖）', hamperSpec: 'Ø36 × 高 53cm · 藤编 / 水草编', hamperM: TM(patTex('grid', '#d8bf94', '#9c7c50', 0.08), { roughness: 0.9 }), hamperLid: mk(0xc9a777, 0.9),
+});
+
 // ---------- room labels ----------
 label(labelsG, '客厅 LDK', '11.5畳', 1.45, L1 + 0.15, 7.95, '客厅');
 label(labelsG, '厨房', '', 1.0, L1 + 0.15, 4.95);
@@ -2713,6 +3082,11 @@ setLadder(true); // stowed by default
 // ---------- version switch ----------
 var currentVersion = 'v1';
 const onVersion = [];
+// design schemes hide the v1 pieces they replace
+onVersion.push(v => {
+  const off = new Set(REPLACED[v] || []), all = new Set(Object.values(REPLACED).flat());
+  furnG.children.forEach(o => { const n = o.userData.info?.name; if (all.has(n)) o.visible = !off.has(n); });
+});
 function setVersion(v) {
   currentVersion = v;
   const two = v === 'v2';
