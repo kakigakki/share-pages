@@ -2924,6 +2924,50 @@ const brass = mk(0xc9a465, 0.3, { metalness: 0.8 });
 const pleatP = c => (h, x, z, y, dia) => { pleatPendant(h, x, z, y, mk(c, 0.9, { side: THREE.DoubleSide })); };
 const domeP = c => (h, x, z, y, dia) => pendant(h, x, z, y, 'dome', c);
 
+// ===== v23 奶油原木 · 租房亲子版 =====
+theme('v23', '奶油原木 · 租房亲子版（样板间 17）', `
+  <div class="room"><h3>客厅 <span>样板间 6 改良 · 不打钉 · 宝宝安全</span></h3><p>沿用样板间 6 的奶油白 + 焦糖，但金色件全换成浅木色和藤编，跟保留的原木家具更搭。沙发前换成可机洗的低绒地毯（ニトリ象牙白 130×185），脏了直接进洗衣机，下面再垫一层防滑垫。东墙不立落地镜，改挂一面小号浅木框拱镜（无痕挂钩）；东南角不放落地灯和蒲苇，留给爬行垫，旁边放藤编篮收尿布和玩具。矮桌托盘上的蜡烛换成 LED 蜡烛。厨房边放尼トリ密闭消臭脚踏垃圾桶（20L），餐桌上方保留奶油色碗形吊灯。</p></div>
+  <div class="room"><h3>主卧 <span>床头不挂画</span></h3><p>床品还是奶油 + 燕麦 + 焦糖薄毯；床头上方不挂画（地震落下风险，旁边就是婴儿床），床尾侧铺一块可洗小圆毯。喂奶用木柜上的台灯，不加落地灯。</p></div>
+  <div class="room"><h3>儿童房 + 电脑角 <span>遮光 1 级 · 斜顶吊灯</span></h3><p>窗帘换尼トリ遮光1级 4 枚套装（象牙白 100×178，遮光率 99.99% 以上），宝宝午睡拉上就是全黑。斜顶的插座装吊灯：今晚选的 Wanon 天然麻 2 灯 + 倾斜天井适配器（合计约 ¥10,780，灯泡另买），或 KOIZUMI 和纸款 + 专用法兰。东侧矮书架、燕麦色圆地毯、坐墩保留，墙上的画用无框轻画布。</p></div>
+  <div class="room"><h3>阁楼 <span>妈妈来住时睡这里</span></h3><p>铺一张尼トリ轻量三折床垫（单人 91×195，厚 4cm，约 1.75kg），平时折起来收进壁橱，妈妈来帮忙时展开就能睡。</p></div>`,
+(g, hang) => {
+  const woodFrame = 0xc9a77c, rodM = mk(0xc9a77c, 0.4, { metalness: 0.5 });
+  // --- living room ---
+  const rug = rugRect(g, '可机洗低绒地毯', 0.25, 1.75, 9.15, 10.45, L1, mk(0xefe9dd, 1));
+  Object.assign(rug.userData.info, { name: 'さらっとした肌ざわりの洗えるラグ(130X185 アイボリー ML01)', size: 'ニトリ · 130×185cm · 洗濯機OK（ネット使用） · 约1kg · 高配替代：RASIK 国产洗える款 ¥16,980（防ダニ）', url: 'https://www.nitori-net.jp/ec/product/2113100020149s/', store: 'ニトリ', price: 2490 });
+  sofaCushions(g, [0xf3ead9, 0xd9c2a3, 0xd8c2a0, 0xf3ead9]);
+  throwOnArm(g, '#f1e9dc');
+  archMirror(g, '小号拱形挂镜（浅木框 · 无痕挂钩）', 2.84, 8.75, L1 + 0.8, 0.5, 0.7, woodFrame);
+  frameOn(g, '无框轻画布（拱形图案）', { x: 2.84, dir: -1 }, 9.6, L1 + 1.1, 0.4, 0.55, 'arch', 25, 0xd8c2a0);
+  const bk = item(g, '藤编收纳篮', '尿布 · 玩具');
+  rb(bk, 2.45, 2.82, L1, L1 + 0.28, 10.02, 10.52, mk(0xc9a777, 0.9), 0.02);
+  rb(bk, 2.5, 2.82, L1, L1 + 0.22, 9.58, 9.92, mk(0xc9a777, 0.9), 0.02);
+  Object.assign(bk.userData.info, { name: '天然素材ラタンバスケット（L） 幅50×奥35×高さ28cm 3個セット', size: '楽天市場 · 藤/芒草 · 3个装（模型里摆了 2 个示意）', url: 'https://item.rakuten.co.jp/perfect-space/box-kup0003st3/', store: '楽天市場', price: 8000 });
+  tray(g, 1.05, 9.62, L1 + 0.4, mk(0xf2f0ec, 0.15), [['vase', -0.06, 0]]);
+  const lc = item(g, 'LED 蜡烛', '');
+  cyl(lc, 1.12, L1 + 0.42, L1 + 0.53, 9.65, 0.03, mk(0xf4efe4, 0.7));
+  Object.assign(lc.userData.info, { name: 'LEDキャンドルライト 3点セット ゆらぎ', size: '楽天市場 · 3个装 · 遥控+定时 · 电池式（AAA×3/个，另售） · 无明火', url: 'https://item.rakuten.co.jp/tomicoco/e01-21a/', store: '楽天市場', price: 2080 });
+  const bin = item(g, '垃圾桶', '');
+  cyl(bin, 2.55, L1, L1 + 0.47, 7.35, 0.13, mk(0xf4f1ea, 0.4), 0.12);
+  Object.assign(bin.userData.info, { name: '消臭密閉ペダルペール(20L ホワイト)', size: 'ニトリ · 20L · 约22.5×36.7×46.5cm · 脚踏 · 带盖密闭消臭', url: 'https://www.nitori-net.jp/ec/product/2111200030969s/', store: 'ニトリ', price: 1990 });
+  pendant(hang, 0.9, 7.18, L1 + 1.6, 'dome', 0xf3ead9);
+  curtains(g, '客厅窗帘（奶油色 · 示意）', '', 0.9, 2.64, 11.02, -1, L1 + 2.12, L1 + 0.02, 0xf7f3ea, 0xe9dfca, rodM);
+  // --- master bedroom ---
+  bedding(g, 0xf3ead9, 0xd9c2a3, 0xb88a5e);
+  rugRound(g, '可洗小圆毯', 3.35, 1.85, 0.42, 0, mk(0xefe9dd, 1));
+  curtains(g, '主卧窗帘（奶油色 · 示意）', '', 4.15, 4.95, 0.16, 1, 2.1, 0.75, 0xf7f3ea, 0xe9dfca, rodM);
+  // --- kids room / PC corner ---
+  const ck = curtains(g, '儿童房遮光窗帘', '', 3.9, 5.5, 10.57, -1, L1 + 2.12, L1 + 0.02, 0xf7f3ea, 0xeee3cd, rodM);
+  Object.assign(ck.userData.info, { name: '遮光1級･遮熱･遮音カーテン＆遮熱･遮像レース4枚セット(RP002 IV 100X178cmセット)', size: 'ニトリ · 遮光1级（99.99%+） · 100×178×2 + レース100×176×2', url: 'https://www.nitori-net.jp/ec/product/7349093/', store: 'ニトリ', price: 6990 });
+  kidsCorner(g, TM(patTex('jute', '#ece5d6', '#cfc4ae', 0.4), { roughness: 1 }), 0xf3ede2, mk(0xe8ddc8, 1), { kind: 'kids', frame: 0xd8c2a0 });
+  pendant(hang, 4.3, 8.8, L1 + 1.75, 'dome', 0xf3ead9);
+  // --- loft: foldable guest mattress (mother's stay) ---
+  const mt = item(g, '阁楼三折床垫', '');
+  box(mt, 3.3, 4.25, LOFT, LOFT + 0.05, 5.85, 7.45, mk(0xf5f2ec, 1));
+  Object.assign(mt.userData.info, { name: '軽量３つ折りマットレス シングル(CP01 S)', size: 'ニトリ · 91×195×厚4cm · 约1.75kg · 三折收纳', url: 'https://www.nitori-net.jp/ec/product/7544267s/', store: 'ニトリ', price: 2490 });
+});
+REPLACED['v23'] = ['窗帘'];
+
 designTheme('v20', '软装方案 A · 奶油法式', `<div class="room"><h3>奶油法式 <span>宜家 / ニトリ / 无印良品</span></h3><p>奶白和米色打底，金色挂镜、金色画框点缀；大件以 ニトリ 的白色收纳和 IKEA 的 PINNTORP 圆餐桌为主，每个房间只留必要的几件。</p><p>家具都是网上搜到的实际商品，按标示尺寸摆放；点模型里的家具或下面清单里的「商品页 ↗」可以打开官网。价格和库存请以官网为准。</p></div>`, {
   rugM: boucleT('#f4ecdf', '#dccdb4'), woodTop: mk(0xe9dfcf, 0.55), woodLeg: mk(0xe2d6c3, 0.6), ctLegs: 'pedestal',
   cushions: [0xf3ead9, 0xb88a5e, 0xe8dcc4], knit: true, throwC: '#f1e9dc',
